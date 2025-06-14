@@ -73,7 +73,7 @@
             letter-spacing: -0.02em;
         }
 
-        .subtitle {
+        .theme-message {
             font-size: 1rem;
             color: var(--color-text-light);
             margin-bottom: var(--spacing-md);
@@ -234,72 +234,6 @@
             border: 1px solid var(--color-border);
         }
 
-        .affiliate-section {
-            background: var(--color-background-alt);
-            border-radius: var(--border-radius);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--color-border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .affiliate-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-            opacity: 0.5;
-        }
-
-        .affiliate-banner {
-            margin-bottom: var(--spacing-md);
-            position: relative;
-        }
-
-        .affiliate-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border: 1px solid var(--color-border);
-        }
-
-        .affiliate-image:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .affiliate-badges {
-            display: flex;
-            gap: var(--spacing-sm);
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: var(--spacing-sm);
-            background: var(--color-background);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--color-border);
-        }
-
-        .affiliate-badge {
-            display: inline-block;
-            transition: all 0.3s ease;
-            padding: var(--spacing-xs);
-            background: var(--color-background-alt);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .affiliate-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
         footer {
             text-align: center;
             padding: var(--spacing-lg);
@@ -330,6 +264,31 @@
                 padding: var(--spacing-md);
             }
         }
+
+        .preparing-btn .preparing-badge {
+            display: inline-block;
+            background: #ffb347;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            padding: 0.1em 0.8em;
+            margin-left: 0.5em;
+            letter-spacing: 0.08em;
+            vertical-align: middle;
+        }
+        .instagram-btn {
+            background: #fff;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            font-weight: 700;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .instagram-btn:hover {
+            background: var(--color-primary);
+            color: #fff;
+            box-shadow: var(--shadow-md);
+        }
     </style>
 </head>
 <body>
@@ -337,13 +296,12 @@
         <header>
             <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto var(--spacing-sm) auto;">
             <div class="logo">MC Square</div>
-            <div class="subtitle">心に寄り添う手作り体験</div>
+            <div class="theme-message">いいものはいつまでも</div>
             <div class="nav-buttons">
                 <a href="index.html" class="nav-button">🏠 ホーム</a>
-                <a href="patchwork_kit_website.html" class="nav-button">✨ よりそいクラフト</a>
                 <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサー定期便</a>
                 <a href="buy_products.html" class="nav-button active">🛒 商品を購入する</a>
-                <a href="https://www.instagram.com/mc.square_official/reels/" class="nav-button" target="_blank">📸 Instagram</a>
+                <a href="patchwork_kit_website.html" class="nav-button preparing-btn">✨ よりそいクラフト <span class="preparing-badge">準備中</span></a>
             </div>
         </header>
 
@@ -354,24 +312,9 @@
                 下記のボタンからオンラインショップ（BASE）にアクセスして、気になる商品をぜひご覧ください。
             </div>
 
-            <div class="affiliate-section">
-                <div class="affiliate-banner">
-                    <a href="https://www.amazon.co.jp/dp/B0BQZJ6X1L" target="_blank" rel="noopener noreferrer">
-                        <img src="https://m.media-amazon.com/images/I/71YwFJY3T6L._AC_SL1500_.jpg" alt="Amazon アフィリエイトバナー" class="affiliate-image">
-                    </a>
-                </div>
-                <div class="affiliate-badges">
-                    <a href="https://www.amazon.co.jp/dp/B0BQZJ6X1L" target="_blank" rel="noopener noreferrer" class="affiliate-badge">
-                        <img src="https://images-fe.ssl-images-amazon.com/images/G/09/associates/buttons/assoc_btn_1.gif" alt="Amazon アフィリエイトバッジ">
-                    </a>
-                    <a href="https://www.amazon.co.jp/dp/B0BQZJ6X1L" target="_blank" rel="noopener noreferrer" class="affiliate-badge">
-                        <img src="https://images-fe.ssl-images-amazon.com/images/G/09/associates/buttons/assoc_btn_2.gif" alt="Amazon アフィリエイトバッジ">
-                    </a>
-                </div>
-            </div>
-
             <div class="featured-product">
                 <h2>国産コットン マンスリー</h2>
+                <img src="Image/JP Cotton subscription.png" alt="JP Cotton subscription" style="max-width: 100%; border-radius: var(--border-radius); margin-bottom: var(--spacing-sm); box-shadow: var(--shadow-sm); border: 1px solid var(--color-border);">
                 <div class="price">¥1,815 税込</div>
                 <p>ご購入月の最新国産コットンを１５種類お届けします。<br>
                 著名デザイナー、メーカーオリジナル、数量限定柄などエムシースクエアがお勧めする最新国産カットクロスをお届けします。</p>
@@ -386,6 +329,7 @@
 
             <div class="featured-product">
                 <h2>アメリカンコットン マンスリー</h2>
+                <img src="Image/US Cotton subscription.png" alt="US Cotton subscription" style="max-width: 100%; border-radius: var(--border-radius); margin-bottom: var(--spacing-sm); box-shadow: var(--shadow-sm); border: 1px solid var(--color-border);">
                 <div class="price">¥2,475 税込</div>
                 <p>この商品は送料無料です。<br>
                 ご購入月の最新アメリカンコットンを１５種類お届けします。<br>
@@ -418,6 +362,10 @@
         </div>
 
         <footer>
+            <a href="https://www.instagram.com/mc.square_official/reels/" class="instagram-btn" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5em;margin-bottom:1.5rem;">
+                <svg width="22" height="22" viewBox="0 0 448 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="448" height="512" rx="100" fill="#fff"/><path d="M224 144c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm88-136c0 13.3-10.7 24-24 24s-24-10.7-24-24 10.7-24 24-24 24 10.7 24 24zm76 24c-1.7-35.3-9.9-66.7-36.2-92.9C370.7 9.9 339.3 1.7 304 0 269.3-1.7 178.7-1.7 144 0 108.7 1.7 77.3 9.9 51 36.2 24.7 62.5 16.5 93.9 14.8 128.2 13.1 162.9 13.1 253.5 14.8 288.2c1.7 35.3 9.9 66.7 36.2 92.9 26.3 26.3 57.7 34.5 92.9 36.2 34.7 1.7 125.3 1.7 160 0 35.3-1.7 66.7-9.9 92.9-36.2 26.3-26.3 34.5-57.7 36.2-92.9 1.7-34.7 1.7-125.3 0-160zm-48 218c-7.8 19.6-22.9 34.7-42.5 42.5-29.4 11.7-99.2 9-132.5 9s-103.1 2.6-132.5-9c-19.6-7.8-34.7-22.9-42.5-42.5-11.7-29.4-9-99.2-9-132.5s-2.6-103.1 9-132.5c7.8-19.6 22.9-34.7 42.5-42.5 29.4-11.7 99.2-9 132.5-9s103.1-2.6 132.5 9c19.6 7.8 34.7 22.9 42.5 42.5 11.7 29.4 9 99.2 9 132.5s2.6 103.1-9 132.5z" fill="#E1306C"/><circle cx="224" cy="224" r="64" fill="#E1306C"/></svg>
+                <span style="font-weight:700;color:#E1306C;">Instagram</span>
+            </a>
             <p>&copy; 2025 MC Square. All rights reserved.</p>
         </footer>
     </div>
