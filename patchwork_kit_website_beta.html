@@ -729,9 +729,9 @@
 
         .nav-buttons {
             display: flex;
-            gap: var(--spacing-sm);
-            margin-top: var(--spacing-md);
-            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .nav-button {
@@ -760,14 +760,11 @@
             color: white;
         }
 
-        @media (max-width: 768px) {
-            .nav-buttons {
-                flex-direction: column;
-            }
-            .nav-button {
-                width: 100%;
-                justify-content: center;
-            }
+        /* Remove old gradient styles */
+        .nav-button.home,
+        .nav-button.why,
+        .nav-button.buy {
+            background: var(--color-background);
         }
 
         .contact {
@@ -802,12 +799,11 @@
             <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto 1rem auto;">
             <div class="logo">MC Square</div>
             <div class="subtitle">よりそいクラフト</div>
-            <div class="nav-buttons">
-                <a href="index.html" class="nav-button">🏠 ホーム</a>
-                <a href="patchwork_kit_website.html" class="nav-button active">✨ よりそいクラフト</a>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                <a href="index.html" class="nav-button">🏠 ホームに戻る</a>
                 <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサー定期便</a>
-                <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
                 <a href="https://www.instagram.com/mc.square_official/reels/" target="_blank" class="nav-button">📸 Instagram</a>
+                <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
             </div>
         </header>
 

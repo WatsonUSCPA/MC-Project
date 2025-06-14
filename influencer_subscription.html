@@ -4,7 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MC Square - インフルエンサー定期便</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-primary: #FF6B6B;
+            --color-secondary: #FFB347;
+            --color-background: #FFF5F0;
+            --color-background-alt: #FFF0E8;
+            --color-text: #2D3436;
+            --color-text-light: #636E72;
+            --color-border: #FFD4C4;
+            --color-accent: #FF9F7C;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 5rem;
+            --border-radius: 20px;
+            --shadow-sm: 0 4px 8px rgba(255, 159, 124, 0.08);
+            --shadow-md: 0 8px 16px rgba(255, 159, 124, 0.12);
+            --shadow-lg: 0 16px 24px rgba(255, 159, 124, 0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,181 +35,256 @@
         }
 
         body {
-            font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.6;
-            color: #4a4a4a;
-            background: linear-gradient(135deg, #ffd1b3 0%, #ffb3b3 100%);
-            min-height: 100vh;
+            color: var(--color-text);
+            background: var(--color-background);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-image: 
+                radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: var(--spacing-md);
         }
 
         header {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--color-background-alt);
+            padding: var(--spacing-md) 0;
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
             backdrop-filter: blur(10px);
-            padding: 2rem 0;
-            margin-bottom: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            text-align: center;
         }
 
         .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #ff6b6b;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-xs);
+            letter-spacing: -0.02em;
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-md);
+            font-weight: 500;
         }
 
         .nav-buttons {
             display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
         }
 
         .nav-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            background: var(--color-background);
+            color: var(--color-text);
             text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);
+            border: 1px solid var(--color-border);
         }
 
         .nav-button:hover {
+            background: var(--color-primary);
+            color: white;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 154, 158, 0.4);
+            box-shadow: var(--shadow-md);
         }
 
-        .nav-button.home {
-            background: linear-gradient(135deg, #ffb3b3 0%, #ffd1b3 100%);
+        .nav-button.active {
+            background: var(--color-primary);
+            color: white;
         }
 
         .main-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
+            background: var(--color-background-alt);
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+            border: 1px solid var(--color-border);
         }
 
         .hero-section {
             text-align: center;
-            padding: 4rem 0;
-            background: linear-gradient(145deg, #fff5f5, #fff);
-            border-radius: 20px;
-            margin-bottom: 4rem;
+            padding: var(--spacing-xl) 0;
+            margin-bottom: var(--spacing-xl);
         }
 
         .hero-title {
             font-size: 2.5rem;
-            color: #ff6b6b;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-md);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
         }
 
         .hero-subtitle {
-            font-size: 1.3rem;
-            color: #666;
-            margin-bottom: 2rem;
+            font-size: 1.25rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-lg);
             line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .subscription-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
         }
 
         .subscription-card {
-            background: linear-gradient(145deg, #ffffff, #fff5f5);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            background: var(--color-background);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
+            border: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subscription-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .subscription-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .subscription-card:hover::before {
+            opacity: 1;
         }
 
         .subscription-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
         }
 
         .subscription-title {
             font-size: 1.5rem;
-            color: #ff6b6b;
-            margin-bottom: 1rem;
-            font-weight: bold;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 700;
         }
 
         .subscription-description {
-            color: #666;
+            color: var(--color-text-light);
             line-height: 1.8;
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            flex-grow: 1;
         }
 
         .subscription-price {
-            font-size: 1.3rem;
-            color: #ff6b6b;
-            font-weight: bold;
-            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
         }
 
         .subscription-features {
             list-style: none;
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--spacing-md);
         }
 
         .subscription-features li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #f0f0f0;
+            padding: var(--spacing-xs) 0;
+            color: var(--color-text-light);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
         }
 
-        .subscription-features li:last-child {
-            border-bottom: none;
+        .subscription-features li::before {
+            content: "✓";
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .contact {
+            background: var(--color-background-alt);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            opacity: 0.5;
+        }
+
+        .contact a {
+            color: var(--color-primary);
+            text-decoration: none;
         }
 
         footer {
             text-align: center;
-            padding: 2rem;
-            color: rgba(255, 255, 255, 0.8);
+            padding: var(--spacing-lg);
+            color: var(--color-text-light);
             font-size: 0.9rem;
+            margin-top: var(--spacing-xl);
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing-sm);
+            }
+
             .nav-buttons {
                 flex-direction: column;
-                align-items: center;
             }
 
             .nav-button {
                 width: 100%;
-                max-width: 300px;
+                justify-content: center;
             }
 
             .hero-title {
@@ -196,91 +294,109 @@
             .hero-subtitle {
                 font-size: 1.1rem;
             }
+
+            .main-content {
+                padding: var(--spacing-md);
+            }
+
+            .subscription-card {
+                padding: var(--spacing-md);
+            }
+        }
+
+        .links-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .link-card {
+            background: var(--color-background);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .link-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .link-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 0.7rem;
+        }
+
+        .link-url {
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            word-break: break-all;
+        }
+
+        .link-price {
+            color: var(--color-text);
+            margin-bottom: 0.7rem;
+            font-size: 1.1rem;
+        }
+
+        .link-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .link-btn {
+            display: inline-block;
+            background: var(--color-primary);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6rem 1.3rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .link-btn:hover {
+            background: var(--color-secondary);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto 1rem auto;">
+            <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto var(--spacing-sm) auto;">
             <div class="logo">MC Square</div>
             <div class="subtitle">インフルエンサー定期便</div>
             <div class="nav-buttons">
-                <a href="index.html" class="nav-button home">🏠 ホームに戻る</a>
-                <a href="patchwork_kit_website.html" class="nav-button craft">✨ よりそいクラフト</a>
-                <a href="https://www.instagram.com/mc.square_official/reels/" target="_blank" class="nav-button">📸 Instagram</a>
+                <a href="index.html" class="nav-button">🏠 ホーム</a>
+                <a href="patchwork_kit_website.html" class="nav-button">✨ よりそいクラフト</a>
+                <a href="influencer_subscription.html" class="nav-button active">🌟 インフルエンサー定期便</a>
                 <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
+                <a href="https://www.instagram.com/mc.square_official/reels/" class="nav-button" target="_blank">📸 Instagram</a>
             </div>
         </header>
 
-        <div class="main-content">
-            <section class="hero-section">
-                <h1 class="hero-title">🌟 インフルエンサーとの特別な手作り体験</h1>
-                <p class="hero-subtitle">
-                    人気インフルエンサーとコラボレーションした、<br>
-                    特別な手作りキットを毎月お届けします。<br>
-                    新しい発見と感動を、あなたの手元へ。
-                </p>
-            </section>
+        <main>
+            <h1 class="section-title">インフルエンサー定期便</h1>
+            <div id="links-list" class="links-list"></div>
+        </main>
 
-            <div class="subscription-grid">
-                <div class="subscription-card">
-                    <img src="Image/Ami-Chiku labo.png" alt="Ami-Chiku labo" class="subscription-image">
-                    <h2 class="subscription-title">Ami-Chiku labo</h2>
-                    <p class="subscription-description">
-                        手作りの楽しさを伝える人気クリエイター。<br>
-                        オリジナルデザインのキットで、<br>
-                        あなたの手作りライフを彩ります。
-                    </p>
-                    <div class="subscription-price">月額 1,650円</div>
-                    <ul class="subscription-features">
-                        <li>✅ オリジナルデザインキット</li>
-                        <li>✅ 詳細な作り方ガイド</li>
-                        <li>✅ 動画レッスン</li>
-                        <li>✅ コミュニティへの参加</li>
-                    </ul>
-                    <a href="https://linktr.ee/mcsquareofficial" target="_blank" class="nav-button">申し込む</a>
-                </div>
-
-                <div class="subscription-card">
-                    <img src="Image/p_quiltKon.png" alt="p_quiltKon" class="subscription-image">
-                    <h2 class="subscription-title">p_quiltKon</h2>
-                    <p class="subscription-description">
-                        パッチワークの魅力を発信する<br>
-                        人気インスタグラマー。<br>
-                        季節感あふれる作品をお届けします。
-                    </p>
-                    <div class="subscription-price">月額 1,870円</div>
-                    <ul class="subscription-features">
-                        <li>✅ 季節限定デザイン</li>
-                        <li>✅ プロのテクニック解説</li>
-                        <li>✅ オンラインサポート</li>
-                        <li>✅ 限定ワークショップ</li>
-                    </ul>
-                    <a href="https://linktr.ee/mcsquareofficial" target="_blank" class="nav-button">申し込む</a>
-                </div>
-
-                <div class="subscription-card">
-                    <img src="Image/Jaime.png" alt="Jaime" class="subscription-image">
-                    <h2 class="subscription-title">Jaime（ハイメ）の刺しゅう便</h2>
-                    <p class="subscription-description">
-                        繊細な刺しゅう作品で人気の<br>
-                        クリエイター。<br>
-                        心癒される作品をお届けします。
-                    </p>
-                    <div class="subscription-price">月額 2,000円</div>
-                    <ul class="subscription-features">
-                        <li>✅ オリジナル刺しゅうキット</li>
-                        <li>✅ 動画レッスン</li>
-                        <li>✅ 材料セット</li>
-                        <li>✅ コミュニティ参加</li>
-                    </ul>
-                    <a href="https://linktr.ee/mcsquareofficial" target="_blank" class="nav-button">申し込む</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="contact" style="background:#fbe9e7; border-radius:8px; padding:16px 20px; margin-top:32px; font-size:1em; max-width:700px; margin-left:auto; margin-right:auto;">
+        <div class="contact">
             <strong>【お問合せ先】</strong><br>
             〒244-0811 神奈川県横浜市戸塚区上柏尾町132-3 SKビル2階<br>
             TEL：045-410-7023　FAXフリーダイヤル：0120-535-596<br>
@@ -291,39 +407,49 @@
             <p>&copy; 2025 MC Square. All rights reserved.</p>
         </footer>
     </div>
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
-    <script>
-        // インフルエンサーデータの読み込み
-        async function loadInfluencerData() {
-            try {
-                const response = await fetch('data/influencers.json');
-                const influencers = await response.json();
-                
-                const grid = document.querySelector('.subscription-grid');
-                grid.innerHTML = ''; // 既存のコンテンツをクリア
-                
-                influencers.forEach(influencer => {
-                    const card = document.createElement('div');
-                    card.className = 'subscription-card';
-                    card.innerHTML = `
-                        <img src="${influencer.image}" alt="${influencer.name}">
-                        <h3>${influencer.name}</h3>
-                        <p>${influencer.description}</p>
-                        <div class="price">${influencer.price}</div>
-                        <ul>
-                            ${influencer.features.map(feature => `<li>${feature}</li>`).join('')}
-                        </ul>
-                        <button class="btn btn-primary">申し込む</button>
-                    `;
-                    grid.appendChild(card);
-                });
-            } catch (error) {
-                console.error('データの読み込みに失敗しました:', error);
-            }
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2nPjePLfr6ZlxTOLPC7OuYWrD0k6JqJ4",
+      authDomain: "link-manager-f4ea8.firebaseapp.com",
+      projectId: "link-manager-f4ea8",
+      storageBucket: "link-manager-f4ea8.firebasestorage.app",
+      messagingSenderId: "96350140236",
+      appId: "1:96350140236:web:fe858a8661067f5f0081e9",
+      measurementId: "G-90CXT9WS4Y"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const linksCol = collection(db, "links");
+
+    async function loadLinks() {
+      const container = document.getElementById('links-list');
+      container.innerHTML = '<div style="text-align:center; color:#aaa;">読み込み中...</div>';
+      try {
+        const snapshot = await getDocs(linksCol);
+        const links = snapshot.docs.map(doc => doc.data());
+        if (links.length === 0) {
+          container.innerHTML = '<div style="text-align:center; color:#aaa;">リンクがありません</div>';
+          return;
         }
-
-        // ページ読み込み時にデータを読み込む
-        document.addEventListener('DOMContentLoaded', loadInfluencerData);
+        container.innerHTML = links.map(link => `
+          <div class="link-card">
+            <div class="link-title">${link.title}</div>
+            <div class="link-price"><b>値段:</b> ${link.price || ''}</div>
+            <div class="link-buttons">
+              <a href="${link.applyUrl}" target="_blank" class="link-btn">申し込みページへ</a>
+              <a href="${link.influencerUrl}" target="_blank" class="link-btn">インフルエンサーを見る</a>
+            </div>
+            ${link.imageUrl ? `<img src="${link.imageUrl}" alt="画像" style="max-width:100px; max-height:100px; border-radius:12px; margin-top:0.5rem;">` : ''}
+          </div>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = '<div style="text-align:center; color:#f00;">リンクの取得に失敗しました</div>';
+      }
+    }
+    loadLinks();
     </script>
 </body>
 </html> 
