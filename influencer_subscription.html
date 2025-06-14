@@ -45,12 +45,13 @@
                 radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
             background-attachment: fixed;
+            padding-top: 120px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--spacing-md);
+            padding: var(--spacing-md) 0 0 0;
         }
 
         header {
@@ -288,30 +289,31 @@
             .container {
                 padding: var(--spacing-sm);
             }
-
             .nav-buttons {
                 flex-direction: column;
             }
-
             .nav-button {
                 width: 100%;
                 justify-content: center;
             }
-
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-
             .main-content {
                 padding: var(--spacing-md);
             }
-
-            .subscription-card {
-                padding: var(--spacing-md);
+            img, .link-card img {
+                max-width: 100%;
+                height: auto;
+            }
+            footer {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+            body {
+                padding-top: 100px;
+            }
+        }
+        @media (min-width: 769px) {
+            body {
+                padding-top: 120px;
             }
         }
 
@@ -489,8 +491,8 @@
         `).join('');
       } catch (e) {
         container.innerHTML = '<div style="text-align:center; color:#f00;">リンクの取得に失敗しました</div>';
-      }
-    }
+            }
+        }
     loadLinks();
     </script>
 </body>

@@ -45,12 +45,13 @@
                 radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
                 radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
             background-attachment: fixed;
+            padding-top: 120px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: var(--spacing-md);
+            padding: var(--spacing-md) 0 0 0;
         }
 
         header {
@@ -72,13 +73,6 @@
             letter-spacing: 0.04em;
             text-shadow: 1px 2px 8px rgba(255,107,107,0.10);
             font-family: 'Noto Sans JP', 'Segoe UI', 'Arial', sans-serif;
-        }
-
-        .subtitle {
-            font-size: 1rem;
-            color: var(--color-text-light);
-            margin-bottom: var(--spacing-md);
-            font-weight: 500;
         }
 
         .theme-message {
@@ -272,27 +266,29 @@
             .container {
                 padding: var(--spacing-sm);
             }
-
             .nav-buttons {
                 flex-direction: column;
             }
-
             .nav-button {
                 width: 100%;
                 justify-content: center;
             }
-
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-
             .main-content {
                 padding: var(--spacing-md);
             }
+            footer {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+            .hero-title {
+                font-size: 2rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (min-width: 769px) {
         }
 
         .preparing-btn .preparing-badge {
@@ -360,6 +356,16 @@
                         <h3 style="color: var(--color-primary); font-size: 1.25rem; margin-bottom: var(--spacing-sm);">健やかになる幸せ</h3>
                         <p style="color: var(--color-text-light);">指先を動かす細かな作業は、脳を活性化させ、認知症の予防にも繋がる健やかな習慣です。</p>
                     </div>
+                </div>
+            </section>
+
+            <section class="page-links-section" style="margin: 2rem 0; text-align: center;">
+                <h2 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.2rem;">各ページのご案内</h2>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem;">
+                    <a href="index.html" class="nav-button" style="min-width: 180px;">🏠 ホーム<br><span style="font-size:0.95rem; color:#888;">トップページに戻る</span></a>
+                    <a href="influencer_subscription.html" class="nav-button" style="min-width: 180px;">🌟 インフルエンサー定期便<br><span style="font-size:0.95rem; color:#888;">インフルエンサーのリンク集</span></a>
+                    <a href="buy_products.html" class="nav-button" style="min-width: 180px;">🛒 商品を購入する<br><span style="font-size:0.95rem; color:#888;">オンラインショップ</span></a>
+                    <a href="patchwork_kit_website.html" class="nav-button preparing-btn" style="min-width: 180px;">✨ よりそいクラフト <span class="preparing-badge">準備中</span><br><span style="font-size:0.95rem; color:#888;">新サービス（準備中）</span></a>
                 </div>
             </section>
         </div>

@@ -43,12 +43,13 @@
                 radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
             background-attachment: fixed;
             min-height: 100vh;
+            padding-top: 120px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0;
         }
 
         header {
@@ -270,23 +271,44 @@
 
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
+                padding: var(--spacing-sm);
             }
-            
+            .nav-buttons {
+                flex-direction: column;
+            }
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
             .main-content {
-                padding: 2rem 1.5rem;
+                padding: var(--spacing-md);
             }
-            
-            .kit-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .logo {
                 font-size: 2rem;
             }
-            
             .section-title {
                 font-size: 1.5rem;
+            }
+            .benefit-card, .contact {
+                padding: 1rem;
+                margin: 0.5rem 0;
+            }
+            img, .benefit-card img {
+                max-width: 100%;
+                height: auto;
+            }
+            footer {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+            body {
+                padding-top: 100px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            body {
+                padding-top: 120px;
             }
         }
 
@@ -705,6 +727,10 @@
         .nav-button.active {
             background: var(--color-primary);
             color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 0.95rem;
         }
 
         @media (max-width: 768px) {
@@ -773,16 +799,14 @@
 <body>
     <div class="container">
         <header>
-            <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto 1rem auto;">
+            <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto var(--spacing-sm) auto;">
             <div class="logo">MC Square</div>
             <div class="theme-message">いいものはいつまでも</div>
-            <span class="preparing-badge">準備中</span>
-            <div class="subtitle">よりそいクラフト</div>
             <div class="nav-buttons">
                 <a href="index.html" class="nav-button">🏠 ホーム</a>
                 <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサー定期便</a>
                 <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
-                <a href="patchwork_kit_website.html" class="nav-button active">✨ よりそいクラフト</a>
+                <a href="patchwork_kit_website.html" class="nav-button active preparing-btn">✨ よりそいクラフト <span class="preparing-badge">準備中</span></a>
             </div>
         </header>
 
@@ -841,9 +865,6 @@
                         商品のリリース情報や最新情報をお知らせします。<br>
                         ご興味のある方は、お問い合わせフォームよりご連絡ください。
                     </p>
-                    <a href="#contact" class="nav-button" style="display: inline-block; margin-top: var(--spacing-md);">
-                        お問い合わせはこちら
-                    </a>
                 </div>
             </div>
         </div>
