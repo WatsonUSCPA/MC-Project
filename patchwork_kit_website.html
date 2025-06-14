@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Square - よりそいクラフト</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #4a4a4a;
+            background: linear-gradient(135deg, #ffd1b3 0%, #ffb3b3 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .instagram-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .instagram-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ff6b6b;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .kit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .kit-card {
+            background: linear-gradient(145deg, #ffffff, #fff5f5);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+        }
+
+        .kit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-color: #ff9a9e;
+        }
+
+        .kit-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .kit-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .kit-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ff9a9e;
+            margin-bottom: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ffb3b3 0%, #ffd1b3 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 179, 179, 0.4);
+        }
+
+        .btn-youtube {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            color: white;
+        }
+
+        .btn-youtube:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ff9a9e;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .main-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .kit-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .pricing-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pricing-card {
+            background: linear-gradient(145deg, #ffffff, #fff5f5);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.premium {
+            border: 2px solid #ff9a9e;
+        }
+
+        .pricing-card.premium::before {
+            content: 'おすすめ';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: white;
+            padding: 5px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.premium:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .pricing-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff9a9e;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-note {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .contact-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            max-width: 600px;
+            margin: 2rem auto 0;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info h3 {
+            color: #ff9a9e;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .contact-details {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            margin-bottom: 0.8rem;
+            padding: 0.5rem 0;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .required {
+            color: #ff4757;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff9a9e;
+            box-shadow: 0 0 0 3px rgba(255, 154, 158, 0.1);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .checkbox-label:hover {
+            background-color: rgba(255, 154, 158, 0.1);
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .privacy-check {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .privacy-check a {
+            color: #ff9a9e;
+            text-decoration: none;
+        }
+
+        .privacy-check a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.premium {
+                transform: none;
+            }
+            
+            .pricing-card.premium:hover {
+                transform: translateY(-5px);
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff9a9e;
+            margin-bottom: 1rem;
+        }
+
+        .modal-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* パッチワークの良さセクション用のスタイル */
+        .benefits-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-card {
+            background: linear-gradient(145deg, #ffffff, #fff5f5);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .benefit-title {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .benefit-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(145deg, #fff5f5, #fff);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .testimonial-role {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 154, 158, 0.4);
+        }
+
+        .nav-button.home {
+            background: linear-gradient(135deg, #ffb3b3 0%, #ffd1b3 100%);
+        }
+
+        .nav-button.why {
+            background: linear-gradient(135deg, #ffd1b3 0%, #ffb3b3 100%);
+        }
+
+        .nav-button.buy {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto 1rem auto;">
+            <div class="logo">MC Square</div>
+            <div class="subtitle">よりそいクラフト</div>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                <a href="index.html" style="display: inline-block; background: linear-gradient(135deg, #ffb3b3 0%, #ffd1b3 100%); color: white; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 25px; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);">🏠 ホームに戻る</a>
+                <a href="influencer_subscription.html" style="display: inline-block; background: linear-gradient(135deg, #ffd1b3 0%, #ffb3b3 100%); color: white; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 25px; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);">🌟 インフルエンサー定期便</a>
+                <a href="https://www.instagram.com/mc.square_official/reels/" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); color: white; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 25px; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255, 154, 158, 0.3);">📸 Instagram</a>
+                <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- パッチワークの魅力セクション -->
+            <div class="benefits-section">
+                <h2 class="section-title">✨ パッチワークの魅力</h2>
+                <p class="kit-description" style="text-align: center; margin-bottom: 2rem;">
+                    パッチワークは、単なる手芸以上の効果があります。<br>
+                    心と体の健康をサポートする、素晴らしい活動です。
+                </p>
+
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <img src="Image/認知予防.png" alt="認知症予防と脳の活性化" class="benefit-image">
+                        <h3 class="benefit-title">🧠 認知症予防</h3>
+                        <p class="benefit-description">
+                            パッチワークは指先を使う細かい作業が多く、脳の活性化に効果的です。
+                            色の組み合わせやパターンの作成は、創造性を刺激し、
+                            認知機能の維持・向上に役立ちます。
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <img src="Image/Showing to their friends.png" alt="コミュニケーションと交流" class="benefit-image">
+                        <h3 class="benefit-title">👥 コミュニケーション促進</h3>
+                        <p class="benefit-description">
+                            同じ趣味を持つ仲間との交流が生まれ、会話が自然と増えます。
+                            作品を通じての会話は、心の交流を深め、
+                            社会とのつながりを感じることができます。
+                        </p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <img src="Image/Safe to play.png" alt="達成感と自己肯定感" class="benefit-image">
+                        <h3 class="benefit-title">🎯 達成感と自信</h3>
+                        <p class="benefit-description">
+                            作品が完成した時の達成感は、大きな喜びと自信につながります。
+                            自分の手で作った作品は、大切な思い出となり、
+                            生活に彩りを添えます。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 利用者様の声 -->
+                <div class="testimonial-section">
+                    <h3 class="section-title" style="font-size: 1.5rem;">💬 利用者様の声</h3>
+                    <div class="testimonial-grid">
+                        <div class="testimonial-card">
+                            <p class="testimonial-text">
+                                「毎週のパッチワーク教室が楽しみです。作品が完成した時の喜びは格別です。」
+                            </p>
+                            <p class="testimonial-author">山田 花子 様</p>
+                            <p class="testimonial-role">80代・趣味として楽しんでいます</p>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <p class="testimonial-text">
+                                「施設での活動として取り入れて以来、利用者様の表情が明るくなりました。」
+                            </p>
+                            <p class="testimonial-author">佐藤 美咲 様</p>
+                            <p class="testimonial-role">介護施設 アクティビティ担当</p>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <p class="testimonial-text">
+                                「孫へのプレゼントとして作った作品が、家族の思い出になりました。」
+                            </p>
+                            <p class="testimonial-author">鈴木 和子 様</p>
+                            <p class="testimonial-role">70代・趣味として楽しんでいます</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">🧵 パッチワークキット一覧</h2>
+            <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+            </p>
+            <!-- 難易度別カテゴリ分け -->
+            <div class="kit-category-section">
+                <h3 class="section-title" style="font-size:1.3rem; margin-top:2rem; margin-bottom:1rem; text-align:left; color:#ff9a9e;">1. 初心者用キット</h3>
+                <p class="kit-description">
+                    針を使わずにアイロンと両面テープで作成するキットです。
+                    針を使うのが怖いという方や、針が見えなくなってきた方にお勧めのキットです。
+                </p>
+                
+                <div class="kit-grid">
+                    <div class="kit-card">
+                        <h3 class="kit-title">ティッシュケース</h3>
+                        <p class="kit-description">
+                            大体１時間ほどで完成します。色を自分で選ぶことが出来ます。
+                        </p>
+                        <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                            ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+                        </p>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="selectKit('春の花畑キット')">このキットを選択</button>
+                            <a href="#" class="btn btn-secondary" onclick="showRecipe('春の花畑')">レシピを見る</a>
+                            <a href="https://youtube.com/watch?v=example1" target="_blank" class="btn btn-youtube">YouTube動画</a>
+                        </div>
+                    </div>
+                    <div class="kit-card">
+                        <h3 class="kit-title">🏠 ポーチ</h3>
+                        <p class="kit-description">
+                            ２時間ほどで完成します。お好きな色の組み合わせのポーチを作成することが出来ます。
+                        </p>
+                        <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                            ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+                        </p>
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="selectKit('お家キット')">このキットを選択</button>
+                            <a href="#" class="btn btn-secondary" onclick="showRecipe('お家')">レシピを見る</a>
+                            <a href="https://youtube.com/watch?v=example4" target="_blank" class="btn btn-youtube">YouTube動画</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kit-card">
+                <h3 class="kit-title">🌊 海の波キット</h3>
+                <p class="kit-description">
+                    爽やかなブルーグラデーションで波の動きを表現。
+                    リラックス効果も期待できる涼しげなデザイン。
+                </p>
+                <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                    ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+                </p>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="selectKit('海の波キット')">このキットを選択</button>
+                    <a href="#" class="btn btn-secondary" onclick="showRecipe('海の波')">レシピを見る</a>
+                    <a href="https://youtube.com/watch?v=example5" target="_blank" class="btn btn-youtube">YouTube動画</a>
+                </div>
+            </div>
+
+            <h3 class="section-title" style="font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem; text-align:left; color:#ff9a9e;">2. 中級者用キット</h3>
+            <div class="kit-grid">
+                <div class="kit-card">
+                    <h3 class="kit-title">🍂 秋の紅葉キット</h3>
+                    <p class="kit-description">
+                        もみじや銀杏の美しい色合いを表現した温かみのあるデザイン。
+                        中級者向けの少し複雑なパターンです。
+                    </p>
+                    <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                        ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+                    </p>
+                    <div class="kit-price">¥4,200（税込）</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="selectKit('秋の紅葉キット')">このキットを選択</button>
+                        <a href="#" class="btn btn-secondary" onclick="showRecipe('秋の紅葉')">レシピを見る</a>
+                        <a href="https://youtube.com/watch?v=example2" target="_blank" class="btn btn-youtube">YouTube動画</a>
+                    </div>
+                </div>
+                
+                <div class="kit-card">
+                    <h3 class="kit-title">⭐ 星空キット</h3>
+                    <p class="kit-description">
+                        夜空に輝く星をイメージした神秘的なデザイン。
+                        濃紺とゴールドの組み合わせが美しい上級者向けキット。
+                    </p>
+                    <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                        ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+                    </p>
+                    <div class="kit-price">¥4,800（税込）</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="selectKit('星空キット')">このキットを選択</button>
+                        <a href="#" class="btn btn-secondary" onclick="showRecipe('星空')">レシピを見る</a>
+                        <a href="https://youtube.com/watch?v=example3" target="_blank" class="btn btn-youtube">YouTube動画</a>
+                    </div>
+                </div>
+                <div class="kit-card" style="background: transparent; box-shadow: none; border: none;"></div>
+            </div>
+
+            <h3 class="section-title" style="font-size:1.3rem; margin-top:2.5rem; margin-bottom:1rem; text-align:left; color:#ff9a9e;">3. 上級者用キット</h3>
+            <div class="kit-grid">
+                <div class="kit-card">
+                    <h3 class="kit-title">⭐ 星空キット</h3>
+                    <p class="kit-description">
+                        夜空に輝く星をイメージした神秘的なデザイン。
+                        濃紺とゴールドの組み合わせが美しい上級者向けキット。
+                    </p>
+                    <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                        ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+                    </p>
+                    <div class="kit-price">¥4,800（税込）</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="selectKit('星空キット')">このキットを選択</button>
+                        <a href="#" class="btn btn-secondary" onclick="showRecipe('星空')">レシピを見る</a>
+                        <a href="https://youtube.com/watch?v=example3" target="_blank" class="btn btn-youtube">YouTube動画</a>
+                    </div>
+                </div>
+                <div class="kit-card">
+                    <h3 class="kit-title">🦋 蝶々ガーデンキット</h3>
+                    <p class="kit-description">
+                        色とりどりの蝶々が舞う花園をイメージした華やかなデザイン。
+                        細かい作業が好きな方におすすめの上級者向け。
+                    </p>
+                    <p class="kit-description" style="font-size: 0.9rem; color: #888; font-style: italic;">
+                        ※布の色柄は、その時々で仕入れている布の中からお選びいただけます。同じ柄の布は二度と入手できない場合がございますので、一期一会の作品をお楽しみください。
+                    </p>
+                    <div class="kit-price">¥5,200（税込）</div>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="selectKit('蝶々ガーデンキット')">このキットを選択</button>
+                        <a href="#" class="btn btn-secondary" onclick="showRecipe('蝶々ガーデン')">レシピを見る</a>
+                        <a href="https://youtube.com/watch?v=example6" target="_blank" class="btn btn-youtube">YouTube動画</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 料金表セクション -->
+            <h2 class="section-title">💰 料金表</h2>
+
+            <!-- 個人向けプラン -->
+            <h3 class="section-title" style="font-size:1.5rem; margin-top:2rem; margin-bottom:1rem; text-align:left; color:#ff9a9e;">個人での購入プラン</h3>
+            <div class="pricing-section">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">初心者向けキット</h3>
+                        <div class="pricing-price">¥1,500</div>
+                        <div class="pricing-subtitle">1個あたり</div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li>✅ パッチワークキット一式</li>
+                            <li>✅ 詳細レシピ・作り方ガイド</li>
+                            <li>✅ YouTube動画サポート</li>
+                            <li>✅ メールサポート</li>
+                        </ul>
+                        <div class="pricing-note">
+                            ※送料別途（全国一律500円）
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">中級者向けキット</h3>
+                        <div class="pricing-price">¥1,600</div>
+                        <div class="pricing-subtitle">1個あたり</div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li>✅ パッチワークキット一式</li>
+                            <li>✅ 詳細レシピ・作り方ガイド</li>
+                            <li>✅ YouTube動画サポート</li>
+                            <li>✅ メールサポート</li>
+                        </ul>
+                        <div class="pricing-note">
+                            ※送料別途（全国一律500円）
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">上級者向けキット</h3>
+                        <div class="pricing-price">¥1,900</div>
+                        <div class="pricing-subtitle">1個あたり</div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li>✅ パッチワークキット一式</li>
+                            <li>✅ 詳細レシピ・作り方ガイド</li>
+                            <li>✅ YouTube動画サポート</li>
+                            <li>✅ メールサポート</li>
+                        </ul>
+                        <div class="pricing-note">
+                            ※送料別途（全国一律500円）
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 団体向けプラン -->
+            <h3 class="section-title" style="font-size:1.5rem; margin-top:3rem; margin-bottom:1rem; text-align:left; color:#ff9a9e;">団体料金プラン</h3>
+            <div class="pricing-section">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">初心者向けキット</h3>
+                        <div class="pricing-price">¥6,500~</div>
+                        <div class="pricing-subtitle">5人以上向け</div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li>✅ パッチワークキット（人数分）</li>
+                            <li>✅ 詳細レシピ・作り方ガイド</li>
+                            <li>✅ YouTube動画サポート</li>
+                            <li>✅ 電話・メールサポート</li>
+                            <li>✅ 送料無料</li>
+                        </ul>
+                        <div class="pricing-note">
+                            ※人数により料金変動
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">中級者向けキット</h3>
+                        <div class="pricing-price">¥7,000~</div>
+                        <div class="pricing-subtitle">5人以上向け</div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li>✅ パッチワークキット（人数分）</li>
+                            <li>✅ 詳細レシピ・作り方ガイド</li>
+                            <li>✅ YouTube動画サポート</li>
+                            <li>✅ 充実の電話・メールサポート</li>
+                            <li>✅ 送料無料</li>
+                            <li>✅ オリジナルキット相談可能</li>
+                        </ul>
+                        <div class="pricing-note">
+                            ※人数により料金変動
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">上級者向けキット</h3>
+                        <div class="pricing-price">¥8,000~</div>
+                        <div class="pricing-subtitle">5人以上向け</div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li>✅ パッチワークキット（人数分）</li>
+                            <li>✅ 詳細レシピ・作り方ガイド</li>
+                            <li>✅ YouTube動画サポート</li>
+                            <li>✅ 専門スタッフによるサポート</li>
+                            <li>✅ 送料無料</li>
+                            <li>✅ オリジナルキット対応</li>
+                        </ul>
+                        <div class="pricing-note">
+                            ※人数により料金変動
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 年間プラン -->
+            <h3 class="section-title" style="font-size:1.5rem; margin-top:3rem; margin-bottom:1rem; text-align:left; color:#ff9a9e;">年間プラン（12か月プラン）</h3>
+            <div class="pricing-section">
+                <div class="pricing-card premium" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">12ヶ月継続プラン</h3>
+                        <div class="pricing-price">5%オフ~</div>
+                        <div class="pricing-subtitle">年間契約でお得に</div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li>✅ 毎月新しいキットをお届け</li>
+                            <li>✅ 季節に合わせたデザイン</li>
+                            <li>✅ 通常価格より5%以上割引</li>
+                            <li>✅ 送料無料</li>
+                            <li>✅ 優先サポート</li>
+                            <li>✅ 限定キットへの先行アクセス</li>
+                        </ul>
+                        <div class="pricing-note">
+                            ※詳細な割引率はお問い合わせください<br>
+                            ※個人・団体問わずご利用可能
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- お問い合わせフォーム -->
+            <h2 class="section-title">📞 お問い合わせ</h2>
+            <div class="contact-section" style="max-width:600px;margin:0 auto 2rem auto;">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="company">法人名（任意）</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">お名前 <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">お問い合わせ内容 <span class="required">*</span></label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary submit-btn">送信する</button>
+                </form>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 MC Square. All rights reserved. | 老人ホーム向けパッチワークキット専門店</p>
+        </footer>
+    </div>
+
+    <!-- モーダル -->
+    <div id="kitModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 class="modal-title">キット選択完了</h3>
+            <p class="modal-text" id="modalText"></p>
+            <button class="btn btn-primary" onclick="closeModal()">確認</button>
+        </div>
+    </div>
+
+    <div id="recipeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRecipeModal()">&times;</span>
+            <h3 class="modal-title" id="recipeTitle">レシピ詳細</h3>
+            <div class="modal-text" id="recipeContent"></div>
+            <button class="btn btn-primary" onclick="closeRecipeModal()">閉じる</button>
+        </div>
+    </div>
+
+    <div class="contact" style="background:#fbe9e7; border-radius:8px; padding:16px 20px; margin-top:32px; font-size:1em; max-width:700px; margin-left:auto; margin-right:auto;">
+        <strong>【お問合せ先】</strong><br>
+        〒244-0811 神奈川県横浜市戸塚区上柏尾町132-3 SKビル2階<br>
+        TEL：045-410-7023　FAXフリーダイヤル：0120-535-596<br>
+        E-mail：<a href="mailto:pr@mcsquare.co.jp">pr@mcsquare.co.jp</a>
+    </div>
+
+    <script>
+        function selectKit(kitName) {
+            document.getElementById('modalText').textContent = 
+                `「${kitName}」を選択しました。ご購入手続きに進みますか？`;
+            document.getElementById('kitModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('kitModal').style.display = 'none';
+        }
+
+        function showRecipe(kitType) {
+            const recipes = {
+                '春の花畑': {
+                    title: '🌸 春の花畑キット - レシピ',
+                    content: `
+                        <h4>必要な材料：</h4>
+                        <ul>
+                            <li>ピンク系布地 20cm × 30cm</li>
+                            <li>グリーン系布地 15cm × 25cm</li>
+                            <li>白系布地 10cm × 20cm</li>
+                            <li>キルト綿 30cm × 40cm</li>
+                            <li>裏地 30cm × 40cm</li>
+                        </ul>
+                        <h4>作り方の手順：</h4>
+                        <ol>
+                            <li>型紙に合わせて布をカットします</li>
+                            <li>花びらの形にピースを組み合わせます</li>
+                            <li>葉っぱ部分を縫い付けます</li>
+                            <li>全体をキルティングします</li>
+                            <li>バインディングで仕上げます</li>
+                        </ol>
+                        <p><strong>完成サイズ：</strong> 約30cm × 40cm</p>
+                        <p><strong>制作時間：</strong> 約8-10時間</p>
+                    `
+                },
+                '秋の紅葉': {
+                    title: '🍂 秋の紅葉キット - レシピ',
+                    content: `
+                        <h4>必要な材料：</h4>
+                        <ul>
+                            <li>オレンジ系布地 25cm × 35cm</li>
+                            <li>赤系布地 20cm × 30cm</li>
+                            <li>茶系布地 15cm × 25cm</li>
+                            <li>キルト綿 35cm × 45cm</li>
+                            <li>裏地 35cm × 45cm</li>
+                        </ul>
+                        <h4>作り方の手順：</h4>
+                        <ol>
+                            <li>もみじの型紙を作成します</li>
+                            <li>グラデーション効果を意識して配色</li>
+                            <li>葉脈をステッチで表現</li>
+                            <li>背景部分と組み合わせ</li>
+                            <li>全体をキルティングして完成</li>
+                        </ol>
+                        <p><strong>完成サイズ：</strong> 約35cm × 45cm</p>
+                        <p><strong>制作時間：</strong> 約12-15時間</p>
+                    `
+                },
+                '星空': {
+                    title: '⭐ 星空キット - レシピ',
+                    content: `
+                        <h4>必要な材料：</h4>
+                        <ul>
+                            <li>濃紺布地 30cm × 40cm</li>
+                            <li>ゴールド布地 10cm × 15cm</li>
+                            <li>シルバー布地 5cm × 10cm</li>
+                            <li>キルト綿 40cm × 50cm</li>
+                            <li>裏地 40cm × 50cm</li>
+                        </ul>
+                        <h4>作り方の手順：</h4>
+                        <ol>
+                            <li>星の型紙を様々なサイズで作成</li>
+                            <li>アップリケ技法で星を配置</li>
+                            <li>金糸でステッチを入れて輝きを表現</li>
+                            <li>グラデーション効果で夜空を演出</li>
+                            <li>繊細なキルティングで仕上げ</li>
+                        </ol>
+                        <p><strong>完成サイズ：</strong> 約40cm × 50cm</p>
+                        <p><strong>制作時間：</strong> 約15-20時間</p>
+                    `
+                },
+                'お家': {
+                    title: '🏠 お家キット - レシピ',
+                    content: `
+                        <h4>必要な材料：</h4>
+                        <ul>
+                            <li>ベージュ系布地 20cm × 25cm</li>
+                            <li>茶系布地（屋根用） 15cm × 20cm</li>
+                            <li>青系布地（空用） 25cm × 30cm</li>
+                            <li>キルト綿 30cm × 35cm</li>
+                            <li>裏地 30cm × 35cm</li>
+                        </ul>
+                        <h4>作り方の手順：</h4>
+                        <ol>
+                            <li>家の形に布をカット</li>
+                            <li>窓やドアをアップリケで表現</li>
+                            <li>屋根部分を取り付け</li>
+                            <li>背景の空と組み合わせ</li>
+                            <li>シンプルなキルティングで完成</li>
+                        </ol>
+                        <p><strong>完成サイズ：</strong> 約30cm × 35cm</p>
+                        <p><strong>制作時間：</strong> 約6-8時間</p>
+                    `
+                },
+                '海の波': {
+                    title: '🌊 海の波キット - レシピ',
+                    content: `
+                        <h4>必要な材料：</h4>
+                        <ul>
+                            <li>ライトブルー布地 25cm × 30cm</li>
+                            <li>ダークブルー布地 20cm × 25cm</li>
+                            <li>白系布地（波しぶき用） 10cm × 15cm</li>
+                            <li>キルト綿 35cm × 40cm</li>
+                            <li>裏地 35cm × 40cm</li>
+                        </ul>
+                        <h4>作り方の手順：</h4>
+                        <ol>
+                            <li>波の曲線をカーブ縫いで表現</li>
+                            <li>グラデーション効果で深みを演出</li>
+                            <li>白いステッチで波しぶきを表現</li>
+                            <li>流れるようなキルティング</li>
+                            <li>涼しげなバインディングで完成</li>
+                        </ol>
+                        <p><strong>完成サイズ：</strong> 約35cm × 40cm</p>
+                        <p><strong>制作時間：</strong> 約10-12時間</p>
+                    `
+                },
+                '蝶々ガーデン': {
+                    title: '🦋 蝶々ガーデンキット - レシピ',
+                    content: `
+                        <h4>必要な材料：</h4>
+                        <ul>
+                            <li>マルチカラー布地セット 30cm × 40cm</li>
+                            <li>グリーン系布地 20cm × 30cm</li>
+                            <li>花柄プリント布地 15cm × 20cm</li>
+                            <li>キルト綿 45cm × 55cm</li>
+                            <li>裏地 45cm × 55cm</li>
+                        </ul>
+                        <h4>作り方の手順：</h4>
+                        <ol>
+                            <li>蝶々の細かいパーツをカット</li>
+                            <li>花々をアップリケで配置</li>
+                            <li>蝶々の羽根を重ね合わせて縫製</li>
+                            <li>カラフルな刺繍で装飾</li>
+                            <li>複雑なキルティングパターンで仕上げ</li>
+                        </ol>
+                        <p><strong>完成サイズ：</strong> 約45cm × 55cm</p>
+                        <p><strong>制作時間：</strong> 約20-25時間</p>
+                    `
+                }
+            };
+
+            const recipe = recipes[kitType];
+            document.getElementById('recipeTitle').textContent = recipe.title;
+            document.getElementById('recipeContent').innerHTML = recipe.content;
+            document.getElementById('recipeModal').style.display = 'block';
+        }
+
+        function closeRecipeModal() {
+            document.getElementById('recipeModal').style.display = 'none';
+        }
+
+        // モーダルの外側をクリックしたら閉じる
+        window.onclick = function(event) {
+            const kitModal = document.getElementById('kitModal');
+            const recipeModal = document.getElementById('recipeModal');
+            if (event.target == kitModal) {
+                kitModal.style.display = 'none';
+            }
+            if (event.target == recipeModal) {
+                recipeModal.style.display = 'none';
+            }
+        }
+
+        // スムーズスクロール効果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // お問い合わせフォーム送信処理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // フォームデータを取得
+            const formData = new FormData(this);
+            const selectedKits = [];
+            const kitCheckboxes = document.querySelectorAll('input[name="kits"]:checked');
+            kitCheckboxes.forEach(cb => selectedKits.push(cb.value));
+            
+            // 送信完了メッセージを表示
+            showContactSuccess();
+            
+            // フォームをリセット
+            this.reset();
+        });
+
+        function showContactSuccess() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                    <h3 class="modal-title">送信完了</h3>
+                    <p class="modal-text">
+                        お問い合わせありがとうございます。<br>
+                        内容を確認後、2営業日以内にご連絡いたします。<br><br>
+                        急ぎのご用件の場合は、お電話でお問い合わせください。
+                    </p>
+                    <button class="btn btn-primary" onclick="this.parentElement.parentElement.remove()">確認</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function showPrivacyPolicy() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                    <h3 class="modal-title">プライバシーポリシー</h3>
+                    <div class="modal-text" style="max-height: 400px; overflow-y: auto; text-align: left;">
+                        <h4>個人情報の取り扱いについて</h4>
+                        <p>MC Squareでは、お客様の個人情報を以下の通り取り扱います。</p>
+                        
+                        <h5>1. 収集する情報</h5>
+                        <ul>
+                            <li>お名前、施設名</li>
+                            <li>メールアドレス、電話番号</li>
+                            <li>お問い合わせ内容</li>
+                        </ul>
+                        
+                        <h5>2. 利用目的</h5>
+                        <ul>
+                            <li>お問い合わせへの回答</li>
+                            <li>商品・サービスのご提案</li>
+                            <li>アフターサポート</li>
+                        </ul>
+                        
+                        <h5>3. 第三者への提供</h5>
+                        <p>お客様の同意なく第三者に個人情報を提供することはありません。</p>
+                        
+                        <h5>4. お問い合わせ</h5>
+                        <p>個人情報に関するお問い合わせは、下記までご連絡ください。<br>
+                        メール: privacy@mcsquare.com</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="this.parentElement.parentElement.remove()">閉じる</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    </script>
+</body>
+</html>

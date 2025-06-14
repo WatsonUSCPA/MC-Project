@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品を購入する | MC Square</title>
+    <style>
+        body {
+            font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background: linear-gradient(135deg, #ffd1b3 0%, #ffb3b3 100%);
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fffaf7;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(255, 183, 77, 0.15);
+            padding: 32px 24px 24px 24px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 18px;
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc80 100%);
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(255,183,77,0.12);
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .back-btn:hover {
+            background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%);
+        }
+        .header {
+            background: #ffe0b2;
+            border-radius: 8px 8px 0 0;
+            padding: 16px 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #a65c00;
+            margin-bottom: 16px;
+        }
+        .service-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #d2691e;
+            margin-bottom: 8px;
+        }
+        .service-desc {
+            font-size: 1em;
+            margin-bottom: 18px;
+        }
+        .shop-link {
+            display: block;
+            margin: 24px 0;
+            text-align: center;
+        }
+        .shop-link a, .featured-product .shop-link {
+            display: inline-block;
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc80 100%);
+            color: #fff;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1.05em;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(255,183,77,0.12);
+            transition: background 0.2s;
+        }
+        .shop-link a:hover, .featured-product .shop-link:hover {
+            background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%);
+        }
+        .featured-product {
+            background: #fff3e0;
+            border-radius: 12px;
+            padding: 24px 18px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 8px rgba(255,183,77,0.08);
+        }
+        .featured-product h2 {
+            color: #ff9800;
+            margin-top: 0;
+        }
+        .featured-product ul {
+            margin: 0 0 10px 18px;
+        }
+        .sample-img {
+            display: flex;
+            align-items: center;
+            margin: 18px 0 10px 0;
+        }
+        .sample-img img {
+            width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-right: 18px;
+        }
+        .sample-caption {
+            font-size: 0.95em;
+            color: #888;
+        }
+        .contact {
+            background: #fbe9e7;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-top: 32px;
+            font-size: 1em;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .contact a {
+            color: #388e3c;
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 12px 4px; }
+            .sample-img { flex-direction: column; }
+            .sample-img img { margin-right: 0; margin-bottom: 10px; width: 100%; }
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .nav-button {
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc80 100%);
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(255,183,77,0.12);
+            transition: background 0.2s;
+        }
+        .nav-button:hover {
+            background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%);
+        }
+        .nav-button, .shop-link a, .btn, .back-btn {
+            background: linear-gradient(135deg, #ffb3b3 0%, #ffd1b3 100%);
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 1em;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(255,183,77,0.12);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .nav-button:hover, .shop-link a:hover, .btn:hover, .back-btn:hover {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.18);
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-buttons" style="display:flex; gap:12px; margin-bottom:18px;">
+        <a href="index.html" class="nav-button">🏠 ホーム</a>
+        <a href="patchwork_kit_website.html" class="nav-button">✨ よりそいクラフト</a>
+        <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサー定期便</a>
+        <a href="buy_products.html" class="nav-button" style="background:linear-gradient(90deg,#ff9800 0%,#ffb347 100%);color:#fff;">🛒 商品を購入する</a>
+    </div>
+    <div class="container">
+        <button class="back-btn" onclick="window.history.back()">← 前のページに戻る</button>
+        <div class="header">商品を購入する</div>
+        <div class="service-title">MC Squareのおすすめ商品をオンラインでご購入いただけます。</div>
+        <div class="service-desc">
+            毎月入荷するUSA・国産の新柄布や、人気の手芸キットなど、さまざまな商品を取り揃えています。<br>
+            下記のボタンからオンラインショップ（BASE）にアクセスして、気になる商品をぜひご覧ください。
+        </div>
+        <div class="featured-product">
+            <h2>国産コットン マンスリー</h2>
+            <div style="font-size:1.1em; color:#d2691e; font-weight:bold; margin-bottom:6px;">¥1,815 税込</div>
+            <p>ご購入月の最新国産コットンを１５種類お届けします。<br>
+            著名デザイナー、メーカーオリジナル、数量限定柄などエムシースクエアがお勧めする最新国産カットクロスをお届します。</p>
+            <ul style="margin:0 0 10px 18px;">
+                <li>２０ｃｍｘ３０ｃｍの最新国産コットンのカットクロスを１５枚</li>
+                <li>発送運賃</li>
+                <li>新商品情報</li>
+            </ul>
+            <p style="margin-bottom:8px;">量販店などではあまり見かけない、最新で珍しい国産コットンを是非お手に取ってご覧ください。</p>
+            <a href="https://mcsquare.thebase.in/items/101744201" class="shop-link" target="_blank">BASEで詳細・購入</a>
+        </div>
+        <div class="featured-product">
+            <h2>アメリカンコットン マンスリー</h2>
+            <div style="font-size:1.1em; color:#d2691e; font-weight:bold; margin-bottom:6px;">¥2,475 税込</div>
+            <p>この商品は送料無料です。<br>
+            ご購入月の最新アメリカンコットンを１５種類お届けします。<br>
+            量販店などでは見かけない珍しい、そして貴重なアメリカンコットンで手づくりを楽しんでみませんか！長年アメリカンコットンを扱うエムシースクエアならではの企画です。<br>
+            おなじみのインフルエンサーさん、クリエーターさんおすすめの生地も入っています。</p>
+            <ul style="margin:0 0 10px 18px;">
+                <li>２０ｃｍｘ３０ｃｍの最新アメリカンコットンのカットクロスを１５枚</li>
+                <li>発送運賃</li>
+                <li>新商品情報</li>
+            </ul>
+            <p style="margin-bottom:8px;">Free spirits, Michael Miller, Benartex などなど最新で珍しいアメリカンコットンを是非お手に取ってご覧ください。</p>
+            <a href="https://mcsquare.thebase.in/items/101742800" class="shop-link" target="_blank">BASEで詳細・購入</a>
+        </div>
+        <div class="shop-link">
+            <a href="https://mcsquare.thebase.in/" id="base-link" target="_blank">BASEショップでほかの商品を見る</a>
+        </div>
+        <div class="service-desc" style="background:#fffde7; border-radius:8px; padding:18px; margin-bottom:24px;">
+            <strong>【ご注意】</strong><br>
+            小売りの販売はBASEショップを通じて行っていますが、インスタグラム等でご紹介した布がBASEに掲載されていない場合もございます。その際は、お気軽に直接お問い合わせください。
+        </div>
+        <div class="service-desc">
+            ご不明な点がございましたら、お気軽にお問い合わせください。
+        </div>
+        <div class="contact">
+            <strong>【お問合せ先】</strong><br>
+            〒244-0811 神奈川県横浜市戸塚区上柏尾町132-3 SKビル2階<br>
+            TEL：045-410-7023　FAXフリーダイヤル：0120-535-596<br>
+            E-mail：<a href="mailto:pr@mcsquare.co.jp">pr@mcsquare.co.jp</a>
+        </div>
+    </div>
+    <script>
+        // BASEのリンクを後から設定できるように
+        document.getElementById('base-link').href = 'https://mcsquare.thebase.in/';
+    </script>
+</body>
+</html> 
