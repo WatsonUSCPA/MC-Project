@@ -198,6 +198,9 @@
             padding: var(--spacing-xl);
             margin-bottom: var(--spacing-xl);
             box-shadow: var(--shadow-sm);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .section-title {
@@ -213,6 +216,7 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: var(--spacing-lg);
             margin: var(--spacing-xl) 0;
+            justify-items: center;
         }
 
         .value-card {
@@ -222,6 +226,8 @@
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
             border: 1px solid var(--color-border);
+            max-width: 350px;
+            width: 100%;
         }
 
         .value-card:hover {
@@ -274,6 +280,9 @@
                 justify-content: center;
             }
             .main-content {
+                padding: var(--spacing-md);
+            }
+            .about-section {
                 padding: var(--spacing-md);
             }
             footer {
