@@ -65,11 +65,22 @@
         }
 
         .logo {
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-size: 2.2rem;
+            font-weight: 900;
             color: var(--color-primary);
             margin-bottom: var(--spacing-xs);
-            letter-spacing: -0.02em;
+            letter-spacing: 0.04em;
+            text-shadow: 1px 2px 8px rgba(255,107,107,0.10);
+            font-family: 'Noto Sans JP', 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        .theme-message {
+            text-align: center;
+            font-size: 1.15rem;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.08em;
         }
 
         .subtitle {
@@ -374,6 +385,33 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
+
+        .instagram-btn {
+            background: #fff;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            font-weight: 700;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+
+        .instagram-btn:hover {
+            background: var(--color-primary);
+            color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .preparing-btn .preparing-badge {
+            display: inline-block;
+            background: #ffb347;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            padding: 0.1em 0.8em;
+            margin-left: 0.5em;
+            letter-spacing: 0.08em;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -381,13 +419,13 @@
         <header>
             <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto var(--spacing-sm) auto;">
             <div class="logo">MC Square</div>
+            <div class="theme-message">いいものはいつまでも</div>
             <div class="subtitle">インフルエンサー定期便</div>
             <div class="nav-buttons">
                 <a href="index.html" class="nav-button">🏠 ホーム</a>
-                <a href="patchwork_kit_website.html" class="nav-button">✨ よりそいクラフト</a>
                 <a href="influencer_subscription.html" class="nav-button active">🌟 インフルエンサー定期便</a>
                 <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
-                <a href="https://www.instagram.com/mc.square_official/reels/" class="nav-button" target="_blank">📸 Instagram</a>
+                <a href="patchwork_kit_website.html" class="nav-button preparing-btn">✨ よりそいクラフト <span class="preparing-badge">準備中</span></a>
             </div>
         </header>
 
@@ -404,6 +442,10 @@
         </div>
 
         <footer>
+            <a href="https://www.instagram.com/mc.square_official/reels/" class="instagram-btn" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5em;margin-bottom:1.5rem;">
+                <svg width="22" height="22" viewBox="0 0 448 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="448" height="512" rx="100" fill="#fff"/><path d="M224 144c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm88-136c0 13.3-10.7 24-24 24s-24-10.7-24-24 10.7-24 24-24 24 10.7 24 24zm76 24c-1.7-35.3-9.9-66.7-36.2-92.9C370.7 9.9 339.3 1.7 304 0 269.3-1.7 178.7-1.7 144 0 108.7 1.7 77.3 9.9 51 36.2 24.7 62.5 16.5 93.9 14.8 128.2 13.1 162.9 13.1 253.5 14.8 288.2c1.7 35.3 9.9 66.7 36.2 92.9 26.3 26.3 57.7 34.5 92.9 36.2 34.7 1.7 125.3 1.7 160 0 35.3-1.7 66.7-9.9 92.9-36.2 26.3-26.3 34.5-57.7 36.2-92.9 1.7-34.7 1.7-125.3 0-160zm-48 218c-7.8 19.6-22.9 34.7-42.5 42.5-29.4 11.7-99.2 9-132.5 9s-103.1 2.6-132.5-9c-19.6-7.8-34.7-22.9-42.5-42.5-11.7-29.4-9-99.2-9-132.5s-2.6-103.1 9-132.5c7.8-19.6 22.9-34.7 42.5-42.5 29.4-11.7 99.2-9 132.5-9s103.1-2.6 132.5 9c19.6 7.8 34.7 22.9 42.5 42.5 11.7 29.4 9 99.2 9 132.5s2.6 103.1-9 132.5z" fill="#E1306C"/><circle cx="224" cy="224" r="64" fill="#E1306C"/></svg>
+                <span style="font-weight:700;color:#E1306C;">Instagram</span>
+            </a>
             <p>&copy; 2025 MC Square. All rights reserved.</p>
         </footer>
     </div>
