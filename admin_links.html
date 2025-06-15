@@ -172,6 +172,44 @@
             color: #ff0000;
             margin: 1.5rem 0;
         }
+        .news-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+        }
+        .news-list {
+            margin-bottom: var(--spacing-md);
+        }
+        .news-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(255, 159, 124, 0.08);
+            padding: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .news-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .news-date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        .news-title {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 1.1rem;
+        }
+        .news-content {
+            color: var(--color-text);
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
     </style>
 </head>
 <body>
@@ -208,6 +246,27 @@
                     <button type="button" id="cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
                 </div>
             </form>
+
+            <div class="news-section">
+                <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">お知らせ管理</h2>
+                <div id="news-status-area"></div>
+                <div class="news-list" id="news-list"></div>
+                <form id="news-form">
+                    <div class="form-row">
+                        <input type="date" id="news-date" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="news-title" placeholder="タイトル" required>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="news-content" placeholder="内容" required style="width: 100%; min-height: 100px; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem; font-family: inherit;"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="news-submit-btn">追加</button>
+                        <button type="button" id="news-cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script type="module">
@@ -225,9 +284,11 @@
       appId: "1:96350140236:web:fe858a8661067f5f0081e9",
       measurementId: "G-90CXT9WS4Y"
     };
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const linksCol = collection(db, "links");
+    const newsCol = collection(db, "news");
 
     // パスワード（必要に応じて変更してください）
     const PASSWORD = "admin1234";
@@ -240,12 +301,134 @@
             document.getElementById('auth-area').style.display = 'none';
             document.getElementById('admin-content').style.display = 'block';
             loadLinks();
+            loadNews();
         } else {
             document.getElementById('login-error').style.display = 'block';
         }
     });
 
-    // Firestoreベースのリンク管理
+    // お知らせ管理機能
+    let newsEditId = null;
+    let newsCache = [];
+
+    // お知らせ一覧の読み込み
+    async function loadNews() {
+        const newsList = document.getElementById('news-list');
+        newsList.innerHTML = '<div class="loading">読み込み中...</div>';
+
+        try {
+            const querySnapshot = await getDocs(newsCol);
+            newsCache = [];
+            newsList.innerHTML = '';
+
+            querySnapshot.forEach((doc) => {
+                const news = { id: doc.id, ...doc.data() };
+                newsCache.push(news);
+            });
+
+            // 日付でソート
+            newsCache.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            newsCache.forEach((news) => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.innerHTML = `
+                    <div class="news-info">
+                        <div class="news-date">${news.date}</div>
+                        <div class="news-title">${news.title}</div>
+                        <div class="news-content">${news.content}</div>
+                    </div>
+                    <div class="link-actions">
+                        <button onclick="editNews('${news.id}')">編集</button>
+                        <button onclick="deleteNews('${news.id}')">削除</button>
+                    </div>
+                `;
+                newsList.appendChild(newsCard);
+            });
+        } catch (error) {
+            newsList.innerHTML = '<div class="error">エラーが発生しました</div>';
+            console.error("Error loading news:", error);
+        }
+    }
+
+    // お知らせの追加・更新
+    document.getElementById('news-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('news-submit-btn');
+        submitBtn.disabled = true;
+
+        try {
+            const newsData = {
+                date: document.getElementById('news-date').value,
+                title: document.getElementById('news-title').value,
+                content: document.getElementById('news-content').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (newsEditId) {
+                // 更新
+                const newsRef = doc(db, "news", newsEditId);
+                await updateDoc(newsRef, newsData);
+                showStatus('お知らせを更新しました', 'success');
+            } else {
+                // 新規追加
+                newsData.createdAt = newsData.updatedAt;
+                await addDoc(newsCol, newsData);
+                showStatus('お知らせを追加しました', 'success');
+            }
+
+            // フォームをリセット
+            document.getElementById('news-form').reset();
+            newsEditId = null;
+            document.getElementById('news-cancel-edit').style.display = 'none';
+            submitBtn.textContent = '追加';
+            submitBtn.disabled = false;
+
+            // 一覧を更新
+            loadNews();
+        } catch (error) {
+            showStatus('エラーが発生しました', 'error');
+            console.error("Error saving news:", error);
+            submitBtn.disabled = false;
+        }
+    });
+
+    // お知らせの編集
+    window.editNews = function(id) {
+        const news = newsCache.find(n => n.id === id);
+        if (news) {
+            document.getElementById('news-date').value = news.date;
+            document.getElementById('news-title').value = news.title;
+            document.getElementById('news-content').value = news.content;
+            newsEditId = id;
+            document.getElementById('news-cancel-edit').style.display = 'inline-block';
+            document.getElementById('news-submit-btn').textContent = '更新';
+        }
+    };
+
+    // お知らせの削除
+    window.deleteNews = async function(id) {
+        if (confirm('このお知らせを削除してもよろしいですか？')) {
+            try {
+                await deleteDoc(doc(db, "news", id));
+                showStatus('お知らせを削除しました', 'success');
+                loadNews();
+            } catch (error) {
+                showStatus('エラーが発生しました', 'error');
+                console.error("Error deleting news:", error);
+            }
+        }
+    };
+
+    // 編集のキャンセル
+    document.getElementById('news-cancel-edit').addEventListener('click', function() {
+        document.getElementById('news-form').reset();
+        newsEditId = null;
+        this.style.display = 'none';
+        document.getElementById('news-submit-btn').textContent = '追加';
+    });
+
+    // リンク管理機能
     let editId = null;
     let linksCache = [];
 
@@ -358,6 +541,15 @@
         if (!type) { area.innerHTML = ''; return; }
         if (type === 'loading') area.innerHTML = `<div class="loading">${msg}</div>`;
         if (type === 'error') area.innerHTML = `<div class="error">${msg}</div>`;
+    }
+
+    // お知らせ用のステータス表示関数
+    function showStatus(msg, type) {
+        const area = document.getElementById('news-status-area');
+        if (!type) { area.innerHTML = ''; return; }
+        if (type === 'success') area.innerHTML = `<div class="loading" style="color: #4CAF50;">${msg}</div>`;
+        if (type === 'error') area.innerHTML = `<div class="error">${msg}</div>`;
+        if (type === 'loading') area.innerHTML = `<div class="loading">${msg}</div>`;
     }
     </script>
 </body>
