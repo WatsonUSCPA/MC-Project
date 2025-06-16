@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <base target="_top">
+  <title>商品在庫管理 | MC Square</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #FF6B6B;
+      --color-secondary: #FFB347;
+      --color-background: #FFF5F0;
+      --color-background-alt: #FFF0E8;
+      --color-text: #2D3436;
+      --color-text-light: #636E72;
+      --color-border: #FFD4C4;
+      --color-accent: #FF9F7C;
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 2rem;
+      --spacing-lg: 3rem;
+      --spacing-xl: 5rem;
+      --border-radius: 20px;
+      --shadow-sm: 0 4px 8px rgba(255, 159, 124, 0.08);
+      --shadow-md: 0 8px 16px rgba(255, 159, 124, 0.12);
+      --shadow-lg: 0 16px 24px rgba(255, 159, 124, 0.15);
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      margin: 0;
+      padding: var(--spacing-md);
+      background: var(--color-background);
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-image: 
+        radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--color-background-alt);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .logo {
+      max-width: 120px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    h1 {
+      color: var(--color-text);
+      text-align: center;
+      margin-bottom: var(--spacing-lg);
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .inventory-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .inventory-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(255, 159, 124, 0.10);
+      border: 1px solid #FFD4C4;
+      width: 320px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .inventory-card:hover {
+      box-shadow: 0 8px 24px rgba(255, 159, 124, 0.18);
+    }
+
+    .inventory-card img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      border: 1px solid #FFD4C4;
+      margin-bottom: 1rem;
+      background: #f8f8f8;
+    }
+
+    .inventory-card .name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #2D3436;
+      text-align: center;
+    }
+
+    .inventory-card .managementNumber {
+      color: #636E72;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .inventory-card .price {
+      color: #FF6B6B;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .inventory-card .status {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: var(--spacing-xl);
+      color: var(--color-text-light);
+    }
+
+    .error {
+      text-align: center;
+      padding: var(--spacing-xl);
+      color: var(--color-primary);
+    }
+
+    .cart-box {
+      position: fixed;
+      top: 32px;
+      right: 32px;
+      background: #fff;
+      border: 2px solid var(--color-accent);
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(255, 159, 124, 0.12);
+      padding: 1.2rem 1.5rem;
+      min-width: 320px;
+      z-index: 1000;
+      font-size: 1rem;
+      max-width: 95vw;
+    }
+    .cart-title {
+      font-weight: bold;
+      color: var(--color-primary);
+      margin-bottom: 0.7rem;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .cart-list {
+      margin-bottom: 1rem;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      margin-bottom: 0.7rem;
+      border-bottom: 1px solid #ffe0d1;
+      padding-bottom: 0.7rem;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #FFD4C4;
+      background: #f8f8f8;
+    }
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .cart-item-name {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2D3436;
+      margin-bottom: 0.2em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-item-price {
+      color: #FF6B6B;
+      font-size: 0.98rem;
+      margin-bottom: 0.2em;
+    }
+    .cart-qty-box {
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
+      margin-top: 0.2em;
+    }
+    .qty-btn {
+      background: #ffe0d1;
+      color: #FF6B6B;
+      border: none;
+      border-radius: 4px;
+      width: 1.8em;
+      height: 1.8em;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover {
+      background: #FFB347;
+      color: #fff;
+    }
+    .cart-item-subtotal {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: #636E72;
+      min-width: 70px;
+      text-align: right;
+    }
+    .remove-btn {
+      background: none;
+      color: #FF6B6B;
+      border: none;
+      font-size: 1.2em;
+      cursor: pointer;
+      margin-left: 0.5em;
+    }
+    .cart-total {
+      font-weight: bold;
+      color: var(--color-primary);
+      margin-bottom: 1rem;
+      text-align: right;
+      font-size: 1.2rem;
+      border-top: 2px solid #ffe0d1;
+      padding-top: 0.7rem;
+    }
+    .checkout-btn {
+      background: linear-gradient(90deg, #FF6B6B 60%, #FFB347 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7em 1.5em;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 0.5em;
+      box-shadow: 0 2px 8px rgba(255, 159, 124, 0.10);
+      transition: background 0.2s;
+    }
+    .checkout-btn:disabled {
+      background: #ffe0d1;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+    .cart-empty {
+      color: #aaa;
+      text-align: center;
+      margin: 1.5em 0;
+      font-size: 1.05rem;
+    }
+    @media (max-width: 768px) {
+      body {
+        padding: var(--spacing-sm);
+      }
+      .container {
+        padding: var(--spacing-md);
+      }
+      .cart-box {
+        position: static;
+        min-width: unset;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        right: unset;
+        top: unset;
+        max-width: 100vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <img src="../Image/MC square Logo.png" alt="MC Square ロゴ" class="logo">
+    </div>
+    <div class="header">
+      <h1>商品在庫管理</h1>
+    </div>
+    <div id="cart-box" class="cart-box" style="display:none;"></div>
+    <div id="inventory-content">
+      <div class="loading">データを読み込み中...</div>
+    </div>
+  </div>
+
+  <script>
+    // GASウェブアプリのURLを設定
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
+
+    // 在庫データを取得して表示する関数
+    async function fetchAndDisplayInventory() {
+      try {
+        const response = await fetch(GAS_WEB_APP_URL, {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`データの取得に失敗しました (${response.status})`);
+        }
+
+        const data = await response.json();
+        
+        // データの検証
+        if (!Array.isArray(data)) {
+          throw new Error('データの形式が不正です');
+        }
+
+        displayInventory(data);
+      } catch (error) {
+        console.error('Error:', error);
+        showError(error.message);
+      }
+    }
+
+    // 在庫データを表示する関数
+    function displayInventory(data) {
+      const contentDiv = document.getElementById('inventory-content');
+      if (!data || data.length === 0) {
+        contentDiv.innerHTML = '<div class="error">商品データがありません</div>';
+        return;
+      }
+
+      const list = document.createElement('div');
+      list.className = 'inventory-list';
+
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'inventory-card';
+        const status = item.status === '公開中'
+          ? '<span style="color: #4CAF50;">在庫あり</span>'
+          : '<span style="color: #FF6B6B;">非公開</span>';
+        let imageTag = '';
+        if (item.imageUrl && String(item.imageUrl).trim() !== '') {
+          imageTag = `<img src="${item.imageUrl}" alt="${item.managementNumber}" onerror="this.src='../Image/default.png'">`;
+        }
+        // 値段のカンマ区切りと税込み
+        let priceText = '';
+        if (item.price) {
+          const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
+          priceText = priceNum.toLocaleString() + '円（税込み）';
+        }
+        // カートに追加ボタン
+        const addToCartBtn = `<button class="cart-btn" onclick="addToCart('${encodeURIComponent(item.managementNumber)}','${encodeURIComponent(priceText)}','${encodeURIComponent(item.imageUrl || '')}')">カートに追加</button>`;
+        card.innerHTML = `
+          ${imageTag}
+          <div class="managementNumber">管理番号: ${item.managementNumber}</div>
+          <div class="price">${priceText}</div>
+          <div class="status">${status}</div>
+          <div style="margin-top:1em;">${addToCartBtn}</div>
+        `;
+        list.appendChild(card);
+      });
+
+      contentDiv.innerHTML = '';
+      contentDiv.appendChild(list);
+      updateCartBox();
+    }
+
+    // エラーメッセージを表示する関数
+    function showError(message) {
+      const contentDiv = document.getElementById('inventory-content');
+      contentDiv.innerHTML = `
+        <div class="error">
+          <p>${message}</p>
+          <p style="font-size: 0.9em; margin-top: 1em;">
+            しばらく時間をおいて再度お試しください。<br>
+            問題が解決しない場合は、管理者にお問い合わせください。
+          </p>
+        </div>
+      `;
+    }
+
+    // ページ読み込み時に在庫データを取得
+    document.addEventListener('DOMContentLoaded', fetchAndDisplayInventory);
+
+    // 30分ごとにデータを更新
+    setInterval(fetchAndDisplayInventory, 30 * 60 * 1000);
+
+    // カート管理用
+    const cart = {};
+    function addToCart(managementNumber, price, imageUrl) {
+      managementNumber = decodeURIComponent(managementNumber);
+      price = decodeURIComponent(price);
+      imageUrl = decodeURIComponent(imageUrl);
+      if (!cart[managementNumber]) {
+        cart[managementNumber] = { qty: 1, price: price, imageUrl: imageUrl };
+      } else {
+        cart[managementNumber].qty++;
+      }
+      updateCartBox();
+    }
+    function changeCartQty(managementNumber, delta) {
+      if (cart[managementNumber]) {
+        cart[managementNumber].qty += delta;
+        if (cart[managementNumber].qty <= 0) delete cart[managementNumber];
+      }
+      updateCartBox();
+    }
+    function removeFromCart(managementNumber) {
+      if (cart[managementNumber]) {
+        delete cart[managementNumber];
+      }
+      updateCartBox();
+    }
+    function updateCartBox() {
+      const cartBox = document.getElementById('cart-box');
+      const items = Object.keys(cart);
+      if (items.length === 0) {
+        cartBox.style.display = 'none';
+        cartBox.innerHTML = '';
+        return;
+      }
+      cartBox.style.display = 'block';
+      let html = '<div class="cart-title">🛒 カート</div><div class="cart-list">';
+      let total = 0;
+      items.forEach(managementNumber => {
+        const item = cart[managementNumber];
+        // 値段の数値部分だけ抜き出して合計計算
+        const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
+        const subtotal = priceNum * item.qty;
+        total += subtotal;
+        html += `<div class="cart-item">
+          ${item.imageUrl ? `<img src="${item.imageUrl}" class="cart-item-img" alt="${managementNumber}" onerror="this.src='../Image/default.png'">` : ''}
+          <div class="cart-item-info">
+            <div class="cart-item-name">管理番号: ${managementNumber}</div>
+            <div class="cart-item-price">${item.price}</div>
+            <div class="cart-qty-box">
+              <button class="qty-btn" onclick="changeCartQty('${managementNumber}',-1)">−</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn" onclick="changeCartQty('${managementNumber}',1)">＋</button>
+            </div>
+          </div>
+          <div class="cart-item-subtotal">${subtotal.toLocaleString()}円（税込み）</div>
+          <button class="remove-btn" onclick="removeFromCart('${managementNumber}')">✕</button>
+        </div>`;
+      });
+      html += '</div>';
+      html += `<div class="cart-total">合計: ${total.toLocaleString()}円（税込み）</div>`;
+      html += '<button class="checkout-btn" disabled>購入手続きへ（Stripe連携予定）</button>';
+      cartBox.innerHTML = html;
+    }
+  </script>
+</body>
+</html> 
