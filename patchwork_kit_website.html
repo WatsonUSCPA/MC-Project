@@ -709,6 +709,7 @@
             gap: var(--spacing-sm);
             margin-top: var(--spacing-md);
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .nav-button {
@@ -735,10 +736,6 @@
         .nav-button.active {
             background: var(--color-primary);
             color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 500;
-            font-size: 0.95rem;
         }
 
         @media (max-width: 768px) {
@@ -826,6 +823,19 @@
             letter-spacing: 0.1em;
             box-shadow: 0 2px 8px rgba(255,179,71,0.10);
         }
+
+        .preparing-btn .preparing-badge {
+            display: inline-block;
+            background: #ffb347;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            padding: 0.1em 0.8em;
+            margin-left: 0.5em;
+            letter-spacing: 0.08em;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -838,6 +848,8 @@
                 <a href="index.html" class="nav-button">🏠 ホーム</a>
                 <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサー定期便</a>
                 <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
+                <a href="inventory.html" class="nav-button">取り扱い生地</a>
+                <!-- <a href="admin_links.html" class="nav-button">管理者用</a> -->
                 <a href="patchwork_kit_website.html" class="nav-button active preparing-btn">✨ よりそいクラフト <span class="preparing-badge">準備中</span></a>
             </div>
         </header>

@@ -374,15 +374,7 @@
     </header>
     <div id="cart-box" class="cart-box" style="display:none;"></div>
     <div id="inventory-content">
-      <div style="text-align: center; padding: 3rem; color: var(--color-text-light);">
-        <div style="font-size: 1.5rem; margin-bottom: 1.5rem;">
-          現在システム準備中です！
-        </div>
-        <div style="font-size: 1.1rem; line-height: 1.6;">
-          気になる生地がありましたら<br>
-          下記お問い合わせよりご連絡ください。
-        </div>
-      </div>
+      <div class="loading">データを読み込み中...</div>
     </div>
   </div>
 
@@ -405,163 +397,164 @@
 
   <script>
     // GASウェブアプリのURLを設定
-    // const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
 
     // 在庫データを取得して表示する関数
-    // async function fetchAndDisplayInventory() {
-    //   try {
-    //     const response = await fetch(GAS_WEB_APP_URL, {
-    //       method: 'GET',
-    //       mode: 'cors',
-    //       headers: {
-    //         'Accept': 'application/json'
-    //       }
-    //     });
+    async function fetchAndDisplayInventory() {
+      try {
+        const response = await fetch(GAS_WEB_APP_URL, {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
 
-    //     if (!response.ok) {
-    //       throw new Error(`データの取得に失敗しました (${response.status})`);
-    //     }
+        if (!response.ok) {
+          throw new Error(`データの取得に失敗しました (${response.status})`);
+        }
 
-    //     const data = await response.json();
+        const data = await response.json();
         
-    //     // データの検証
-    //     if (!Array.isArray(data)) {
-    //       throw new Error('データの形式が不正です');
-    //     }
+        // データの検証
+        if (!Array.isArray(data)) {
+          throw new Error('データの形式が不正です');
+        }
 
-    //     displayInventory(data);
-    //   } catch (error) {
-    //     console.error('Error:', error);
-    //     showError(error.message);
-    //   }
-    // }
+        displayInventory(data);
+      } catch (error) {
+        console.error('Error:', error);
+        showError(error.message);
+      }
+    }
 
     // 在庫データを表示する関数
-    // function displayInventory(data) {
-    //   const contentDiv = document.getElementById('inventory-content');
-    //   if (!data || data.length === 0) {
-    //     contentDiv.innerHTML = '<div class="error">商品データがありません</div>';
-    //     return;
-    //   }
+    function displayInventory(data) {
+      const contentDiv = document.getElementById('inventory-content');
+      if (!data || data.length === 0) {
+        contentDiv.innerHTML = '<div class="error">商品データがありません</div>';
+        return;
+      }
 
-    //   const list = document.createElement('div');
-    //   list.className = 'inventory-list';
+      const list = document.createElement('div');
+      list.className = 'inventory-list';
 
-    //   data.forEach(item => {
-    //     const card = document.createElement('div');
-    //     card.className = 'inventory-card';
-    //     const status = item.status === '公開中'
-    //       ? '<span style="color: #4CAF50;">在庫あり</span>'
-    //       : '<span style="color: #FF6B6B;">非公開</span>';
-    //     let imageTag = '';
-    //     if (item.imageUrl && String(item.imageUrl).trim() !== '') {
-    //       imageTag = `<img src="${item.imageUrl}" alt="${item.managementNumber}" onerror="this.src='../Image/default.png'">`;
-    //     }
-    //     // 値段のカンマ区切りと税込み
-    //     let priceText = '';
-    //     if (item.price) {
-    //       const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
-    //       priceText = priceNum.toLocaleString() + '円（税込み）';
-    //     }
-    //     // カートに追加ボタン
-    //     const addToCartBtn = `<button class="cart-btn" onclick="addToCart('${encodeURIComponent(item.managementNumber)}','${encodeURIComponent(priceText)}','${encodeURIComponent(item.imageUrl || '')}')">カートに追加</button>`;
-    //     card.innerHTML = `
-    //       ${imageTag}
-    //       <div class="managementNumber">管理番号: ${item.managementNumber}</div>
-    //       <div class="price">${priceText}</div>
-    //       <div class="status">${status}</div>
-    //       <div style="margin-top:1em;">${addToCartBtn}</div>
-    //     `;
-    //     list.appendChild(card);
-    //   });
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'inventory-card';
+        const status = item.status === '公開中'
+          ? '<span style="color: #4CAF50;">在庫あり</span>'
+          : '<span style="color: #FF6B6B;">非公開</span>';
+        let imageTag = '';
+        if (item.imageUrl && String(item.imageUrl).trim() !== '') {
+          imageTag = `<img src="${item.imageUrl}" alt="${item.managementNumber}" onerror="this.src='../Image/default.png'">`;
+        }
+        // 値段のカンマ区切りと税込み
+        let priceText = '';
+        if (item.price) {
+          const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
+          priceText = priceNum.toLocaleString() + '円（税込み）';
+        }
+        // カートに追加ボタン
+        const addToCartBtn = `<button class="cart-btn" onclick="addToCart('${encodeURIComponent(item.managementNumber)}','${encodeURIComponent(priceText)}','${encodeURIComponent(item.imageUrl || '')}')">カートに追加</button>`;
+        card.innerHTML = `
+          ${imageTag}
+          <div class="managementNumber">管理番号: ${item.managementNumber}</div>
+          <div class="price">${priceText}</div>
+          <div class="status">${status}</div>
+          <div style="margin-top:1em;">${addToCartBtn}</div>
+        `;
+        list.appendChild(card);
+      });
 
-    //   contentDiv.innerHTML = '';
-    //   contentDiv.appendChild(list);
-    // }
+      contentDiv.innerHTML = '';
+      contentDiv.appendChild(list);
+      updateCartBox();
+    }
 
     // エラーメッセージを表示する関数
-    // function showError(message) {
-    //   const contentDiv = document.getElementById('inventory-content');
-    //   contentDiv.innerHTML = `
-    //     <div class="error">
-    //       <p>${message}</p>
-    //       <p style="font-size: 0.9em; margin-top: 1em;">
-    //         しばらく時間をおいて再度お試しください。<br>
-    //         問題が解決しない場合は、管理者にお問い合わせください。
-    //       </p>
-    //     </div>
-    //   `;
-    // }
+    function showError(message) {
+      const contentDiv = document.getElementById('inventory-content');
+      contentDiv.innerHTML = `
+        <div class="error">
+          <p>${message}</p>
+          <p style="font-size: 0.9em; margin-top: 1em;">
+            しばらく時間をおいて再度お試しください。<br>
+            問題が解決しない場合は、管理者にお問い合わせください。
+          </p>
+        </div>
+      `;
+    }
 
     // ページ読み込み時に在庫データを取得
-    // document.addEventListener('DOMContentLoaded', fetchAndDisplayInventory);
+    document.addEventListener('DOMContentLoaded', fetchAndDisplayInventory);
 
     // 30分ごとにデータを更新
-    // setInterval(fetchAndDisplayInventory, 30 * 60 * 1000);
+    setInterval(fetchAndDisplayInventory, 30 * 60 * 1000);
 
     // カート管理用
-    // const cart = {};
-    // function addToCart(managementNumber, price, imageUrl) {
-    //   managementNumber = decodeURIComponent(managementNumber);
-    //   price = decodeURIComponent(price);
-    //   imageUrl = decodeURIComponent(imageUrl);
-    //   if (!cart[managementNumber]) {
-    //     cart[managementNumber] = { qty: 1, price: price, imageUrl: imageUrl };
-    //   } else {
-    //     cart[managementNumber].qty++;
-    //   }
-    //   updateCartBox();
-    // }
-    // function changeCartQty(managementNumber, delta) {
-    //   if (cart[managementNumber]) {
-    //     cart[managementNumber].qty += delta;
-    //     if (cart[managementNumber].qty <= 0) delete cart[managementNumber];
-    //   }
-    //   updateCartBox();
-    // }
-    // function removeFromCart(managementNumber) {
-    //   if (cart[managementNumber]) {
-    //     delete cart[managementNumber];
-    //   }
-    //   updateCartBox();
-    // }
-    // function updateCartBox() {
-    //   const cartBox = document.getElementById('cart-box');
-    //   const items = Object.keys(cart);
-    //   if (items.length === 0) {
-    //     cartBox.style.display = 'none';
-    //     cartBox.innerHTML = '';
-    //     return;
-    //   }
-    //   cartBox.style.display = 'block';
-    //   let html = '<div class="cart-title">🛒 カート</div><div class="cart-list">';
-    //   let total = 0;
-    //   items.forEach(managementNumber => {
-    //     const item = cart[managementNumber];
-    //     // 値段の数値部分だけ抜き出して合計計算
-    //     const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
-    //     const subtotal = priceNum * item.qty;
-    //     total += subtotal;
-    //     html += `<div class="cart-item">
-    //       ${item.imageUrl ? `<img src="${item.imageUrl}" class="cart-item-img" alt="${managementNumber}" onerror="this.src='../Image/default.png'">` : ''}
-    //       <div class="cart-item-info">
-    //         <div class="cart-item-name">管理番号: ${managementNumber}</div>
-    //         <div class="cart-item-price">${item.price}</div>
-    //         <div class="cart-qty-box">
-    //           <button class="qty-btn" onclick="changeCartQty('${managementNumber}',-1)">−</button>
-    //           <span>${item.qty}</span>
-    //           <button class="qty-btn" onclick="changeCartQty('${managementNumber}',1)">＋</button>
-    //         </div>
-    //       </div>
-    //       <div class="cart-item-subtotal">${subtotal.toLocaleString()}円（税込み）</div>
-    //       <button class="remove-btn" onclick="removeFromCart('${managementNumber}')">✕</button>
-    //     </div>`;
-    //   });
-    //   html += '</div>';
-    //   html += `<div class="cart-total">合計: ${total.toLocaleString()}円（税込み）</div>`;
-    //   html += '<button class="checkout-btn" disabled>購入手続きへ（Stripe連携予定）</button>';
-    //   cartBox.innerHTML = html;
-    // }
+    const cart = {};
+    function addToCart(managementNumber, price, imageUrl) {
+      managementNumber = decodeURIComponent(managementNumber);
+      price = decodeURIComponent(price);
+      imageUrl = decodeURIComponent(imageUrl);
+      if (!cart[managementNumber]) {
+        cart[managementNumber] = { qty: 1, price: price, imageUrl: imageUrl };
+      } else {
+        cart[managementNumber].qty++;
+      }
+      updateCartBox();
+    }
+    function changeCartQty(managementNumber, delta) {
+      if (cart[managementNumber]) {
+        cart[managementNumber].qty += delta;
+        if (cart[managementNumber].qty <= 0) delete cart[managementNumber];
+      }
+      updateCartBox();
+    }
+    function removeFromCart(managementNumber) {
+      if (cart[managementNumber]) {
+        delete cart[managementNumber];
+      }
+      updateCartBox();
+    }
+    function updateCartBox() {
+      const cartBox = document.getElementById('cart-box');
+      const items = Object.keys(cart);
+      if (items.length === 0) {
+        cartBox.style.display = 'none';
+        cartBox.innerHTML = '';
+        return;
+      }
+      cartBox.style.display = 'block';
+      let html = '<div class="cart-title">🛒 カート</div><div class="cart-list">';
+      let total = 0;
+      items.forEach(managementNumber => {
+        const item = cart[managementNumber];
+        // 値段の数値部分だけ抜き出して合計計算
+        const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
+        const subtotal = priceNum * item.qty;
+        total += subtotal;
+        html += `<div class="cart-item">
+          ${item.imageUrl ? `<img src="${item.imageUrl}" class="cart-item-img" alt="${managementNumber}" onerror="this.src='../Image/default.png'">` : ''}
+          <div class="cart-item-info">
+            <div class="cart-item-name">管理番号: ${managementNumber}</div>
+            <div class="cart-item-price">${item.price}</div>
+            <div class="cart-qty-box">
+              <button class="qty-btn" onclick="changeCartQty('${managementNumber}',-1)">−</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn" onclick="changeCartQty('${managementNumber}',1)">＋</button>
+            </div>
+          </div>
+          <div class="cart-item-subtotal">${subtotal.toLocaleString()}円（税込み）</div>
+          <button class="remove-btn" onclick="removeFromCart('${managementNumber}')">✕</button>
+        </div>`;
+      });
+      html += '</div>';
+      html += `<div class="cart-total">合計: ${total.toLocaleString()}円（税込み）</div>`;
+      html += '<button class="checkout-btn" disabled>購入手続きへ（Stripe連携予定）</button>';
+      cartBox.innerHTML = html;
+    }
   </script>
 </body>
 </html> 

@@ -210,6 +210,36 @@
             font-size: 0.95rem;
             margin-top: 0.2rem;
         }
+        .nav-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            background: var(--color-background);
+            color: var(--color-text);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--color-border);
+        }
+        .nav-button:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .nav-button.active {
+            background: var(--color-primary);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -268,6 +298,13 @@
                 </form>
             </div>
         </div>
+    </div>
+    <div class="nav-buttons">
+      <a href="index.html" class="nav-button">🏠 ホーム</a>
+      <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサー定期便</a>
+      <a href="buy_products.html" class="nav-button">🛒 商品を購入する</a>
+      <a href="inventory.html" class="nav-button">取り扱い生地</a>
+      <a href="patchwork_kit_website.html" class="nav-button preparing-btn">✨ よりそいクラフト <span class="preparing-badge">準備中</span></a>
     </div>
     <script type="module">
     // Firebase SDK v9+ modular import

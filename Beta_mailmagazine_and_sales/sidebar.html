@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+<body>
+  <h3>メルマガ作成する</h3>
+  <div>
+    <label for="monthSelect">何月分を作りますか？</label>
+    <select id="monthSelect"></select>
+    <button onclick="preview()">作成する</button>
+  </div>
+  <div id="previewArea" style="margin-top:20px;"></div>
+
+  <script>
+    // 年月リストを取得してプルダウンにセット
+    google.script.run.withSuccessHandler(function(months) {
+      var select = document.getElementById('monthSelect');
+      months.forEach(function(month) {
+        var option = document.createElement('option');
+        option.value = month;
+        option.textContent = month;
+        select.appendChild(option);
+      });
+    }).getMagazineMonths();
+
+    // プレビュー表示
+    function preview() {
+      var month = document.getElementById('monthSelect').value;
+      google.script.run.withSuccessHandler(function(html) {
+        document.getElementById('previewArea').innerHTML = html;
+      }).getMagazineHtml(month);
+    }
+  </script>
+</body>
+</html>
