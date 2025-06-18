@@ -1,0 +1,143 @@
+//　入力データを過去在庫データとして保存するボタンの指示
+
+/**
+ * 入力シートのA列からF列のデータを
+ * 商品データ履歴シートのA列からH列の最終行に追記する関数。
+ */
+function appendDataToProductHistory() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+
+  // 入力シートと商品データ履歴シートを取得
+  const inputSheet = spreadsheet.getSheetByName('入力シート');
+  const productHistorySheet = spreadsheet.getSheetByName('商品データ履歴');
+
+  if (!inputSheet) {
+    Browser.msgBox('エラー', '「入力シート」が見つかりませんでした。シート名を確認してください。', Browser.Buttons.OK);
+    return;
+  }
+  if (!productHistorySheet) {
+    Browser.msgBox('エラー', '「商品データ履歴」シートが見つかりませんでした。シート名を確認してください。', Browser.Buttons.OK);
+    return;
+  }
+
+  // 入力シートのA列からF列までの最終行のデータを取得
+  // ヘッダー行をスキップするため、2行目から最終行まで
+  const lastRowInput = inputSheet.getLastRow();
+  if (lastRowInput < 2) {
+    // ヘッダー行しかない、またはデータがない場合
+    Browser.msgBox('情報', '入力シートに新しいデータがありません（2行目以降）。', Browser.Buttons.OK);
+    return;
+  }
+
+  // A2からF列の最終行までを範囲として取得
+  const rangeToCopy = inputSheet.getRange(2, 1, lastRowInput - 1, 6); // 開始行2, 開始列1(A), 行数(lastRowInput - 1), 列数6(Fまで)
+  const dataToCopy = rangeToCopy.getValues();
+
+  // データが空の場合のチェック (念のため)
+  if (dataToCopy.length === 0) {
+    Browser.msgBox('情報', '入力シートの指定範囲にデータがありません。', Browser.Buttons.OK);
+    return;
+  }
+
+  // データの検証
+  const validationResults = validateData(dataToCopy);
+  if (!validationResults.isValid) {
+    Browser.msgBox('エラー', `以下の行に必須項目が抜けています：\n${validationResults.errorMessage}`, Browser.Buttons.OK);
+    return;
+  }
+
+  // 商品データ履歴シートの最終行を取得し、その次の行からデータを追記
+  const lastRowProductHistory = productHistorySheet.getLastRow();
+  // 追記する最初の行（既存データの次の行）
+  const targetStartRow = lastRowProductHistory + 1;
+
+  // 追記する範囲を特定 (A列からH列まで)
+  // 入力シートはF列までですが、商品データ履歴シートはH列まであるため、
+  // 不足しているG, H列は空になります。
+  // 必要であれば、ここでG列（アップロード日）とH列（アーカイブ日）のデータを生成して追加することも可能です。
+
+  // データにアップロード日とアーカイブ日を追加する処理例
+  const now = new Date();
+  const todayFormatted = Utilities.formatDate(now, SpreadsheetApp.getActiveSpreadsheet().getSpreadsheetTimeZone(), 'yyyy/MM/dd');
+
+  const dataWithDates = dataToCopy.map(row => {
+    // row は A〜F 列のデータ
+    const newRow = [...row]; // 既存の A-F 列のデータをコピー
+
+    // G列: アップロード日 (今日の日付)
+    // H列: アーカイブ日 (空欄、または必要なら何か設定)
+    // ※ スプレッドシートの列順とkeyMapの定義を考慮してください
+    // 例えば、keyMapが {"アップロード日": "uploadDate", "アーカイブ日": "archiveDate"} の場合
+    // スプレッドシートのG列がアップロード日、H列がアーカイブ日だとすると、
+    // ここで newRow[6] がG列、newRow[7] がH列に相当します。
+    newRow[6] = todayFormatted; // G列に今日の日付を設定
+    newRow[7] = ''; // H列は空に設定、必要なら変更
+
+    // 商品データ履歴シートの列数に合わせて調整してください。
+    // 今回はA-H列なので、6番目(インデックス6)がG列、7番目(インデックス7)がH列。
+    // スプレッドシートの列数より多く追加するとエラーになる可能性があります。
+    return newRow;
+  });
+
+  // データを商品データ履歴シートに貼り付け
+  productHistorySheet.getRange(targetStartRow, 1, dataWithDates.length, dataWithDates[0].length).setValues(dataWithDates);
+
+  // 処理完了メッセージ（必要であれば）
+  Browser.msgBox('完了', '入力シートのデータが商品データ履歴シートに追記されました。', Browser.Buttons.OK);
+
+  // 追記後、入力シートの2行目以降のデータをクリアする (有効化)
+  inputSheet.getRange(2, 1, lastRowInput - 1, 6).clearContent();
+  Browser.msgBox('完了', '入力シートのデータが商品データ履歴シートに追記され、入力シートがクリアされました。', Browser.Buttons.OK);
+}
+
+/**
+ * データの検証を行う関数
+ * @param {Array} data - 検証するデータの配列
+ * @return {Object} 検証結果（isValid: 有効かどうか, errorMessage: エラーメッセージ）
+ */
+function validateData(data) {
+  const errors = [];
+  
+  data.forEach((row, index) => {
+    const rowNumber = index + 2; // 実際の行番号（2行目から開始）
+    const missingFields = [];
+    
+    // 各列の必須チェック
+    if (!row[0]) missingFields.push('A列');
+    if (!row[1]) missingFields.push('B列');
+    if (!row[2]) missingFields.push('C列');
+    if (!row[3]) missingFields.push('D列');
+    if (!row[4]) missingFields.push('E列');
+    if (!row[5]) missingFields.push('F列');
+    
+    if (missingFields.length > 0) {
+      errors.push(`${rowNumber}行目: ${missingFields.join(', ')}が未入力です`);
+    }
+  });
+  
+  return {
+    isValid: errors.length === 0,
+    errorMessage: errors.join('\n')
+  };
+}
+
+// ---------------------------------------------------------------------------------------------
+// 【GASのスクリプトエディタでの設定方法】
+// 1. Google スプレッドシートを開き、「拡張機能」->「Apps Script」をクリックします。
+// 2. 開いたスクリプトエディタに、上記のコードを貼り付けます。
+// 3. ファイル名は何でも良いですが、例えば `DataTransfer.gs` などとします。
+// 4. コードの上部にある再生ボタン（▶）をクリックして関数を実行します。
+//    初回実行時には、Googleアカウントへの承認を求められますので、指示に従って承認してください。
+//    （「権限が必要です」→「自分のアカウントを選択」→「詳細」→「〇〇に移動」）
+// 5. 実行ログを確認し、エラーがないか、またはメッセージボックスが表示されるか確認します。
+// 6. スプレッドシートの「商品データ履歴」シートにデータが追加されたか確認します。
+//
+// 【自動実行の設定（トリガー）】
+// 1. スクリプトエディタの左側にある時計アイコン（トリガー）をクリックします。
+// 2. 右下の「トリガーを追加」ボタンをクリックします。
+// 3. 設定項目:
+//    - 実行する関数を選択: `appendDataToProductHistory`
+//    - イベントのソースを選択: （目的に応じて選択。例: 「時間主導型」で毎日特定の時間に実行、
+//                                      「スプレッドシートから」で「フォーム送信時」など）
+// 4. 「保存」をクリックします。
+// ---------------------------------------------------------------------------------------------}
