@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品一覧・取り扱い生地 | MC Square</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #FF6B6B;
+      --color-secondary: #FFB347;
+      --color-background: #FFF5F0;
+      --color-background-alt: #FFF0E8;
+      --color-text: #2D3436;
+      --color-text-light: #636E72;
+      --color-border: #FFD4C4;
+      --color-accent: #FF9F7C;
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 2rem;
+      --spacing-lg: 3rem;
+      --spacing-xl: 5rem;
+      --border-radius: 20px;
+      --shadow-sm: 0 4px 8px rgba(255, 159, 124, 0.08);
+      --shadow-md: 0 8px 16px rgba(255, 159, 124, 0.12);
+      --shadow-lg: 0 16px 24px rgba(255, 159, 124, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--color-text);
+      background: var(--color-background);
+      background-image: 
+        radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding-top: 120px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: var(--color-background-alt);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+    }
+    header {
+      background: var(--color-background-alt);
+      padding: var(--spacing-md) 0;
+      margin-bottom: var(--spacing-xl);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--color-primary);
+      margin-bottom: var(--spacing-xs);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 2px 8px rgba(255,107,107,0.10);
+      font-family: 'Noto Sans JP', 'Segoe UI', 'Arial', sans-serif;
+    }
+    .theme-message {
+      text-align: center;
+      font-size: 1.15rem;
+      color: var(--color-primary);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      letter-spacing: 0.08em;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-md);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      background: var(--color-background);
+      color: var(--color-text);
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      border: 1px solid var(--color-border);
+    }
+    .nav-button:hover {
+      background: var(--color-primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .nav-button.active {
+      background: var(--color-primary);
+      color: white;
+    }
+    @media (max-width: 768px) {
+      .container { padding: var(--spacing-md); }
+      .nav-buttons { flex-direction: column; }
+      .nav-button { width: 100%; justify-content: center; }
+      body { padding-top: 100px; }
+      header { position: static !important; top: auto !important; z-index: auto !important; }
+    }
+    /* --- featured products --- */
+    .main-content {
+      background: var(--color-background-alt);
+      padding: var(--spacing-xl);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--spacing-xl);
+      border: 1px solid var(--color-border);
+    }
+    .service-title {
+      font-size: 1.5rem;
+      color: var(--color-text);
+      margin-bottom: var(--spacing-sm);
+      font-weight: 700;
+    }
+    .service-desc {
+      color: var(--color-text-light);
+      margin-bottom: var(--spacing-md);
+      line-height: 1.8;
+    }
+    .featured-product {
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      transition: all 0.3s ease;
+    }
+    .featured-product:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .featured-product h2 {
+      color: var(--color-text);
+      margin-top: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+    }
+    .featured-product .price {
+      font-size: 1.25rem;
+      color: var(--color-primary);
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+    }
+    .featured-product ul {
+      margin: var(--spacing-sm) 0;
+      padding-left: var(--spacing-md);
+    }
+    .featured-product li {
+      color: var(--color-text-light);
+      margin-bottom: var(--spacing-xs);
+    }
+    .shop-link {
+      display: inline-flex;
+      align-items: center;
+      background: var(--color-primary);
+      color: white;
+      font-weight: 500;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      margin-top: var(--spacing-md);
+    }
+    .shop-link:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    /* --- inventory section --- */
+    .inventory-section {
+      margin: 3rem 0 2rem 0;
+      background: var(--color-background-alt);
+      border-radius: var(--border-radius);
+      padding: 2.2rem 2rem 2rem 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      text-align: center;
+    }
+    .inventory-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .inventory-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(255, 159, 124, 0.10);
+      border: 1px solid #FFD4C4;
+      width: 320px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .inventory-card:hover {
+      box-shadow: 0 8px 24px rgba(255, 159, 124, 0.18);
+    }
+    .inventory-card img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      border: 1px solid #FFD4C4;
+      margin-bottom: 1rem;
+      background: #f8f8f8;
+    }
+    .inventory-card .managementNumber {
+      color: #636E72;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+    .inventory-card .price {
+      color: #FF6B6B;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .inventory-card .status {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    /* --- purchase request --- */
+    .purchase-request {
+      margin: 3rem auto 2rem auto;
+      max-width: 600px;
+      background: var(--color-background-alt);
+      border-radius: var(--border-radius);
+      padding: 2.2rem 2rem 2rem 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      text-align: center;
+    }
+    /* --- contact --- */
+    .contact {
+      background: var(--color-background-alt);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      margin-top: var(--spacing-xl);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      opacity: 0.5;
+    }
+    .contact a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+    /* --- footer --- */
+    footer {
+      text-align: center;
+      padding: var(--spacing-lg);
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+      margin-top: var(--spacing-xl);
+    }
+    .instagram-btn {
+      background: #fff;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+      font-weight: 700;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+    }
+    .instagram-btn:hover {
+      background: var(--color-primary);
+      color: #fff;
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* --- 写真ズーム機能 --- */
+    .zoomable-image {
+      cursor: zoom-in;
+      transition: transform 0.2s ease;
+    }
+    
+    .zoomable-image:hover {
+      transform: scale(1.02);
+    }
+    
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      position: relative;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+    }
+    
+    .modal-image {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      cursor: grab;
+      transition: transform 0.3s ease;
+    }
+    
+    .modal-image:active {
+      cursor: grabbing;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+    
+    .close-modal:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .zoom-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 1001;
+    }
+    
+    .zoom-btn {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    
+    .zoom-btn:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .zoom-info {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #f1f1f1;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      z-index: 1001;
+    }
+    
+    @media (max-width: 768px) {
+      .modal-image {
+        max-width: 95%;
+        max-height: 80%;
+      }
+      
+      .close-modal {
+        top: 10px;
+        right: 15px;
+        font-size: 30px;
+        width: 40px;
+        height: 40px;
+      }
+      
+      .zoom-controls {
+        bottom: 10px;
+        gap: 5px;
+      }
+      
+      .zoom-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+      
+      .zoom-info {
+        top: 10px;
+        left: 10px;
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+    }
+    
+    /* --- サブスクリプション詳細モーダル --- */
+    .subscription-modal,
+    .subscription-modal-content,
+    .subscription-header,
+    .subscription-close,
+    .subscription-body,
+    .subscription-image,
+    .subscription-description,
+    .subscription-highlight,
+    .subscription-features,
+    .subscription-actions,
+    .subscription-btn,
+    .subscription-btn.primary,
+    .subscription-btn.primary:hover,
+    .subscription-btn.secondary,
+    .subscription-btn.secondary:hover {
+      display: none !important;
+    }
+    /* ↑一時的に全て非表示にしておきます（後で完全削除） */
+
+    /* --- アコーディオンボタン --- */
+    .accordion-toggle {
+      background: var(--color-background);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      border-radius: 999px;
+      padding: 0.5em 1.5em;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 1em 0 0.5em 0;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .accordion-toggle:hover, .accordion-toggle.active {
+      background: var(--color-primary);
+      color: #fff;
+    }
+    .accordion-detail {
+      animation: fadeInAccordion 0.3s;
+    }
+    @keyframes fadeInAccordion {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="Image/MC square Logo.png" alt="MC Square ロゴ" style="max-width: 120px; display: block; margin: 0 auto var(--spacing-sm) auto;">
+      <div class="logo">MC Square</div>
+      <div class="theme-message">いいものはいつまでも</div>
+      <div class="nav-buttons">
+        <a href="index.html" class="nav-button">🏠 ホーム</a>
+        <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサーコラボ</a>
+        <a href="#all-products" class="nav-button active">🛒 商品一覧・生地</a>
+        <a href="patchwork_kit_website.html" class="nav-button preparing-btn">✨ よりそいクラフト <span class="preparing-badge">準備中</span></a>
+      </div>
+    </header>
+
+    <!-- おすすめ商品セクション -->
+    <section class="main-content" id="all-products">
+      <div class="service-title">MC Squareのおすすめ商品をオンラインでご購入いただけます。</div>
+      <div class="service-desc">
+        毎月入荷するUSA・国産の新柄布や、人気の手芸キットなど、さまざまな商品を取り揃えています。<br>
+        下記のボタンからオンラインショップ（BASE）にアクセスして、気になる商品をぜひご覧ください。
+      </div>
+      <div class="featured-product">
+        <h2>国産コットン マンスリー</h2>
+        <img src="Image/JP Cotton subscription.png" alt="JP Cotton subscription" class="zoomable-image" style="max-width: 100%; border-radius: var(--border-radius); margin-bottom: var(--spacing-sm); box-shadow: var(--shadow-sm); border: 1px solid var(--color-border);">
+        <div class="price">¥1,815 税込</div>
+        <button class="accordion-toggle" type="button" onclick="toggleAccordion('jp')"><span id="jp-toggle-icon">＋</span> 詳細を見る</button>
+        <div class="accordion-detail" id="jp-detail" style="display:none;">
+          <div style="margin:1.2em 0; color:var(--color-text); font-size:1.05rem;">
+            ご購入月の最新国産コットンを１５種類お届けします。著名デザイナー、メーカーオリジナル、数量限定柄などエムシースクエアがお勧めする最新国産カットクロスをお届けします。
+          </div>
+          <ul style="margin-bottom:1em;">
+            <li>２０ｃｍｘ３０ｃｍの最新国産コットンのカットクロスを１５枚</li>
+            <li>発送運賃</li>
+            <li>新商品情報</li>
+          </ul>
+          <div style="background:#fff7f2; border-radius:12px; padding:1em; color:#E1306C; margin-bottom:1em;">
+            <b>量販店などではあまり見かけない、最新で珍しい国産コットンを是非お手に取ってご覧ください。</b>
+          </div>
+          <a href="https://mcsquare.thebase.in/items/101744201" class="shop-link" target="_blank">BASEで詳細・購入</a>
+        </div>
+      </div>
+      <div class="featured-product">
+        <h2>アメリカンコットン マンスリー</h2>
+        <img src="Image/US Cotton subscription.png" alt="US Cotton subscription" class="zoomable-image" style="max-width: 100%; border-radius: var(--border-radius); margin-bottom: var(--spacing-sm); box-shadow: var(--shadow-sm); border: 1px solid var(--color-border);">
+        <div class="price">¥2,475 税込</div>
+        <button class="accordion-toggle" type="button" onclick="toggleAccordion('us')"><span id="us-toggle-icon">＋</span> 詳細を見る</button>
+        <div class="accordion-detail" id="us-detail" style="display:none;">
+          <div style="margin:1.2em 0; color:var(--color-text); font-size:1.05rem;">
+            この商品は送料無料です。ご購入月の最新アメリカンコットンを１５種類お届けします。量販店などでは見かけない珍しい、そして貴重なアメリカンコットンで手づくりを楽しんでみませんか！長年アメリカンコットンを扱うエムシースクエアならではの企画です。おなじみのインフルエンサーさん、クリエーターさんおすすめの生地も入っています。
+          </div>
+          <ul style="margin-bottom:1em;">
+            <li>２０ｃｍｘ３０ｃｍの最新アメリカンコットンのカットクロスを１５枚</li>
+            <li>発送運賃</li>
+            <li>新商品情報</li>
+          </ul>
+          <div style="background:#fff7f2; border-radius:12px; padding:1em; color:#E1306C; margin-bottom:1em;">
+            <b>Free spirits, Michael Miller, Benartex などなど最新で珍しいアメリカンコットンを是非お手に取ってご覧ください。</b>
+          </div>
+          <a href="https://mcsquare.thebase.in/items/101742800" class="shop-link" target="_blank">BASEで詳細・購入</a>
+        </div>
+      </div>
+      <div style="text-align: center; margin: var(--spacing-lg) 0;">
+        <a href="https://mcsquare.thebase.in/" class="shop-link" target="_blank">BASEショップでほかの商品を見る</a>
+        <a href="https://www.instagram.com/mc.square_official/" class="shop-link instagram-btn" target="_blank" rel="noopener noreferrer" style="margin-left: 1rem;">
+          <svg width="18" height="18" viewBox="0 0 448 512" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 0.5rem;"><rect width="448" height="512" rx="100" fill="#fff"/><path d="M224 144c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm88-136c0 13.3-10.7 24-24 24s-24-10.7-24-24 10.7-24 24-24 24 10.7 24 24zm76 24c-1.7-35.3-9.9-66.7-36.2-92.9C370.7 9.9 339.3 1.7 304 0 269.3-1.7 178.7-1.7 144 0 108.7 1.7 77.3 9.9 51 36.2 24.7 62.5 16.5 93.9 14.8 128.2 13.1 162.9 13.1 253.5 14.8 288.2c1.7 35.3 9.9 66.7 36.2 92.9 26.3 26.3 57.7 34.5 92.9 36.2 34.7 1.7 125.3 1.7 160 0 35.3-1.7 66.7-9.9 92.9-36.2 26.3-26.3 34.5-57.7 36.2-92.9 1.7-34.7 1.7-125.3 0-160zm-48 218c-7.8 19.6-22.9 34.7-42.5 42.5-29.4 11.7-99.2 9-132.5 9s-103.1 2.6-132.5-9c-19.6-7.8-34.7-22.9-42.5-42.5-11.7-29.4-9-99.2-9-132.5s-2.6-103.1 9-132.5c7.8-19.6 22.9-34.7 42.5-42.5 29.4-11.7 99.2-9 132.5-9s103.1-2.6 132.5 9c19.6 7.8 34.7 22.9 42.5 42.5 11.7 29.4 9 99.2 9 132.5s2.6 103.1-9 132.5z" fill="#E1306C"/><circle cx="224" cy="224" r="64" fill="#E1306C"/></svg>
+          Instagramをチェックする
+        </a>
+      </div>
+      <div class="notice-box" style="margin-bottom:2.5rem;">
+        <strong>【ご注意】</strong><br>
+        小売りの販売はBASEショップを通じて行っていますが、インスタグラム等でご紹介した布がBASEに掲載されていない場合もございます。その際は、お気軽に直接お問い合わせください。
+      </div>
+    </section>
+
+    <!-- 取り扱い生地セクション -->
+    <section class="inventory-section">
+      <h2 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.2rem;">取り扱い生地一覧</h2>
+      <div style="font-size: 1.08rem; color: var(--color-text); margin-bottom: 1.2rem;">
+        新入荷生地や在庫状況は随時更新しています。気になる生地があればお気軽にお問い合わせください。
+      </div>
+      <div style="background: #fff7f2; border-radius: 12px; padding: 1em 1em; color: #E1306C; font-size: 1.05rem; margin-bottom: 1.2rem;">
+        <b>【ご注意】</b><br>
+        <span style="color:#E1306C;">最新の生地はBASEショップには掲載されていません。<br>
+        これらの生地をご購入希望の場合は、下記の「購入依頼はこちら」ボタンよりGoogleフォームからご依頼ください。</span>
+      </div>
+      <div id="inventory-content">
+        <div class="loading">データを読み込み中...</div>
+      </div>
+    </section>
+
+    <!-- 購入依頼・ご案内 -->
+    <div class="purchase-request">
+      <h2 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.2rem;">ご購入依頼について</h2>
+      <p style="font-size: 1.08rem; color: var(--color-text); margin-bottom: 1.2rem;">
+        商品のご購入をご希望の方は、下記の「購入依頼はこちら」ボタンよりお申し込みください。<br>
+        <span style="color: var(--color-primary); font-weight: 600;">現在、お支払い方法は銀行振込のみ</span>となっております。<br>
+        クレジットカードでのお支払いは準備中のため、ご不便をおかけし誠に申し訳ございません。<br>
+        対応でき次第、随時ご案内いたします。
+      </p>
+      <div style="margin-bottom: 1.2rem;">
+        <a href="https://forms.gle/aivSY6cpCm3fkHgN8" class="nav-button" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5em;background:var(--color-primary);color:white;font-size:1.1rem;font-weight:700;padding:0.9em 2em;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="white"/>
+          </svg>
+          <span>購入依頼はこちら</span>
+        </a>
+      </div>
+      <div style="background: #fff7f2; border-radius: 12px; padding: 1.1em 1em; color: #636E72; font-size: 1.01rem; text-align: left; display: inline-block; max-width: 95%;">
+        <b>ご購入の流れ：</b><br>
+        ① <b>購入依頼</b>（上記ボタンからフォーム送信）<br>
+        ② <b>在庫確認＆料金・振込先のご連絡</b>（担当者よりメール等でご案内）<br>
+        ③ <b>お支払い（銀行振込）</b><br>
+        ④ <b>ご入金確認後、商品を郵送</b>
+      </div>
+    </div>
+
+    <!-- お問い合わせ -->
+    <div class="contact">
+      <strong>【お問合せ先】</strong><br>
+      〒244-0811 神奈川県横浜市戸塚区上柏尾町132-3 SKビル2階<br>
+      TEL：045-410-7023　FAXフリーダイヤル：0120-535-596<br>
+      E-mail：<a href="mailto:pr@mcsquare.co.jp">pr@mcsquare.co.jp</a>
+    </div>
+
+    <footer>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScUNnYhzBIJV4UU-AAZJ0RDmeU5pRgWy3fEh5BkHF6VKnOPTw/viewform?usp=header" class="nav-button" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5em;margin-bottom:1.5rem;background:var(--color-primary);color:white;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="white"/>
+        </svg>
+        <span style="font-weight:700;">メルマガ登録</span>
+      </a>
+      <a href="https://www.instagram.com/mc.square_official/reels/" class="instagram-btn" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5em;margin-bottom:1.5rem;">
+        <svg width="22" height="22" viewBox="0 0 448 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="448" height="512" rx="100" fill="#fff"/><path d="M224 144c-44.2 0-80 35.8-80 80s35.8 80 80 80 80-35.8 80-80-35.8-80-80-80zm0 128c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm88-136c0 13.3-10.7 24-24 24s-24-10.7-24-24 10.7-24 24-24 24 10.7 24 24zm76 24c-1.7-35.3-9.9-66.7-36.2-92.9C370.7 9.9 339.3 1.7 304 0 269.3-1.7 178.7-1.7 144 0 108.7 1.7 77.3 9.9 51 36.2 24.7 62.5 16.5 93.9 14.8 128.2 13.1 162.9 13.1 253.5 14.8 288.2c1.7 35.3 9.9 66.7 36.2 92.9 26.3 26.3 57.7 34.5 92.9 36.2 34.7 1.7 125.3 1.7 160 0 35.3-1.7 66.7-9.9 92.9-36.2 26.3-26.3 34.5-57.7 36.2-92.9 1.7-34.7 1.7-125.3 0-160zm-48 218c-7.8 19.6-22.9 34.7-42.5 42.5-29.4 11.7-99.2 9-132.5 9s-103.1 2.6-132.5-9c-19.6-7.8-34.7-22.9-42.5-42.5-11.7-29.4-9-99.2-9-132.5s-2.6-103.1 9-132.5c7.8-19.6 22.9-34.7 42.5-42.5 29.4-11.7 99.2-9 132.5-9s103.1-2.6 132.5 9c19.6 7.8 34.7 22.9 42.5 42.5 11.7 29.4 9 99.2 9 132.5s2.6 103.1-9 132.5z" fill="#E1306C"/><circle cx="224" cy="224" r="64" fill="#E1306C"/></svg>
+        <span style="font-weight:700;color:#E1306C;">Instagram</span>
+      </a>
+      <p>&copy; 2025 MC Square. All rights reserved.</p>
+    </footer>
+  </div>
+  
+  <!-- 画像ズームモーダル -->
+  <div id="imageModal" class="image-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <img id="modalImage" class="modal-image" src="" alt="">
+      <div class="zoom-info">
+        <span id="zoomLevel">100%</span> | ドラッグで移動 | ホイールでズーム
+      </div>
+      <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomIn()">+</button>
+        <button class="zoom-btn" onclick="zoomOut()">-</button>
+        <button class="zoom-btn" onclick="resetZoom()">リセット</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // GASウェブアプリのURLを設定
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
+
+    // 在庫データを取得して表示する関数
+    async function fetchAndDisplayInventory() {
+      try {
+        const response = await fetch(GAS_WEB_APP_URL, {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`データの取得に失敗しました (${response.status})`);
+        }
+
+        const data = await response.json();
+        if (!Array.isArray(data)) {
+          throw new Error('データの形式が不正です');
+        }
+        displayInventory(data);
+      } catch (error) {
+        console.error('Error:', error);
+        showError(error.message);
+      }
+    }
+
+    function getImageUrl(imgValue) {
+      if (!imgValue) {
+        return 'Image/MC square Logo.png';
+      }
+      if (typeof imgValue === 'string' && imgValue.startsWith('http')) {
+        return imgValue;
+      }
+      return `https://drive.google.com/uc?export=view&id=${imgValue}`;
+    }
+
+    function displayInventory(data) {
+      const contentDiv = document.getElementById('inventory-content');
+      if (!data || data.length === 0) {
+        contentDiv.innerHTML = '<div class="error">商品データがありません</div>';
+        return;
+      }
+      const list = document.createElement('div');
+      list.className = 'inventory-list';
+      data.forEach(item => {
+        if (item.status !== '公開中') return;
+        const card = document.createElement('div');
+        card.className = 'inventory-card';
+        let imageTag = '';
+        if (item.imageUrl && String(item.imageUrl).trim() !== '') {
+          imageTag = `<img src="${item.imageUrl}" alt="${item.managementNumber}" class="zoomable-image" onerror="this.src='Image/default.png'">`;
+        }
+        let priceText = '';
+        if (item.price) {
+          const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
+          priceText = priceNum.toLocaleString() + '円（税込み）';
+        }
+        card.innerHTML = `
+          ${imageTag}
+          <div class="managementNumber">管理番号: ${item.managementNumber}</div>
+          <div class="price">${priceText}</div>
+          <div class="status"><span style='color: #4CAF50;'>在庫あり</span></div>
+        `;
+        list.appendChild(card);
+      });
+      contentDiv.innerHTML = '';
+      contentDiv.appendChild(list);
+    }
+    function showError(message) {
+      const contentDiv = document.getElementById('inventory-content');
+      contentDiv.innerHTML = `
+        <div class="error">
+          <p>${message}</p>
+          <p style="font-size: 0.9em; margin-top: 1em;">
+            しばらく時間をおいて再度お試しください。<br>
+            問題が解決しない場合は、管理者にお問い合わせください。
+          </p>
+        </div>
+      `;
+    }
+    document.addEventListener('DOMContentLoaded', fetchAndDisplayInventory);
+    setInterval(fetchAndDisplayInventory, 30 * 60 * 1000);
+    
+    // --- 画像ズーム機能 ---
+    let currentZoom = 1;
+    let isDragging = false;
+    let startX, startY, translateX = 0, translateY = 0;
+    
+    // モーダル要素
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.querySelector('.close-modal');
+    const zoomLevel = document.getElementById('zoomLevel');
+    
+    // ズーム可能な画像にクリックイベントを追加
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('zoomable-image')) {
+        openModal(e.target.src, e.target.alt);
+      }
+    });
+    
+    // モーダルを開く
+    function openModal(src, alt) {
+      modal.style.display = 'block';
+      modalImg.src = src;
+      modalImg.alt = alt;
+      resetZoom();
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // モーダルを閉じる
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      resetZoom();
+    }
+    
+    // ズームイン
+    function zoomIn() {
+      currentZoom = Math.min(currentZoom * 1.2, 5);
+      updateZoom();
+    }
+    
+    // ズームアウト
+    function zoomOut() {
+      currentZoom = Math.max(currentZoom / 1.2, 0.1);
+      updateZoom();
+    }
+    
+    // ズームリセット
+    function resetZoom() {
+      currentZoom = 1;
+      translateX = 0;
+      translateY = 0;
+      updateZoom();
+    }
+    
+    // ズーム更新
+    function updateZoom() {
+      modalImg.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
+      zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+    }
+    
+    // マウスホイールでズーム
+    modal.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      if (e.deltaY < 0) {
+        zoomIn();
+      } else {
+        zoomOut();
+      }
+    });
+    
+    // ドラッグ開始
+    modalImg.addEventListener('mousedown', function(e) {
+      if (currentZoom > 1) {
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+        modalImg.style.cursor = 'grabbing';
+      }
+    });
+    
+    // ドラッグ中
+    document.addEventListener('mousemove', function(e) {
+      if (isDragging) {
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateZoom();
+      }
+    });
+    
+    // ドラッグ終了
+    document.addEventListener('mouseup', function() {
+      isDragging = false;
+      modalImg.style.cursor = 'grab';
+    });
+    
+    // タッチデバイス対応
+    let touchStartX, touchStartY;
+    
+    modalImg.addEventListener('touchstart', function(e) {
+      if (currentZoom > 1) {
+        const touch = e.touches[0];
+        touchStartX = touch.clientX - translateX;
+        touchStartY = touch.clientY - translateY;
+      }
+    });
+    
+    modalImg.addEventListener('touchmove', function(e) {
+      if (currentZoom > 1) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        translateX = touch.clientX - touchStartX;
+        translateY = touch.clientY - touchStartY;
+        updateZoom();
+      }
+    });
+    
+    // ピンチズーム対応
+    let initialDistance = 0;
+    let initialZoom = 1;
+    
+    modalImg.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        initialDistance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        initialZoom = currentZoom;
+      }
+    });
+    
+    modalImg.addEventListener('touchmove', function(e) {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const distance = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        currentZoom = Math.max(0.1, Math.min(5, initialZoom * (distance / initialDistance)));
+        updateZoom();
+      }
+    });
+    
+    // イベントリスナー
+    closeBtn.addEventListener('click', closeModal);
+    
+    // ESCキーでモーダルを閉じる
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeModal();
+      }
+    });
+    
+    // モーダル背景クリックで閉じる
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    /* --- アコーディオンボタン --- */
+    function toggleAccordion(type) {
+      const detail = document.getElementById(type + '-detail');
+      const icon = document.getElementById(type + '-toggle-icon');
+      const btn = icon.parentElement;
+      if (detail.style.display === 'none' || detail.style.display === '') {
+        detail.style.display = 'block';
+        icon.textContent = '－';
+        btn.classList.add('active');
+      } else {
+        detail.style.display = 'none';
+        icon.textContent = '＋';
+        btn.classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html> 
