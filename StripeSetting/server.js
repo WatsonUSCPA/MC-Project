@@ -42,7 +42,9 @@ router.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-app.use('/api/', router);
+// app.useのパスを修正
+// 受付係(Netlify)が/api/を処理してくれるので、サーバーは/api/を意識しないようにする
+app.use('/', router);
 
 // Netlifyで実行するためのエクスポート
 module.exports.handler = serverless(app);
