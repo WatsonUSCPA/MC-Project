@@ -1,0 +1,15 @@
+# Netlifyの基本的なビルド設定
+[build]
+  # プロジェクトのルートディレクトリ（HTMLなどがある場所）
+  publish = "."
+  # サーバープログラム（関数）がある場所
+  functions = "StripeSetting/"
+
+# サーバーへのアクセスを簡単にするためのリダイレクト設定
+[[redirects]]
+  # /api/ へのアクセスを、
+  from = "/api/*"
+  # サーバープログラムに繋ぎます
+  to = "/.netlify/functions/server/:splat"
+  # ステータスコード200は「成功」を意味します
+  status = 200 

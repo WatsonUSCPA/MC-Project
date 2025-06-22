@@ -3,65 +3,36 @@
 
 require('dotenv').config();
 const path = require('path');
-
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const serverless = require('serverless-http');
+
 const app = express();
+const router = express.Router();
 
-app.use(express.json());
 // 静的ファイルの提供元をプロジェクトルート（一つ上の階層）に変更
-app.use(express.static(path.join(__dirname, '..')));
+// Netlifyでは、公開フォルダをルートに設定するため、ここでの静的ファイル設定は不要になることが多い
+// app.use(express.static(path.join(__dirname, '..')));
 
-// ルートページへのアクセスの設定を削除 (all_products_stripebeta.htmlがルートにあるため不要)
-/* app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'all_products_stripebeta.html'));
-}); */
+router.use(express.json());
 
 // Stripe Checkout Session作成エンドポイント
-app.post('/api/create-checkout-session', async (req, res) => {
+router.post('/create-checkout-session', async (req, res) => {
   try {
     const { line_items, mode, success_url, cancel_url, metadata } = req.body;
 
-    // Stripe Checkout Sessionを作成
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: line_items,
-      mode: mode,
-      success_url: success_url,
-      cancel_url: cancel_url,
-      metadata: metadata,
-      // 日本の通貨とロケールを設定
+      line_items,
+      mode,
+      success_url,
+      cancel_url,
+      metadata,
       currency: 'jpy',
       locale: 'ja',
-      // 配送先情報の収集
       shipping_address_collection: {
         allowed_countries: ['JP'],
       },
-      // 配送オプションを削除
-      /*
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: {
-              amount: 400,
-              currency: 'jpy',
-            },
-            display_name: '標準配送',
-            delivery_estimate: {
-              minimum: {
-                unit: 'business_day',
-                value: 3,
-              },
-              maximum: {
-                unit: 'business_day',
-                value: 5,
-              },
-            },
-          },
-        },
-      ],
-      */
     });
 
     res.json({ url: session.url });
@@ -71,44 +42,10 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
-// 決済成功時のWebhook処理（オプション）
-app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+app.use('/api/', router);
 
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  // 決済成功時の処理
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    
-    // 注文データを取得
-    const cartItems = JSON.parse(session.metadata.cart_items || '[]');
-    
-    // ここで注文処理を実装
-    // 例：データベースに注文を保存、確認メールを送信など
-    console.log('Payment successful for session:', session.id);
-    console.log('Cart items:', cartItems);
-    
-    // 注文確認メール送信の例
-    // await sendOrderConfirmationEmail(session.customer_details, cartItems);
-  }
-
-  res.json({ received: true });
-});
-
-// サーバー起動
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Netlifyで実行するためのエクスポート
+module.exports.handler = serverless(app);
 
 // 必要な環境変数
 // STRIPE_SECRET_KEY=sk_test_... (Stripeの秘密鍵)
