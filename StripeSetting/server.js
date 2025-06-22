@@ -2,18 +2,20 @@
 // このファイルは参考用です。実際の実装では、お使いのサーバー環境に合わせて調整してください。
 
 require('dotenv').config();
+const path = require('path');
 
 const express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
 app.use(express.json());
-app.use(express.static('.')); // 現在のディレクトリからHTMLファイルを配信
+// 静的ファイルの提供元をプロジェクトルート（一つ上の階層）に変更
+app.use(express.static(path.join(__dirname, '..')));
 
-// ルートページ
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/all_products_stripebeta.html');
-});
+// ルートページへのアクセスの設定を削除 (all_products_stripebeta.htmlがルートにあるため不要)
+/* app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'all_products_stripebeta.html'));
+}); */
 
 // Stripe Checkout Session作成エンドポイント
 app.post('/api/create-checkout-session', async (req, res) => {
