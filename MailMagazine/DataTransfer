@@ -46,6 +46,13 @@ function appendDataToProductHistory() {
     return;
   }
 
+  // 商品データ履歴に追加する際の確認メッセージ
+  const confirmResult = Browser.msgBox('確認', '公開中のものはウェブサイトに公開されます。よろしいですか？', Browser.Buttons.YES_NO);
+  if (confirmResult !== 'yes') {
+    Browser.msgBox('キャンセル', '処理をキャンセルしました。', Browser.Buttons.OK);
+    return;
+  }
+
   // 商品データ履歴シートの最終行を取得し、その次の行からデータを追記
   const lastRowProductHistory = productHistorySheet.getLastRow();
   // 追記する最初の行（既存データの次の行）
@@ -87,7 +94,30 @@ function appendDataToProductHistory() {
 
   // 追記後、入力シートの2行目以降のデータをクリアする (有効化)
   inputSheet.getRange(2, 1, lastRowInput - 1, 6).clearContent();
+  
+  // 入力シートのA列からF列の45行目まで枠線を全部追加
+  addBordersToInputSheet(inputSheet);
+  
   Browser.msgBox('完了', '入力シートのデータが商品データ履歴シートに追記され、入力シートがクリアされました。', Browser.Buttons.OK);
+}
+
+/**
+ * 入力シートのA列からF列の45行目まで枠線を全部追加する関数
+ * @param {Sheet} inputSheet - 入力シート
+ */
+function addBordersToInputSheet(inputSheet) {
+  try {
+    // A列からF列の45行目までの範囲を取得
+    const range = inputSheet.getRange(1, 1, 45, 6); // 1行目から45行目、A列からF列
+    
+    // 枠線を追加
+    range.setBorder(true, true, true, true, true, true);
+    
+    console.log('枠線の追加が完了しました');
+  } catch (error) {
+    console.error('枠線の追加中にエラーが発生しました:', error);
+    Browser.msgBox('警告', '枠線の追加中にエラーが発生しました。手動で確認してください。', Browser.Buttons.OK);
+  }
 }
 
 /**
