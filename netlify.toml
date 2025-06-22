@@ -5,6 +5,10 @@
   # サーバープログラム（関数）がある場所
   functions = "StripeSetting/"
 
+# これが依存関係をインストールするための重要なプラグインです
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
+
 # サーバーへのアクセスを簡単にするためのリダイレクト設定
 [[redirects]]
   # /api/ へのアクセスを、
