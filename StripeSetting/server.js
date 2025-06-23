@@ -85,8 +85,8 @@ router.post('/create-checkout-session', async (req, res) => {
 });
 
 // app.useのパスを修正
-// 受付係(Netlify)が/api/を処理してくれるので、サーバーは/api/を意識しないようにする
-app.use('/', router);
+// Netlify Functionsのパスプレフィックスに対応
+app.use('/.netlify/functions/server', router);
 
 // Netlifyで実行するためのエクスポート
 module.exports.handler = serverless(app);
