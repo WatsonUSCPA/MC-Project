@@ -7,6 +7,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const serverless = require('serverless-http');
+const cors = require('cors'); // corsをインポート
 
 let stripe;
 if (process.env.STRIPE_SECRET_KEY) {
@@ -18,6 +19,9 @@ if (process.env.STRIPE_SECRET_KEY) {
 
 const app = express();
 const router = express.Router();
+
+// ★★★ ローカル開発用にCORSを許可 ★★★
+app.use(cors()); // オリジンを限定せず、すべてのリクエストを許可
 
 // 静的ファイルの提供元をプロジェクトルート（一つ上の階層）に変更
 // Netlifyでは、公開フォルダをルートに設定するため、ここでの静的ファイル設定は不要になることが多い
@@ -86,6 +90,14 @@ app.use('/', router);
 
 // Netlifyで実行するためのエクスポート
 module.exports.handler = serverless(app);
+
+// ★★★ ローカル開発用にサーバーを起動する処理を追加 ★★★
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = 4242;
+  app.listen(PORT, () => {
+    console.log(`開発用サーバーが http://localhost:${PORT} で起動しました`);
+  });
+}
 
 // 必要な環境変数
 // STRIPE_SECRET_KEY=sk_test_... (Stripeの秘密鍵)
