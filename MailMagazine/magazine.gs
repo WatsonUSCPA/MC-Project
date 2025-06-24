@@ -57,7 +57,7 @@ const COMPANY_INFO = {
   name: 'MC Square（エムシースクエア）',
   tel: '045-410-7023',
   instagram: '@mc.square_official',
-  email: 'pr@mcsquare.co.jp',
+  email: 'sales@mcsquareofficials.com',
   logoUrl: 'https://res.cloudinary.com/drjvxvhwl/image/upload/v1750049908/MC_square_Logo_fpsooy.png'
 };
 
@@ -134,7 +134,7 @@ function getMagazineMail(selectedMonth) {
       <b>MC Square（エムシースクエア）</b><br>
       電話：045-410-7023<br>
       Instagram：@mc.square_official<br>
-      メール：pr@mcsquare.co.jp<br>
+      メール：sales@mcsquareofficials.com<br>
       <div style="margin-top:12px;color:#FF6B6B;">※価格は50cmあたりの単価です。</div>
     </div>
   `;
