@@ -2,8 +2,13 @@
 [build]
   # プロジェクトのルートディレクトリ（HTMLなどがある場所）
   publish = "."
-  # サーバープログラム（関数）がある場所
-  functions = "StripeSetting/"
+  # Netlify Functionsの場所
+  functions = "netlify/functions"
+
+# Netlify Functionsの設定
+[functions]
+  # 関数のログレベルを設定
+  log_level = "info"
 
 # これが依存関係をインストールするための重要なプラグインです
 [[plugins]]
@@ -13,7 +18,7 @@
 [[redirects]]
   # /api/ へのアクセスを、
   from = "/api/*"
-  # サーバープログラムに繋ぎます
-  to = "/.netlify/functions/server/:splat"
+  # Netlify Functionsに繋ぎます
+  to = "/.netlify/functions/:splat"
   # ステータスコード200は「成功」を意味します
   status = 200 

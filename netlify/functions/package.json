@@ -1,0 +1,9 @@
+{
+  "name": "netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for MC Square",
+  "main": "index.js",
+  "dependencies": {
+    "stripe": "^16.2.0"
+  }
+} 
