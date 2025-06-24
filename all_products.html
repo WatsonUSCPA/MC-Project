@@ -957,6 +957,11 @@
       </div>
     </header>
 
+    <!-- 商品一覧の直前に注意書きを追加 -->
+    <div class="maintenance-message" style="color:#FF6B6B; font-weight:bold; margin:1.5em 0; text-align:center;">
+      ※購入は現在メンテナンス中です。カートからのご注文は一時停止中です。
+    </div>
+
     <!-- ショッピングカートアイコン -->
     <div class="cart-icon" onclick="openCart()">
       🛒
@@ -978,11 +983,16 @@
           送料: <span id="shippingFee">400円</span><br>
           <strong>合計: <span id="totalAmount">0円</span></strong>
         </div>
-        <div class="cart-actions" id="cartActions" style="display: none;">
-          <button class="cart-btn secondary" onclick="closeCart()">買い物を続ける</button>
-          <button class="cart-btn primary" onclick="proceedToCheckout()">レジに進む</button>
+        <div class="cart-actions" id="cartActions" style="display: none;"></div>
+        <div class="maintenance-message" style="color:#FF6B6B; font-weight:bold; margin:1em 0; text-align:center;">
+          現在メンテナンス中のため、<br>お電話またはメール（<a href="mailto:pr@mcsquare.co.jp">pr@mcsquare.co.jp</a>）でご注文ください。<br>電話：045-410-7023
         </div>
       </div>
+    </div>
+
+    <!-- オンラインセレクションの直前に注意書きを追加 -->
+    <div class="maintenance-message" style="color:#FF6B6B; font-weight:bold; margin:1.5em 0; text-align:center;">
+      ※オンラインセレクション（カート購入）は現在メンテナンス中です。<br>BASEのサブスクは通常通りご利用いただけます。
     </div>
 
     <!-- サブスクリプションセクション（BASE決済） -->
@@ -1325,7 +1335,7 @@
         freeShippingMsg.style.display = 'none';
       }
       cartTotal.style.display = 'block';
-      cartActions.style.display = 'flex';
+      if (cartActions) cartActions.style.display = 'flex';
       setTimeout(() => {
         cart.forEach(item => {
           const qtyDisplay = document.querySelector(`[onclick="adjustCartQuantity('${item.managementNumber}', -1)"]`)?.parentElement?.querySelector('.cart-qty-display');
