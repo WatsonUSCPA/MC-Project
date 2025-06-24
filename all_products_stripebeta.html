@@ -1049,7 +1049,9 @@
         お気に入りの一枚を見つけて、あなたの作品作りをもっと楽しく。
       </p>
       <div style="font-size: 1.08rem; color: var(--color-text); margin-bottom: 1.2rem;">
-        <span style="color: var(--color-primary); font-weight: 600;">こちらの商品は、現在Googleフォームからのご注文となります。（将来的にカード決済を導入予定です）</span>
+        <span style="color: var(--color-primary); font-weight: 600;">商品はカートに追加し、レジに進むことでクレジットカード決済（Stripe）でご購入いただけます。<br>
+ご注文後、在庫を確認し、在庫があるものは郵送、在庫切れの商品があった場合は該当分を返金いたします。<br>
+送料は「2mまで400円」「2.5m以上または合計24,200円未満は900円」「24,200円以上で送料無料」となります。</span>
       </div>
       <div id="inventory-content">
         <div class="loading">データを読み込み中...</div>
@@ -1066,30 +1068,17 @@
 
     <!-- 購入依頼・ご案内 -->
     <div class="purchase-request">
-      <h2 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.2rem;">上記商品のご購入について</h2>
+      <h2 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.2rem;">ご購入について</h2>
       <p style="font-size: 1.08rem; color: var(--color-text); margin-bottom: 1.2rem;">
-        商品のご購入をご希望の方は、下記の「購入依頼はこちら」ボタンよりお申し込みください。<br>
-        <span style="color: var(--color-primary); font-weight: 600;">現在、お支払い方法は銀行振込のみ</span>となっております。<br>
-        クレジットカードでのお支払いは準備中のため、ご不便をおかけし誠に申し訳ございません。<br>
-        対応でき次第、随時ご案内いたします。
+        商品はカートに追加し、レジに進むことでクレジットカード決済（Stripe）でご購入いただけます。<br>
+        ご注文後、在庫を確認し、在庫があるものは郵送、在庫切れの商品があった場合は該当分を返金いたします。<br>
+        送料は「2mまで400円」「2.5m以上または合計24,200円未満は900円」「24,200円以上で送料無料」となります。
       </p>
-      <div style="margin-bottom: 1.2rem;">
-        <a href="https://forms.gle/aivSY6cpCm3fkHgN8" class="nav-button" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5em;background:var(--color-primary);color:white;font-size:1.1rem;font-weight:700;padding:0.9em 2em;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="white"/>
-          </svg>
-          <span>購入依頼はこちら</span>
-        </a>
-      </div>
       <div style="background: #fff7f2; border-radius: 12px; padding: 1.1em 1em; color: #636E72; font-size: 1.01rem; text-align: left; display: inline-block; max-width: 95%;">
         <b>ご購入の流れ：</b><br>
-        ① <b>購入依頼</b>（上記ボタンからフォーム送信）<br>
-        ② <b>在庫確認＆料金・振込先のご連絡</b>（担当者よりメール等でご案内）<br>
-        ③ <b>お支払い（銀行振込）</b><br>
-        ④ <b>ご入金確認後、商品を郵送</b><br><br>
-        <b>お届けについて：</b><br>
-        • 複数枚購入の場合は、切られずにまとまった生地としてお届けします<br>
-        • 例：3枚購入の場合、150cmの連続した生地をお届け
+        ① カートに商品を追加し、レジに進む<br>
+        ② クレジットカードでお支払い（Stripe決済）<br>
+        ③ ご注文内容・在庫を確認し、在庫があるものは郵送、在庫切れ分は返金<br>
       </div>
     </div>
     
@@ -1607,8 +1596,8 @@
         `;
       });
       
-      // 送料計算（2万円以上で送料無料）
-      const shippingFee = subtotal >= 20000 ? 0 : 400;
+      // 送料計算（新ルール）
+      const shippingFee = calculateShippingFee(cart);
       const total = subtotal + shippingFee;
       
       cartItems.innerHTML = itemsHtml;
@@ -1650,6 +1639,24 @@
       document.body.style.overflow = 'auto';
     }
     
+    // --- 送料計算（新ルール） ---
+    function calculateShippingFee(cart) {
+      let totalLength = cart.reduce((sum, item) => sum + (item.length || 0), 0); // cm単位
+      let subtotal = cart.reduce((total, item) => {
+        const priceNum = Number(item.price.replace(/[^ -9]/g, ''));
+        return total + (priceNum * item.quantity);
+      }, 0);
+
+      if (subtotal >= 24200) {
+        return 0;
+      } else if (totalLength <= 200) { // 2mまで
+        return 400;
+      } else if (subtotal < 24200) {
+        return 900;
+      }
+      return 900;
+    }
+    
     // レジに進む（Stripe決済ページに誘導）
     async function proceedToCheckout() {
       if (cart.length === 0) {
@@ -1686,7 +1693,7 @@
           const priceNum = Number(item.price.replace(/[^\d]/g, ''));
           return total + (priceNum * item.quantity);
         }, 0);
-        const shippingFee = subtotal >= 20000 ? 0 : 400;
+        const shippingFee = calculateShippingFee(cart);
 
         // 送料がある場合は追加
         if (shippingFee > 0) {
