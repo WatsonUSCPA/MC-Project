@@ -1122,88 +1122,55 @@
   </div>
   
   <script>
+    // --- 定数・初期化 ---
     const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
-
     let allInventoryItems = [];
     let currentlyDisplayedCount = 0;
     const initialCount = 2;
     const incrementCount = 10;
+    let cart = [];
 
-    // 在庫データを取得して表示する関数
+    // --- 在庫データ取得・表示 ---
     async function fetchAndDisplayInventory() {
       try {
-        const response = await fetch(GAS_WEB_APP_URL, {
-          method: 'GET',
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`データの取得に失敗しました (${response.status})`);
-        }
-
+        const response = await fetch(GAS_WEB_APP_URL, { method: 'GET', mode: 'cors', headers: { 'Accept': 'application/json' } });
+        if (!response.ok) throw new Error(`データの取得に失敗しました (${response.status})`);
         const data = await response.json();
-        if (!Array.isArray(data)) {
-          throw new Error('データの形式が不正です');
-        }
-        
-        if (allInventoryItems.length === 0) {
-          allInventoryItems = data.filter(item => item.status === '公開中');
-        }
-        
+        if (!Array.isArray(data)) throw new Error('データの形式が不正です');
+        allInventoryItems = data.filter(item => item.status === '公開中');
         currentlyDisplayedCount = initialCount;
         renderInventoryItems();
-
-        const showMoreBtn = document.getElementById('show-more-btn');
-        const showLessBtn = document.getElementById('show-less-btn');
-
-        showMoreBtn.onclick = function() {
-            currentlyDisplayedCount += incrementCount;
-            renderInventoryItems();
-        };
-
-        showLessBtn.onclick = function() {
-            currentlyDisplayedCount = initialCount;
-            renderInventoryItems();
-        };
-
       } catch (error) {
-        console.error('Error:', error);
         showError(error.message);
       }
     }
 
     function renderInventoryItems() {
       const contentDiv = document.getElementById('inventory-content');
+      const showMoreContainer = document.getElementById('show-more-container');
+      const showMoreBtn = document.getElementById('show-more-btn');
+      const showLessBtn = document.getElementById('show-less-btn');
+      contentDiv.innerHTML = '';
+      const list = document.createElement('div');
+      list.className = 'inventory-list';
       const itemsToShow = allInventoryItems.slice(0, currentlyDisplayedCount);
-
-      if (!itemsToShow || itemsToShow.length === 0) {
+      if (!itemsToShow.length) {
         contentDiv.innerHTML = '<div class="error">商品データがありません</div>';
         return;
       }
-
-      const list = document.createElement('div');
-      list.className = 'inventory-list';
       itemsToShow.forEach(item => {
         const card = document.createElement('div');
         card.className = 'inventory-card';
         let imageTag = '';
         if (item.imageUrl && String(item.imageUrl).trim() !== '') {
-          imageTag = `<img src="${item.imageUrl}" alt="${item.managementNumber}" class="zoomable-image" onerror="this.src='Image/default.png'">`;
+          imageTag = `<img src="${item.imageUrl}" alt="${item.managementNumber}" class="zoomable-image" loading="lazy" onerror="this.src='Image/default.png'">`;
         }
         let priceText = '';
         if (item.price) {
           const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
           priceText = priceNum.toLocaleString() + '円（税込み）';
         }
-        let managementNumber = item.managementNumber;
-        if (managementNumber) {
-          managementNumber = '管理番号: ' + managementNumber;
-        } else {
-          managementNumber = '管理番号: 不明';
-        }
+        let managementNumber = item.managementNumber ? '管理番号: ' + item.managementNumber : '管理番号: 不明';
         let productName = item['商品名'] ? item['商品名'] : '';
         card.innerHTML = `
           ${imageTag}
@@ -1228,357 +1195,95 @@
               <option value="500">5m (10枚)</option>
             </select>
           </div>
-          <button class="cart-button" onclick="addToCart('${item.managementNumber}', '${productName || ''}', '${priceText}', '${item.imageUrl || ''}')">
-            🛒 カートに入れる
-          </button>
+          <button class="cart-button" data-management="${item.managementNumber}" data-name="${productName}" data-price="${priceText}" data-img="${item.imageUrl || ''}">🛒 カートに入れる</button>
         `;
         list.appendChild(card);
       });
-
-      contentDiv.innerHTML = '';
       contentDiv.appendChild(list);
-
-      const showMoreContainer = document.getElementById('show-more-container');
-      const showMoreBtn = document.getElementById('show-more-btn');
-      const showLessBtn = document.getElementById('show-less-btn');
-      
-      if (allInventoryItems.length > initialCount) {
-        showMoreContainer.style.display = 'block';
-      } else {
-        showMoreContainer.style.display = 'none';
-      }
-
-      if (currentlyDisplayedCount >= allInventoryItems.length) {
-        showMoreBtn.style.display = 'none';
-      } else {
-        showMoreBtn.style.display = 'inline-block';
-      }
-
-      if (currentlyDisplayedCount > initialCount) {
-        showLessBtn.style.display = 'inline-block';
-      } else {
-        showLessBtn.style.display = 'none';
-      }
+      // ボタン表示制御
+      showMoreContainer.style.display = allInventoryItems.length > initialCount ? 'block' : 'none';
+      showMoreBtn.style.display = currentlyDisplayedCount >= allInventoryItems.length ? 'none' : 'inline-block';
+      showLessBtn.style.display = currentlyDisplayedCount > initialCount ? 'inline-block' : 'none';
     }
 
-    function getImageUrl(imgValue) {
-      if (!imgValue) {
-        return 'Image/MC square Logo.png';
-      }
-      if (typeof imgValue === 'string' && imgValue.startsWith('http')) {
-        return imgValue;
-      }
-      return `https://drive.google.com/uc?export=view&id=${imgValue}`;
-    }
-
-    function showError(message) {
-      const contentDiv = document.getElementById('inventory-content');
-      contentDiv.innerHTML = `
-        <div class="error">
-          <p>${message}</p>
-          <p style="font-size: 0.9em; margin-top: 1em;">
-            しばらく時間をおいて再度お試しください。<br>
-            問題が解決しない場合は、管理者にお問い合わせください。
-          </p>
-        </div>
-      `;
-    }
-    document.addEventListener('DOMContentLoaded', fetchAndDisplayInventory);
-    setInterval(fetchAndDisplayInventory, 30 * 60 * 1000);
-    
-    // --- 画像ズーム機能 ---
-    let currentZoom = 1;
-    let isDragging = false;
-    let startX, startY, translateX = 0, translateY = 0;
-    
-    // モーダル要素
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    const closeBtn = document.querySelector('.close-modal');
-    const zoomLevel = document.getElementById('zoomLevel');
-    
-    // ズーム可能な画像にクリックイベントを追加
-    document.addEventListener('click', function(e) {
-      if (e.target.classList.contains('zoomable-image')) {
-        openModal(e.target.src, e.target.alt);
-      }
-    });
-    
-    // モーダルを開く
-    function openModal(src, alt) {
-      modal.style.display = 'block';
-      modalImg.src = src;
-      modalImg.alt = alt;
-      resetZoom();
-      document.body.style.overflow = 'hidden';
-    }
-    
-    // モーダルを閉じる
-    function closeModal() {
-      modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-      resetZoom();
-    }
-    
-    // ズームイン
-    function zoomIn() {
-      currentZoom = Math.min(currentZoom * 1.2, 5);
-      updateZoom();
-    }
-    
-    // ズームアウト
-    function zoomOut() {
-      currentZoom = Math.max(currentZoom / 1.2, 0.1);
-      updateZoom();
-    }
-    
-    // ズームリセット
-    function resetZoom() {
-      currentZoom = 1;
-      translateX = 0;
-      translateY = 0;
-      updateZoom();
-    }
-    
-    // ズーム更新
-    function updateZoom() {
-      modalImg.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
-      zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
-    }
-    
-    // マウスホイールでズーム
-    modal.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      if (e.deltaY < 0) {
-        zoomIn();
-      } else {
-        zoomOut();
-      }
-    });
-    
-    // ドラッグ開始
-    modalImg.addEventListener('mousedown', function(e) {
-      if (currentZoom > 1) {
-        isDragging = true;
-        startX = e.clientX - translateX;
-        startY = e.clientY - translateY;
-        modalImg.style.cursor = 'grabbing';
-      }
-    });
-    
-    // ドラッグ中
-    document.addEventListener('mousemove', function(e) {
-      if (isDragging) {
-        translateX = e.clientX - startX;
-        translateY = e.clientY - startY;
-        updateZoom();
-      }
-    });
-    
-    // ドラッグ終了
-    document.addEventListener('mouseup', function() {
-      isDragging = false;
-      modalImg.style.cursor = 'grab';
-    });
-    
-    // タッチデバイス対応
-    let touchStartX, touchStartY;
-    
-    modalImg.addEventListener('touchstart', function(e) {
-      if (currentZoom > 1) {
-        const touch = e.touches[0];
-        touchStartX = touch.clientX - translateX;
-        touchStartY = touch.clientY - translateY;
-      }
-    });
-    
-    modalImg.addEventListener('touchmove', function(e) {
-      if (currentZoom > 1) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        translateX = touch.clientX - touchStartX;
-        translateY = touch.clientY - touchStartY;
-        updateZoom();
-      }
-    });
-    
-    // ピンチズーム対応
-    let initialDistance = 0;
-    let initialZoom = 1;
-    
-    modalImg.addEventListener('touchstart', function(e) {
-      if (e.touches.length === 2) {
-        initialDistance = Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY
-        );
-        initialZoom = currentZoom;
-      }
-    });
-    
-    modalImg.addEventListener('touchmove', function(e) {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        const distance = Math.hypot(
-          e.touches[0].clientX - e.touches[1].clientX,
-          e.touches[0].clientY - e.touches[1].clientY
-        );
-        currentZoom = Math.max(0.1, Math.min(5, initialZoom * (distance / initialDistance)));
-        updateZoom();
-      }
-    });
-    
-    // イベントリスナー
-    closeBtn.addEventListener('click', closeModal);
-    
-    // ESCキーでモーダルを閉じる
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.style.display === 'block') {
-        closeModal();
-      }
-    });
-    
-    // モーダル背景クリックで閉じる
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeModal();
-      }
+    // --- イベントバインド ---
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchAndDisplayInventory();
+      setInterval(fetchAndDisplayInventory, 30 * 60 * 1000);
+      document.getElementById('show-more-btn').addEventListener('click', () => {
+        currentlyDisplayedCount += incrementCount;
+        renderInventoryItems();
+      });
+      document.getElementById('show-less-btn').addEventListener('click', () => {
+        currentlyDisplayedCount = initialCount;
+        renderInventoryItems();
+      });
+      document.getElementById('inventory-content').addEventListener('click', e => {
+        if (e.target.classList.contains('cart-button')) {
+          addToCart(
+            e.target.getAttribute('data-management'),
+            e.target.getAttribute('data-name'),
+            e.target.getAttribute('data-price'),
+            e.target.getAttribute('data-img')
+          );
+        }
+        if (e.target.classList.contains('zoomable-image')) {
+          openModal(e.target.src, e.target.alt);
+        }
+      });
     });
 
-    /* --- アコーディオンボタン --- */
-    function toggleAccordion(type) {
-      const detail = document.getElementById(type + '-detail');
-      const icon = document.getElementById(type + '-toggle-icon');
-      const btn = icon.parentElement;
-      if (detail.style.display === 'none' || detail.style.display === '') {
-        detail.style.display = 'block';
-        icon.textContent = '－';
-        btn.classList.add('active');
-      } else {
-        detail.style.display = 'none';
-        icon.textContent = '＋';
-        btn.classList.remove('active');
-      }
-    }
-
-    function toggleSubscriptionAccordion() {
-      const detail = document.getElementById('subscription-detail');
-      const icon = document.getElementById('subscription-toggle-icon');
-      const btn = icon.parentElement;
-      if (detail.style.display === 'none' || detail.style.display === '') {
-        detail.style.display = 'block';
-        icon.textContent = '－';
-        btn.classList.add('active');
-      } else {
-        detail.style.display = 'none';
-        icon.textContent = '＋';
-        btn.classList.remove('active');
-      }
-    }
-
-    /* --- ショッピングカート機能 --- */
-    let cart = [];
-    let selectedLengths = {}; // 商品ごとの選択された長さを管理
-    
-    // 選択された長さを取得
+    // --- カート機能 ---
     function getSelectedLength(managementNumber) {
       const selectElement = document.getElementById(`length-${managementNumber}`);
-      if (selectElement) {
-        return parseInt(selectElement.value);
-      }
-      return 50; // デフォルトは50cm
+      return selectElement ? parseInt(selectElement.value) : 50;
     }
-    
-    // 長さから枚数を計算
-    function getQuantityFromLength(length) {
-      return length / 50; // 50cm = 1枚
-    }
-    
-    // カートに商品を追加
+    function getQuantityFromLength(length) { return length / 50; }
     function addToCart(managementNumber, productName, priceText, imageUrl) {
-      // productNameが空、null、undefinedの場合、managementNumberを商品名として使用する
       const finalProductName = productName || managementNumber;
-
       const selectedLength = getSelectedLength(managementNumber);
       const quantity = getQuantityFromLength(selectedLength);
-      
-      // 既にカートにあるかチェック
       const existingItem = cart.find(item => item.managementNumber === managementNumber);
-      
       if (existingItem) {
         existingItem.quantity += quantity;
         existingItem.length += selectedLength;
       } else {
-        cart.push({
-          managementNumber: managementNumber,
-          name: finalProductName, // 修正：ここでfinalProductNameを使用
-          price: priceText,
-          imageUrl: imageUrl,
-          quantity: quantity,
-          length: selectedLength
-        });
+        cart.push({ managementNumber, name: finalProductName, price: priceText, imageUrl, quantity, length: selectedLength });
       }
-      
       updateCartDisplay();
       updateCartCount();
-      
-      // ボタンの状態を変更（短時間のフィードバック）
-      const button = event.target;
-      const originalText = button.textContent;
-      button.textContent = '✓ 追加しました';
-      button.classList.add('added');
-      
-      // 0.5秒後にボタンを元に戻す（何回でも押せるように）
-      setTimeout(() => {
-        button.textContent = originalText;
-        button.classList.remove('added');
-      }, 500);
     }
-    
-    // カートから商品を削除
     function removeFromCart(managementNumber) {
       cart = cart.filter(item => item.managementNumber !== managementNumber);
       updateCartDisplay();
       updateCartCount();
     }
-    
-    // カート内で数量を調整
     function adjustCartQuantity(managementNumber, change) {
       const item = cart.find(item => item.managementNumber === managementNumber);
       if (!item) return;
-      
       const newQuantity = Math.max(1, item.quantity + change);
-      const newLength = newQuantity * 50; // 1枚 = 50cm
-      
+      const newLength = newQuantity * 50;
       item.quantity = newQuantity;
       item.length = newLength;
-      
       updateCartDisplay();
       updateCartCount();
     }
-    
-    // カートの表示を更新
     function updateCartDisplay() {
       const cartItems = document.getElementById('cartItems');
       const cartTotal = document.getElementById('cartTotal');
       const cartActions = document.getElementById('cartActions');
-      
       if (cart.length === 0) {
         cartItems.innerHTML = '<div class="empty-cart">カートに商品がありません</div>';
         cartTotal.style.display = 'none';
         cartActions.style.display = 'none';
         return;
       }
-      
       let subtotal = 0;
       let itemsHtml = '';
-      
       cart.forEach(item => {
-        // 価格から数値を抽出
         const priceNum = Number(item.price.replace(/[^\d]/g, ''));
         const itemTotal = priceNum * item.quantity;
         subtotal += itemTotal;
-        
         itemsHtml += `
           <div class="cart-item">
             <img src="${item.imageUrl || 'Image/MC square Logo.png'}" alt="${item.name}" onerror="this.src='Image/MC square Logo.png'">
@@ -1595,86 +1300,74 @@
           </div>
         `;
       });
-      
-      // 送料計算（新ルール）
       const shippingFee = calculateShippingFee(cart);
       const total = subtotal + shippingFee;
-      
       cartItems.innerHTML = itemsHtml;
       document.getElementById('subtotalAmount').textContent = subtotal.toLocaleString() + '円';
-      document.getElementById('shippingFee').textContent =
-        shippingFee === 0
-          ? '送料無料'
-          : shippingFee.toLocaleString() + '円';
+      document.getElementById('shippingFee').textContent = shippingFee === 0 ? '送料無料' : shippingFee.toLocaleString() + '円';
       document.getElementById('totalAmount').textContent = total.toLocaleString() + '円';
+      // 送料無料まであといくら表示
+      const freeShippingThreshold = 24200;
+      const freeShippingMsgId = 'freeShippingMsg';
+      let freeShippingMsg = document.getElementById(freeShippingMsgId);
+      if (!freeShippingMsg) {
+        freeShippingMsg = document.createElement('div');
+        freeShippingMsg.id = freeShippingMsgId;
+        freeShippingMsg.style = 'color:#FF6B6B;font-weight:bold;margin-bottom:0.5em;text-align:right;';
+        cartTotal.parentNode.insertBefore(freeShippingMsg, cartTotal);
+      }
+      if (subtotal < freeShippingThreshold) {
+        const diff = freeShippingThreshold - subtotal;
+        freeShippingMsg.textContent = `あと${diff.toLocaleString()}円で送料無料！`;
+        freeShippingMsg.style.display = 'block';
+      } else {
+        freeShippingMsg.textContent = '';
+        freeShippingMsg.style.display = 'none';
+      }
       cartTotal.style.display = 'block';
       cartActions.style.display = 'flex';
-      
-      // カート内の数量調整ボタンの初期状態を設定
       setTimeout(() => {
         cart.forEach(item => {
           const qtyDisplay = document.querySelector(`[onclick="adjustCartQuantity('${item.managementNumber}', -1)"]`)?.parentElement?.querySelector('.cart-qty-display');
           if (qtyDisplay) {
             const minusBtn = qtyDisplay.parentElement.querySelector('.cart-qty-btn:first-child');
-            if (minusBtn) {
-              minusBtn.disabled = item.quantity <= 1;
-            }
+            if (minusBtn) minusBtn.disabled = item.quantity <= 1;
           }
         });
       }, 100);
     }
-    
-    // カートの個数を更新
     function updateCartCount() {
       const count = cart.reduce((total, item) => total + item.quantity, 0);
       document.getElementById('cartCount').textContent = count;
     }
-    
-    // カートを開く
-    function openCart() {
+    window.adjustCartQuantity = adjustCartQuantity;
+    window.removeFromCart = removeFromCart;
+    window.openCart = function() {
       document.getElementById('cartModal').style.display = 'block';
       document.body.style.overflow = 'hidden';
-    }
-    
-    // カートを閉じる
-    function closeCart() {
+    };
+    window.closeCart = function() {
       document.getElementById('cartModal').style.display = 'none';
       document.body.style.overflow = 'auto';
-    }
-    
-    // --- 送料計算（新ルール） ---
+    };
     function calculateShippingFee(cart) {
-      let totalLength = cart.reduce((sum, item) => sum + (item.length || 0), 0); // cm単位
+      let totalLength = cart.reduce((sum, item) => sum + (item.length || 0), 0);
       let subtotal = cart.reduce((total, item) => {
-        const priceNum = Number(item.price.replace(/[^ -9]/g, ''));
+        const priceNum = Number(item.price.replace(/[^\d]/g, ''));
         return total + (priceNum * item.quantity);
       }, 0);
-
-      if (subtotal >= 24200) {
-        return 0;
-      } else if (totalLength <= 200) { // 2mまで
-        return 400;
-      } else if (subtotal < 24200) {
-        return 900;
-      }
+      if (subtotal >= 24200) return 0;
+      if (totalLength <= 200) return 400;
+      if (subtotal < 24200) return 900;
       return 900;
     }
-    
-    // レジに進む（Stripe決済ページに誘導）
-    async function proceedToCheckout() {
-      if (cart.length === 0) {
-        alert('カートに商品がありません');
-        return;
-      }
-
+    window.proceedToCheckout = async function() {
+      if (cart.length === 0) { alert('カートに商品がありません'); return; }
       try {
-        // ローディング表示
         const checkoutBtn = document.querySelector('.cart-btn.primary');
         const originalText = checkoutBtn.textContent;
         checkoutBtn.textContent = '処理中...';
         checkoutBtn.disabled = true;
-
-        // カートデータをStripe用に整形
         const lineItems = cart.map(item => {
           const priceNum = Number(item.price.replace(/[^\d]/g, ''));
           return {
@@ -1690,35 +1383,24 @@
             quantity: item.quantity
           };
         });
-
-        // 送料計算
         const subtotal = cart.reduce((total, item) => {
           const priceNum = Number(item.price.replace(/[^\d]/g, ''));
           return total + (priceNum * item.quantity);
         }, 0);
         const shippingFee = calculateShippingFee(cart);
-
-        // 送料がある場合は追加
         if (shippingFee > 0) {
           lineItems.push({
             price_data: {
               currency: 'jpy',
-              product_data: {
-                name: '送料',
-                description: '配送料金'
-              },
+              product_data: { name: '送料', description: '配送料金' },
               unit_amount: shippingFee
             },
             quantity: 1
           });
         }
-
-        // Stripe Checkout Sessionを作成するAPIを呼び出し
         const response = await fetch('/api/create-checkout-session', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             line_items: lineItems,
             mode: 'payment',
@@ -1734,44 +1416,84 @@
             }
           })
         });
-
-        if (!response.ok) {
-          throw new Error('決済セッションの作成に失敗しました');
-        }
-
+        if (!response.ok) throw new Error('決済セッションの作成に失敗しました');
         const session = await response.json();
-        
-        // Stripe Checkoutページにリダイレクト
         window.location.href = session.url;
-
       } catch (error) {
-        console.error('Checkout error:', error);
         alert('決済ページへの遷移に失敗しました。\nしばらく時間をおいて再度お試しください。');
-        
-        // ボタンを元に戻す
         const checkoutBtn = document.querySelector('.cart-btn.primary');
         checkoutBtn.textContent = 'レジに進む';
         checkoutBtn.disabled = false;
       }
+    };
+    // --- 画像ズーム ---
+    let currentZoom = 1, isDragging = false, startX, startY, translateX = 0, translateY = 0;
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.querySelector('.close-modal');
+    const zoomLevel = document.getElementById('zoomLevel');
+    function openModal(src, alt) {
+      modal.style.display = 'block';
+      modalImg.src = src;
+      modalImg.alt = alt;
+      resetZoom();
+      document.body.style.overflow = 'hidden';
     }
-    
-    // カートモーダルの外側をクリックして閉じる
-    document.addEventListener('click', function(e) {
-      const cartModal = document.getElementById('cartModal');
-      if (e.target === cartModal) {
-        closeCart();
+    function closeModal() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      resetZoom();
+    }
+    function zoomIn() { currentZoom = Math.min(currentZoom * 1.2, 5); updateZoom(); }
+    function zoomOut() { currentZoom = Math.max(currentZoom / 1.2, 0.1); updateZoom(); }
+    function resetZoom() { currentZoom = 1; translateX = 0; translateY = 0; updateZoom(); }
+    function updateZoom() {
+      modalImg.style.transform = `scale(${currentZoom}) translate(${translateX}px, ${translateY}px)`;
+      zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+    }
+    modal.addEventListener('wheel', function(e) { e.preventDefault(); e.deltaY < 0 ? zoomIn() : zoomOut(); });
+    modalImg.addEventListener('mousedown', function(e) { if (currentZoom > 1) { isDragging = true; startX = e.clientX - translateX; startY = e.clientY - translateY; modalImg.style.cursor = 'grabbing'; } });
+    document.addEventListener('mousemove', function(e) { if (isDragging) { translateX = e.clientX - startX; translateY = e.clientY - startY; updateZoom(); } });
+    document.addEventListener('mouseup', function() { isDragging = false; modalImg.style.cursor = 'grab'; });
+    let touchStartX, touchStartY;
+    modalImg.addEventListener('touchstart', function(e) { if (currentZoom > 1) { const touch = e.touches[0]; touchStartX = touch.clientX - translateX; touchStartY = touch.clientY - translateY; } });
+    modalImg.addEventListener('touchmove', function(e) { if (currentZoom > 1) { e.preventDefault(); const touch = e.touches[0]; translateX = touch.clientX - touchStartX; translateY = touch.clientY - touchStartY; updateZoom(); } });
+    let initialDistance = 0, initialZoom = 1;
+    modalImg.addEventListener('touchstart', function(e) { if (e.touches.length === 2) { initialDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); initialZoom = currentZoom; } });
+    modalImg.addEventListener('touchmove', function(e) { if (e.touches.length === 2) { e.preventDefault(); const distance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY); currentZoom = Math.max(0.1, Math.min(5, initialZoom * (distance / initialDistance))); updateZoom(); } });
+    closeBtn.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.style.display === 'block') closeModal(); });
+    modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+    window.zoomIn = zoomIn;
+    window.zoomOut = zoomOut;
+    window.resetZoom = resetZoom;
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    // --- サブスク・アコーディオン ---
+    window.toggleAccordion = function(type) {
+      const detail = document.getElementById(type + '-detail');
+      const icon = document.getElementById(type + '-toggle-icon');
+      const btn = icon.parentElement;
+      if (detail.style.display === 'none' || detail.style.display === '') {
+        detail.style.display = 'block'; icon.textContent = '－'; btn.classList.add('active');
+      } else {
+        detail.style.display = 'none'; icon.textContent = '＋'; btn.classList.remove('active');
       }
-    });
-    
-    // ESCキーでカートを閉じる
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        const cartModal = document.getElementById('cartModal');
-        if (cartModal.style.display === 'block') {
-          closeCart();
-        }
+    };
+    window.toggleSubscriptionAccordion = function() {
+      const detail = document.getElementById('subscription-detail');
+      const icon = document.getElementById('subscription-toggle-icon');
+      const btn = icon.parentElement;
+      if (detail.style.display === 'none' || detail.style.display === '') {
+        detail.style.display = 'block'; icon.textContent = '－'; btn.classList.add('active');
+      } else {
+        detail.style.display = 'none'; icon.textContent = '＋'; btn.classList.remove('active');
       }
-    });
+    };
+    function showError(message) {
+      const contentDiv = document.getElementById('inventory-content');
+      contentDiv.innerHTML = `<div class="error"><p>${message}</p><p style="font-size: 0.9em; margin-top: 1em;">しばらく時間をおいて再度お試しください。<br>問題が解決しない場合は、管理者にお問い合わせください。</p></div>`;
+    }
   </script>
 </body>
 </html> 
