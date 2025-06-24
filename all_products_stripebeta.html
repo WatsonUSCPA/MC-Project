@@ -1602,7 +1602,10 @@
       
       cartItems.innerHTML = itemsHtml;
       document.getElementById('subtotalAmount').textContent = subtotal.toLocaleString() + '円';
-      document.getElementById('shippingFee').textContent = shippingFee === 0 ? '送料無料' : '400円';
+      document.getElementById('shippingFee').textContent =
+        shippingFee === 0
+          ? '送料無料'
+          : shippingFee.toLocaleString() + '円';
       document.getElementById('totalAmount').textContent = total.toLocaleString() + '円';
       cartTotal.style.display = 'block';
       cartActions.style.display = 'flex';
