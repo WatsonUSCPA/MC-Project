@@ -5,11 +5,6 @@
   # Netlify Functionsの場所
   functions = "netlify/functions"
 
-# Netlify Functionsの設定
-[functions]
-  # 関数のログレベルを設定
-  log_level = "info"
-
 # これが依存関係をインストールするための重要なプラグインです
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
