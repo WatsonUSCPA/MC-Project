@@ -1205,6 +1205,7 @@
 
     // --- イベントバインド ---
     document.addEventListener('DOMContentLoaded', () => {
+      loadCartFromStorage();
       fetchAndDisplayInventory();
       setInterval(fetchAndDisplayInventory, 30 * 60 * 1000);
       document.getElementById('show-more-btn').addEventListener('click', () => {
@@ -1231,6 +1232,24 @@
     });
 
     // --- カート機能 ---
+    function saveCartToStorage() {
+      localStorage.setItem('mcSquareCart', JSON.stringify(cart));
+    }
+    
+    function loadCartFromStorage() {
+      const savedCart = localStorage.getItem('mcSquareCart');
+      if (savedCart) {
+        try {
+          cart = JSON.parse(savedCart);
+          updateCartDisplay();
+          updateCartCount();
+        } catch (e) {
+          console.error('カートの復元に失敗しました:', e);
+          cart = [];
+        }
+      }
+    }
+    
     function getSelectedLength(managementNumber) {
       const selectElement = document.getElementById(`length-${managementNumber}`);
       return selectElement ? parseInt(selectElement.value) : 50;
@@ -1247,11 +1266,13 @@
       } else {
         cart.push({ managementNumber, name: finalProductName, price: priceText, imageUrl, quantity, length: selectedLength });
       }
+      saveCartToStorage();
       updateCartDisplay();
       updateCartCount();
     }
     function removeFromCart(managementNumber) {
       cart = cart.filter(item => item.managementNumber !== managementNumber);
+      saveCartToStorage();
       updateCartDisplay();
       updateCartCount();
     }
@@ -1262,6 +1283,7 @@
       const newLength = newQuantity * 50;
       item.quantity = newQuantity;
       item.length = newLength;
+      saveCartToStorage();
       updateCartDisplay();
       updateCartCount();
     }
@@ -1419,6 +1441,7 @@
         });
         if (!response.ok) throw new Error('決済セッションの作成に失敗しました');
         const session = await response.json();
+        // 決済ページに遷移する前にカートをクリアしない（キャンセル時に復元するため）
         window.location.href = session.url;
       } catch (error) {
         alert('決済ページへの遷移に失敗しました。\nしばらく時間をおいて再度お試しください。');
