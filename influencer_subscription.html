@@ -420,6 +420,234 @@
             letter-spacing: 0.08em;
             vertical-align: middle;
         }
+
+        /* --- ショッピングカート --- */
+        .cart-icon {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: var(--color-primary);
+          color: white;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          cursor: pointer;
+          box-shadow: var(--shadow-md);
+          z-index: 1000;
+          transition: all 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+          transform: scale(1.1);
+          box-shadow: var(--shadow-lg);
+        }
+        
+        .cart-count {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          background: var(--color-secondary);
+          color: white;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+          font-weight: bold;
+        }
+        
+        .cart-modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1001;
+        }
+        
+        .cart-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: white;
+          border-radius: var(--border-radius);
+          padding: 2rem;
+          max-width: 500px;
+          width: 90%;
+          max-height: 80vh;
+          overflow-y: auto;
+          box-shadow: var(--shadow-lg);
+        }
+        
+        .cart-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--color-border);
+        }
+        
+        .cart-title {
+          font-size: 1.3rem;
+          font-weight: bold;
+          color: var(--color-primary);
+        }
+        
+        .close-cart {
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: var(--color-text-light);
+        }
+        
+        .cart-items {
+          margin-bottom: 1.5rem;
+        }
+        
+        .cart-item {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 1rem 0;
+          border-bottom: 1px solid var(--color-border);
+        }
+        
+        .cart-item img {
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 8px;
+        }
+        
+        .cart-item-info {
+          flex: 1;
+        }
+        
+        .cart-item-name {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-price {
+          color: var(--color-text-light);
+          font-size: 0.9rem;
+        }
+        
+        .cart-item-controls {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        
+        .cart-qty-btn {
+          background: var(--color-background);
+          color: var(--color-text);
+          border: 1px solid var(--color-border);
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 0.9rem;
+          transition: all 0.3s ease;
+        }
+        
+        .cart-qty-btn:hover {
+          background: var(--color-primary);
+          color: white;
+          border-color: var(--color-primary);
+        }
+        
+        .cart-qty-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+        
+        .cart-qty-display {
+          font-weight: 600;
+          font-size: 0.9rem;
+          min-width: 40px;
+          text-align: center;
+          color: var(--color-text);
+        }
+        
+        .remove-item {
+          background: #ff6b6b;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 0.3rem 0.6rem;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .remove-item:hover {
+          background: #e55a5a;
+        }
+        
+        .cart-total {
+          text-align: right;
+          margin-bottom: 1.5rem;
+          padding: 1rem;
+          background: var(--color-background);
+          border-radius: var(--border-radius);
+        }
+        
+        .cart-actions {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+        }
+        
+        .cart-btn {
+          padding: 0.8rem 1.5rem;
+          border: none;
+          border-radius: var(--border-radius);
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .cart-btn.primary {
+          background: var(--color-primary);
+          color: white;
+        }
+        
+        .cart-btn.primary:hover {
+          background: #e55a5a;
+        }
+        
+        .cart-btn.secondary {
+          background: var(--color-background);
+          color: var(--color-text);
+          border: 1px solid var(--color-border);
+        }
+        
+        .cart-btn.secondary:hover {
+          background: var(--color-border);
+        }
+        
+        .empty-cart {
+          text-align: center;
+          color: var(--color-text-light);
+          padding: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -436,6 +664,31 @@
                 <a href="patchwork_kit_website.html" class="nav-button">✨ よりそいクラフト</a>
             </div>
         </header>
+
+        <!-- ショッピングカートアイコン -->
+        <div class="cart-icon" onclick="openCart()">
+          🛒
+          <div class="cart-count" id="cartCount">0</div>
+        </div>
+        
+        <!-- ショッピングカートモーダル -->
+        <div class="cart-modal" id="cartModal">
+          <div class="cart-content">
+            <div class="cart-header">
+              <div class="cart-title">ショッピングカート</div>
+              <button class="close-cart" onclick="closeCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+              <div class="empty-cart">カートに商品がありません</div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+              小計: <span id="subtotalAmount">0円</span><br>
+              送料: <span id="shippingFee">400円</span><br>
+              <strong>合計: <span id="totalAmount">0円</span></strong>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;"></div>
+          </div>
+        </div>
 
         <main>
             <h1 class="section-title">インフルエンサーコラボ</h1>
@@ -510,6 +763,139 @@
             }
         }
     loadLinks();
+    </script>
+
+    <!-- カート機能 -->
+    <script>
+        let cart = [];
+
+        // カート機能
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem('mcSquareCart');
+            if (savedCart) {
+                try {
+                    cart = JSON.parse(savedCart);
+                    updateCartDisplay();
+                    updateCartCount();
+                } catch (e) {
+                    console.error('カートの復元に失敗しました:', e);
+                    cart = [];
+                }
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartActions = document.getElementById('cartActions');
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart">カートに商品がありません</div>';
+                cartTotal.style.display = 'none';
+                cartActions.style.display = 'none';
+                cartActions.innerHTML = '';
+                return;
+            }
+            let subtotal = 0;
+            let itemsHtml = '';
+            cart.forEach(item => {
+                const priceNum = Number(item.price.replace(/[^\d]/g, ''));
+                const itemTotal = priceNum * item.quantity;
+                subtotal += itemTotal;
+                itemsHtml += `
+                    <div class="cart-item">
+                        <img src="${item.imageUrl || 'Image/MC square Logo.png'}" alt="${item.name}" onerror="this.src='Image/MC square Logo.png'">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.price} × ${item.quantity}枚 (${item.length}cm)</div>
+                            <div class="cart-item-controls">
+                                <button class="cart-qty-btn" onclick="adjustCartQuantity('${item.managementNumber}', -1)">-</button>
+                                <span class="cart-qty-display">${item.quantity}枚</span>
+                                <button class="cart-qty-btn" onclick="adjustCartQuantity('${item.managementNumber}', 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart('${item.managementNumber}')">削除</button>
+                    </div>
+                `;
+            });
+            const shippingFee = calculateShippingFee(cart);
+            const total = subtotal + shippingFee;
+            cartItems.innerHTML = itemsHtml;
+            document.getElementById('subtotalAmount').textContent = subtotal.toLocaleString() + '円';
+            document.getElementById('shippingFee').textContent = shippingFee === 0 ? '送料無料' : shippingFee.toLocaleString() + '円';
+            document.getElementById('totalAmount').textContent = total.toLocaleString() + '円';
+            cartTotal.style.display = 'block';
+            if (cartActions) {
+                cartActions.style.display = 'flex';
+                cartActions.innerHTML = `<button class="cart-btn primary" onclick="proceedToCheckout()">レジに進む</button>`;
+            }
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        function adjustCartQuantity(managementNumber, change) {
+            const item = cart.find(item => item.managementNumber === managementNumber);
+            if (!item) return;
+            const newQuantity = Math.max(1, item.quantity + change);
+            const newLength = newQuantity * 50;
+            item.quantity = newQuantity;
+            item.length = newLength;
+            localStorage.setItem('mcSquareCart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartCount();
+        }
+
+        function removeFromCart(managementNumber) {
+            cart = cart.filter(item => item.managementNumber !== managementNumber);
+            localStorage.setItem('mcSquareCart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartCount();
+        }
+
+        function calculateShippingFee(cart) {
+            let totalLength = cart.reduce((sum, item) => sum + (item.length || 0), 0);
+            let subtotal = cart.reduce((total, item) => {
+                const priceNum = Number(item.price.replace(/[^\d]/g, ''));
+                return total + (priceNum * item.quantity);
+            }, 0);
+            if (subtotal >= 24200) return 0;
+            if (totalLength <= 200) return 400;
+            if (subtotal < 24200) return 900;
+            return 900;
+        }
+
+        function openCart() {
+            document.getElementById('cartModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) { 
+                alert('カートに商品がありません'); 
+                return; 
+            }
+            // 商品一覧ページに遷移して決済を続行
+            window.location.href = 'all_products.html';
+        }
+
+        // ページ読み込み時にカートを復元
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCartFromStorage();
+        });
+
+        // グローバル関数として公開
+        window.adjustCartQuantity = adjustCartQuantity;
+        window.removeFromCart = removeFromCart;
+        window.openCart = openCart;
+        window.closeCart = closeCart;
+        window.proceedToCheckout = proceedToCheckout;
     </script>
 </body>
 </html> 
