@@ -1273,6 +1273,7 @@
         cartItems.innerHTML = '<div class="empty-cart">カートに商品がありません</div>';
         cartTotal.style.display = 'none';
         cartActions.style.display = 'none';
+        cartActions.innerHTML = '';
         return;
       }
       let subtotal = 0;
@@ -1322,7 +1323,10 @@
         freeShippingMsg.style.display = 'none';
       }
       cartTotal.style.display = 'block';
-      if (cartActions) cartActions.style.display = 'flex';
+      if (cartActions) {
+        cartActions.style.display = 'flex';
+        cartActions.innerHTML = `<button class="cart-btn primary" onclick="proceedToCheckout()">レジに進む</button>`;
+      }
       setTimeout(() => {
         cart.forEach(item => {
           const qtyDisplay = document.querySelector(`[onclick="adjustCartQuantity('${item.managementNumber}', -1)"]`)?.parentElement?.querySelector('.cart-qty-display');
