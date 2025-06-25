@@ -2,17 +2,129 @@
 <html>
 <head>
   <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+    button { background: #FF6B6B; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; margin-bottom: 5px; }
+    button:hover { background: #e55a5a; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-secondary { background: #6c757d; }
+    .btn-secondary:hover { background: #5a6268; }
+    .btn-success { background: #28a745; }
+    .btn-success:hover { background: #218838; }
+    .btn-warning { background: #ffc107; color: #212529; }
+    .btn-warning:hover { background: #e0a800; }
+    .error { color: red; margin-top: 5px; }
+    .success { color: green; margin-top: 5px; }
+    .preview-container { margin-top: 20px; border: 1px solid #ddd; padding: 10px; max-height: 400px; overflow-y: auto; }
+    .draft-list { margin-top: 15px; }
+    .draft-item { 
+      border: 1px solid #ddd; 
+      padding: 10px; 
+      margin-bottom: 10px; 
+      border-radius: 4px; 
+      background: #f8f9fa; 
+    }
+    .draft-item:hover { background: #e9ecef; }
+    .draft-name { font-weight: bold; margin-bottom: 5px; }
+    .draft-info { font-size: 0.9em; color: #666; margin-bottom: 5px; }
+    .draft-actions { margin-top: 10px; }
+    .draft-actions button { padding: 5px 10px; font-size: 0.9em; }
+    .tabs { display: flex; margin-bottom: 15px; }
+    .tab { 
+      flex: 1; 
+      padding: 10px; 
+      text-align: center; 
+      background: #f8f9fa; 
+      border: 1px solid #ddd; 
+      cursor: pointer; 
+    }
+    .tab.active { background: #FF6B6B; color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
 </head>
 <body>
-  <h3>メルマガ作成する</h3>
-  <div>
-    <label for="monthSelect">何月分を作りますか？</label>
-    <select id="monthSelect"></select>
-    <button onclick="preview()">作成する</button>
+  <h3>メルマガ作成・送信</h3>
+  
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('compose')">作成・送信</div>
+    <div class="tab" onclick="switchTab('drafts')">Gmail下書き</div>
+    <div class="tab" onclick="switchTab('troubleshoot')">トラブルシューティング</div>
   </div>
-  <div id="previewArea" style="margin-top:20px;"></div>
+  
+  <!-- 作成・送信タブ -->
+  <div id="compose-tab" class="tab-content active">
+    <div class="form-group">
+      <label for="monthSelect">何月分を作りますか？</label>
+      <select id="monthSelect"></select>
+    </div>
+    
+    <div class="form-group">
+      <label for="draftName">下書き名（オプション）</label>
+      <input type="text" id="draftName" placeholder="例：2024年1月のメルマガ">
+    </div>
+    
+    <div class="form-group">
+      <button onclick="preview()">プレビュー表示</button>
+      <button onclick="saveGmailDraft()" class="btn-secondary">Gmail下書き保存</button>
+      <button onclick="sendEmail()" id="sendButton">メール送信</button>
+    </div>
+    
+    <div id="messageArea"></div>
+    <div id="previewArea" class="preview-container" style="display:none;"></div>
+  </div>
+  
+  <!-- Gmail下書きタブ -->
+  <div id="drafts-tab" class="tab-content">
+    <div class="form-group">
+      <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">
+        Gmail下書きフォルダに保存されたメルマガ下書きを表示します。<br>
+        下書きをクリックするとGmailで開きます。
+      </p>
+      <button onclick="loadGmailDraftList()" class="btn-success">下書き一覧を更新</button>
+    </div>
+    <div id="draftListArea"></div>
+  </div>
+  
+  <!-- トラブルシューティングタブ -->
+  <div id="troubleshoot-tab" class="tab-content">
+    <div class="form-group">
+      <h4>権限とアクセス確認</h4>
+      <p style="color: #666; font-size: 0.9em; margin-bottom: 15px;">
+        Gmail下書き保存ができない場合、以下の確認を行ってください。
+      </p>
+      <button onclick="checkAllPermissions()" class="btn-success">権限を確認</button>
+      <button onclick="testGmailConnection()" class="btn-secondary">Gmail接続テスト</button>
+    </div>
+    <div id="troubleshootArea"></div>
+  </div>
 
   <script>
+    let currentDraftId = null;
+    
+    // タブ切り替え
+    function switchTab(tabName) {
+      // タブボタンの状態を更新
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      if (tabName === 'compose') {
+        document.querySelector('.tab:first-child').classList.add('active');
+        document.getElementById('compose-tab').classList.add('active');
+      } else if (tabName === 'drafts') {
+        document.querySelector('.tab:nth-child(2)').classList.add('active');
+        document.getElementById('drafts-tab').classList.add('active');
+        loadGmailDraftList();
+      } else if (tabName === 'troubleshoot') {
+        document.querySelector('.tab:nth-child(3)').classList.add('active');
+        document.getElementById('troubleshoot-tab').classList.add('active');
+      }
+    }
+    
     // 年月リストを取得してプルダウンにセット
     google.script.run.withSuccessHandler(function(months) {
       var select = document.getElementById('monthSelect');
@@ -27,9 +139,256 @@
     // プレビュー表示
     function preview() {
       var month = document.getElementById('monthSelect').value;
-      google.script.run.withSuccessHandler(function(html) {
-        document.getElementById('previewArea').innerHTML = html;
-      }).getMagazineHtml(month);
+      if (!month) {
+        showMessage('月を選択してください', 'error');
+        return;
+      }
+      document.getElementById('previewArea').style.display = 'block';
+      document.getElementById('previewArea').innerHTML = '読み込み中...';
+      google.script.run
+        .withSuccessHandler(function(html) {
+          document.getElementById('previewArea').innerHTML = html;
+        })
+        .withFailureHandler(function(error) {
+          document.getElementById('previewArea').innerHTML = 'エラー: ' + error.message;
+        })
+        .getMagazineHtml(month);
+    }
+
+    // Gmail下書き保存
+    function saveGmailDraft() {
+      var month = document.getElementById('monthSelect').value;
+      var draftName = document.getElementById('draftName').value.trim();
+      if (!month) {
+        showMessage('月を選択してください', 'error');
+        return;
+      }
+      showMessage('Gmail下書きを保存中...', 'success');
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            showMessage(result.message, 'success');
+            // 成功メッセージに詳細情報を追加
+            showMessage(`件名: ${result.subject}`, 'success');
+          } else {
+            showMessage(result.message, 'error');
+          }
+        })
+        .withFailureHandler(function(error) {
+          showMessage('Gmail下書き保存エラー: ' + error.message, 'error');
+        })
+        .saveGmailDraft(month, [], draftName);
+    }
+    
+    // Gmail下書き一覧を読み込み
+    function loadGmailDraftList() {
+      var draftListArea = document.getElementById('draftListArea');
+      draftListArea.innerHTML = '読み込み中...';
+      
+      google.script.run
+        .withSuccessHandler(function(draftList) {
+          if (draftList.length === 0) {
+            draftListArea.innerHTML = '<div style="text-align:center; color:#666;">Gmail下書きにメルマガ関連の下書きがありません</div>';
+            return;
+          }
+          
+          draftListArea.innerHTML = '';
+          draftList.forEach(function(draft) {
+            var draftItem = document.createElement('div');
+            draftItem.className = 'draft-item';
+            draftItem.innerHTML = `
+              <div class="draft-name">${draft.subject}</div>
+              <div class="draft-info">
+                宛先: ${draft.recipients || '未設定'}<br>
+                受信者数: ${draft.recipientCount}件<br>
+                作成日: ${new Date(draft.date).toLocaleString('ja-JP')}
+              </div>
+              <div class="draft-actions">
+                <button onclick="openGmailDraft('${draft.id}')" class="btn-success">Gmailで開く</button>
+                <button onclick="deleteGmailDraft('${draft.id}')" class="btn-warning">削除</button>
+              </div>
+            `;
+            draftListArea.appendChild(draftItem);
+          });
+        })
+        .withFailureHandler(function(error) {
+          draftListArea.innerHTML = '<div class="error">Gmail下書き一覧の読み込みに失敗しました: ' + error.message + '</div>';
+        })
+        .getGmailDraftList();
+    }
+    
+    // Gmail下書きを開く
+    function openGmailDraft(draftId) {
+      // Gmailの下書きURLを開く
+      var gmailUrl = `https://mail.google.com/mail/u/0/#drafts?compose=${draftId}`;
+      window.open(gmailUrl, '_blank');
+    }
+    
+    // Gmail下書きを削除
+    function deleteGmailDraft(draftId) {
+      if (!confirm('このGmail下書きを削除してもよろしいですか？')) {
+        return;
+      }
+      
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            showMessage(result.message, 'success');
+            loadGmailDraftList();
+          } else {
+            showMessage(result.message, 'error');
+          }
+        })
+        .withFailureHandler(function(error) {
+          showMessage('Gmail下書き削除エラー: ' + error.message, 'error');
+        })
+        .deleteGmailDraft(draftId);
+    }
+
+    // メール送信
+    function sendEmail() {
+      var month = document.getElementById('monthSelect').value;
+      var emailInput = document.getElementById('emailInput').value.trim();
+      
+      if (!month) {
+        showMessage('月を選択してください', 'error');
+        return;
+      }
+      
+      if (!emailInput) {
+        showMessage('メールアドレスを入力してください', 'error');
+        return;
+      }
+      
+      var emails = emailInput.split('\n').map(function(email) {
+        return email.trim();
+      }).filter(function(email) {
+        return email.length > 0;
+      });
+      
+      if (emails.length === 0) {
+        showMessage('有効なメールアドレスがありません', 'error');
+        return;
+      }
+      
+      var sendButton = document.getElementById('sendButton');
+      sendButton.disabled = true;
+      sendButton.textContent = '送信中...';
+      
+      showMessage('メールを送信中です...', 'success');
+      
+      google.script.run
+        .withSuccessHandler(function(results) {
+          sendButton.disabled = false;
+          sendButton.textContent = 'メール送信';
+          
+          var successCount = 0;
+          var errorCount = 0;
+          var message = '';
+          
+          results.forEach(function(result) {
+            if (result.success) {
+              successCount++;
+            } else {
+              errorCount++;
+              message += result.email + ': ' + result.message + '\n';
+            }
+          });
+          
+          var finalMessage = '送信完了: ' + successCount + '件成功, ' + errorCount + '件失敗';
+          if (errorCount > 0) {
+            finalMessage += '\n\nエラー詳細:\n' + message;
+          }
+          
+          showMessage(finalMessage, errorCount > 0 ? 'error' : 'success');
+        })
+        .withFailureHandler(function(error) {
+          sendButton.disabled = false;
+          sendButton.textContent = 'メール送信';
+          showMessage('送信エラー: ' + error.message, 'error');
+        })
+        .sendBulkMagazineEmail(month, emails);
+    }
+
+    // メッセージ表示
+    function showMessage(message, type) {
+      var messageArea = document.getElementById('messageArea');
+      messageArea.innerHTML = '<div class="' + type + '">' + message.replace(/\n/g, '<br>') + '</div>';
+    }
+
+    // 権限確認
+    function checkAllPermissions() {
+      var troubleshootArea = document.getElementById('troubleshootArea');
+      troubleshootArea.innerHTML = '権限を確認中...';
+      
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            var html = '<div class="permission-results">';
+            html += '<h5>権限確認結果:</h5>';
+            html += '<p><strong>ユーザーメール:</strong> ' + result.userEmail + '</p>';
+            html += '<ul>';
+            html += '<li>Gmail: ' + (result.permissions.gmail ? '✅ 利用可能' : '❌ 利用不可') + '</li>';
+            html += '<li>Google Drive: ' + (result.permissions.drive ? '✅ 利用可能' : '❌ 利用不可') + '</li>';
+            html += '<li>Spreadsheet: ' + (result.permissions.spreadsheet ? '✅ 利用可能' : '❌ 利用不可') + '</li>';
+            html += '<li>ユーザー情報: ' + (result.permissions.user ? '✅ 利用可能' : '❌ 利用不可') + '</li>';
+            html += '</ul>';
+            
+            if (!result.permissions.gmail) {
+              html += '<div class="error" style="margin-top: 15px; padding: 10px; background: #ffe6e6; border: 1px solid #ff9999; border-radius: 4px;">';
+              html += '<strong>Gmail権限がありません。</strong><br>';
+              html += 'Google Apps Scriptの権限設定でGmailへのアクセスを許可してください。';
+              html += '</div>';
+            }
+            
+            html += '</div>';
+            troubleshootArea.innerHTML = html;
+          } else {
+            troubleshootArea.innerHTML = '<div class="error">権限確認に失敗しました: ' + result.message + '</div>';
+          }
+        })
+        .withFailureHandler(function(error) {
+          troubleshootArea.innerHTML = '<div class="error">権限確認エラー: ' + error.message + '</div>';
+        })
+        .checkPermissions();
+    }
+    
+    // Gmail接続テスト
+    function testGmailConnection() {
+      var troubleshootArea = document.getElementById('troubleshootArea');
+      troubleshootArea.innerHTML = 'Gmail接続をテスト中...';
+      
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            var html = '<div class="gmail-test-results">';
+            html += '<h5>Gmail接続テスト結果:</h5>';
+            html += '<p><strong>ユーザーメール:</strong> ' + result.userEmail + '</p>';
+            html += '<p><strong>下書き数:</strong> ' + result.draftCount + '件</p>';
+            html += '<p><strong>ステータス:</strong> ✅ 接続正常</p>';
+            html += '</div>';
+            troubleshootArea.innerHTML = html;
+          } else {
+            var html = '<div class="error" style="margin-top: 15px; padding: 10px; background: #ffe6e6; border: 1px solid #ff9999; border-radius: 4px;">';
+            html += '<h5>Gmail接続エラー:</h5>';
+            html += '<p><strong>エラー:</strong> ' + result.message + '</p>';
+            html += '<p><strong>エラーコード:</strong> ' + result.errorCode + '</p>';
+            html += '<hr>';
+            html += '<h6>解決方法:</h6>';
+            html += '<ol>';
+            html += '<li>Google Apps Scriptエディタで「実行」→「関数を実行」→「testGmailAccess」を実行</li>';
+            html += '<li>権限の承認画面が表示されたら「許可」をクリック</li>';
+            html += '<li>Gmailアカウントが正しく連携されているか確認</li>';
+            html += '<li>Netlifyの設定でGoogleアカウントの認証が正しく設定されているか確認</li>';
+            html += '</ol>';
+            html += '</div>';
+            troubleshootArea.innerHTML = html;
+          }
+        })
+        .withFailureHandler(function(error) {
+          troubleshootArea.innerHTML = '<div class="error">Gmail接続テストエラー: ' + error.message + '</div>';
+        })
+        .testGmailAccess();
     }
   </script>
 </body>
