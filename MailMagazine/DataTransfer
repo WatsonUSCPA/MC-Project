@@ -2,7 +2,7 @@
 
 /**
  * 入力シートのA列からF列のデータを
- * 商品データ履歴シートのA列からH列の最終行に追記する関数。
+ * 商品データ履歴シートのA列からH列の2行目に挿入する関数。
  */
 function appendDataToProductHistory() {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
@@ -53,44 +53,34 @@ function appendDataToProductHistory() {
     return;
   }
 
-  // 商品データ履歴シートの最終行を取得し、その次の行からデータを追記
+  // 商品データ履歴シートの最終行を取得
   const lastRowProductHistory = productHistorySheet.getLastRow();
-  // 追記する最初の行（既存データの次の行）
-  const targetStartRow = lastRowProductHistory + 1;
-
-  // 追記する範囲を特定 (A列からH列まで)
-  // 入力シートはF列までですが、商品データ履歴シートはH列まであるため、
-  // 不足しているG, H列は空になります。
-  // 必要であれば、ここでG列（アップロード日）とH列（アーカイブ日）のデータを生成して追加することも可能です。
+  
+  // 既存データがある場合は、4行目以降のデータを下にずらす
+  if (lastRowProductHistory >= 4) {
+    // 4行目から最終行までの既存データを取得
+    const existingData = productHistorySheet.getRange(4, 1, lastRowProductHistory - 3, 8).getValues();
+    // 既存データを新しい行数分下にずらす
+    const newStartRow = 4 + dataToCopy.length;
+    productHistorySheet.getRange(newStartRow, 1, existingData.length, 8).setValues(existingData);
+  }
 
   // データにアップロード日とアーカイブ日を追加する処理例
   const now = new Date();
   const todayFormatted = Utilities.formatDate(now, SpreadsheetApp.getActiveSpreadsheet().getSpreadsheetTimeZone(), 'yyyy/MM/dd');
 
   const dataWithDates = dataToCopy.map(row => {
-    // row は A〜F 列のデータ
-    const newRow = [...row]; // 既存の A-F 列のデータをコピー
-
-    // G列: アップロード日 (今日の日付)
-    // H列: アーカイブ日 (空欄、または必要なら何か設定)
-    // ※ スプレッドシートの列順とkeyMapの定義を考慮してください
-    // 例えば、keyMapが {"アップロード日": "uploadDate", "アーカイブ日": "archiveDate"} の場合
-    // スプレッドシートのG列がアップロード日、H列がアーカイブ日だとすると、
-    // ここで newRow[6] がG列、newRow[7] がH列に相当します。
+    const newRow = [...row];
     newRow[6] = todayFormatted; // G列に今日の日付を設定
-    newRow[7] = ''; // H列は空に設定、必要なら変更
-
-    // 商品データ履歴シートの列数に合わせて調整してください。
-    // 今回はA-H列なので、6番目(インデックス6)がG列、7番目(インデックス7)がH列。
-    // スプレッドシートの列数より多く追加するとエラーになる可能性があります。
+    newRow[7] = ''; // H列は空に設定
     return newRow;
   });
 
-  // データを商品データ履歴シートに貼り付け
-  productHistorySheet.getRange(targetStartRow, 1, dataWithDates.length, dataWithDates[0].length).setValues(dataWithDates);
+  // データを商品データ履歴シートの4行目に挿入
+  productHistorySheet.getRange(4, 1, dataWithDates.length, dataWithDates[0].length).setValues(dataWithDates);
 
   // 処理完了メッセージ（必要であれば）
-  Browser.msgBox('完了', '入力シートのデータが商品データ履歴シートに追記されました。', Browser.Buttons.OK);
+  Browser.msgBox('完了', '入力シートのデータが商品データ履歴シートの4行目に挿入されました。', Browser.Buttons.OK);
 
   // 追記後、入力シートの2行目以降のデータをクリアする (有効化)
   inputSheet.getRange(2, 1, lastRowInput - 1, 6).clearContent();
@@ -98,7 +88,7 @@ function appendDataToProductHistory() {
   // 入力シートのA列からF列の45行目まで枠線を全部追加
   addBordersToInputSheet(inputSheet);
   
-  Browser.msgBox('完了', '入力シートのデータが商品データ履歴シートに追記され、入力シートがクリアされました。', Browser.Buttons.OK);
+  Browser.msgBox('完了', '入力シートのデータが商品データ履歴シートに挿入され、入力シートがクリアされました。', Browser.Buttons.OK);
 }
 
 /**
