@@ -112,7 +112,7 @@ function getMagazineHtml(selectedMonth) {
             <img src="${imageUrl}" alt="${management}" style="width:100%;max-width:200px;height:auto;object-fit:cover;border-radius:16px;border:1px solid #FFD4C4;background:#f8f8f8;display:block;margin:0 auto 8px auto;">
             <div style="color:#636E72;font-size:0.95rem;margin-bottom:4px;">管理番号: ${management}</div>
             <div style="color:#FF6B6B;font-size:1.1rem;font-weight:bold;margin-bottom:8px;">${formattedPrice}</div>
-            <a href="https://www.mcsquareofficials.com/inventory.html" style="display:inline-block;background:#FF6B6B;color:white;padding:8px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">購入はこちら</a>
+            <a href="https://www.mcsquareofficials.com/all_products.html" style="display:inline-block;background:#FF6B6B;color:white;padding:8px 24px;border-radius:8px;text-decoration:none;font-weight:bold;margin:8px 0;">購入はこちら</a>
           </td>
         </tr>
       `;
@@ -121,7 +121,10 @@ function getMagazineHtml(selectedMonth) {
 
   html += `
       </table>
-      <div style="text-align:center;color:#636E72;font-size:0.9rem;margin:16px 0;">ご購入はウェブサイトからお願いします</div>
+      <div style="text-align:center;color:#636E72;font-size:0.9rem;margin:16px 0;">
+        ご購入はウェブサイトからお願いします<br>
+        <a href="https://www.mcsquareofficials.com/all_products.html" style="color:#FF6B6B;text-decoration:underline;font-weight:bold;margin-top:8px;display:inline-block;">商品一覧ページはこちら</a>
+      </div>
     </div>
   </div>
   `;
@@ -554,4 +557,22 @@ function deleteGmailDraft(draftId) {
       message: 'Gmail下書きの削除に失敗しました: ' + error.message
     };
   }
+}
+
+// メルマガHTML生成テスト用関数
+function testMagazineHtml() {
+  const testMonth = '2024/01'; // テスト用の月
+  const html = getMagazineHtml(testMonth);
+  console.log('Generated HTML:');
+  console.log(html);
+  return html;
+}
+
+// メルマガHTML生成テスト用関数（プレビュー用）
+function previewMagazineHtml(selectedMonth) {
+  const html = getMagazineHtml(selectedMonth);
+  const htmlOutput = HtmlService.createHtmlOutput(html);
+  htmlOutput.setTitle(`${selectedMonth} メルマガプレビュー`);
+  SpreadsheetApp.getUi().showModalDialog(htmlOutput, `${selectedMonth} メルマガプレビュー`);
+  return html;
 } 
