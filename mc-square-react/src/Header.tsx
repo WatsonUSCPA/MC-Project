@@ -7,7 +7,7 @@ const navItems = [
   { to: '/kits', icon: '🧩', label: 'キット' },
   { to: '/influencer_subscription', icon: '🌟', label: 'コラボ' },
   { to: '/subscription', icon: '📦', label: 'サブスク' },
-  { to: '/patchwork_kit_website', icon: '✨', label: 'よりそいクラフト' },
+  // { to: '/patchwork_kit_website', icon: '✨', label: 'よりそいクラフト' },
 ];
 
 const getImageSrc = (url?: string) => {

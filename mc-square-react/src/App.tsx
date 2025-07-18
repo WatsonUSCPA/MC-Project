@@ -72,7 +72,7 @@ function App() {
           <Route path="/kits" element={<Kits />} />
           <Route path="/influencer_subscription" element={<InfluencerCollab />} />
           <Route path="/subscription" element={<Subscription />} />
-          <Route path="/patchwork_kit_website" element={<YorisoiCraft />} />
+          {/* <Route path="/patchwork_kit_website" element={<YorisoiCraft />} /> */}
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
 
@@ -96,10 +96,10 @@ function App() {
                     <span role="img" aria-label="コラボ">🌟</span>
                     インフルエンサーコラボ
                   </Link>
-                  <Link to="/patchwork_kit_website" className="hero-btn">
+                  {/* <Link to="/patchwork_kit_website" className="hero-btn">
                     <span role="img" aria-label="クラフト">✨</span>
                     よりそいクラフト
-                  </Link>
+                  </Link> */}
                   <Link to="/kits" className="hero-btn">
                     <span role="img" aria-label="キット">🧩</span>
                     キット
