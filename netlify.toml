@@ -1,7 +1,7 @@
 # Netlifyの基本的なビルド設定
 [build]
-  # プロジェクトのルートディレクトリ（HTMLなどがある場所）
-  publish = "."
+  # Reactアプリのビルドディレクトリ
+  publish = "mc-square-react/build"
   # Netlify Functionsの場所
   functions = "netlify/functions"
 
@@ -9,7 +9,13 @@
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
 
-# サーバーへのアクセスを簡単にするためのリダイレクト設定
+# React Router用のリダイレクト設定（SPA対応）
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# API用のリダイレクト設定
 [[redirects]]
   # /api/ へのアクセスを、
   from = "/api/*"
