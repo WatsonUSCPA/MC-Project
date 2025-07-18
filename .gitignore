@@ -1,5 +1,6 @@
 # 自動生成される依存関係フォルダ
 StripeSetting/node_modules/
+mc-square-react/node_modules/
 
 # 秘密情報を含む環境変数ファイル
 StripeSetting/.env
