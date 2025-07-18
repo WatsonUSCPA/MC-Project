@@ -5,6 +5,7 @@ mc-square-react/node_modules/
 # 秘密情報を含む環境変数ファイル
 StripeSetting/.env
 .env
+mc-square-react/.env
 
 # macOSシステムファイル
 .DS_Store 

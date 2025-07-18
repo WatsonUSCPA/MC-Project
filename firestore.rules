@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ユーザー関連のデータ
+    match /users/{userId} {
+      // 自分のデータのみ読み書き可能
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ニュース記事（公開データ）
+    match /news/{newsId} {
+      // 誰でも読み取り可能、管理者のみ書き込み可能
+      allow read: if true;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // リンクデータ（公開データ）
+    match /links/{linkId} {
+      // 誰でも読み取り可能、管理者のみ書き込み可能
+      allow read: if true;
+      allow write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // 注文履歴
+    match /orders/{orderId} {
+      // 自分の注文のみ読み取り可能
+      allow read: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
+      // 注文作成は認証済みユーザーのみ
+      allow create: if request.auth != null;
+    }
+  }
+} 
