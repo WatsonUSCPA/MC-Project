@@ -2,7 +2,7 @@
 // APIキーを安全に隠すためのローカルサーバー
 
 const express = require('express');
-const stripe = require('stripe')('sk_test_51RarFpLF1d53iQAwAso92YvFVJaUI9e3CFGZbZtfOpkMSeGg5JJe5czCz56xlPsWvSjtattMFgGMbA6M4sUAiCWe002TKm5cPS');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_your_stripe_secret_key_here');
 const cors = require('cors');
 
 const app = express();

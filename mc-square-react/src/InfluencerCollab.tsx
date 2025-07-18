@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 // Firebase
 import { app } from './firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { useCart } from './CartContext';
 
 const db = getFirestore(app);
 
@@ -23,8 +22,7 @@ const InfluencerCollab: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   // const [cartModalOpen, setCartModalOpen] = useState(false); // 削除
 
-  // グローバルカートコンテキストを使用（将来の拡張用）
-  // const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
+
 
   // Firestoreからコラボ商品リンク取得
   useEffect(() => {
