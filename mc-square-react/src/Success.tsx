@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useCart } from './CartContext';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -47,8 +47,8 @@ const Success: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  // saveOrderを外に出す
-  const saveOrder = async (user: any) => {
+  // saveOrderをuseCallbackでメモ化
+  const saveOrder = useCallback(async (user: any) => {
     if (!user) return;
     try {
       const userRef = doc(db, 'users', user.uid);
@@ -76,7 +76,7 @@ const Success: React.FC = () => {
     } catch (e) {
       console.error('購入履歴追加エラー:', e);
     }
-  };
+  }, [orderItems, paidAmount, shipping]);
 
   // 必要な情報が全て揃ったら履歴保存
   useEffect(() => {

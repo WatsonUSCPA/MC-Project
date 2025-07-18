@@ -15,15 +15,7 @@ interface LinkData {
   imageUrl?: string;
 }
 
-// CartItem interface is used in CartContext
-interface CartItem {
-  managementNumber: string;
-  name: string;
-  price: string;
-  imageUrl?: string;
-  quantity: number;
-  length?: number;
-}
+
 
 const InfluencerCollab: React.FC = () => {
   const [links, setLinks] = useState<LinkData[]>([]);
@@ -31,8 +23,8 @@ const InfluencerCollab: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   // const [cartModalOpen, setCartModalOpen] = useState(false); // 削除
 
-  // グローバルカートコンテキストを使用
-  const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
+  // グローバルカートコンテキストを使用（将来の拡張用）
+  // const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
 
   // Firestoreからコラボ商品リンク取得
   useEffect(() => {

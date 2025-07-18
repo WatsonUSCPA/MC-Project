@@ -10,10 +10,7 @@ interface Product {
   status?: string;
 }
 
-// CartItem interface is used in CartContext
-interface CartItem extends Product {
-  quantity: number;
-}
+
 
 const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from './CartContext';
-import { getAuth } from 'firebase/auth';
-import { app } from './firebase';
 
 const navItems = [
   { to: '/all-products', icon: '🧵', label: '生地' },
@@ -39,7 +37,6 @@ const Header: React.FC = () => {
   const cartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const isMobile = useIsMobile();
-  const auth = getAuth();
 
   // カート詳細の外側クリックで閉じる（PCのみ）
   useEffect(() => {
