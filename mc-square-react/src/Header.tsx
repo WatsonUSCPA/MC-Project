@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from './CartContext';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { app } from './firebase';
 
 const navItems = [
@@ -41,9 +40,6 @@ const Header: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const isMobile = useIsMobile();
   const auth = getAuth();
-  const user = auth.currentUser;
-  const navigate = useNavigate();
-  const db = getFirestore(app);
 
   // カート詳細の外側クリックで閉じる（PCのみ）
   useEffect(() => {

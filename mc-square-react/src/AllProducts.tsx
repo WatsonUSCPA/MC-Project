@@ -10,6 +10,7 @@ interface Product {
   status?: string;
 }
 
+// CartItem interface is used in CartContext
 interface CartItem extends Product {
   quantity: number;
 }
@@ -25,7 +26,7 @@ const AllProducts: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(6);
   
   // グローバルカートコンテキストを使用
-  const { cart, addToCart, removeFromCart, updateQuantity, cartCount, totalPrice } = useCart();
+  const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
 
   // 商品名リスト（重複なし）
   const productNames = Array.from(new Set(products.map(p => p.name).filter(Boolean)));

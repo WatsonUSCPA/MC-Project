@@ -32,7 +32,7 @@ const Subscription = () => (
             <div style={{ background: '#fff7f2', borderRadius: 12, padding: '1em', color: '#E1306C', marginBottom: '1em' }}>
               <b>量販店などではあまり見かけない、最新で珍しい国産コットンを是非お手に取ってご覧ください。</b>
             </div>
-            <a href="https://mcsquare.thebase.in/items/101744201" className="subscription-button" target="_blank" rel="noopener" style={{ display: 'inline-block', background: 'var(--color-primary)', color: 'white', textDecoration: 'none', padding: '0.8rem 1.5rem', borderRadius: 20, fontWeight: 600, fontSize: '1rem', transition: 'all 0.3s ease', textAlign: 'center', marginTop: 'auto' }}>BASEで詳細・購入</a>
+            <a href="https://mcsquare.thebase.in/items/101744201" className="subscription-button" target="_blank" rel="noreferrer" style={{ display: 'inline-block', background: 'var(--color-primary)', color: 'white', textDecoration: 'none', padding: '0.8rem 1.5rem', borderRadius: 20, fontWeight: 600, fontSize: '1rem', transition: 'all 0.3s ease', textAlign: 'center', marginTop: 'auto' }}>BASEで詳細・購入</a>
           </div>
           {/* アメリカンコットン マンスリー */}
           <div className="subscription-card" style={{ background: '#fff', borderRadius: 20, padding: '2rem', boxShadow: '0 4px 8px rgba(255, 159, 124, 0.08)', border: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
@@ -50,7 +50,7 @@ const Subscription = () => (
             <div style={{ background: '#fff7f2', borderRadius: 12, padding: '1em', color: '#E1306C', marginBottom: '1em' }}>
               <b>Free spirits, Michael Miller, Benartex などなど最新で珍しいアメリカンコットンを是非お手に取ってご覧ください。</b>
             </div>
-            <a href="https://mcsquare.thebase.in/items/101742800" className="subscription-button" target="_blank" rel="noopener" style={{ display: 'inline-block', background: 'var(--color-primary)', color: 'white', textDecoration: 'none', padding: '0.8rem 1.5rem', borderRadius: 20, fontWeight: 600, fontSize: '1rem', transition: 'all 0.3s ease', textAlign: 'center', marginTop: 'auto' }}>BASEで詳細・購入</a>
+            <a href="https://mcsquare.thebase.in/items/101742800" className="subscription-button" target="_blank" rel="noreferrer" style={{ display: 'inline-block', background: 'var(--color-primary)', color: 'white', textDecoration: 'none', padding: '0.8rem 1.5rem', borderRadius: 20, fontWeight: 600, fontSize: '1rem', transition: 'all 0.3s ease', textAlign: 'center', marginTop: 'auto' }}>BASEで詳細・購入</a>
           </div>
         </div>
       </section>

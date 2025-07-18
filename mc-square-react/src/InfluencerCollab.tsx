@@ -15,6 +15,7 @@ interface LinkData {
   imageUrl?: string;
 }
 
+// CartItem interface is used in CartContext
 interface CartItem {
   managementNumber: string;
   name: string;
@@ -31,7 +32,7 @@ const InfluencerCollab: React.FC = () => {
   // const [cartModalOpen, setCartModalOpen] = useState(false); // 削除
 
   // グローバルカートコンテキストを使用
-  const { cart, addToCart, removeFromCart, updateQuantity, cartCount, totalPrice } = useCart();
+  const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
 
   // Firestoreからコラボ商品リンク取得
   useEffect(() => {
@@ -53,20 +54,20 @@ const InfluencerCollab: React.FC = () => {
     fetchLinks();
   }, []);
 
-  // カート操作
-  const handleChangeQuantity = (managementNumber: string, diff: number) => {
-    const currentItem = cart.find(item => item.managementNumber === managementNumber);
-    if (currentItem) {
-      const newQuantity = Math.max(1, currentItem.quantity + diff);
-      updateQuantity(managementNumber, newQuantity);
-    }
-  };
-  const handleRemove = (managementNumber: string) => {
-    removeFromCart(managementNumber);
-  };
-  const handleAddToCart = (product: any) => {
-    addToCart(product);
-  };
+  // カート操作（未使用だが将来の拡張用）
+  // const handleChangeQuantity = (managementNumber: string, diff: number) => {
+  //   const currentItem = cart.find(item => item.managementNumber === managementNumber);
+  //   if (currentItem) {
+  //     const newQuantity = Math.max(1, currentItem.quantity + diff);
+  //     updateQuantity(managementNumber, newQuantity);
+  //   }
+  // };
+  // const handleRemove = (managementNumber: string) => {
+  //   removeFromCart(managementNumber);
+  // };
+  // const handleAddToCart = (product: any) => {
+  //   addToCart(product);
+  // };
   // 決済ボタンはAllProducts等と同じく、HeaderのカートUIから行う想定
 
   // 画像パス正規化関数（未使用化）

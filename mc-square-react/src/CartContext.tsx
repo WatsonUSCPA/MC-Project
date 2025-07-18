@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { initializeApp, getApps, getApp } from 'firebase/app';
 
 interface Product {
   managementNumber: string;

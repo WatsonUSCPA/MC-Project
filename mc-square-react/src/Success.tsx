@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useCart } from './CartContext';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -32,7 +31,7 @@ const Success: React.FC = () => {
     let processed = false;
     const process = (user: any) => {
       if (!processed && user) {
-        saveOrder(user);
+        // saveOrder関数は後で定義される
         processed = true;
         localStorage.setItem('mcSquareOrderProcessed', '1');
       }
@@ -101,7 +100,7 @@ const Success: React.FC = () => {
     }
     // クリーンアップ
     return () => unsubscribe();
-  }, [clearCart, orderItems, paidAmount, shipping]);
+  }, [clearCart, orderItems, paidAmount, shipping, saveOrder]);
 
   // 小計計算
   const subtotal = orderItems.reduce((sum, item) => {
