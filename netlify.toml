@@ -1,5 +1,7 @@
 # Netlifyの基本的なビルド設定
 [build]
+  # ビルドコマンド
+  command = "cd mc-square-react && npm install && npm run build"
   # Reactアプリのビルドディレクトリ
   publish = "mc-square-react/build"
   # Netlify Functionsの場所
@@ -8,6 +10,10 @@
 # これが依存関係をインストールするための重要なプラグインです
 [[plugins]]
   package = "@netlify/plugin-functions-install-core"
+
+# Node.jsのバージョンを指定
+[build.environment]
+  NODE_VERSION = "18"
 
 # React Router用のリダイレクト設定（SPA対応）
 [[redirects]]
