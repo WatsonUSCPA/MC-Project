@@ -7,7 +7,7 @@ import AllProducts from './AllProducts';
 import Kits from './Kits';
 import InfluencerCollab from './InfluencerCollab';
 import Subscription from './Subscription';
-import YorisoiCraft from './YorisoiCraft';
+// import YorisoiCraft from './YorisoiCraft';
 import { CartProvider } from './CartContext';
 import { useEffect, useState } from 'react';
 import { app } from './firebase';
