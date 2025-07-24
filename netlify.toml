@@ -14,6 +14,7 @@
 # Node.jsのバージョンを指定
 [build.environment]
   NODE_VERSION = "18"
+  CI = "false"
 
 # React Router用のリダイレクト設定（SPA対応）
 [[redirects]]
