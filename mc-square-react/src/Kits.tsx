@@ -27,7 +27,7 @@ const Kits: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(6);
   
   // グローバルカートコンテキストを使用
-  const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
+  const { cart, addToCart } = useCart();
 
   // 布の購入数を計算
   const fabricCount = cart.reduce((sum, item) => {

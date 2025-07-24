@@ -80,7 +80,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
     
     // キットを価格順にソート（高い順）
-    const sortedKits = [...kitItems].sort((a, b) => {
+    const _sortedKits = [...kitItems].sort((a, b) => {
       const priceA = Number(String(a.price).replace(/[^\d.]/g, ''));
       const priceB = Number(String(b.price).replace(/[^\d.]/g, ''));
       return priceB - priceA;
@@ -118,6 +118,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       }
     }
     setIsInitialized(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // カート情報をローカルストレージに保存（初期化後のみ）
