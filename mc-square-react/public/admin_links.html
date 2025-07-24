@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者リンク管理ページ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #FF6B6B;
+            --color-secondary: #FFB347;
+            --color-background: #FFF5F0;
+            --color-background-alt: #FFF0E8;
+            --color-text: #2D3436;
+            --color-border: #FFD4C4;
+            --border-radius: 20px;
+            --shadow-md: 0 8px 16px rgba(255, 159, 124, 0.12);
+            --spacing-md: 2rem;
+            --spacing-sm: 1rem;
+        }
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 3rem auto;
+            background: var(--color-background-alt);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-md);
+        }
+        h1 {
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+        }
+        .theme-message {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.08em;
+        }
+        #auth-area {
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+        #login-form input {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-border);
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+        #login-form button {
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #login-form button:hover {
+            background: var(--color-secondary);
+        }
+        #login-error {
+            color: #ff0000;
+            margin-top: 0.5rem;
+        }
+        .link-list {
+            margin-bottom: var(--spacing-md);
+        }
+        .link-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(255, 159, 124, 0.08);
+            padding: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .link-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .link-title {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+        .link-desc {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+        .link-url {
+            color: var(--color-text);
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+        .link-icon {
+            font-size: 1.5rem;
+            margin-right: 0.7rem;
+        }
+        .link-actions button {
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.3rem 0.8rem;
+            margin-left: 0.3rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .link-actions button:hover {
+            background: var(--color-secondary);
+        }
+        .form-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.7rem;
+        }
+        .form-row input {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-border);
+            font-size: 1rem;
+        }
+        .form-row input[type="text"] {
+            min-width: 0;
+        }
+        .form-row input[type="url"] {
+            min-width: 0;
+        }
+        .form-actions {
+            text-align: right;
+        }
+        .form-actions button {
+            background: var(--color-primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .form-actions button:hover {
+            background: var(--color-secondary);
+        }
+        .loading {
+            text-align: center;
+            color: #aaa;
+            margin: 1.5rem 0;
+        }
+        .error {
+            text-align: center;
+            color: #ff0000;
+            margin: 1.5rem 0;
+        }
+        .news-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+        }
+        .news-list {
+            margin-bottom: var(--spacing-md);
+        }
+        .news-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(255, 159, 124, 0.08);
+            padding: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .news-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .news-date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        .news-title {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: 1.1rem;
+        }
+        .news-content {
+            color: var(--color-text);
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            background: var(--color-background);
+            color: var(--color-text);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--color-border);
+        }
+        .nav-button:hover {
+            background: var(--color-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .nav-button.active {
+            background: var(--color-primary);
+            color: white;
+        }
+        .section-toggle {
+            margin-bottom: var(--spacing-md);
+        }
+        .toggle-button {
+            width: 100%;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .toggle-button:hover {
+            background: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .toggle-button.active {
+            background: var(--color-secondary);
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-button.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        .toggle-content {
+            background: var(--color-background);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-md);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>インフルエンサー定期便 管理ページ</h1>
+        <div class="theme-message">いいものはいつまでも</div>
+        <div id="auth-area">
+            <form id="login-form">
+                <label>管理者パスワード: <input type="password" id="admin-pass"></label>
+                <button type="submit">ログイン</button>
+            </form>
+            <div id="login-error" style="display:none;">パスワードが違います</div>
+        </div>
+        <div id="admin-content" style="display:none;">
+            <div class="section-toggle">
+                <button id="link-toggle" class="toggle-button">
+                    <span class="toggle-icon">▼</span>
+                    インフルエンサーリンク管理
+                </button>
+                <div id="link-section" class="toggle-content" style="display:none;">
+                    <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">リンク管理</h2>
+                    <div id="status-area"></div>
+                    <div class="link-list" id="link-list"></div>
+                    <form id="link-form">
+                        <div class="form-row">
+                            <input type="text" id="link-title" placeholder="タイトル" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="url" id="link-apply-url" placeholder="申し込みURL" required>
+                            <input type="url" id="link-influencer-url" placeholder="インフルエンサーURL" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="link-price" placeholder="値段 (例: 1,650円)" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="url" id="link-image-url" placeholder="画像URL (任意)">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="submit-btn">追加</button>
+                            <button type="button" id="cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="news-section">
+                <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">お知らせ管理</h2>
+                <div id="news-status-area"></div>
+                <div class="news-list" id="news-list"></div>
+                <form id="news-form">
+                    <div class="form-row">
+                        <input type="date" id="news-date" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="news-title" placeholder="タイトル" required>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="news-content" placeholder="内容" required style="width: 100%; min-height: 100px; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem; font-family: inherit;"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="news-submit-btn">追加</button>
+                        <button type="button" id="news-cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="news-section">
+                <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">キット管理</h2>
+                <div id="kit-status-area"></div>
+                <div class="news-list" id="kit-list"></div>
+                <form id="kit-form">
+                    <div class="form-row">
+                        <input type="text" id="kit-name" placeholder="キット名" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="url" id="kit-image-url" placeholder="画像URL" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="kit-price" placeholder="価格 (例: 1,650円)" required>
+                    </div>
+                    <div class="form-row">
+                        <select id="kit-fabric-size" required style="flex: 1; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem;">
+                            <option value="">必要な布の大きさを選択</option>
+                            <option value="50cm">50cm</option>
+                            <option value="100cm">100cm</option>
+                            <option value="150cm">150cm</option>
+                            <option value="200cm">200cm</option>
+                            <option value="250cm">250cm</option>
+                            <option value="300cm">300cm</option>
+                        </select>
+                        <select id="kit-level" required style="flex: 1; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem;">
+                            <option value="">レベルを選択</option>
+                            <option value="初級">初級</option>
+                            <option value="中級">中級</option>
+                            <option value="上級">上級</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="kit-comment" placeholder="コメント" required style="width: 100%; min-height: 100px; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem; font-family: inherit;"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="kit-submit-btn">追加</button>
+                        <button type="button" id="kit-cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="nav-buttons">
+      <a href="index.html" class="nav-button">🏠 ホーム</a>
+      <a href="influencer_subscription.html" class="nav-button">🌟 インフルエンサーコラボ</a>
+      <a href="all_products.html" class="nav-button">🛒 商品一覧・生地</a>
+      <a href="patchwork_kit_website.html" class="nav-button">✨ よりそいクラフト</a>
+    </div>
+    <footer style="margin-top:2em;text-align:center;">
+      <div style="display:flex;gap:1.5em;justify-content:center;flex-wrap:wrap;">
+        <a href="legal_notice.html" class="nav-button" style="background:var(--color-background);color:var(--color-primary);font-weight:600;">特定商取引法に基づく表記</a>
+        <a href="privacy_policy.html" class="nav-button" style="background:var(--color-background);color:var(--color-primary);font-weight:600;">プライバシーポリシー</a>
+        <a href="terms_of_service.html" class="nav-button" style="background:var(--color-background);color:var(--color-primary);font-weight:600;">利用規約</a>
+      </div>
+    </footer>
+    <script type="module">
+    // Firebase SDK v9+ modular import
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2nPjePLfr6ZlxTOLPC7OuYWrD0k6JqJ4",
+      authDomain: "link-manager-f4ea8.firebaseapp.com",
+      projectId: "link-manager-f4ea8",
+      storageBucket: "link-manager-f4ea8.firebasestorage.app",
+      messagingSenderId: "96350140236",
+      appId: "1:96350140236:web:fe858a8661067f5f0081e9",
+      measurementId: "G-90CXT9WS4Y"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const linksCol = collection(db, "links");
+    const newsCol = collection(db, "news");
+    const kitsCol = collection(db, "kits");
+
+    // パスワード（必要に応じて変更してください）
+    const PASSWORD = "admin1234";
+
+    // 認証処理
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const input = document.getElementById('admin-pass').value;
+        if (input === PASSWORD) {
+            document.getElementById('auth-area').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'block';
+            loadLinks();
+            loadNews();
+            loadKits();
+        } else {
+            document.getElementById('login-error').style.display = 'block';
+        }
+    });
+
+    // お知らせ管理機能
+    let newsEditId = null;
+    let newsCache = [];
+
+    // お知らせ一覧の読み込み
+    async function loadNews() {
+        const newsList = document.getElementById('news-list');
+        newsList.innerHTML = '<div class="loading">読み込み中...</div>';
+
+        try {
+            const querySnapshot = await getDocs(newsCol);
+            newsCache = [];
+            newsList.innerHTML = '';
+
+            querySnapshot.forEach((doc) => {
+                const news = { id: doc.id, ...doc.data() };
+                newsCache.push(news);
+            });
+
+            // 日付でソート
+            newsCache.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            newsCache.forEach((news) => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.innerHTML = `
+                    <div class="news-info">
+                        <div class="news-date">${news.date}</div>
+                        <div class="news-title">${news.title}</div>
+                        <div class="news-content">${news.content}</div>
+                    </div>
+                    <div class="link-actions">
+                        <button onclick="editNews('${news.id}')">編集</button>
+                        <button onclick="deleteNews('${news.id}')">削除</button>
+                    </div>
+                `;
+                newsList.appendChild(newsCard);
+            });
+        } catch (error) {
+            newsList.innerHTML = '<div class="error">エラーが発生しました</div>';
+            console.error("Error loading news:", error);
+        }
+    }
+
+    // お知らせの追加・更新
+    document.getElementById('news-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('news-submit-btn');
+        submitBtn.disabled = true;
+
+        try {
+            const newsData = {
+                date: document.getElementById('news-date').value,
+                title: document.getElementById('news-title').value,
+                content: document.getElementById('news-content').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (newsEditId) {
+                // 更新
+                const newsRef = doc(db, "news", newsEditId);
+                await updateDoc(newsRef, newsData);
+                showStatus('お知らせを更新しました', 'success');
+            } else {
+                // 新規追加
+                newsData.createdAt = newsData.updatedAt;
+                await addDoc(newsCol, newsData);
+                showStatus('お知らせを追加しました', 'success');
+            }
+
+            // フォームをリセット
+            document.getElementById('news-form').reset();
+            newsEditId = null;
+            document.getElementById('news-cancel-edit').style.display = 'none';
+            submitBtn.textContent = '追加';
+            submitBtn.disabled = false;
+
+            // 一覧を更新
+            loadNews();
+        } catch (error) {
+            showStatus('エラーが発生しました', 'error');
+            console.error("Error saving news:", error);
+            submitBtn.disabled = false;
+        }
+    });
+
+    // お知らせの編集
+    window.editNews = function(id) {
+        const news = newsCache.find(n => n.id === id);
+        if (news) {
+            document.getElementById('news-date').value = news.date;
+            document.getElementById('news-title').value = news.title;
+            document.getElementById('news-content').value = news.content;
+            newsEditId = id;
+            document.getElementById('news-cancel-edit').style.display = 'inline-block';
+            document.getElementById('news-submit-btn').textContent = '更新';
+        }
+    };
+
+    // お知らせの削除
+    window.deleteNews = async function(id) {
+        if (confirm('このお知らせを削除してもよろしいですか？')) {
+            try {
+                await deleteDoc(doc(db, "news", id));
+                showStatus('お知らせを削除しました', 'success');
+                loadNews();
+            } catch (error) {
+                showStatus('エラーが発生しました', 'error');
+                console.error("Error deleting news:", error);
+            }
+        }
+    };
+
+    // 編集のキャンセル
+    document.getElementById('news-cancel-edit').addEventListener('click', function() {
+        document.getElementById('news-form').reset();
+        newsEditId = null;
+        this.style.display = 'none';
+        document.getElementById('news-submit-btn').textContent = '追加';
+    });
+
+    // リンク管理機能
+    let editId = null;
+    let linksCache = [];
+
+    async function loadLinks() {
+        setStatus('loading', 'リンクを取得中...');
+        try {
+            const snapshot = await getDocs(linksCol);
+            linksCache = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderLinks(linksCache);
+            setStatus();
+        } catch (e) {
+            setStatus('error', 'リンクの取得に失敗しました');
+        }
+    }
+
+    function renderLinks(list) {
+        const container = document.getElementById('link-list');
+        if (list.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:#aaa;">リンクがありません</div>';
+            return;
+        }
+        container.innerHTML = '';
+        list.forEach((link, idx) => {
+            const div = document.createElement('div');
+            div.className = 'link-card';
+            div.innerHTML = `
+                <div class="link-info">
+                    <div class="link-title">${link.title}</div>
+                    <div class="link-price"><b>値段:</b> ${link.price || ''}</div>
+                    <div class="link-url"><b>申し込みURL:</b> <a href="${link.applyUrl}" target="_blank">${link.applyUrl}</a></div>
+                    <div class="link-url"><b>インフルエンサーURL:</b> <a href="${link.influencerUrl}" target="_blank">${link.influencerUrl}</a></div>
+                    ${link.imageUrl ? `<img src="${link.imageUrl}" alt="画像" style="max-width:60px; max-height:60px; border-radius:8px; margin-top:0.5rem;">` : ''}
+                </div>
+                <div class="link-actions">
+                    <button data-id="${link.id}" class="edit-btn">編集</button>
+                    <button data-id="${link.id}" class="delete-btn">削除</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+        // イベントバインド
+        container.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.onclick = () => editLink(btn.dataset.id);
+        });
+        container.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = () => deleteLink(btn.dataset.id);
+        });
+    }
+
+    async function editLink(id) {
+        const link = linksCache.find(l => l.id === id);
+        if (!link) return;
+        document.getElementById('link-title').value = link.title;
+        document.getElementById('link-apply-url').value = link.applyUrl || '';
+        document.getElementById('link-influencer-url').value = link.influencerUrl || '';
+        document.getElementById('link-price').value = link.price || '';
+        document.getElementById('link-image-url').value = link.imageUrl || '';
+        editId = id;
+        document.getElementById('submit-btn').textContent = '更新';
+        document.getElementById('cancel-edit').style.display = 'inline-block';
+    }
+
+    async function deleteLink(id) {
+        if (!confirm('本当に削除しますか？')) return;
+        setStatus('loading', '削除中...');
+        try {
+            await deleteDoc(doc(db, "links", id));
+            await loadLinks();
+            resetForm();
+        } catch (e) {
+            setStatus('error', '削除に失敗しました');
+        }
+    }
+
+    document.getElementById('link-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const title = document.getElementById('link-title').value.trim();
+        const applyUrl = document.getElementById('link-apply-url').value.trim();
+        const influencerUrl = document.getElementById('link-influencer-url').value.trim();
+        const price = document.getElementById('link-price').value.trim();
+        const imageUrl = document.getElementById('link-image-url').value.trim();
+        setStatus('loading', editId ? '更新中...' : '追加中...');
+        try {
+            if (editId) {
+                const updateData = { title, applyUrl, influencerUrl, price, imageUrl };
+                await updateDoc(doc(db, "links", editId), updateData);
+            } else {
+                await addDoc(linksCol, { title, applyUrl, influencerUrl, price, imageUrl });
+            }
+            await loadLinks();
+            resetForm();
+        } catch (e) {
+            setStatus('error', '保存に失敗しました');
+        }
+    });
+
+    document.getElementById('cancel-edit').addEventListener('click', function() {
+        resetForm();
+    });
+
+    function resetForm() {
+        document.getElementById('link-form').reset();
+        editId = null;
+        document.getElementById('submit-btn').textContent = '追加';
+        document.getElementById('cancel-edit').style.display = 'none';
+    }
+
+    function setStatus(type, msg) {
+        const area = document.getElementById('status-area');
+        if (!type) { area.innerHTML = ''; return; }
+        if (type === 'loading') area.innerHTML = `<div class="loading">${msg}</div>`;
+        if (type === 'error') area.innerHTML = `<div class="error">${msg}</div>`;
+    }
+
+    // お知らせ用のステータス表示関数
+    function showStatus(msg, type) {
+        const area = document.getElementById('news-status-area');
+        if (!type) { area.innerHTML = ''; return; }
+        if (type === 'success') area.innerHTML = `<div class="loading" style="color: #4CAF50;">${msg}</div>`;
+        if (type === 'error') area.innerHTML = `<div class="error">${msg}</div>`;
+        if (type === 'loading') area.innerHTML = `<div class="loading">${msg}</div>`;
+    }
+
+    // キット管理機能
+    let kitEditId = null;
+    let kitsCache = [];
+
+    // キット一覧の読み込み
+    async function loadKits() {
+        const kitList = document.getElementById('kit-list');
+        kitList.innerHTML = '<div class="loading">読み込み中...</div>';
+
+        try {
+            const querySnapshot = await getDocs(kitsCol);
+            kitsCache = [];
+            kitList.innerHTML = '';
+
+            querySnapshot.forEach((doc) => {
+                const kit = { id: doc.id, ...doc.data() };
+                kitsCache.push(kit);
+            });
+
+            // 作成日時でソート
+            kitsCache.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            kitsCache.forEach((kit) => {
+                const kitCard = document.createElement('div');
+                kitCard.className = 'news-card';
+                kitCard.innerHTML = `
+                    <div class="news-info">
+                        <div class="news-title">${kit.name}</div>
+                        <div class="news-content"><b>価格:</b> ${kit.price}</div>
+                        <div class="news-content"><b>必要な布の大きさ:</b> ${kit.fabricSize}</div>
+                        <div class="news-content"><b>レベル:</b> ${kit.level}</div>
+                        <div class="news-content"><b>コメント:</b> ${kit.comment}</div>
+                        ${kit.imageUrl ? `<img src="${kit.imageUrl}" alt="キット画像" style="max-width:60px; max-height:60px; border-radius:8px; margin-top:0.5rem;">` : ''}
+                    </div>
+                    <div class="link-actions">
+                        <button onclick="editKit('${kit.id}')">編集</button>
+                        <button onclick="deleteKit('${kit.id}')">削除</button>
+                    </div>
+                `;
+                kitList.appendChild(kitCard);
+            });
+        } catch (error) {
+            kitList.innerHTML = '<div class="error">エラーが発生しました</div>';
+            console.error("Error loading kits:", error);
+        }
+    }
+
+    // キットの追加・更新
+    document.getElementById('kit-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('kit-submit-btn');
+        submitBtn.disabled = true;
+
+        try {
+            const kitData = {
+                name: document.getElementById('kit-name').value,
+                imageUrl: document.getElementById('kit-image-url').value,
+                price: document.getElementById('kit-price').value,
+                fabricSize: document.getElementById('kit-fabric-size').value,
+                level: document.getElementById('kit-level').value,
+                comment: document.getElementById('kit-comment').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (kitEditId) {
+                // 更新
+                const kitRef = doc(db, "kits", kitEditId);
+                await updateDoc(kitRef, kitData);
+                showKitStatus('キットを更新しました', 'success');
+            } else {
+                // 新規追加
+                kitData.createdAt = kitData.updatedAt;
+                await addDoc(kitsCol, kitData);
+                showKitStatus('キットを追加しました', 'success');
+            }
+
+            // フォームをリセット
+            document.getElementById('kit-form').reset();
+            kitEditId = null;
+            document.getElementById('kit-cancel-edit').style.display = 'none';
+            submitBtn.textContent = '追加';
+            submitBtn.disabled = false;
+
+            // 一覧を更新
+            loadKits();
+        } catch (error) {
+            showKitStatus('エラーが発生しました', 'error');
+            console.error("Error saving kit:", error);
+            submitBtn.disabled = false;
+        }
+    });
+
+    // キットの編集
+    window.editKit = function(id) {
+        const kit = kitsCache.find(k => k.id === id);
+        if (kit) {
+            document.getElementById('kit-name').value = kit.name;
+            document.getElementById('kit-image-url').value = kit.imageUrl;
+            document.getElementById('kit-price').value = kit.price;
+            document.getElementById('kit-fabric-size').value = kit.fabricSize;
+            document.getElementById('kit-level').value = kit.level;
+            document.getElementById('kit-comment').value = kit.comment;
+            kitEditId = id;
+            document.getElementById('kit-cancel-edit').style.display = 'inline-block';
+            document.getElementById('kit-submit-btn').textContent = '更新';
+        }
+    };
+
+    // キットの削除
+    window.deleteKit = async function(id) {
+        if (confirm('このキットを削除してもよろしいですか？')) {
+            try {
+                await deleteDoc(doc(db, "kits", id));
+                showKitStatus('キットを削除しました', 'success');
+                loadKits();
+            } catch (error) {
+                showKitStatus('エラーが発生しました', 'error');
+                console.error("Error deleting kit:", error);
+            }
+        }
+    };
+
+    // キット編集のキャンセル
+    document.getElementById('kit-cancel-edit').addEventListener('click', function() {
+        document.getElementById('kit-form').reset();
+        kitEditId = null;
+        this.style.display = 'none';
+        document.getElementById('kit-submit-btn').textContent = '追加';
+    });
+
+    // キット用のステータス表示関数
+    function showKitStatus(msg, type) {
+        const area = document.getElementById('kit-status-area');
+        if (!type) { area.innerHTML = ''; return; }
+        if (type === 'success') area.innerHTML = `<div class="loading" style="color: #4CAF50;">${msg}</div>`;
+        if (type === 'error') area.innerHTML = `<div class="error">${msg}</div>`;
+        if (type === 'loading') area.innerHTML = `<div class="loading">${msg}</div>`;
+    }
+
+    // トグルボタン機能
+    document.getElementById('link-toggle').addEventListener('click', function() {
+        const content = document.getElementById('link-section');
+        const icon = this.querySelector('.toggle-icon');
+        
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            this.classList.add('active');
+            icon.textContent = '▲';
+        } else {
+            content.style.display = 'none';
+            this.classList.remove('active');
+            icon.textContent = '▼';
+        }
+    });
+    </script>
+</body>
+</html> 
