@@ -30,13 +30,21 @@ const InfluencerCollab: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
+        console.log('Firebase接続を試行中...');
         const linksCol = collection(db, 'links');
         const snapshot = await getDocs(linksCol);
         const linksList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LinkData));
+        console.log('取得したリンク数:', linksList.length);
         setLinks(linksList);
       } catch (e: any) {
-        setError('リンクの取得に失敗しました');
-        console.error('Error fetching links:', e);
+        console.error('Firebase接続エラー:', e);
+        if (e.code === 'permission-denied') {
+          setError('Firebaseの権限設定を確認してください');
+        } else if (e.code === 'unavailable') {
+          setError('Firebaseサービスが利用できません。しばらく待ってから再試行してください');
+        } else {
+          setError(`リンクの取得に失敗しました: ${e.message || '不明なエラー'}`);
+        }
       } finally {
         setLoading(false);
       }
@@ -60,14 +68,14 @@ const InfluencerCollab: React.FC = () => {
   // };
   // 決済ボタンはAllProducts等と同じく、HeaderのカートUIから行う想定
 
-  // 画像パス正規化関数（未使用化）
-  // const getImageSrc = (url?: string) => {
-  //   if (!url) return '/Image/MC square Logo.png';
-  //   if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  //   if (url.startsWith('/Image/')) return url;
-  //   if (url.startsWith('Image/')) return '/' + url;
-  //   return '/Image/MC square Logo.png';
-  // };
+  // 画像パス正規化関数
+  const getImageSrc = (url?: string) => {
+    if (!url) return '/Image/MC square Logo.png';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    if (url.startsWith('/Image/')) return url;
+    if (url.startsWith('Image/')) return '/' + url;
+    return '/Image/MC square Logo.png';
+  };
 
   // カートモーダル（削除）
   // const CartModal = () => (
@@ -110,7 +118,13 @@ const InfluencerCollab: React.FC = () => {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center', marginTop: '2rem' }}>
         {links.map(link => (
           <div key={link.id} className="inventory-card" style={{ background: '#fff', borderRadius: 20, boxShadow: '0 4px 16px rgba(255, 159, 124, 0.10)', border: '1px solid #FFD4C4', width: 320, padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {/* <img src={getImageSrc(link.imageUrl)} alt={link.title} style={{ width: 160, height: 160, objectFit: 'cover', borderRadius: 16, border: '1px solid #FFD4C4', marginBottom: '1rem', background: '#f8f8f8' }} /> */}
+            {link.imageUrl && link.imageUrl.trim() !== '' ? (
+              <img src={getImageSrc(link.imageUrl)} alt={link.title} style={{ width: 160, height: 160, objectFit: 'cover', borderRadius: 16, border: '1px solid #FFD4C4', marginBottom: '1rem', background: '#f8f8f8' }} />
+            ) : (
+              <div style={{ width: 160, height: 160, borderRadius: 16, border: '1px solid #FFD4C4', marginBottom: '1rem', background: '#f8f8f8', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: '0.9em' }}>
+                画像なし
+              </div>
+            )}
             <div className="product-name" style={{ fontWeight: 700, fontSize: '1.1em', marginBottom: '0.3em' }}>{link.title}</div>
             <div className="price" style={{ color: 'var(--color-primary)', fontSize: '1.25em', fontWeight: 700, marginBottom: '0.7em' }}>{link.price || ''}</div>
             {link.applyUrl && (
