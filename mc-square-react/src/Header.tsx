@@ -32,7 +32,9 @@ const useIsMobile = () => {
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const { cart, cartCount, totalPrice, updateQuantity, removeFromCart } = useCart();
+  const { cart, cartCount, totalPrice, updateQuantity, removeFromCart, freeKitCount } = useCart();
+  
+
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
@@ -184,6 +186,12 @@ const Header: React.FC = () => {
       )}
       <div style={{ fontWeight: 700, color: 'var(--color-primary)', marginBottom: 12, fontSize: '1.18em', letterSpacing: '0.01em', textAlign: isMobile ? 'center' : undefined }}>🛒 カート</div>
       <div style={{ marginBottom: 10, fontSize: '1.05em', textAlign: isMobile ? 'center' : undefined }}>商品数: <b>{cartCount}</b></div>
+      {freeKitCount > 0 && (
+        <div style={{ marginBottom: 8, fontSize: '1.05em', textAlign: isMobile ? 'center' : undefined, color: '#4CAF50', fontWeight: 600 }}>
+          🎁 無料キット: <b>{freeKitCount}個</b>
+        </div>
+      )}
+
       <div style={{ marginBottom: 18, fontWeight: 600, color: '#E1306C', textAlign: isMobile ? 'center' : undefined }}>合計: <b>{totalPrice.toLocaleString()}円</b></div>
       {cart.length === 0 ? (
         <div style={{ color: '#888', textAlign: 'center', padding: '1.5em 0' }}>カートに商品がありません</div>
@@ -194,16 +202,56 @@ const Header: React.FC = () => {
               const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
               const itemSubtotal = priceNum * item.quantity;
               return (
-                <li key={item.managementNumber} style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '0.7em' : '1em', borderBottom: '1px solid #FFD4C4', padding: isMobile ? '0.7em 0' : '1em 0' }}>
-                  <img src={getImageSrc(item.imageUrl)} alt={item.name} style={{ width: isMobile ? 44 : 60, height: isMobile ? 44 : 60, objectFit: 'cover', borderRadius: 10, border: '1px solid #FFD4C4', background: '#fafafa' }} />
+                <li key={item.managementNumber} style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: isMobile ? '0.7em' : '1em', 
+                  borderBottom: '1px solid #FFD4C4', 
+                  background: item.isFree ? '#f8fff8' : 'transparent',
+                  borderRadius: item.isFree ? '8px' : '0',
+                  padding: item.isFree ? (isMobile ? '0.8em' : '1.1em') : (isMobile ? '0.7em 0' : '1em 0')
+                }}>
+                  <img src={getImageSrc(item.imageUrl)} alt={item.name} style={{ 
+                    width: isMobile ? 44 : 60, 
+                    height: isMobile ? 44 : 60, 
+                    objectFit: 'cover', 
+                    borderRadius: 10, 
+                    border: item.isFree ? '2px solid #4CAF50' : '1px solid #FFD4C4', 
+                    background: '#fafafa' 
+                  }} />
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: isMobile ? '1em' : '1.08em', marginBottom: 2 }}>{item.name}</div>
-                    <div style={{ color: '#636E72', fontSize: isMobile ? '0.95em' : '0.98em', marginBottom: 4 }}>単価: {priceNum.toLocaleString()}円</div>
-                    <div style={{ color: '#E1306C', fontWeight: 600, fontSize: isMobile ? '0.98em' : '1em', marginBottom: 4 }}>小計: {itemSubtotal.toLocaleString()}円</div>
+                    <div style={{ 
+                      fontWeight: 700, 
+                      fontSize: isMobile ? '1em' : '1.08em', 
+                      marginBottom: 2,
+                      color: item.isFree ? '#4CAF50' : 'inherit'
+                    }}>
+                      {item.name}
+                      {item.isFree && <span style={{ marginLeft: '0.5em', fontSize: '0.8em', background: '#4CAF50', color: 'white', padding: '0.2em 0.4em', borderRadius: '4px' }}>無料</span>}
+                    </div>
+                    <div style={{ color: '#636E72', fontSize: isMobile ? '0.95em' : '0.98em', marginBottom: 4 }}>
+                      単価: {item.isFree ? '0円' : `${priceNum.toLocaleString()}円`}
+                    </div>
+                    <div style={{ 
+                      color: item.isFree ? '#4CAF50' : '#E1306C', 
+                      fontWeight: 600, 
+                      fontSize: isMobile ? '0.98em' : '1em', 
+                      marginBottom: 4 
+                    }}>
+                      小計: {item.isFree ? '0円' : `${itemSubtotal.toLocaleString()}円`}
+                    </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5em', marginTop: 4 }}>
-                      <button onClick={() => updateQuantity(item.managementNumber, Math.max(1, item.quantity - 1))} style={{ background: '#f7f3ef', color: '#333', border: '1px solid #FFD4C4', borderRadius: '50%', width: isMobile ? 24 : 28, height: isMobile ? 24 : 28, fontWeight: 700, cursor: 'pointer', fontSize: isMobile ? '1em' : '1.1em', transition: 'background 0.2s' }}>-</button>
-                      <span style={{ fontWeight: 600, minWidth: isMobile ? 28 : 36, textAlign: 'center', fontSize: isMobile ? '1em' : '1.08em' }}>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.managementNumber, item.quantity + 1)} style={{ background: '#f7f3ef', color: '#333', border: '1px solid #FFD4C4', borderRadius: '50%', width: isMobile ? 24 : 28, height: isMobile ? 24 : 28, fontWeight: 700, cursor: 'pointer', fontSize: isMobile ? '1em' : '1.1em', transition: 'background 0.2s' }}>+</button>
+                      {item.productType === 'kit' ? (
+                        // キットの場合は数量変更ボタンを非表示
+                        <span style={{ fontWeight: 600, fontSize: isMobile ? '1em' : '1.08em', color: '#666' }}>数量: 1</span>
+                      ) : (
+                        // 生地の場合は従来通り数量変更可能
+                        <>
+                          <button onClick={() => updateQuantity(item.managementNumber, Math.max(1, item.quantity - 1))} style={{ background: '#f7f3ef', color: '#333', border: '1px solid #FFD4C4', borderRadius: '50%', width: isMobile ? 24 : 28, height: isMobile ? 24 : 28, fontWeight: 700, cursor: 'pointer', fontSize: isMobile ? '1em' : '1.1em', transition: 'background 0.2s' }}>-</button>
+                          <span style={{ fontWeight: 600, minWidth: isMobile ? 28 : 36, textAlign: 'center', fontSize: isMobile ? '1em' : '1.08em' }}>{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.managementNumber, item.quantity + 1)} style={{ background: '#f7f3ef', color: '#333', border: '1px solid #FFD4C4', borderRadius: '50%', width: isMobile ? 24 : 28, height: isMobile ? 24 : 28, fontWeight: 700, cursor: 'pointer', fontSize: isMobile ? '1em' : '1.1em', transition: 'background 0.2s' }}>+</button>
+                        </>
+                      )}
                     </div>
                   </div>
                   <button onClick={() => removeFromCart(item.managementNumber)} style={{ background: '#ff6b6b', color: '#fff', border: 'none', borderRadius: 8, padding: isMobile ? '0.4em 0.7em' : '0.5em 1em', fontSize: isMobile ? '0.95em' : '1em', cursor: 'pointer', marginLeft: 6, fontWeight: 700, transition: 'background 0.2s' }}>削除</button>

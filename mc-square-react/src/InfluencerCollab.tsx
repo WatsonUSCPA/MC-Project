@@ -113,6 +113,39 @@ const InfluencerCollab: React.FC = () => {
     <div className="container">
       {/* {cartModalOpen && <CartModal />} 削除 */}
       <h1 style={{ color: 'var(--color-primary)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>インフルエンサーコラボ商品</h1>
+      <div style={{ 
+        background: '#FFF5F0', 
+        border: '1px solid #FF6B6B', 
+        borderRadius: '8px', 
+        padding: '1rem', 
+        marginBottom: '1.5rem',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '0.5rem'
+      }}>
+        <div style={{ 
+          color: '#FF6B6B', 
+          fontSize: '1.2rem', 
+          fontWeight: 'bold',
+          marginTop: '2px'
+        }}>⚠️</div>
+        <div>
+          <div style={{ 
+            color: '#FF6B6B', 
+            fontSize: '0.9rem', 
+            fontWeight: 'bold', 
+            marginBottom: '0.3rem' 
+          }}>ご注意</div>
+          <div style={{ 
+            color: '#333', 
+            fontSize: '0.9rem', 
+            lineHeight: '1.4' 
+          }}>
+            インフルエンサーコラボ商品は外部サイト（BASE）でのご購入となります。<br />
+            下記の「申し込みページへ」ボタンから外部サイトに移動してご購入ください。
+          </div>
+        </div>
+      </div>
       {loading && <div>データを読み込み中...</div>}
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center', marginTop: '2rem' }}>

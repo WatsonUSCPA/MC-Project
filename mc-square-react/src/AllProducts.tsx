@@ -55,7 +55,12 @@ const AllProducts: React.FC = () => {
 
   // カートに商品を追加
   const handleAddToCart = (product: Product) => {
-    addToCart(product);
+    // 生地商品として追加（50cm商品は自動的に生地として認識される）
+    const productWithType = {
+      ...product,
+      productType: 'fabric' as const
+    };
+    addToCart(productWithType);
   };
 
   // 数量変更

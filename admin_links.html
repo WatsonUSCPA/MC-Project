@@ -240,6 +240,45 @@
             background: var(--color-primary);
             color: white;
         }
+        .section-toggle {
+            margin-bottom: var(--spacing-md);
+        }
+        .toggle-button {
+            width: 100%;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .toggle-button:hover {
+            background: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .toggle-button.active {
+            background: var(--color-secondary);
+        }
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+        .toggle-button.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        .toggle-content {
+            background: var(--color-background);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-md);
+        }
     </style>
 </head>
 <body>
@@ -254,28 +293,36 @@
             <div id="login-error" style="display:none;">パスワードが違います</div>
         </div>
         <div id="admin-content" style="display:none;">
-            <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">リンク管理</h2>
-            <div id="status-area"></div>
-            <div class="link-list" id="link-list"></div>
-            <form id="link-form">
-                <div class="form-row">
-                    <input type="text" id="link-title" placeholder="タイトル" required>
+            <div class="section-toggle">
+                <button id="link-toggle" class="toggle-button">
+                    <span class="toggle-icon">▼</span>
+                    インフルエンサーリンク管理
+                </button>
+                <div id="link-section" class="toggle-content" style="display:none;">
+                    <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">リンク管理</h2>
+                    <div id="status-area"></div>
+                    <div class="link-list" id="link-list"></div>
+                    <form id="link-form">
+                        <div class="form-row">
+                            <input type="text" id="link-title" placeholder="タイトル" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="url" id="link-apply-url" placeholder="申し込みURL" required>
+                            <input type="url" id="link-influencer-url" placeholder="インフルエンサーURL" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="link-price" placeholder="値段 (例: 1,650円)" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="url" id="link-image-url" placeholder="画像URL (任意)">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="submit-btn">追加</button>
+                            <button type="button" id="cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-row">
-                    <input type="url" id="link-apply-url" placeholder="申し込みURL" required>
-                    <input type="url" id="link-influencer-url" placeholder="インフルエンサーURL" required>
-                </div>
-                <div class="form-row">
-                    <input type="text" id="link-price" placeholder="値段 (例: 1,650円)" required>
-                </div>
-                <div class="form-row">
-                    <input type="url" id="link-image-url" placeholder="画像URL (任意)">
-                </div>
-                <div class="form-actions">
-                    <button type="submit" id="submit-btn">追加</button>
-                    <button type="button" id="cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
-                </div>
-            </form>
+            </div>
 
             <div class="news-section">
                 <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">お知らせ管理</h2>
@@ -294,6 +341,47 @@
                     <div class="form-actions">
                         <button type="submit" id="news-submit-btn">追加</button>
                         <button type="button" id="news-cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="news-section">
+                <h2 style="text-align:center; color:var(--color-primary); margin-bottom:1.5rem;">キット管理</h2>
+                <div id="kit-status-area"></div>
+                <div class="news-list" id="kit-list"></div>
+                <form id="kit-form">
+                    <div class="form-row">
+                        <input type="text" id="kit-name" placeholder="キット名" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="url" id="kit-image-url" placeholder="画像URL" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="kit-price" placeholder="価格 (例: 1,650円)" required>
+                    </div>
+                    <div class="form-row">
+                        <select id="kit-fabric-size" required style="flex: 1; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem;">
+                            <option value="">必要な布の大きさを選択</option>
+                            <option value="50cm">50cm</option>
+                            <option value="100cm">100cm</option>
+                            <option value="150cm">150cm</option>
+                            <option value="200cm">200cm</option>
+                            <option value="250cm">250cm</option>
+                            <option value="300cm">300cm</option>
+                        </select>
+                        <select id="kit-level" required style="flex: 1; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem;">
+                            <option value="">レベルを選択</option>
+                            <option value="初級">初級</option>
+                            <option value="中級">中級</option>
+                            <option value="上級">上級</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="kit-comment" placeholder="コメント" required style="width: 100%; min-height: 100px; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid var(--color-border); font-size: 1rem; font-family: inherit;"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="kit-submit-btn">追加</button>
+                        <button type="button" id="kit-cancel-edit" style="display:none; margin-left:0.5rem;">キャンセル</button>
                     </div>
                 </form>
             </div>
@@ -332,6 +420,7 @@
     const db = getFirestore(app);
     const linksCol = collection(db, "links");
     const newsCol = collection(db, "news");
+    const kitsCol = collection(db, "kits");
 
     // パスワード（必要に応じて変更してください）
     const PASSWORD = "admin1234";
@@ -345,6 +434,7 @@
             document.getElementById('admin-content').style.display = 'block';
             loadLinks();
             loadNews();
+            loadKits();
         } else {
             document.getElementById('login-error').style.display = 'block';
         }
@@ -594,6 +684,161 @@
         if (type === 'error') area.innerHTML = `<div class="error">${msg}</div>`;
         if (type === 'loading') area.innerHTML = `<div class="loading">${msg}</div>`;
     }
+
+    // キット管理機能
+    let kitEditId = null;
+    let kitsCache = [];
+
+    // キット一覧の読み込み
+    async function loadKits() {
+        const kitList = document.getElementById('kit-list');
+        kitList.innerHTML = '<div class="loading">読み込み中...</div>';
+
+        try {
+            const querySnapshot = await getDocs(kitsCol);
+            kitsCache = [];
+            kitList.innerHTML = '';
+
+            querySnapshot.forEach((doc) => {
+                const kit = { id: doc.id, ...doc.data() };
+                kitsCache.push(kit);
+            });
+
+            // 作成日時でソート
+            kitsCache.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            kitsCache.forEach((kit) => {
+                const kitCard = document.createElement('div');
+                kitCard.className = 'news-card';
+                kitCard.innerHTML = `
+                    <div class="news-info">
+                        <div class="news-title">${kit.name}</div>
+                        <div class="news-content"><b>価格:</b> ${kit.price}</div>
+                        <div class="news-content"><b>必要な布の大きさ:</b> ${kit.fabricSize}</div>
+                        <div class="news-content"><b>レベル:</b> ${kit.level}</div>
+                        <div class="news-content"><b>コメント:</b> ${kit.comment}</div>
+                        ${kit.imageUrl ? `<img src="${kit.imageUrl}" alt="キット画像" style="max-width:60px; max-height:60px; border-radius:8px; margin-top:0.5rem;">` : ''}
+                    </div>
+                    <div class="link-actions">
+                        <button onclick="editKit('${kit.id}')">編集</button>
+                        <button onclick="deleteKit('${kit.id}')">削除</button>
+                    </div>
+                `;
+                kitList.appendChild(kitCard);
+            });
+        } catch (error) {
+            kitList.innerHTML = '<div class="error">エラーが発生しました</div>';
+            console.error("Error loading kits:", error);
+        }
+    }
+
+    // キットの追加・更新
+    document.getElementById('kit-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('kit-submit-btn');
+        submitBtn.disabled = true;
+
+        try {
+            const kitData = {
+                name: document.getElementById('kit-name').value,
+                imageUrl: document.getElementById('kit-image-url').value,
+                price: document.getElementById('kit-price').value,
+                fabricSize: document.getElementById('kit-fabric-size').value,
+                level: document.getElementById('kit-level').value,
+                comment: document.getElementById('kit-comment').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (kitEditId) {
+                // 更新
+                const kitRef = doc(db, "kits", kitEditId);
+                await updateDoc(kitRef, kitData);
+                showKitStatus('キットを更新しました', 'success');
+            } else {
+                // 新規追加
+                kitData.createdAt = kitData.updatedAt;
+                await addDoc(kitsCol, kitData);
+                showKitStatus('キットを追加しました', 'success');
+            }
+
+            // フォームをリセット
+            document.getElementById('kit-form').reset();
+            kitEditId = null;
+            document.getElementById('kit-cancel-edit').style.display = 'none';
+            submitBtn.textContent = '追加';
+            submitBtn.disabled = false;
+
+            // 一覧を更新
+            loadKits();
+        } catch (error) {
+            showKitStatus('エラーが発生しました', 'error');
+            console.error("Error saving kit:", error);
+            submitBtn.disabled = false;
+        }
+    });
+
+    // キットの編集
+    window.editKit = function(id) {
+        const kit = kitsCache.find(k => k.id === id);
+        if (kit) {
+            document.getElementById('kit-name').value = kit.name;
+            document.getElementById('kit-image-url').value = kit.imageUrl;
+            document.getElementById('kit-price').value = kit.price;
+            document.getElementById('kit-fabric-size').value = kit.fabricSize;
+            document.getElementById('kit-level').value = kit.level;
+            document.getElementById('kit-comment').value = kit.comment;
+            kitEditId = id;
+            document.getElementById('kit-cancel-edit').style.display = 'inline-block';
+            document.getElementById('kit-submit-btn').textContent = '更新';
+        }
+    };
+
+    // キットの削除
+    window.deleteKit = async function(id) {
+        if (confirm('このキットを削除してもよろしいですか？')) {
+            try {
+                await deleteDoc(doc(db, "kits", id));
+                showKitStatus('キットを削除しました', 'success');
+                loadKits();
+            } catch (error) {
+                showKitStatus('エラーが発生しました', 'error');
+                console.error("Error deleting kit:", error);
+            }
+        }
+    };
+
+    // キット編集のキャンセル
+    document.getElementById('kit-cancel-edit').addEventListener('click', function() {
+        document.getElementById('kit-form').reset();
+        kitEditId = null;
+        this.style.display = 'none';
+        document.getElementById('kit-submit-btn').textContent = '追加';
+    });
+
+    // キット用のステータス表示関数
+    function showKitStatus(msg, type) {
+        const area = document.getElementById('kit-status-area');
+        if (!type) { area.innerHTML = ''; return; }
+        if (type === 'success') area.innerHTML = `<div class="loading" style="color: #4CAF50;">${msg}</div>`;
+        if (type === 'error') area.innerHTML = `<div class="error">${msg}</div>`;
+        if (type === 'loading') area.innerHTML = `<div class="loading">${msg}</div>`;
+    }
+
+    // トグルボタン機能
+    document.getElementById('link-toggle').addEventListener('click', function() {
+        const content = document.getElementById('link-section');
+        const icon = this.querySelector('.toggle-icon');
+        
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            this.classList.add('active');
+            icon.textContent = '▲';
+        } else {
+            content.style.display = 'none';
+            this.classList.remove('active');
+            icon.textContent = '▼';
+        }
+    });
     </script>
 </body>
 </html> 
