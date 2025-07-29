@@ -209,6 +209,29 @@ const AllProducts: React.FC = () => {
     <div className="container">
       {cartModalOpen && <CartModal />}
       <h1 style={{ color: 'var(--color-primary)', fontSize: '1.6rem', marginBottom: '0.5rem' }}>エムシースクエア オンラインセレクション</h1>
+      
+      {/* 商品説明 */}
+      <div style={{
+        width: '100%',
+        maxWidth: 900,
+        margin: '0 auto 2rem auto',
+        background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+        borderRadius: 16,
+        padding: '1.5rem 2rem',
+        border: '1px solid #dee2e6',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+      }}>
+        <h3 style={{ color: 'var(--color-primary)', fontSize: '1.2rem', marginBottom: '1rem', fontWeight: 600 }}>商品について</h3>
+        <div style={{ fontSize: '1rem', lineHeight: '1.6', color: '#495057' }}>
+          <p style={{ marginBottom: '0.8rem' }}>
+            <strong>サイズ：</strong>すべての商品は50cm四方の単価で販売されています。
+          </p>
+          <p style={{ marginBottom: '0' }}>
+            <strong>販売方法：</strong>同じ柄の商品を複数購入された場合、生地は切られずにまとまった状態でお届けいたします。
+          </p>
+        </div>
+      </div>
+      
       {/* 横長バナー（メルマガ誘導） */}
       <div style={{
         width: '100%',
