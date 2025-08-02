@@ -33,5 +33,30 @@ service cloud.firestore {
       // 注文作成は認証済みユーザーのみ
       allow create: if request.auth != null;
     }
+    
+    // レシピデータ
+    match /recipes/{recipeId} {
+      // 誰でも読み取り可能
+      allow read: if true;
+      // 認証済みユーザーのみ作成・更新可能
+      allow create, update: if request.auth != null;
+    }
+    
+    // いいねデータ
+    match /likes/{likeId} {
+      // 認証済みユーザーのみ読み書き可能
+      allow read, write: if request.auth != null;
+    }
+    
+    // コメントデータ
+    match /comments/{commentId} {
+      // 誰でも読み取り可能
+      allow read: if true;
+      // 認証済みユーザーのみ作成可能
+      allow create: if request.auth != null;
+      // 自分のコメントのみ削除可能
+      allow delete: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
+    }
   }
 } 
