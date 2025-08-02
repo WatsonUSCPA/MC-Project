@@ -327,7 +327,7 @@ const AllProducts: React.FC = () => {
           <div style={{ color: '#E1306C', fontWeight: 700, fontSize: '1.15em' }}>毎月の生地の情報を受け取りたい方はこちら</div>
           <div style={{ color: '#636E72', fontSize: '0.98em', marginTop: 4 }}>新作生地やお得な情報をメールでお届けします。</div>
         </div>
-        <a href="/mailmagazine" style={{
+        <a href="https://forms.gle/2ETukAobZDHbhyTb6" target="_blank" rel="noopener noreferrer" style={{
           marginLeft: 'auto',
           background: 'var(--color-primary)',
           color: '#fff',
