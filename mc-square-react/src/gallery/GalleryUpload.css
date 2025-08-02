@@ -1,0 +1,994 @@
+.recipe-upload {
+  min-height: 100vh;
+  background: var(--color-background);
+  background-image: 
+    radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  padding: 20px 0;
+}
+
+.recipe-upload-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid var(--color-border);
+  padding: 40px;
+  margin-top: 20px;
+}
+
+.recipe-upload-title {
+  text-align: center;
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.recipe-upload-subtitle {
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+}
+
+.upload-header {
+  margin-bottom: 30px;
+}
+
+.back-btn {
+  background: var(--color-background-alt);
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.back-btn:hover {
+  background: var(--color-border);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.recipe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-section {
+  border: 1.5px solid var(--color-border);
+  border-radius: 15px;
+  padding: 25px;
+  background: var(--color-background-alt);
+}
+
+.form-section h3 {
+  color: var(--color-text);
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 10px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* 画像アップロード */
+.image-upload-area {
+  display: flex;
+  justify-content: center;
+}
+
+.image-input {
+  display: none;
+}
+
+.image-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border: 3px dashed #ddd;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.image-upload-label:hover {
+  border-color: var(--color-primary);
+  background: var(--color-background-alt);
+}
+
+.image-upload-label.small {
+  width: 120px;
+  height: 120px;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #999;
+}
+
+.upload-placeholder span {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.upload-placeholder.small span {
+  font-size: 2rem;
+}
+
+.upload-placeholder p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.image-preview.small {
+  width: 120px;
+  height: 120px;
+}
+
+/* 材料 */
+.ingredient-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ingredient-input {
+  flex: 1;
+}
+
+.remove-btn {
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: #ff3742;
+  transform: scale(1.1);
+}
+
+.add-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.add-btn:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ステップ */
+.step-container {
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: white;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.step-header h4 {
+  color: #333;
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.step-content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.step-image-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-description {
+  min-height: 80px;
+}
+
+/* 送信ボタン */
+.submit-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #ff5252 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 18px 40px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: var(--shadow-lg);
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* YouTube動画関連 */
+.youtube-input-container {
+  margin-bottom: 15px;
+}
+
+.youtube-input {
+  margin-bottom: 10px;
+}
+
+.youtube-help {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: var(--color-background-alt);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.help-icon {
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.help-text {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  line-height: 1.4;
+}
+
+.youtube-preview {
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--color-background-alt);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.youtube-preview h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 15px 0;
+}
+
+.youtube-embed {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9のアスペクト比 */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.youtube-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.youtube-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.error-icon {
+  font-size: 1rem;
+  color: #e53e3e;
+}
+
+.error-text {
+  font-size: 0.9rem;
+  color: #e53e3e;
+  font-weight: 500;
+}
+
+/* 説明方法選択 */
+.explanation-type-selector {
+  margin-bottom: 20px;
+}
+
+.explanation-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.explanation-option {
+  display: block;
+  cursor: pointer;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+  background: white;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.explanation-option:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.explanation-option.active {
+  border-color: var(--color-primary);
+  background: var(--color-background-alt);
+  box-shadow: var(--shadow-md);
+}
+
+.explanation-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.option-icon {
+  font-size: 2rem;
+  background: var(--color-background-alt);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.explanation-option.active .option-icon {
+  background: var(--color-primary);
+  color: white;
+}
+
+.option-text {
+  flex: 1;
+}
+
+.option-text h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 5px 0;
+}
+
+.option-text p {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.explanation-help {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: var(--color-background-alt);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  margin-top: 10px;
+}
+
+/* ログイン必須画面 */
+.loading {
+  text-align: center;
+  padding: 100px;
+  font-size: 1.2rem;
+  color: var(--color-text-light);
+}
+
+.login-required {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 20px;
+}
+
+.login-required-content {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid var(--color-border);
+  padding: 40px;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.login-required-content h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 15px 0;
+}
+
+.login-required-content p {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin: 0 0 30px 0;
+  line-height: 1.5;
+}
+
+.login-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.login-btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.login-btn.primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.login-btn.primary:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.login-btn.secondary {
+  background: var(--color-background-alt);
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+}
+
+.login-btn.secondary:hover {
+  background: var(--color-border);
+  transform: translateY(-2px);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .recipe-upload-container {
+    margin: 10px;
+    padding: 20px;
+  }
+
+  .recipe-upload-title {
+    font-size: 2rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .step-content {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .image-upload-label {
+    width: 150px;
+    height: 150px;
+  }
+
+  .image-upload-label.small {
+    width: 100px;
+    height: 100px;
+  }
+
+  .submit-btn {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipe-upload-container {
+    padding: 15px;
+  }
+
+  .recipe-upload-title {
+    font-size: 1.8rem;
+  }
+
+  .form-section {
+    padding: 15px;
+  }
+
+  .image-upload-label {
+    width: 120px;
+    height: 120px;
+  }
+
+  .image-upload-label.small {
+    width: 80px;
+    height: 80px;
+  }
+
+  .youtube-preview {
+    padding: 15px;
+  }
+
+  .youtube-preview h4 {
+    font-size: 1rem;
+  }
+
+  .youtube-help {
+    padding: 8px;
+  }
+
+  .help-text {
+    font-size: 0.8rem;
+  }
+
+  .login-required-content {
+    padding: 30px 20px;
+  }
+
+  .login-required-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .login-required-content p {
+    font-size: 1rem;
+  }
+
+  .login-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 15px 30px;
+  }
+
+  .back-btn {
+    padding: 12px 18px;
+    font-size: 0.8rem;
+  }
+
+  .explanation-options {
+    gap: 10px;
+  }
+
+  .explanation-option {
+    padding: 15px;
+  }
+
+  .option-content {
+    gap: 12px;
+  }
+
+  .option-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .option-text h4 {
+    font-size: 1.1rem;
+  }
+
+  .option-text p {
+    font-size: 0.8rem;
+  }
+}
+
+/* SNSシェアモーダル */
+.share-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.share-modal {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.share-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 25px 0 25px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.share-modal-header h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.share-modal-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-text-light);
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.share-modal-header .close-btn:hover {
+  background: var(--color-background-alt);
+  color: var(--color-text);
+}
+
+.share-modal-content {
+  padding: 25px;
+}
+
+.share-message {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin: 0 0 25px 0;
+  line-height: 1.5;
+}
+
+.share-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.share-btn.twitter {
+  background: #1DA1F2;
+}
+
+.share-btn.twitter:hover {
+  background: #1a8cd8;
+  transform: translateY(-2px);
+}
+
+.share-btn.facebook {
+  background: #4267B2;
+}
+
+.share-btn.facebook:hover {
+  background: #365899;
+  transform: translateY(-2px);
+}
+
+.share-btn.line {
+  background: #00B900;
+}
+
+.share-btn.line:hover {
+  background: #009900;
+  transform: translateY(-2px);
+}
+
+.share-btn.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.share-btn.instagram:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.share-icon {
+  font-size: 1.2rem;
+}
+
+.share-actions {
+  text-align: center;
+}
+
+.skip-btn {
+  background: var(--color-background-alt);
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+  border-radius: 20px;
+  padding: 12px 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.skip-btn:hover {
+  background: var(--color-border);
+  transform: translateY(-1px);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  .share-modal {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .share-modal-header {
+    padding: 20px 20px 0 20px;
+  }
+
+  .share-modal-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .share-modal-content {
+    padding: 20px;
+  }
+
+  .share-buttons {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .share-btn {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+} 
+
+.sns-profile-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.sns-profile-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sns-profile-row label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+.sns-profile-help {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: var(--color-background-alt);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+}
+
+/* アフィリエイト商品 */
+.affiliate-help {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--color-primary);
+}
+
+.affiliate-product-container {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.affiliate-product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.affiliate-product-header h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.affiliate-product-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.affiliate-image-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.affiliate-image-upload label {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .affiliate-product-container {
+    padding: 16px;
+  }
+  
+  .affiliate-product-content {
+    gap: 12px;
+  }
+} 

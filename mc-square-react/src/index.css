@@ -22,12 +22,12 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
     line-height: 1.6;
     color: var(--color-text);
-    background: var(--color-background);
+    background: #FFF8F5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-image: 
-        radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.03) 0%, transparent 50%);
     background-attachment: fixed;
     padding-top: 0;
 }

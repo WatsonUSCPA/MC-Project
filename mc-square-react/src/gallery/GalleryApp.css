@@ -1,0 +1,21 @@
+.gallery-app {
+  min-height: 100vh;
+  background: var(--color-background);
+  background-image: 
+    radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-main {
+  flex: 1;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .gallery-main {
+    padding: 15px;
+  }
+} 

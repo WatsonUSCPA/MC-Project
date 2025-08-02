@@ -1,0 +1,44 @@
+/* キットページ専用の背景色設定 */
+.kits-page-container {
+  background: #FFF8F5 !important;
+  min-height: 100vh !important;
+  background-image: 
+    radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.03) 0%, transparent 50%) !important;
+  background-attachment: fixed !important;
+  padding: 0 !important; /* Adjusted from 20px 0 to 10px 0 to 0 */
+}
+/* 他のCSSの影響を完全に上書き */
+.kits-page-container *:not(button) {
+  background: transparent !important;
+}
+
+/* フィルターボタンの背景色と文字色を強制的に設定 */
+.kits-page-container button {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+/* より具体的なセレクタで文字色を強制 */
+.kits-page-container div[style*="display: inline-flex"] button {
+  color: #000000 !important;
+}
+
+/* フィルターボタンの黒い文字色クラス */
+.filter-button-blue {
+  color: #000000 !important;
+}
+
+/* グローバルCSS変数を上書き */
+.kits-page-container button {
+  color: #000000 !important;
+}
+
+/* 最も強力なセレクタで文字色を強制 */
+.kits-page-container div[style*="display: inline-flex"] button,
+.kits-page-container button[style*="background"] {
+  color: #000000 !important;
+}
+.kits-page-container .hero-section {
+  background: transparent !important;
+} 

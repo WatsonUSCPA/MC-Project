@@ -1,0 +1,359 @@
+.gallery-header {
+  background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+  border-bottom: 1px solid #e9ecef;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 70px;
+}
+
+.gallery-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 左側 - ロゴとタイトル */
+.gallery-header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.gallery-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.craft-kitchen-logo {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.logo-pattern {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+}
+
+.logo-square {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+}
+
+.logo-square.brown {
+  background-color: #8B4513;
+}
+
+.logo-square.orange {
+  background-color: #FF8C00;
+}
+
+.logo-square.beige {
+  background-color: #F5DEB3;
+}
+
+.logo-triangle {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #8B4513;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+.logo-text {
+  text-align: center;
+}
+
+.brand-name {
+  font-size: 8px;
+  font-weight: bold;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+.main-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #FF6B6B;
+  margin-left: 10px;
+}
+
+/* 中央 - 検索バー */
+.gallery-header-center {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
+}
+
+.search-form {
+  width: 100%;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 50px 12px 20px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 14px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #FF6B6B;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #f0f0f0;
+}
+
+.search-icon {
+  font-size: 16px;
+  color: #007bff;
+}
+
+/* 右側 - ユーザー情報とボタン */
+.gallery-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* ユーザーメニュー */
+.user-menu {
+  position: relative;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+  color: #333;
+}
+
+.user-button:hover {
+  background-color: #f0f0f0;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #8B4513;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-initials {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.user-name {
+  font-size: 12px;
+  color: #666;
+}
+
+.menu-arrow {
+  font-size: 10px;
+  color: #666;
+  transition: transform 0.3s ease;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  margin-top: 8px;
+  min-width: 150px;
+  z-index: 1001;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown-icon {
+  font-size: 14px;
+}
+
+/* ログインボタン */
+.login-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #FF6B6B;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #FF5252;
+  text-decoration: none;
+  color: white;
+}
+
+.login-icon {
+  font-size: 14px;
+}
+
+.login-text {
+  font-size: 14px;
+}
+
+/* 生地を購入ボタン */
+.purchase-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #FF6B6B;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.purchase-button:hover {
+  background-color: #FF5252;
+}
+
+.fabric-icon {
+  font-size: 16px;
+}
+
+.button-text {
+  white-space: nowrap;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .gallery-header-container {
+    padding: 0 15px;
+  }
+  
+  .main-title {
+    font-size: 20px;
+  }
+  
+  .gallery-header-center {
+    margin: 0 10px;
+  }
+  
+  .search-input {
+    padding: 10px 45px 10px 15px;
+    font-size: 13px;
+  }
+  
+  .purchase-button {
+    padding: 8px 15px;
+    font-size: 12px;
+  }
+  
+  .user-section {
+    gap: 10px;
+  }
+  
+  .user-name {
+    display: none;
+  }
+  
+  .login-text {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-title {
+    display: none;
+  }
+  
+  .gallery-header-center {
+    max-width: 300px;
+  }
+} 

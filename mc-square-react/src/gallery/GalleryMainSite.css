@@ -1,0 +1,242 @@
+.gallery-main-site {
+  min-height: 100vh;
+  background: var(--color-background);
+  background-image: 
+    radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  padding: 20px;
+}
+
+.main-site-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.main-site-header {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.main-site-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.main-site-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.main-site-content {
+  padding: 40px 30px;
+}
+
+.site-description {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.site-description h2 {
+  color: var(--color-primary);
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.site-description p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.service-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.service-card {
+  background: var(--color-background-alt);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 179, 71, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.service-card:hover::before {
+  opacity: 1;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.service-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.service-card h3 {
+  color: var(--color-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.service-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.service-btn:hover {
+  background: #e55a5a;
+}
+
+.main-site-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.main-site-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.main-site-btn.primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.main-site-btn.primary:hover {
+  background: #e55a5a;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.main-site-btn.secondary {
+  background: white;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.main-site-btn.secondary:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .gallery-main-site {
+    padding: 15px;
+  }
+
+  .main-site-header {
+    padding: 30px 20px;
+  }
+
+  .main-site-header h1 {
+    font-size: 2rem;
+  }
+
+  .main-site-header p {
+    font-size: 1rem;
+  }
+
+  .main-site-content {
+    padding: 30px 20px;
+  }
+
+  .service-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .main-site-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-site-btn {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-site-header {
+    padding: 25px 15px;
+  }
+
+  .main-site-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .main-site-content {
+    padding: 25px 15px;
+  }
+
+  .service-card {
+    padding: 20px;
+  }
+
+  .service-icon {
+    font-size: 2.5rem;
+  }
+} 

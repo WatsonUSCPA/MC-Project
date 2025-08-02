@@ -1,0 +1,405 @@
+.profile-edit {
+  min-height: 100vh;
+  background: var(--color-background);
+  background-image: 
+    radial-gradient(circle at 100% 0%, rgba(255, 159, 124, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(255, 179, 71, 0.05) 0%, transparent 50%);
+  background-attachment: fixed;
+  padding: 20px 0;
+}
+
+.profile-edit-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid var(--color-border);
+  overflow: hidden;
+}
+
+.loading {
+  text-align: center;
+  padding: 100px;
+  font-size: 1.2rem;
+  color: var(--color-text-light);
+}
+
+.login-required {
+  text-align: center;
+  padding: 100px 20px;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  margin: 20px;
+}
+
+.login-required h2 {
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.login-required p {
+  color: var(--color-text-light);
+  margin-bottom: 30px;
+}
+
+.login-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ヘッダー */
+.profile-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: var(--color-background-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.profile-edit-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: var(--color-background);
+}
+
+/* コンテンツ */
+.profile-edit-content {
+  padding: 30px;
+}
+
+.edit-section {
+  margin-bottom: 40px;
+}
+
+.edit-section h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.section-description {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* フォーム */
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.sns-icon {
+  font-size: 1.1rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  color: var(--color-text);
+  background: white;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-help {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin: 8px 0 0 0;
+  line-height: 1.4;
+}
+
+/* SNS入力 */
+.sns-inputs {
+  display: grid;
+  gap: 20px;
+}
+
+/* プレビュー */
+.profile-preview {
+  background: var(--color-background-alt);
+  border-radius: var(--border-radius);
+  padding: 25px;
+  border: 1px solid var(--color-border);
+}
+
+.preview-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.preview-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.preview-info h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 8px 0;
+}
+
+.preview-email {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  margin: 0 0 12px 0;
+}
+
+.preview-bio {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 15px 0;
+}
+
+.preview-sns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sns-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.sns-badge.twitter {
+  border-color: #1da1f2;
+  color: #1da1f2;
+}
+
+.sns-badge.instagram {
+  border-color: #e4405f;
+  color: #e4405f;
+}
+
+.sns-badge.facebook {
+  border-color: #1877f2;
+  color: #1877f2;
+}
+
+.sns-badge.line {
+  border-color: #00b900;
+  color: #00b900;
+}
+
+.sns-badge.website {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+/* アクションボタン */
+.edit-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  padding-top: 30px;
+  border-top: 1px solid var(--color-border);
+}
+
+.cancel-btn,
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.cancel-btn {
+  background: #f8f9fa;
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+}
+
+.cancel-btn:hover {
+  background: #e9ecef;
+  border-color: #dee2e6;
+  transform: translateY(-1px);
+}
+
+.save-btn {
+  background: var(--color-primary);
+  color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.save-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .profile-edit-container {
+    margin: 10px;
+  }
+
+  .profile-edit-header {
+    padding: 15px 20px;
+  }
+
+  .profile-edit-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-edit-content {
+    padding: 20px;
+  }
+
+  .edit-section {
+    margin-bottom: 30px;
+  }
+
+  .edit-section h3 {
+    font-size: 1.2rem;
+  }
+
+  .sns-inputs {
+    gap: 15px;
+  }
+
+  .edit-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-edit-content {
+    padding: 15px;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+
+  .preview-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .avatar-placeholder {
+    font-size: 1.4rem;
+  }
+
+  .preview-info h4 {
+    font-size: 1.1rem;
+  }
+} 
