@@ -31,12 +31,64 @@ const useIsMobile = () => {
 
 const ECHeader: React.FC = () => {
   const location = useLocation();
-  const { cart, getTotalItems, getTotalPrice, updateQuantity, removeFromCart } = useCart();
+  const { cart, getTotalItems, getTotalPrice, updateQuantity, removeFromCart, updateKitPrice } = useCart();
   
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const isMobile = useIsMobile();
+
+  // カートの内容が変更された時に価格を再計算
+  useEffect(() => {
+    // カート内の商品が変更された時に強制的に再レンダリング
+    console.log('カート内容が変更されました:', cart.map(item => ({ 
+      name: item.name, 
+      price: item.price, 
+      quantity: item.quantity,
+      productType: item.productType 
+    })));
+    
+    // カート内容が変更された時にキット価格をリセット
+    const kitItems = cart.filter(item => item.productType === 'kit');
+    const fabricItems = cart.filter(item => item.productType === 'fabric');
+    
+    if (kitItems.length > 0 && fabricItems.length > 0) {
+      // キットが無料になっている場合、有料に戻す
+      const freeKits = kitItems.filter(item => item.price === '0');
+      if (freeKits.length > 0) {
+        // キット特典適用ボタンが押された後の価格変更は無視する
+        // 手動でキット特典を適用した場合は、カート内容変更時にリセットしない
+        const hasAppliedBonus = freeKits.some(kit => kit.name.includes('(無料)'));
+        if (!hasAppliedBonus) {
+          console.log('カート内容が変更されたため、キット価格をリセットします');
+          // キットの価格を元に戻す
+          kitItems.forEach(kitItem => {
+            const baseName = kitItem.name.replace(' (無料)', '');
+            updateKitPrice(kitItem.managementNumber, baseName, '300');
+          });
+        } else {
+          console.log('キット特典適用中のため、リセットをスキップします');
+        }
+      }
+    }
+  }, [cart, updateKitPrice]);
+
+  // キット特典の自動適用
+  useEffect(() => {
+    const fabricItems = cart.filter(item => item.productType === 'fabric');
+    const kitItems = cart.filter(item => item.productType === 'kit');
+    
+    // 生地が入っていれば自動的にキット2個を無料にする
+    if (fabricItems.length > 0 && kitItems.length > 0) {
+      // キットを無料にする（最初の2個まで）
+      kitItems.slice(0, 2).forEach((kitItem) => {
+        const baseName = kitItem.name.replace(' (無料)', '');
+        const newName = `${baseName} (無料)`;
+        const newPrice = '0';
+        updateKitPrice(kitItem.managementNumber, newName, newPrice);
+      });
+    }
+  }, [cart, updateKitPrice]);
 
   // カート詳細の外側クリックで閉じる（PCのみ）
   useEffect(() => {
@@ -158,6 +210,21 @@ const ECHeader: React.FC = () => {
         .header-main-row {
           padding: 0.4em 0.5em !important;
         }
+        /* カート商品一覧のスクロールバーカスタマイズ */
+        .cart-items-scroll::-webkit-scrollbar {
+          width: 6px;
+        }
+        .cart-items-scroll::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 3px;
+        }
+        .cart-items-scroll::-webkit-scrollbar-thumb {
+          background: #FFD4C4;
+          border-radius: 3px;
+        }
+        .cart-items-scroll::-webkit-scrollbar-thumb:hover {
+          background: #E1306C;
+        }
       }
     `;
     document.head.appendChild(style);
@@ -186,209 +253,163 @@ const ECHeader: React.FC = () => {
       <div style={{ fontWeight: 700, color: 'var(--color-primary)', marginBottom: 12, fontSize: '1.18em', letterSpacing: '0.01em', textAlign: isMobile ? 'center' : undefined }}>🛒 カート</div>
       <div style={{ marginBottom: 10, fontSize: '1.05em', textAlign: isMobile ? 'center' : undefined }}>商品数: <b>{getTotalItems()}</b></div>
       
-      {/* プロモーション情報 */}
+
+      
+              {/* 合計金額 */}
+        <div style={{ marginBottom: 18, fontWeight: 600, color: '#E1306C', textAlign: isMobile ? 'center' : undefined }}>合計: <b>{getTotalPrice().toLocaleString()}円</b></div>
+        
+
+      {/* 商品一覧 */}
       {(() => {
-        console.log('カート内容:', cart.map(item => ({ name: item.name, productType: item.productType, quantity: item.quantity })));
-        
-        const fabricItems = cart.filter(item => {
-          // 生地の判定（productTypeが'fabric'、またはCOTTONを含む商品）
-          const isFabric = item.productType === 'fabric' || item.name.includes('COTTON');
-          console.log(`商品 "${item.name}" は生地か:`, isFabric, 'productType:', item.productType);
-          return isFabric;
-        });
-        const totalFabricCount = fabricItems.reduce((sum, item) => sum + item.quantity, 0);
-        
-        console.log('生地商品:', fabricItems.map(item => item.name));
-        console.log('生地総個数:', totalFabricCount);
-        
-        if (totalFabricCount > 0) {
-          let availableFreeKits = 0;
-          if (totalFabricCount >= 1 && totalFabricCount <= 5) {
-            availableFreeKits = 1;
-          } else if (totalFabricCount >= 6 && totalFabricCount <= 10) {
-            availableFreeKits = 2;
-          } else if (totalFabricCount >= 11) {
-            const additionalKits = Math.floor((totalFabricCount - 10) / 3);
-            availableFreeKits = 2 + additionalKits;
-          }
-          
-          console.log('利用可能な無料キット数:', availableFreeKits);
-          
+        if (cart.length > 0) {
           return (
-            <div style={{ 
-              marginBottom: 12, 
-              padding: '8px 12px', 
-              background: '#f8f9fa', 
-              border: '1px solid #e9ecef', 
-              borderRadius: '4px',
-              fontSize: '0.9em',
-              color: '#495057'
-            }}>
-              <div style={{ fontWeight: 600, marginBottom: '4px' }}>
-                生地{totalFabricCount}個購入でキット{availableFreeKits}個無料
+            <>
+              <div style={{ 
+                fontWeight: 700, 
+                fontSize: '1.1em', 
+                color: '#E1306C', 
+                marginBottom: '0.5em',
+                borderBottom: '2px solid #FFD4C4',
+                paddingBottom: '0.3em'
+              }}>
+                🛒 商品一覧
               </div>
-              <div style={{ fontSize: '0.85em', opacity: 0.7 }}>
-                生地1-5個: キット1個無料 / 生地6-10個: キット2個無料 / 生地11個以降: 3個ごとにキット1個追加無料
-              </div>
-            </div>
+              <ul 
+                className="cart-items-scroll"
+                style={{ 
+                  listStyle: 'none', 
+                  padding: 0, 
+                  margin: 0, 
+                  marginBottom: '1em',
+                  maxHeight: isMobile ? '40vh' : '300px',
+                  overflowY: 'auto',
+                  overflowX: 'hidden'
+                }}
+              >
+                {cart.map(item => {
+                  const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
+                  return (
+                    <li key={item.managementNumber} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: isMobile ? '0.7em' : '1em',
+                      borderBottom: '1px solid #FFD4C4',
+                      padding: isMobile ? '0.7em 0' : '1em 0'
+                    }}>
+                      <img src={getImageSrc(item.imageUrl)} alt={item.name} style={{
+                        width: isMobile ? 44 : 60,
+                        height: isMobile ? 44 : 60,
+                        objectFit: 'cover',
+                        borderRadius: 10,
+                        border: '1px solid #FFD4C4',
+                        background: '#fafafa'
+                      }} />
+                      <div style={{ flex: 1, minWidth: 0, maxWidth: '60%' }}>
+                        <div style={{
+                          fontWeight: 700,
+                          fontSize: isMobile ? '1em' : '1.08em',
+                          marginBottom: 2,
+                          wordBreak: 'break-word',
+                          overflowWrap: 'break-word',
+                          lineHeight: '1.3',
+                          maxHeight: 'none'
+                        }}>
+                          {item.name}
+                        </div>
+                        <div style={{ fontSize: '0.95em', color: '#636E72' }}>
+                          {priceNum.toLocaleString()}円 × {item.quantity}個
+                        </div>
+                      </div>
+                      {/* 数量変更・削除ボタン */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5em' }}>
+                        <button
+                          onClick={() => {
+                            if (item.quantity > 1) {
+                              updateQuantity(item.managementNumber, item.quantity - 1);
+                            } else {
+                              removeFromCart(item.managementNumber);
+                            }
+                          }}
+                          style={{
+                            background: '#f8f9fa',
+                            border: '1px solid #dee2e6',
+                            borderRadius: '50%',
+                            width: 28,
+                            height: 28,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.2em',
+                            color: '#6c757d'
+                          }}
+                          aria-label="数量を減らす"
+                        >
+                          {item.quantity > 1 ? '−' : '🗑️'}
+                        </button>
+                        <span style={{ 
+                          fontWeight: 600, 
+                          fontSize: isMobile ? '0.9em' : '1em',
+                          minWidth: '2em',
+                          textAlign: 'center'
+                        }}>
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => updateQuantity(item.managementNumber, item.quantity + 1)}
+                          style={{
+                            background: '#f8f9fa',
+                            border: '1px solid #dee2e6',
+                            borderRadius: '50%',
+                            width: 28,
+                            height: 28,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1.2em',
+                            color: '#6c757d'
+                          }}
+                          aria-label="数量を増やす"
+                        >
+                          +
+                        </button>
+                        <button
+                          onClick={() => removeFromCart(item.managementNumber)}
+                          style={{
+                            background: '#ff6b6b',
+                            border: '1px solid #ff5252',
+                            borderRadius: '6px',
+                            padding: '0.3em 0.8em',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '0.8em',
+                            color: 'white',
+                            fontWeight: 600,
+                            marginLeft: '0.5em'
+                          }}
+                          aria-label="削除"
+                        >
+                          削除
+                        </button>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
           );
         }
-        console.log('生地商品がありません');
         return null;
       })()}
-      
-      {/* 合計金額 */}
-      <div style={{ marginBottom: 18, fontWeight: 600, color: '#E1306C', textAlign: isMobile ? 'center' : undefined }}>合計: <b>{getTotalPrice().toLocaleString()}円</b></div>
-      {/* カート内商品リスト */}
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxHeight: isMobile ? '38vh' : 320, overflowY: 'auto' }}>
-        {cart.map(item => {
-          const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
-          return (
-            <li key={item.managementNumber} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: isMobile ? '0.7em' : '1em',
-              borderBottom: '1px solid #FFD4C4',
-              padding: isMobile ? '0.7em 0' : '1em 0'
-            }}>
-              <img src={getImageSrc(item.imageUrl)} alt={item.name} style={{
-                width: isMobile ? 44 : 60,
-                height: isMobile ? 44 : 60,
-                objectFit: 'cover',
-                borderRadius: 10,
-                border: '1px solid #FFD4C4',
-                background: '#fafafa'
-              }} />
-              <div style={{ flex: 1 }}>
-                <div style={{
-                  fontWeight: 700,
-                  fontSize: isMobile ? '1em' : '1.08em',
-                  marginBottom: 2
-                }}>
-                  {item.name}
-                </div>
-                <div style={{ fontSize: '0.95em', color: '#636E72' }}>
-                  {priceNum.toLocaleString()}円 × {item.quantity}個
-                </div>
-              </div>
-              {/* 数量変更・削除ボタン */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5em' }}>
-                {item.productType === 'kit' ? (
-                  // キットの場合は数量変更を無効化、削除ボタンのみ表示
-                  <>
-                    <div style={{ 
-                      fontSize: '0.8em', 
-                      color: '#6c757d',
-                      fontStyle: 'italic'
-                    }}>
-                      1個のみ
-                    </div>
-                    <button
-                      onClick={() => removeFromCart(item.managementNumber)}
-                      style={{
-                        background: '#ff6b6b',
-                        border: '1px solid #ff5252',
-                        borderRadius: '6px',
-                        padding: '0.3em 0.8em',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer',
-                        fontSize: '0.8em',
-                        color: 'white',
-                        fontWeight: 600
-                      }}
-                      aria-label="削除"
-                    >
-                      削除
-                    </button>
-                  </>
-                                 ) : (
-                   // 布などの他の商品は従来通り数量変更可能
-                   <>
-                     <button
-                       onClick={() => {
-                         if (item.quantity > 1) {
-                           updateQuantity(item.managementNumber, item.quantity - 1);
-                         } else {
-                           removeFromCart(item.managementNumber);
-                         }
-                       }}
-                       style={{
-                         background: '#f8f9fa',
-                         border: '1px solid #dee2e6',
-                         borderRadius: '50%',
-                         width: 28,
-                         height: 28,
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         cursor: 'pointer',
-                         fontSize: '1.2em',
-                         color: '#6c757d'
-                       }}
-                       aria-label="数量を減らす"
-                     >
-                       {item.quantity > 1 ? '−' : '🗑️'}
-                     </button>
-                     <span style={{ 
-                       fontWeight: 600, 
-                       fontSize: isMobile ? '0.9em' : '1em',
-                       minWidth: '2em',
-                       textAlign: 'center'
-                     }}>
-                       {item.quantity}
-                     </span>
-                     <button
-                       onClick={() => updateQuantity(item.managementNumber, item.quantity + 1)}
-                       style={{
-                         background: '#f8f9fa',
-                         border: '1px solid #dee2e6',
-                         borderRadius: '50%',
-                         width: 28,
-                         height: 28,
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         cursor: 'pointer',
-                         fontSize: '1.2em',
-                         color: '#6c757d'
-                       }}
-                       aria-label="数量を増やす"
-                     >
-                       +
-                     </button>
-                     <button
-                       onClick={() => removeFromCart(item.managementNumber)}
-                       style={{
-                         background: '#ff6b6b',
-                         border: '1px solid #ff5252',
-                         borderRadius: '6px',
-                         padding: '0.3em 0.8em',
-                         display: 'flex',
-                         alignItems: 'center',
-                         justifyContent: 'center',
-                         cursor: 'pointer',
-                         fontSize: '0.8em',
-                         color: 'white',
-                         fontWeight: 600,
-                         marginLeft: '0.5em'
-                       }}
-                       aria-label="削除"
-                     >
-                       削除
-                     </button>
-                   </>
-                 )}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-      {/* 小計: 商品合計 */}
-      <div style={{ marginTop: 18, fontWeight: 600, fontSize: isMobile ? '1.05em' : '1.08em', color: '#636E72', textAlign: isMobile ? 'center' : 'right', letterSpacing: '0.01em' }}>
-        小計: {subtotal.toLocaleString()}円
-      </div>
+
+
+              {/* 小計 */}
+        <div style={{ marginTop: 18, fontWeight: 600, fontSize: isMobile ? '1.05em' : '1.08em', color: '#636E72', textAlign: isMobile ? 'center' : 'right', letterSpacing: '0.01em' }}>
+          小計: {subtotal.toLocaleString()}円
+        </div>
       {/* 送料 */}
       <div style={{ fontWeight: 600, fontSize: isMobile ? '1.05em' : '1.08em', color: '#636E72', textAlign: isMobile ? 'center' : 'right', letterSpacing: '0.01em' }}>
         送料: {shipping === 0 ? '無料' : shipping.toLocaleString() + '円'}

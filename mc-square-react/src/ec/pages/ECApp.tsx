@@ -72,9 +72,9 @@ const ECApp: React.FC = () => {
         <Route path="/cancel" element={<Cancel />} />
         <Route path="/login" element={<Login />} />
         
-        {/* ECサイトのホームページ */}
+        {/* 元のホームページデザイン */}
         <Route path="/" element={
-          <main className="kits-page-container">
+          <main>
             <section className="hero-section">
               <h1 className="hero-title">いいものはいつまでも<br />エムシースクエア公式サイト</h1>
               <p className="hero-subtitle">生地の販売・インフルエンサーコラボ・よりそいクラフトなど、<br />あなたの手作りを応援する本格ECサイトへようこそ。</p>
@@ -83,70 +83,58 @@ const ECApp: React.FC = () => {
                   <span role="img" aria-label="生地">🧵</span>
                   生地の販売
                 </Link>
+                <Link to="/subscription" className="hero-btn">
+                  <span role="img" aria-label="サブスク">📦</span>
+                  サブスク
+                </Link>
+                <Link to="/influencer_subscription" className="hero-btn">
+                  <span role="img" aria-label="コラボ">🌟</span>
+                  インフルエンサーコラボ
+                </Link>
                 <Link to="/kits" className="hero-btn">
                   <span role="img" aria-label="キット">🧩</span>
                   キット
                 </Link>
-                <Link to="/influencer_subscription" className="hero-btn">
-                  <span role="img" aria-label="インフルエンサーコラボ">🌟</span>
-                  インフルエンサーコラボ
-                </Link>
-                <Link to="/subscription" className="hero-btn">
-                  <span role="img" aria-label="サブスクリプション">📦</span>
-                  サブスクリプション
-                </Link>
               </div>
             </section>
-
             <NewsSection />
-
-            <section className="features-section">
-              <h2 className="section-title">Mission</h2>
-              <p style={{ textAlign: 'center', fontSize: '1.3rem', fontWeight: 600, color: '#333', marginBottom: '3rem' }}>
-                モノづくりの幸せを、すべての人へ。
-              </p>
-              
-              <h3 style={{ color: '#e53e3e', fontSize: '1.2rem', fontWeight: 700, marginBottom: '2rem' }}>
-                パッチワークがもたらす3つの幸せ
-              </h3>
-              
-              <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <div style={{ marginBottom: '2rem' }}>
-                  <h4 style={{ color: '#e53e3e', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                    作る幸せ
-                  </h4>
-                  <p style={{ color: '#333', lineHeight: 1.6 }}>
-                    自分の手で作品を生み出すよろこび。
-                  </p>
-                </div>
-                
-                <div style={{ marginBottom: '2rem' }}>
-                  <h4 style={{ color: '#e53e3e', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                    集中する幸せ
-                  </h4>
-                  <p style={{ color: '#333', lineHeight: 1.6 }}>
-                    無心で針を動かす時間が、心を整え、日々のストレスを和らげます。
-                  </p>
-                </div>
-                
-                <div style={{ marginBottom: '2rem' }}>
-                  <h4 style={{ color: '#e53e3e', fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                    健康になる幸せ
-                  </h4>
-                  <p style={{ color: '#333', lineHeight: 1.6 }}>
-                    手を動かし、考え、創造することで、脳や心の健康を育みます。
-                  </p>
-                </div>
-              </div>
+            <section className="mission-section">
+              <div className="mission-title">Mission</div>
+              <div className="mission-message">モノづくりの幸せを、すべての人へ。</div>
             </section>
-
-            <section className="cta-section">
-              <h2>今すぐ始めよう</h2>
-              <p>あなたの手作りライフを、MC Squareと一緒に豊かにしませんか？</p>
-              <Link to="/all-products" className="cta-button">
-                商品を見る
-              </Link>
+            <section className="value-section">
+              <div className="value-title">パッチワークがもたらす3つの幸せ</div>
+              <ul className="value-list">
+                <li>
+                  <span className="value-label">作る幸せ</span>
+                  <span className="value-desc">自分の手で作品を生み出すよろこび。</span>
+                </li>
+                <li>
+                  <span className="value-label">集中する幸せ</span>
+                  <span className="value-desc">無心で針を動かす時間が、心を整え、日々のストレスを和らげます。</span>
+                </li>
+                <li>
+                  <span className="value-label">健康になる幸せ</span>
+                  <span className="value-desc">手を動かし、考え、創造することで、脳や心の健康を育みます。</span>
+                </li>
+              </ul>
             </section>
+            <div className="old-website-link">
+              <a
+                href="http://www.mcsquare.co.jp/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="old-website-btn"
+              >
+                旧ウェブサイトはこちら
+              </a>
+            </div>
+            <div className="contact">
+              <strong>【お問合せ先】</strong><br />
+              〒244-0811 神奈川県横浜市戸塚区上柏尾町132-3 SKビル2階<br />
+              TEL：045-410-7023　FAXフリーダイヤル：0120-535-596<br />
+              E-mail：<a href="mailto:retail@mcsquareofficials.com" style={{color: 'var(--color-primary)', textDecoration: 'none'}}>retail@mcsquareofficials.com</a>
+            </div>
           </main>
         } />
       </Routes>
