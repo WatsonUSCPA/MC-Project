@@ -17,6 +17,16 @@ const getImageSrc = (url?: string) => {
   return '/Image/MC square Logo.png';
 };
 
+// Stripe用の絶対URLに変換する関数
+const getAbsoluteImageUrl = (url?: string) => {
+  const imageSrc = getImageSrc(url);
+  if (imageSrc.startsWith('http://') || imageSrc.startsWith('https://')) {
+    return imageSrc;
+  }
+  // 相対パスの場合は絶対URLに変換
+  return `${window.location.origin}${imageSrc}`;
+};
+
 // モバイル判定
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -37,58 +47,65 @@ const ECHeader: React.FC = () => {
   const cartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const isMobile = useIsMobile();
+  
+  // 無限ループを防ぐためのフラグ
+  const [isProcessingKitBonus, setIsProcessingKitBonus] = useState(false);
+  const [lastCartState, setLastCartState] = useState<string>('');
 
-  // カートの内容が変更された時に価格を再計算
+  // カートの内容が変更された時の処理（デバッグ用）
   useEffect(() => {
-    // カート内の商品が変更された時に強制的に再レンダリング
-    console.log('カート内容が変更されました:', cart.map(item => ({ 
-      name: item.name, 
-      price: item.price, 
-      quantity: item.quantity,
-      productType: item.productType 
-    })));
+    // 処理中はログを出力しない
+    if (isProcessingKitBonus) return;
     
-    // カート内容が変更された時にキット価格をリセット
-    const kitItems = cart.filter(item => item.productType === 'kit');
-    const fabricItems = cart.filter(item => item.productType === 'fabric');
-    
-    if (kitItems.length > 0 && fabricItems.length > 0) {
-      // キットが無料になっている場合、有料に戻す
-      const freeKits = kitItems.filter(item => item.price === '0');
-      if (freeKits.length > 0) {
-        // キット特典適用ボタンが押された後の価格変更は無視する
-        // 手動でキット特典を適用した場合は、カート内容変更時にリセットしない
-        const hasAppliedBonus = freeKits.some(kit => kit.name.includes('(無料)'));
-        if (!hasAppliedBonus) {
-          console.log('カート内容が変更されたため、キット価格をリセットします');
-          // キットの価格を元に戻す
-          kitItems.forEach(kitItem => {
-            const baseName = kitItem.name.replace(' (無料)', '');
-            updateKitPrice(kitItem.managementNumber, baseName, '300');
-          });
-        } else {
-          console.log('キット特典適用中のため、リセットをスキップします');
-        }
-      }
-    }
-  }, [cart, updateKitPrice]);
+    // デバッグログを削除して無限ループを防ぐ
+    // console.log('カート内容が変更されました:', cart.map(item => ({ 
+    //   name: item.name, 
+    //   price: item.price, 
+    //   quantity: item.quantity,
+    //   productType: item.productType 
+    // })));
+  }, [cart, isProcessingKitBonus]);
 
   // キット特典の自動適用
   useEffect(() => {
+    // 処理中は実行しない
+    if (isProcessingKitBonus) return;
+    
+    // カートの状態を文字列化して比較
+    const currentCartState = JSON.stringify(cart.map(item => ({
+      managementNumber: item.managementNumber,
+      price: item.price,
+      productType: item.productType
+    })));
+    
+    // 前回と同じ状態なら処理しない
+    if (currentCartState === lastCartState) return;
+    
     const fabricItems = cart.filter(item => item.productType === 'fabric');
     const kitItems = cart.filter(item => item.productType === 'kit');
     
     // 生地が入っていれば自動的にキット2個を無料にする
     if (fabricItems.length > 0 && kitItems.length > 0) {
-      // キットを無料にする（最初の2個まで）
-      kitItems.slice(0, 2).forEach((kitItem) => {
-        const baseName = kitItem.name.replace(' (無料)', '');
-        const newName = `${baseName} (無料)`;
-        const newPrice = '0';
-        updateKitPrice(kitItem.managementNumber, newName, newPrice);
-      });
+      // 無料になっていないキットのみ処理
+      const paidKits = kitItems.filter(kit => kit.price !== '0');
+      
+      if (paidKits.length > 0) {
+        setIsProcessingKitBonus(true);
+        setLastCartState(currentCartState);
+        
+        // キットを無料にする（最初の2個まで）
+        paidKits.slice(0, 2).forEach((kitItem) => {
+          const baseName = kitItem.name.replace(' (無料)', '');
+          const newName = `${baseName} (無料)`;
+          const newPrice = '0';
+          updateKitPrice(kitItem.managementNumber, newName, newPrice);
+        });
+        
+        // 処理完了後にフラグをリセット
+        setTimeout(() => setIsProcessingKitBonus(false), 100);
+      }
     }
-  }, [cart, updateKitPrice]);
+  }, [cart, updateKitPrice, isProcessingKitBonus, lastCartState]);
 
   // カート詳細の外側クリックで閉じる（PCのみ）
   useEffect(() => {
@@ -110,21 +127,25 @@ const ECHeader: React.FC = () => {
       // Stripe line_itemsを商品と送料で構成
       const line_items = [];
       
-      // 商品合計
-      if (subtotal > 0) {
+      // 各商品を個別に送信
+      cart.forEach(item => {
+        const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
         line_items.push({
           price_data: {
             currency: 'jpy',
             product_data: {
-              name: '商品合計',
-              metadata: { managementNumber: 'total' },
-              images: undefined
+              name: item.name,
+              description: item.description || `管理番号: ${item.managementNumber}`,
+              metadata: {
+                managementNumber: item.managementNumber
+              },
+              images: item.imageUrl ? [getAbsoluteImageUrl(item.imageUrl)] : undefined
             },
-            unit_amount: subtotal,
+            unit_amount: priceNum,
           },
-          quantity: 1
+          quantity: item.quantity,
         });
-      }
+      });
       
       // 送料
       if (shipping > 0) {
@@ -163,7 +184,7 @@ const ECHeader: React.FC = () => {
         localStorage.setItem('mcSquareLastOrderItems', JSON.stringify(cart));
         // 送料も保存
         localStorage.setItem('mcSquareLastShipping', String(shipping));
-        window.open(data.url, '_blank'); // 新しいタブでStripe Checkoutを開く
+        window.location.href = data.url; // 同じタブでStripe Checkoutを開く
       } else {
         alert('Stripe決済ページの生成に失敗しました');
         console.error('Stripe error:', data);
@@ -316,6 +337,18 @@ const ECHeader: React.FC = () => {
                         }}>
                           {item.name}
                         </div>
+                        {item.description && (
+                          <div style={{
+                            fontSize: isMobile ? '0.85em' : '0.9em',
+                            color: '#666',
+                            marginBottom: 4,
+                            lineHeight: '1.2',
+                            wordBreak: 'break-word',
+                            overflowWrap: 'break-word'
+                          }}>
+                            {item.description}
+                          </div>
+                        )}
                         <div style={{ fontSize: '0.95em', color: '#636E72' }}>
                           {priceNum.toLocaleString()}円 × {item.quantity}個
                         </div>

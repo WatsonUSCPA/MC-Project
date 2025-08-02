@@ -8,6 +8,7 @@ interface Product {
   price: string;
   imageUrl?: string;
   status?: string;
+  description?: string;
 }
 
 const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
@@ -61,48 +62,21 @@ const AllProducts: React.FC = () => {
     };
     addToCart(productWithType);
     
-    // 生地を追加した後にカート内のキットの無料状況を更新
-    setTimeout(() => {
-      updateKitPricesBasedOnFabricCount();
-    }, 100);
+    // 新しいルールでは、キット追加時にのみ価格が決定されるため、
+    // 生地を追加しても既存のキットの価格は変更しない
   };
 
-  // 生地購入数に基づいてカート内のキット価格を更新
-  const updateKitPricesBasedOnFabricCount = () => {
-    const fabricCount = cart.reduce((sum, item) => {
-      if (item.productType === 'fabric' || item.name.includes('COTTON')) {
-        return sum + item.quantity;
-      }
-      return sum;
-    }, 0);
+  // カートの内容が変更された時にキット価格を更新（新しいルールでは不要）
+  // useEffect(() => {
+  //   // 新しいルールでは、キット追加時にのみ価格が決定されるため、
+  //   // 生地数が変わっても既存のキットの価格は変更しない
+  // }, [cart]);
 
-    // 無料キット数を計算
-    const getFreeKitCount = () => {
-      if (fabricCount >= 1 && fabricCount <= 5) {
-        return 1;
-      } else if (fabricCount >= 6 && fabricCount <= 10) {
-        return 2;
-      } else if (fabricCount >= 11) {
-        const additionalKits = Math.floor((fabricCount - 10) / 3);
-        return 2 + additionalKits;
-      }
-      return 0;
-    };
-
-    const freeKitCount = getFreeKitCount();
-    const cartKits = cart.filter(item => item.productType === 'kit');
-    
-    cartKits.forEach((kitItem, index) => {
-      const isFree = index < freeKitCount;
-      const baseName = kitItem.name.replace(' (無料)', '');
-      const newName = isFree ? `${baseName} (無料)` : baseName;
-      const newPrice = isFree ? '0' : kitItem.price.replace('0', ''); // 元の価格を復元
-      
-      if (kitItem.name !== newName || kitItem.price !== newPrice) {
-        updateKitPrice(kitItem.managementNumber, newName, newPrice);
-      }
-    });
-  };
+  // 生地購入数に基づいてカート内のキット価格を更新（新しいルールでは不要）
+  // const updateKitPricesBasedOnFabricCount = () => {
+  //   // 新しいルールでは、キット追加時にのみ価格が決定されるため、
+  //   // 生地数が変わっても既存のキットの価格は変更しない
+  // };
 
   // 数量変更
   const handleChangeQuantity = (managementNumber: string, diff: number) => {
@@ -141,10 +115,11 @@ const AllProducts: React.FC = () => {
             currency: 'jpy',
             product_data: {
               name: item.name,
+              description: item.description || `管理番号: ${item.managementNumber}`,
               metadata: {
                 managementNumber: item.managementNumber
               },
-              images: item.imageUrl ? [getImageSrc(item.imageUrl)] : undefined
+              images: item.imageUrl ? [getAbsoluteImageUrl(item.imageUrl)] : undefined
             },
             unit_amount: priceNum,
           },
@@ -158,6 +133,7 @@ const AllProducts: React.FC = () => {
             currency: 'jpy',
             product_data: {
               name: '送料',
+              description: '商品の配送料金',
               metadata: { managementNumber: 'shipping' },
               images: undefined
             },
@@ -188,7 +164,13 @@ const AllProducts: React.FC = () => {
 
       const data = await response.json();
       if (data.url) {
-        window.location.href = data.url;
+        // 決済金額をlocalStorageに保存
+        localStorage.setItem('mcSquareLastPaidAmount', String(totalWithShipping));
+        // カート内容も保存（購入履歴用）
+        localStorage.setItem('mcSquareLastOrderItems', JSON.stringify(cart));
+        // 送料も保存
+        localStorage.setItem('mcSquareLastShipping', String(shipping));
+        window.location.href = data.url; // 同じタブでStripe Checkoutを開く
       } else {
         alert('Stripe決済ページの生成に失敗しました');
         console.error('Stripe error:', data);
@@ -210,6 +192,16 @@ const AllProducts: React.FC = () => {
     return '/Image/MC square Logo.png';
   };
 
+  // Stripe用の絶対URLに変換する関数
+  const getAbsoluteImageUrl = (url?: string) => {
+    const imageSrc = getImageSrc(url);
+    if (imageSrc.startsWith('http://') || imageSrc.startsWith('https://')) {
+      return imageSrc;
+    }
+    // 相対パスの場合は絶対URLに変換
+    return `${window.location.origin}${imageSrc}`;
+  };
+
   // カートモーダルUI
   const CartModal = () => (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setCartModalOpen(false)}>
@@ -225,6 +217,11 @@ const AllProducts: React.FC = () => {
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700 }}>{item.name}</div>
                   <div style={{ fontSize: '0.95em', color: '#636E72' }}>管理番号: {item.managementNumber}</div>
+                  {item.description && (
+                    <div style={{ fontSize: '0.9em', color: '#666', marginTop: '0.3em', lineHeight: '1.3' }}>
+                      {item.description}
+                    </div>
+                  )}
                   <div style={{ fontSize: '1em', color: 'var(--color-primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5em' }}>
                     {item.productType === 'kit' ? (
                       // キットの場合は数量変更を無効化
@@ -342,6 +339,11 @@ const AllProducts: React.FC = () => {
               <img src={getImageSrc(product.imageUrl)} alt={product.managementNumber} style={{ width: 160, height: 160, objectFit: 'cover', borderRadius: 16, border: '1px solid #FFD4C4', marginBottom: '1rem', background: '#f8f8f8' }} />
               <div className="product-name" style={{ fontWeight: 700, fontSize: '1.1em', marginBottom: '0.3em' }}>{product.name}</div>
               <div className="managementNumber" style={{ color: '#636E72', fontSize: '0.95em', marginBottom: '0.5em' }}>管理番号: {product.managementNumber}</div>
+              {product.description && (
+                <div className="product-description" style={{ color: '#666', fontSize: '0.9em', marginBottom: '0.5em', lineHeight: '1.4', textAlign: 'center' }}>
+                  {product.description}
+                </div>
+              )}
               <div className="price" style={{ color: 'var(--color-primary)', fontSize: '1.25em', fontWeight: 700, marginBottom: '0.7em' }}>{priceText}</div>
               <button style={{marginTop: '1em', background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: 12, padding: '0.7em 1.5em', fontWeight: 700, fontSize: '1.05em', cursor: 'pointer', boxShadow: '0 2px 8px rgba(255, 159, 124, 0.10)'}} onClick={() => handleAddToCart(product)}>生地を購入する</button>
             </div>

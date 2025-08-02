@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const Success: React.FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
+  const { clearCart } = useCart();
+
+  // 決済完了時にカートをクリア
+  useEffect(() => {
+    clearCart();
+    console.log('決済完了: カートをクリアしました');
+  }, [clearCart]);
 
   return (
     <div className="container">

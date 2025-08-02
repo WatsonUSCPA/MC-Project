@@ -6,6 +6,7 @@ interface CartItem {
   name: string;
   price: string;
   imageUrl?: string;
+  description?: string;
   quantity: number;
   productType?: 'fabric' | 'kit';
 }

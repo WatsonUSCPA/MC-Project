@@ -97,17 +97,9 @@ const KitsNew: React.FC = () => {
     fetchKits();
   }, []);
 
-  // 無料キット数を計算
+  // 無料キット数を計算（新しいルール：生地を購入いただくと、レシピを2個まで無料でお付けします）
   const getFreeKitCount = () => {
-    if (fabricCount >= 1 && fabricCount <= 5) {
-      return 1;
-    } else if (fabricCount >= 6 && fabricCount <= 10) {
-      return 2;
-    } else if (fabricCount >= 11) {
-      const additionalKits = Math.floor((fabricCount - 10) / 3);
-      return 2 + additionalKits;
-    }
-    return 0;
+    return fabricCount > 0 ? 2 : 0; // 生地1個以上でレシピ2個無料
   };
 
   const freeKitCount = getFreeKitCount();
@@ -201,120 +193,10 @@ const KitsNew: React.FC = () => {
       <p style={{ fontSize: '1.1rem', color: '#636E72', marginBottom: '1rem', lineHeight: 1.6 }}>
         エムシースクエア厳選の手作りキットをご紹介します。<br />
         初心者から上級者まで、お好みのレベルをお選びください。<br />
-        <strong style={{ color: '#FF6B6B' }}>※ キットは1個ずつしか購入できません</strong>
+        <strong style={{ color: '#FF6B6B' }}>※ 生地を購入いただくと、レシピを2個まで無料でお付けします。</strong>
       </p>
 
-      {/* 情報セクション */}
-      <div style={{ 
-        maxWidth: 600, 
-        margin: '0 auto 2rem auto'
-      }}>
-        {/* 注意書き */}
-        <div style={{ 
-          marginBottom: '1rem', 
-          padding: '0.8rem', 
-          background: '#fff3cd', 
-          borderRadius: '8px', 
-          border: '1px solid #ffeaa7',
-          fontSize: '0.9rem',
-          color: '#856404',
-          textAlign: 'center'
-        }}>
-          <strong>ご注意:</strong> キットはレシピと材料リストをお送りするものです。<br />
-          布はご自身でお選びいただく必要がございます。
-        </div>
 
-        {/* 無料キットルール */}
-        <div style={{ 
-          padding: '1rem', 
-          background: '#f8f9fa', 
-          borderRadius: '8px', 
-          border: '1px solid #e9ecef' 
-        }}>
-          <h3 style={{ 
-            textAlign: 'center', 
-            color: '#495057', 
-            marginBottom: '0.6rem', 
-            fontSize: '1rem',
-            fontWeight: 600
-          }}>
-            布を購入いただいた方にはキットを無料でお付けしております
-          </h3>
-          
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', 
-            gap: '0.6rem', 
-            marginBottom: '0.8rem' 
-          }}>
-            <div style={{ 
-              padding: '0.5rem', 
-              background: '#fff', 
-              borderRadius: '6px', 
-              border: '1px solid #dee2e6',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#495057', marginBottom: '0.1rem' }}>布1-5個</div>
-              <div style={{ fontSize: '0.8rem', color: '#6c757d' }}>キット1個無料</div>
-            </div>
-            <div style={{ 
-              padding: '0.5rem', 
-              background: '#fff', 
-              borderRadius: '6px', 
-              border: '1px solid #dee2e6',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#495057', marginBottom: '0.1rem' }}>布6-10個</div>
-              <div style={{ fontSize: '0.8rem', color: '#6c757d' }}>キット2個無料</div>
-            </div>
-            <div style={{ 
-              padding: '0.5rem', 
-              background: '#fff', 
-              borderRadius: '6px', 
-              border: '1px solid #dee2e6',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#495057', marginBottom: '0.1rem' }}>布11個以降</div>
-              <div style={{ fontSize: '0.8rem', color: '#6c757d' }}>3個ごとにキット1個追加無料</div>
-            </div>
-          </div>
-          
-          {/* 現在の状況表示 */}
-          {fabricCount > 0 && (
-            <div style={{ 
-              padding: '0.5rem', 
-              background: '#e8f5e8', 
-              borderRadius: '6px', 
-              border: '1px solid #c3e6c3',
-              textAlign: 'center',
-              marginBottom: '0.6rem'
-            }}>
-              <div style={{ fontWeight: 600, color: '#2d5a2d', fontSize: '0.85rem', marginBottom: '0.1rem' }}>
-                現在: 布{fabricCount}個購入中
-              </div>
-              {nextFreeKitInfo.remaining > 0 ? (
-                <div style={{ fontSize: '0.8rem', color: '#5a7c5a' }}>
-                  次の無料キットまで: あと{nextFreeKitInfo.remaining}個
-                </div>
-              ) : (
-                <div style={{ fontSize: '0.8rem', color: '#2d5a2d', fontWeight: 600 }}>
-                  無料キット獲得中
-                </div>
-              )}
-            </div>
-          )}
-          
-          <div style={{ 
-            fontSize: '0.75rem', 
-            color: '#6c757d', 
-            textAlign: 'center',
-            lineHeight: 1.3
-          }}>
-            ※ 無料キットは最も高価なキットから順番に適用されます<br />
-            ※ キットは1個ずつしか購入できません
-          </div>
-        </div>
-      </div>
 
       {/* フィルター */}
       {levels.length > 0 && (

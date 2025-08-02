@@ -2,7 +2,10 @@
 // APIキーを安全に隠すためのローカルサーバー
 
 const express = require('express');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_your_stripe_secret_key_here');
+// Stripe秘密鍵の設定（本番環境では環境変数を使用）
+// 注意: 公開鍵（pk_test_）ではなく秘密鍵（sk_test_）を使用してください
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || 'sk_test_51RarFpLF1d53iQAwAso92YvFVJaUI9e3CFGZbZtfOpkMSeGg5JJe5czCz56xlPsWvSjtattMFgGMbA6M4sUAiCWe002TKm5cPS';
+const stripe = require('stripe')(STRIPE_SECRET_KEY);
 const cors = require('cors');
 
 const app = express();
