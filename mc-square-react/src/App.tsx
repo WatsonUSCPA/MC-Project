@@ -14,6 +14,10 @@ import { app } from './firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import Success from './ec/pages/Success';
 import Cancel from './ec/pages/Cancel';
+import TermsOfService from './ec/pages/TermsOfService';
+import PrivacyPolicy from './ec/pages/PrivacyPolicy';
+import LegalNotice from './ec/pages/LegalNotice';
+import Contact from './ec/pages/Contact';
 
 import Login from './ec/pages/Login';
 
@@ -75,6 +79,10 @@ function App() {
           {/* <Route path="/patchwork_kit_website" element={<YorisoiCraft />} /> */}
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/legal" element={<LegalNotice />} />
+          <Route path="/contact" element={<Contact />} />
 
           <Route path="/login" element={<Login />} />
           {/* 必要に応じて他のRouteを追加 */}

@@ -41,7 +41,7 @@ const useIsMobile = () => {
 
 const ECHeader: React.FC = () => {
   const location = useLocation();
-  const { cart, getTotalItems, getTotalPrice, updateQuantity, removeFromCart, updateKitPrice } = useCart();
+  const { cart, getTotalItems, getTotalPrice, updateQuantity, removeFromCart, updateKitPrice, canProceedToCheckout } = useCart();
   
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
@@ -453,24 +453,25 @@ const ECHeader: React.FC = () => {
       </div>
       <button
         onClick={handleCheckout}
-        disabled={loading}
+        disabled={loading || !canProceedToCheckout()}
         style={{
           marginTop: 24,
-          background: 'var(--color-primary)',
+          background: canProceedToCheckout() ? 'var(--color-primary)' : '#ccc',
           color: '#fff',
           border: 'none',
           borderRadius: 12,
           padding: isMobile ? '0.9em 1.2em' : '1em 2em',
           fontWeight: 700,
           fontSize: isMobile ? '1em' : '1.08em',
-          cursor: loading ? 'not-allowed' : 'pointer',
+          cursor: (loading || !canProceedToCheckout()) ? 'not-allowed' : 'pointer',
           width: '100%',
-          boxShadow: '0 2px 8px rgba(255,159,124,0.10)',
-          opacity: loading ? 0.6 : 1,
+          boxShadow: canProceedToCheckout() ? '0 2px 8px rgba(255,159,124,0.10)' : 'none',
+          opacity: (loading || !canProceedToCheckout()) ? 0.6 : 1,
           transition: 'background 0.2s',
         }}
       >
-        {loading ? '決済ページを生成中...' : '購入へ進む'}
+        {loading ? '決済ページを生成中...' : 
+         !canProceedToCheckout() ? '商品を追加してください' : '購入へ進む'}
       </button>
     </div>
   );

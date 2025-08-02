@@ -152,6 +152,8 @@ interface CartContextType {
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  isCartEmpty: () => boolean;
+  canProceedToCheckout: () => boolean;
 }
 
 // コンテキスト作成
@@ -196,6 +198,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }, 0);
   };
 
+  const isCartEmpty = () => {
+    return state.items.length === 0;
+  };
+
+  const canProceedToCheckout = () => {
+    const totalPrice = getTotalPrice();
+    return totalPrice > 0; // 合計が0円より大きい場合のみ購入可能
+  };
+
   const value: CartContextType = {
     cart: state.items,
     addToCart,
@@ -204,7 +215,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     updateKitPrice,
     clearCart,
     getTotalItems,
-    getTotalPrice
+    getTotalPrice,
+    isCartEmpty,
+    canProceedToCheckout
   };
 
   return (

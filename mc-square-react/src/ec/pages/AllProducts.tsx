@@ -22,7 +22,7 @@ const AllProducts: React.FC = () => {
   const [visibleCount, setVisibleCount] = useState(6);
   
   // グローバルカートコンテキストを使用
-  const { cart, addToCart, removeFromCart, updateQuantity, updateKitPrice } = useCart();
+  const { cart, addToCart, removeFromCart, updateQuantity, updateKitPrice, canProceedToCheckout } = useCart();
 
   // 商品名リスト（重複なし）
   const productNames = Array.from(new Set(products.map(p => p.name).filter(Boolean)));
@@ -251,7 +251,28 @@ const AllProducts: React.FC = () => {
         <div style={{ marginTop: '1.5em', fontWeight: 700, fontSize: '1.1em', textAlign: 'right' }}>小計: {subtotal.toLocaleString()}円</div>
         <div style={{ fontWeight: 600, fontSize: '1em', color: '#636E72', textAlign: 'right' }}>送料: {shipping === 0 ? '無料' : shipping.toLocaleString() + '円'}</div>
         <div style={{ marginTop: '0.5em', fontWeight: 700, fontSize: '1.15em', color: 'var(--color-primary)', textAlign: 'right' }}>合計: {totalWithShipping.toLocaleString()}円</div>
-        {cart.length > 0 && <button onClick={handleCheckout} style={{ marginTop: '1.5em', background: 'var(--color-primary)', color: '#fff', border: 'none', borderRadius: 8, padding: '0.9em 1.5em', fontWeight: 700, fontSize: '1.08em', cursor: 'pointer', display: 'block', width: '100%' }}>決済へ進む</button>}
+        {cart.length > 0 && (
+          <button 
+            onClick={handleCheckout} 
+            disabled={!canProceedToCheckout()}
+            style={{ 
+              marginTop: '1.5em', 
+              background: canProceedToCheckout() ? 'var(--color-primary)' : '#ccc', 
+              color: '#fff', 
+              border: 'none', 
+              borderRadius: 8, 
+              padding: '0.9em 1.5em', 
+              fontWeight: 700, 
+              fontSize: '1.08em', 
+              cursor: canProceedToCheckout() ? 'pointer' : 'not-allowed', 
+              display: 'block', 
+              width: '100%',
+              opacity: canProceedToCheckout() ? 1 : 0.6
+            }}
+          >
+            {canProceedToCheckout() ? '決済へ進む' : '商品を追加してください'}
+          </button>
+        )}
         <button onClick={() => setCartModalOpen(false)} style={{ marginTop: '1em', background: '#ccc', color: '#333', border: 'none', borderRadius: 8, padding: '0.7em 1.5em', fontWeight: 700, fontSize: '1em', cursor: 'pointer', display: 'block', width: '100%' }}>閉じる</button>
       </div>
     </div>
