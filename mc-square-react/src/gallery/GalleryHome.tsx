@@ -183,6 +183,7 @@ const GalleryHome: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showMyPage, setShowMyPage] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
 
   // 人気のキーワードをFirestoreから取得
@@ -235,7 +236,7 @@ const GalleryHome: React.FC = () => {
 
   // Firestoreからデータを取得
   useEffect(() => {
-    const fetchRecipes = async () => {
+    const fetchRecipes = async (retryCount = 0) => {
       try {
         setLoading(true);
         
@@ -252,9 +253,9 @@ const GalleryHome: React.FC = () => {
         // 並列でデータ取得を開始
         const queryPromise = getDocs(q);
         
-        // タイムアウトを設定（3秒）
+        // タイムアウトを設定（5秒に延長）
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Timeout')), 3000)
+          setTimeout(() => reject(new Error('Timeout')), 5000)
         );
         
         const querySnapshot = await Promise.race([queryPromise, timeoutPromise]) as any;
@@ -297,6 +298,7 @@ const GalleryHome: React.FC = () => {
         // 文字情報を先に表示
         setRecipes(fetchedRecipes);
         setLoading(false);
+        setRetryCount(0); // 成功時にリトライカウントをリセット
         
         // 画像を後から非同期で読み込み
         setTimeout(() => {
@@ -310,6 +312,28 @@ const GalleryHome: React.FC = () => {
         
       } catch (error) {
         console.error('Error fetching recipes:', error);
+        
+        // タイムアウトエラーの場合、最大3回までリトライ
+        if (error instanceof Error && error.message === 'Timeout' && retryCount < 3) {
+          const nextRetryCount = retryCount + 1;
+          console.log(`Retrying fetch... Attempt ${nextRetryCount}/3`);
+          setRetryCount(nextRetryCount);
+          
+          // 指数バックオフで待機時間を設定（1秒、2秒、4秒）
+          const waitTime = Math.pow(2, retryCount) * 1000;
+          
+          setTimeout(() => {
+            fetchRecipes(nextRetryCount);
+          }, waitTime);
+          
+          return;
+        }
+        
+        // リトライ回数上限に達した場合、またはその他のエラーの場合
+        if (retryCount >= 3) {
+          console.error('Max retry attempts reached. Showing empty state.');
+        }
+        
         // エラー時は空配列で初期化
         setRecipes([]);
         setLoading(false);
@@ -388,7 +412,14 @@ const GalleryHome: React.FC = () => {
   if (loading) {
     return (
       <div className="recipe-gallery">
-        <div className="loading">データを読み込み中...</div>
+        <div className="loading">
+          データを読み込み中...
+          {retryCount > 0 && (
+            <div className="retry-info">
+              接続に時間がかかっています。再試行中... ({retryCount}/3)
+            </div>
+          )}
+        </div>
         {/* ローディング中でもキーワードセクションを表示 */}
         <div className="gallery-content">
           {popularKeywords.length > 0 && (

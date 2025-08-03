@@ -15,6 +15,13 @@
   color: var(--color-text-light);
 }
 
+.retry-info {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
 /* ヘッダー */
 .gallery-header {
   background: white;
