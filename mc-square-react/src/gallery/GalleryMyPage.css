@@ -62,6 +62,68 @@
   box-shadow: var(--shadow-md);
 }
 
+/* ログインオプション */
+.login-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.login-btn.primary {
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.login-btn.google {
+  background: white;
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-btn.google:hover {
+  background: #f8f9fa;
+  border-color: #dadce0;
+  color: var(--color-text);
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.divider span {
+  background: white;
+  padding: 0 15px;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
 /* ヘッダー */
 .my-page-header {
   display: flex;

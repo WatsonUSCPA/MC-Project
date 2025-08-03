@@ -106,6 +106,69 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* Googleログインセクション */
+.google-login-section {
+  margin-top: 20px;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.divider span {
+  background: white;
+  padding: 0 15px;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+}
+
+.google-login-button {
+  width: 100%;
+  background: white;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--color-text);
+}
+
+.google-login-button:hover {
+  background: #f8f9fa;
+  border-color: #dadce0;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.google-login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .gallery-login-toggle {
   text-align: center;
   margin-top: 20px;
