@@ -4,6 +4,7 @@ import './GalleryHome.css';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { app } from './firebase';
+import AdSense from '../components/AdSense';
 
 interface Recipe {
   id: string;
@@ -475,13 +476,8 @@ const GalleryHome: React.FC = () => {
           </section>
         )}
 
-        {/* 広告スペース */}
-        <div className="ad-space">
-          <div className="ad-content">
-            <h3>広告スペース</h3>
-            <p>ここに広告が表示されます</p>
-          </div>
-        </div>
+        {/* Google AdSense - 人気キーワード後広告 */}
+        <AdSense adSlot="YOUR_GALLERY_KEYWORD_AD_SLOT" />
 
         {/* 人気レシピ */}
         <section className="popular-recipes">
@@ -530,13 +526,8 @@ const GalleryHome: React.FC = () => {
           </div>
         </section>
 
-        {/* 広告スペース */}
-        <div className="ad-space">
-          <div className="ad-content">
-            <h3>広告スペース</h3>
-            <p>ここに広告が表示されます</p>
-          </div>
-        </div>
+        {/* Google AdSense - 人気レシピ後広告 */}
+        <AdSense adSlot="YOUR_GALLERY_POPULAR_AD_SLOT" />
 
         {/* 新着レシピ */}
         <section className="new-recipes">
@@ -585,13 +576,8 @@ const GalleryHome: React.FC = () => {
           </div>
         </section>
 
-        {/* 広告スペース */}
-        <div className="ad-space">
-          <div className="ad-content">
-            <h3>広告スペース</h3>
-            <p>ここに広告が表示されます</p>
-          </div>
-        </div>
+        {/* Google AdSense - 新着レシピ後広告 */}
+        <AdSense adSlot="YOUR_GALLERY_NEW_AD_SLOT" />
 
         {/* 投稿ボタン */}
         <div className="upload-section">

@@ -4,6 +4,7 @@ import { getFirestore, doc, getDoc, updateDoc, addDoc, collection, query, orderB
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { app } from './firebase';
 import './GalleryDetail.css';
+import AdSense from '../components/AdSense';
 
 interface RecipeStep {
   id: number;
@@ -487,6 +488,9 @@ const GalleryDetail: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* Google AdSense - レシピ詳細広告 */}
+            <AdSense adSlot="YOUR_GALLERY_DETAIL_AD_SLOT" />
 
             {recipe.affiliateProducts && recipe.affiliateProducts.filter(product => 
               product.name.trim() !== '' || 

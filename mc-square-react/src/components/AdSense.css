@@ -1,0 +1,56 @@
+.adsense-container {
+  margin: 2rem 0;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.adsense-container .adsbygoogle {
+  display: block !important;
+  margin: 0 auto;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .adsense-container {
+    margin: 1rem 0;
+    padding: 0.5rem;
+  }
+}
+
+/* 広告が読み込まれていない場合のプレースホルダー */
+.adsense-container:empty::before {
+  content: "広告";
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+/* Galleryページ用のAdSenseスタイル */
+.recipe-gallery .adsense-container {
+  margin: 1.5rem 0;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.recipe-gallery .adsense-container .adsbygoogle {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Gallery詳細ページ用のAdSenseスタイル */
+.recipe-detail .adsense-container {
+  margin: 2rem 0;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+} 

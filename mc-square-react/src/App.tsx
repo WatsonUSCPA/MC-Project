@@ -82,6 +82,7 @@ const AppLayout: React.FC = () => {
               </div>
             </section>
             <NewsSection />
+            
             <section className="mission-section">
               <div className="mission-title">Mission</div>
               <div className="mission-message">モノづくりの幸せを、すべての人へ。</div>

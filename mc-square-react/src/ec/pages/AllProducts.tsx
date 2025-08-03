@@ -338,6 +338,8 @@ const AllProducts: React.FC = () => {
           fontSize: '1em'
         }}>メルマガ登録</a>
       </div>
+      
+
       {loading && <div>データを読み込み中...10秒程かかる場合があります。</div>}
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1em', marginBottom: '1.2em', justifyContent: 'flex-end' }}>
