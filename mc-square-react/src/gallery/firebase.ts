@@ -26,6 +26,21 @@ export { app };
 // Firebase Authの永続性をlocalに明示設定（必ず一度だけ実行）
 try {
   const auth = getAuth(app);
+  
+  // ブラウザ環境の詳細情報をログ出力
+  console.log('=== Firebase Auth Environment Debug ===');
+  console.log('User Agent:', navigator.userAgent);
+  console.log('Platform:', navigator.platform);
+  console.log('Language:', navigator.language);
+  console.log('Cookie Enabled:', navigator.cookieEnabled);
+  console.log('Online Status:', navigator.onLine);
+  console.log('Screen Size:', `${window.screen.width}x${window.screen.height}`);
+  console.log('Viewport Size:', `${window.innerWidth}x${window.innerHeight}`);
+  console.log('Is Mobile:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+  console.log('Is iOS:', /iPad|iPhone|iPod/.test(navigator.userAgent));
+  console.log('Is Android:', /Android/.test(navigator.userAgent));
+  console.log('=====================================');
+  
   setPersistence(auth, browserLocalPersistence).catch((e) => {
     console.error('Auth persistence設定エラー:', e);
   });

@@ -99,12 +99,32 @@ const GalleryLogin: React.FC = () => {
 
     try {
       const provider = new GoogleAuthProvider();
+      
+      // ブラウザ情報をログ出力
+      console.log('=== Google Login Debug Info ===');
+      console.log('User Agent:', navigator.userAgent);
+      console.log('Platform:', navigator.platform);
+      console.log('Language:', navigator.language);
+      console.log('Cookie Enabled:', navigator.cookieEnabled);
+      console.log('Online Status:', navigator.onLine);
+      console.log('Screen Size:', `${window.screen.width}x${window.screen.height}`);
+      console.log('Viewport Size:', `${window.innerWidth}x${window.innerHeight}`);
+      console.log('================================');
+      
       // ポップアップがブロックされている場合はリダイレクト方式を使用
       try {
+        console.log('Attempting signInWithPopup...');
         await signInWithPopup(auth, provider);
+        console.log('signInWithPopup successful');
       } catch (popupError: any) {
+        console.log('signInWithPopup failed:', popupError);
+        console.log('Error code:', popupError.code);
+        console.log('Error message:', popupError.message);
+        console.log('Full error object:', popupError);
+        
         if (popupError.code === 'auth/popup-blocked' || popupError.code === 'auth/popup-closed-by-user') {
           // ポップアップがブロックされた場合はリダイレクト方式を使用
+          console.log('Falling back to signInWithRedirect...');
           await signInWithRedirect(auth, provider);
           return; // リダイレクトが実行されるのでここで終了
         }
@@ -112,13 +132,26 @@ const GalleryLogin: React.FC = () => {
       }
       window.location.href = '/gallery';
     } catch (error: any) {
-      console.error('Google login error:', error);
+      console.error('=== Google Login Final Error ===');
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      console.error('Error name:', error.name);
+      console.error('Error stack:', error.stack);
+      console.error('Full error object:', error);
+      console.error('================================');
+      
       let errorMessage = 'Googleログインに失敗しました。';
       
       if (error.code === 'auth/popup-closed-by-user') {
         errorMessage = 'ログインがキャンセルされました。';
       } else if (error.code === 'auth/popup-blocked') {
         errorMessage = 'ポップアップがブロックされました。ブラウザの設定を確認してください。';
+      } else if (error.code === 'auth/unauthorized-domain') {
+        errorMessage = 'このドメインからのログインが許可されていません。';
+      } else if (error.message && error.message.includes('disallowed_useragent')) {
+        errorMessage = 'お使いのブラウザではGoogleログインが制限されています。Chrome、Safari、Firefoxなどの標準ブラウザをご利用ください。';
+      } else if (error.message && error.message.includes('安全なブラウザ')) {
+        errorMessage = 'お使いのブラウザがGoogleの安全基準を満たしていません。標準ブラウザをご利用ください。';
       }
       
       setError(errorMessage);

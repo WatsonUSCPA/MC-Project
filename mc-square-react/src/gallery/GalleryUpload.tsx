@@ -30,13 +30,6 @@ interface Recipe {
   explanationType: 'video' | 'website' | 'none';
   websiteExplanation?: string;
   affiliateProducts: AffiliateProduct[];
-  authorSNS?: {
-    twitter?: string;
-    instagram?: string;
-    facebook?: string;
-    line?: string;
-    website?: string;
-  };
 }
 
 const GalleryUpload: React.FC = () => {
@@ -48,18 +41,11 @@ const GalleryUpload: React.FC = () => {
     ingredients: [''],
     steps: [{ id: 1, description: '' }],
     cookingTime: '',
-            difficulty: '初級',
+    difficulty: '初級',
     youtubeUrl: '',
     explanationType: 'none',
     websiteExplanation: '',
-    affiliateProducts: [],
-    authorSNS: {
-      twitter: '',
-      instagram: '',
-      facebook: '',
-      line: '',
-      website: ''
-    }
+    affiliateProducts: []
   });
 
   const [previewImages, setPreviewImages] = useState<{ [key: string]: string }>({});
@@ -92,8 +78,7 @@ const GalleryUpload: React.FC = () => {
       ...recipe, 
       explanationType: type,
       youtubeUrl: type !== 'video' ? '' : recipe.youtubeUrl,
-      websiteExplanation: type !== 'website' ? '' : recipe.websiteExplanation,
-      affiliateProducts: recipe.affiliateProducts
+      websiteExplanation: type !== 'website' ? '' : recipe.websiteExplanation
     });
   };
 
@@ -212,16 +197,6 @@ const GalleryUpload: React.FC = () => {
     setRecipe({ ...recipe, affiliateProducts: newProducts });
   };
 
-  const handleSNSChange = (platform: keyof NonNullable<Recipe['authorSNS']>, value: string) => {
-    setRecipe({
-      ...recipe,
-      authorSNS: {
-        ...recipe.authorSNS,
-        [platform]: value
-      }
-    });
-  };
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareData, setShareData] = useState({ url: '', text: '', title: '' });
@@ -290,9 +265,16 @@ const GalleryUpload: React.FC = () => {
               reader.onload = () => resolve(reader.result as string);
               reader.readAsDataURL(step.image!);
             });
-            return { ...step, imageUrl };
+            return { 
+              id: step.id, 
+              description: step.description, 
+              imageUrl 
+            };
           }
-          return step;
+          return { 
+            id: step.id, 
+            description: step.description 
+          };
         })
       );
 
@@ -305,26 +287,37 @@ const GalleryUpload: React.FC = () => {
               reader.onload = () => resolve(reader.result as string);
               reader.readAsDataURL(product.image!);
             });
-            return { ...product, imageUrl };
+            return { 
+              id: product.id,
+              name: product.name,
+              description: product.description,
+              productUrl: product.productUrl,
+              price: product.price,
+              imageUrl 
+            };
           }
-          return product;
+          return { 
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            productUrl: product.productUrl,
+            price: product.price
+          };
         })
       );
 
       // Firestoreに保存するデータ
-      const recipeData = {
+      const recipeData: any = {
         title: recipe.title,
         description: recipe.description,
         ingredients: recipe.ingredients.filter(ingredient => ingredient.trim() !== ''),
         steps: stepsWithImages,
         affiliateProducts: affiliateProductsWithImages,
-        mainImageUrl,
         cookingTime: recipe.cookingTime,
         difficulty: recipe.difficulty,
         youtubeUrl: recipe.youtubeUrl || '',
         explanationType: recipe.explanationType,
         websiteExplanation: recipe.websiteExplanation || '',
-        authorSNS: recipe.authorSNS,
         authorId: currentUser.uid,
         authorName: currentUser.displayName || '匿名ユーザー',
         authorEmail: currentUser.email || '',
@@ -333,6 +326,11 @@ const GalleryUpload: React.FC = () => {
         likes: 0,
         views: 0
       };
+
+      // mainImageUrlが存在する場合のみ追加
+      if (mainImageUrl) {
+        recipeData.mainImageUrl = mainImageUrl;
+      }
 
       // Firestoreに保存
       const docRef = await addDoc(recipesRef, recipeData);
@@ -362,14 +360,7 @@ const GalleryUpload: React.FC = () => {
         youtubeUrl: '',
         explanationType: 'none',
         websiteExplanation: '',
-        affiliateProducts: [],
-        authorSNS: {
-          twitter: '',
-          instagram: '',
-          facebook: '',
-          line: '',
-          website: ''
-        }
+        affiliateProducts: []
       });
       setPreviewImages({});
       
@@ -475,21 +466,18 @@ const GalleryUpload: React.FC = () => {
       )}
 
       <div className="recipe-upload-container">
-        <div className="upload-header">
+        {/* ヘッダー */}
+        <div className="recipe-upload-header">
+          <h1>レシピ投稿</h1>
           <button 
             className="back-btn"
             onClick={() => window.location.href = '/gallery'}
           >
-            <span role="img" aria-label="戻る">←</span>
-            ギャラリーに戻る
+            ← 戻る
           </button>
         </div>
-        <h1 className="recipe-upload-title">作り方をアップロード</h1>
-        <p className="recipe-upload-subtitle">
-          あなたの手作り作品の作り方を共有しましょう
-        </p>
 
-        <form onSubmit={handleSubmit} className="recipe-form">
+        <div className="recipe-upload-content">
           {/* メイン画像 */}
           <div className="form-section">
             <h3>メイン画像</h3>
@@ -501,16 +489,69 @@ const GalleryUpload: React.FC = () => {
                 id="main-image"
                 className="image-input"
               />
-              <label htmlFor="main-image" className="image-upload-label">
-                {previewImages.main ? (
-                  <img src={previewImages.main} alt="プレビュー" className="image-preview" />
-                ) : (
+              {previewImages.main ? (
+                <div style={{ width: '100%', textAlign: 'center', position: 'relative' }}>
+                  <img 
+                    src={previewImages.main} 
+                    alt="プレビュー" 
+                    className="image-preview"
+                    style={{ 
+                      maxWidth: '100%',
+                      height: 'auto',
+                      display: 'block',
+                      margin: '0 auto',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    display: 'flex',
+                    gap: '8px'
+                  }}>
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('main-image')?.click()}
+                      style={{
+                        background: 'rgba(0, 0, 0, 0.7)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '6px 12px',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      変更
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPreviewImages(prev => ({ ...prev, main: '' }))}
+                      style={{
+                        background: 'rgba(220, 53, 69, 0.8)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '6px 12px',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      削除
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <label htmlFor="main-image" className="image-upload-label">
                   <div className="upload-placeholder">
                     <span>📷</span>
                     <p>画像をアップロード</p>
                   </div>
-                )}
-              </label>
+                </label>
+              )}
             </div>
           </div>
 
@@ -670,7 +711,7 @@ const GalleryUpload: React.FC = () => {
                 <label>制作時間</label>
                 <select
                   value={recipe.cookingTime}
-                  onChange={(e) => setRecipe({ ...recipe, cookingTime: e.target.value, affiliateProducts: recipe.affiliateProducts })}
+                  onChange={(e) => setRecipe({ ...recipe, cookingTime: e.target.value })}
                   className="form-select"
                 >
                   <option value="">選択してください</option>
@@ -687,12 +728,12 @@ const GalleryUpload: React.FC = () => {
                 <label>難易度</label>
                 <select
                   value={recipe.difficulty}
-                  onChange={(e) => setRecipe({ ...recipe, difficulty: e.target.value, affiliateProducts: recipe.affiliateProducts })}
+                  onChange={(e) => setRecipe({ ...recipe, difficulty: e.target.value })}
                   className="form-select"
                 >
-                                  <option value="初級">初級</option>
-                <option value="中級">中級</option>
-                <option value="上級">上級</option>
+                  <option value="初級">初級</option>
+                  <option value="中級">中級</option>
+                  <option value="上級">上級</option>
                 </select>
               </div>
             </div>
@@ -710,15 +751,13 @@ const GalleryUpload: React.FC = () => {
                   placeholder="例：綿生地 30cm × 30cm"
                   className="form-input ingredient-input"
                 />
-                {recipe.ingredients.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeIngredient(index)}
-                    className="remove-btn"
-                  >
-                    ✕
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => removeIngredient(index)}
+                  className="remove-btn"
+                >
+                  ✕
+                </button>
               </div>
             ))}
             <button
@@ -737,15 +776,13 @@ const GalleryUpload: React.FC = () => {
               <div key={step.id} className="step-container">
                 <div className="step-header">
                   <h4>ステップ {step.id}</h4>
-                  {recipe.steps.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeStep(step.id)}
-                      className="remove-btn"
-                    >
-                      ✕
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => removeStep(step.id)}
+                    className="remove-btn"
+                  >
+                    ✕
+                  </button>
                 </div>
                 
                 <div className="step-content">
@@ -757,15 +794,62 @@ const GalleryUpload: React.FC = () => {
                       id={`step-image-${step.id}`}
                       className="image-input"
                     />
-                    <label htmlFor={`step-image-${step.id}`} className="image-upload-label small">
-                      {previewImages[`step-${step.id}`] ? (
-                        <img src={previewImages[`step-${step.id}`]} alt="ステップ画像" className="image-preview small" />
-                      ) : (
+                    {previewImages[`step-${step.id}`] ? (
+                      <div style={{ position: 'relative' }}>
+                        <img 
+                          src={previewImages[`step-${step.id}`]} 
+                          alt="ステップ画像" 
+                          className="image-preview small"
+                          style={{ borderRadius: '8px' }}
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          top: '5px',
+                          right: '5px',
+                          display: 'flex',
+                          gap: '4px'
+                        }}>
+                          <button
+                            type="button"
+                            onClick={() => document.getElementById(`step-image-${step.id}`)?.click()}
+                            style={{
+                              background: 'rgba(0, 0, 0, 0.7)',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '3px',
+                              padding: '4px 8px',
+                              fontSize: '10px',
+                              cursor: 'pointer',
+                              fontWeight: 'bold'
+                            }}
+                          >
+                            変更
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setPreviewImages(prev => ({ ...prev, [`step-${step.id}`]: '' }))}
+                            style={{
+                              background: 'rgba(220, 53, 69, 0.8)',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '3px',
+                              padding: '4px 8px',
+                              fontSize: '10px',
+                              cursor: 'pointer',
+                              fontWeight: 'bold'
+                            }}
+                          >
+                            削除
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <label htmlFor={`step-image-${step.id}`} className="image-upload-label small">
                         <div className="upload-placeholder small">
                           <span>📷</span>
                         </div>
-                      )}
-                    </label>
+                      </label>
+                    )}
                   </div>
                   
                   <textarea
@@ -865,16 +949,63 @@ const GalleryUpload: React.FC = () => {
                         id={`affiliate-image-${product.id}`}
                         className="image-input"
                       />
-                      <label htmlFor={`affiliate-image-${product.id}`} className="image-upload-label small">
-                        {previewImages[`affiliate-${product.id}`] ? (
-                          <img src={previewImages[`affiliate-${product.id}`]} alt="商品画像" className="image-preview small" />
-                        ) : (
+                      {previewImages[`affiliate-${product.id}`] ? (
+                        <div style={{ position: 'relative' }}>
+                          <img 
+                            src={previewImages[`affiliate-${product.id}`]} 
+                            alt="商品画像" 
+                            className="image-preview small"
+                            style={{ borderRadius: '8px' }}
+                          />
+                          <div style={{
+                            position: 'absolute',
+                            top: '5px',
+                            right: '5px',
+                            display: 'flex',
+                            gap: '4px'
+                          }}>
+                            <button
+                              type="button"
+                              onClick={() => document.getElementById(`affiliate-image-${product.id}`)?.click()}
+                              style={{
+                                background: 'rgba(0, 0, 0, 0.7)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '3px',
+                                padding: '4px 8px',
+                                fontSize: '10px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              変更
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setPreviewImages(prev => ({ ...prev, [`affiliate-${product.id}`]: '' }))}
+                              style={{
+                                background: 'rgba(220, 53, 69, 0.8)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '3px',
+                                padding: '4px 8px',
+                                fontSize: '10px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              削除
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label htmlFor={`affiliate-image-${product.id}`} className="image-upload-label small">
                           <div className="upload-placeholder small">
                             <span>📷</span>
                             <p>商品画像をアップロード</p>
                           </div>
-                        )}
-                      </label>
+                        </label>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -889,93 +1020,30 @@ const GalleryUpload: React.FC = () => {
             </button>
           </div>
 
-          {/* 投稿者SNSプロフィール欄 */}
-          <div className="form-section">
-            <h3>あなたのSNSプロフィール（任意）</h3>
-            <div className="sns-profile-fields">
-              <div className="sns-profile-row">
-                <label htmlFor="sns-twitter">X (Twitter)</label>
-                <input
-                  id="sns-twitter"
-                  type="url"
-                  className="form-input"
-                  placeholder="https://twitter.com/yourname"
-                  value={recipe.authorSNS?.twitter || ''}
-                  onChange={e => handleSNSChange('twitter', e.target.value)}
-                />
-              </div>
-              <div className="sns-profile-row">
-                <label htmlFor="sns-instagram">Instagram</label>
-                <input
-                  id="sns-instagram"
-                  type="url"
-                  className="form-input"
-                  placeholder="https://instagram.com/yourname"
-                  value={recipe.authorSNS?.instagram || ''}
-                  onChange={e => handleSNSChange('instagram', e.target.value)}
-                />
-              </div>
-              <div className="sns-profile-row">
-                <label htmlFor="sns-facebook">Facebook</label>
-                <input
-                  id="sns-facebook"
-                  type="url"
-                  className="form-input"
-                  placeholder="https://facebook.com/yourname"
-                  value={recipe.authorSNS?.facebook || ''}
-                  onChange={e => handleSNSChange('facebook', e.target.value)}
-                />
-              </div>
-              <div className="sns-profile-row">
-                <label htmlFor="sns-line">LINE</label>
-                <input
-                  id="sns-line"
-                  type="text"
-                  className="form-input"
-                  placeholder="LINE IDやURL"
-                  value={recipe.authorSNS?.line || ''}
-                  onChange={e => handleSNSChange('line', e.target.value)}
-                />
-              </div>
-              <div className="sns-profile-row">
-                <label htmlFor="sns-website">その他Webサイト</label>
-                <input
-                  id="sns-website"
-                  type="url"
-                  className="form-input"
-                  placeholder="https://your-website.com"
-                  value={recipe.authorSNS?.website || ''}
-                  onChange={e => handleSNSChange('website', e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="sns-profile-help">
-              <span className="help-icon">ℹ️</span>
-              <span className="help-text">SNSやWebサイトを入力すると、作品ページであなたのプロフィールとして表示されます。</span>
-            </div>
-          </div>
-
           {/* 送信ボタン */}
           <div className="form-section">
-            <button 
-              type="submit" 
-              className="submit-btn"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <span className="loading-spinner">⏳</span>
-                  アップロード中...
-                </>
-              ) : (
-                <>
-                  <span role="img" aria-label="投稿">📤</span>
-                  レシピを投稿する
-                </>
-              )}
-            </button>
+            <div className="form-actions">
+              <button 
+                type="submit" 
+                className="submit-btn"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className="loading-spinner">⏳</span>
+                    アップロード中...
+                  </>
+                ) : (
+                  <>
+                    <span role="img" aria-label="投稿">📤</span>
+                    レシピを投稿する
+                  </>
+                )}
+              </button>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
