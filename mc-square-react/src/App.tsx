@@ -18,6 +18,7 @@ import TermsOfService from './ec/pages/TermsOfService';
 import PrivacyPolicy from './ec/pages/PrivacyPolicy';
 import LegalNotice from './ec/pages/LegalNotice';
 import Contact from './ec/pages/Contact';
+import GalleryApp from './gallery/GalleryApp';
 
 import Login from './ec/pages/Login';
 
@@ -76,6 +77,7 @@ function App() {
           <Route path="/kits" element={<Kits />} />
           <Route path="/influencer_subscription" element={<InfluencerCollab />} />
           <Route path="/subscription" element={<Subscription />} />
+          <Route path="/gallery/*" element={<GalleryApp />} />
           {/* <Route path="/patchwork_kit_website" element={<YorisoiCraft />} /> */}
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
@@ -111,6 +113,10 @@ function App() {
                   <Link to="/kits" className="hero-btn">
                     <span role="img" aria-label="キット">🧩</span>
                     キット
+                  </Link>
+                  <Link to="/gallery" className="hero-btn">
+                    <span role="img" aria-label="ギャラリー">🎨</span>
+                    レシピギャラリー
                   </Link>
                 </div>
               </section>
