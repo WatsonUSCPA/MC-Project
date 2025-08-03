@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, User, updateProfile, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, User, updateProfile, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { app } from './firebase';
 import './GalleryLogin.css';
 
@@ -99,7 +99,17 @@ const GalleryLogin: React.FC = () => {
 
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      // ポップアップがブロックされている場合はリダイレクト方式を使用
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (popupError: any) {
+        if (popupError.code === 'auth/popup-blocked' || popupError.code === 'auth/popup-closed-by-user') {
+          // ポップアップがブロックされた場合はリダイレクト方式を使用
+          await signInWithRedirect(auth, provider);
+          return; // リダイレクトが実行されるのでここで終了
+        }
+        throw popupError;
+      }
       window.location.href = '/gallery';
     } catch (error: any) {
       console.error('Google login error:', error);
