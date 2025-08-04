@@ -589,16 +589,11 @@ const GalleryDetail: React.FC = () => {
                       )}
                       <div className="product-info">
                         <h4 className="product-name">{product.name}</h4>
-                        {product.price && (
-                          <p className="product-price">{product.price}</p>
-                        )}
                         {product.description && (
                           <p className="product-description">{product.description}</p>
                         )}
                         <a 
-                          href={`https://www.amazon.co.jp/dp/${product.managementNumber}`} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
+                          href={`/all-products`} 
                           className="product-link"
                         >
                           商品詳細を見る →
@@ -612,7 +607,7 @@ const GalleryDetail: React.FC = () => {
                 <div className="fabric-search-section">
                   <h4>もっと生地を探しに行く</h4>
                   <button 
-                    onClick={() => navigate('/ec/all-products')}
+                    onClick={() => navigate('/all-products')}
                     className="fabric-search-btn"
                     style={{
                       backgroundColor: '#FF9F7C',

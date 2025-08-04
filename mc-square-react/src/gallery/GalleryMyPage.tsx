@@ -539,7 +539,7 @@ const GalleryMyPage: React.FC = () => {
               ) : (
                 <div className="recipes-grid">
                   {userRecipes.map(recipe => (
-                    <div key={recipe.id} className="recipe-card">
+                    <div key={recipe.id} className="recipe-card" onClick={() => handleViewRecipe(recipe.id)}>
                       <div className="recipe-image">
                         {recipe.mainImageUrl ? (
                           <img src={recipe.mainImageUrl} alt={recipe.title} />
@@ -548,26 +548,6 @@ const GalleryMyPage: React.FC = () => {
                             <span>📷</span>
                           </div>
                         )}
-                        <div className="recipe-actions">
-                          <button 
-                            className="action-btn small view"
-                            onClick={() => handleViewRecipe(recipe.id)}
-                          >
-                            👁️
-                          </button>
-                          <button 
-                            className="action-btn small edit"
-                            onClick={() => handleEditRecipe(recipe.id)}
-                          >
-                            ✏️
-                          </button>
-                          <button 
-                            className="action-btn small delete"
-                            onClick={() => handleDeleteRecipe(recipe.id)}
-                          >
-                            🗑️
-                          </button>
-                        </div>
                       </div>
                       <div className="recipe-info">
                         <h4 className="recipe-title">{recipe.title}</h4>
@@ -582,6 +562,26 @@ const GalleryMyPage: React.FC = () => {
                         </div>
                         <div className="recipe-date">
                           投稿日: {recipe.createdAt?.toDate?.()?.toLocaleDateString('ja-JP') || '不明'}
+                        </div>
+                        <div className="recipe-actions" onClick={(e) => e.stopPropagation()}>
+                          <button 
+                            className="action-btn small view"
+                            onClick={() => handleViewRecipe(recipe.id)}
+                          >
+                            見る
+                          </button>
+                          <button 
+                            className="action-btn small edit"
+                            onClick={() => handleEditRecipe(recipe.id)}
+                          >
+                            編集
+                          </button>
+                          <button 
+                            className="action-btn small delete"
+                            onClick={() => handleDeleteRecipe(recipe.id)}
+                          >
+                            削除
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -608,7 +608,7 @@ const GalleryMyPage: React.FC = () => {
               ) : (
                 <div className="favorites-grid">
                   {favoriteRecipes.map(favorite => (
-                    <div key={favorite.recipeId} className="favorite-card">
+                    <div key={favorite.recipeId} className="favorite-card" onClick={() => handleViewFavoriteRecipe(favorite.recipeId)}>
                       <div className="favorite-image">
                         {favorite.mainImageUrl ? (
                           <img src={favorite.mainImageUrl} alt={favorite.title} />
@@ -617,26 +617,26 @@ const GalleryMyPage: React.FC = () => {
                             <span>📷</span>
                           </div>
                         )}
-                        <div className="favorite-actions">
-                          <button 
-                            className="action-btn small view"
-                            onClick={() => handleViewFavoriteRecipe(favorite.recipeId)}
-                          >
-                            👁️
-                          </button>
-                          <button 
-                            className="action-btn small remove"
-                            onClick={() => handleRemoveFavorite(favorite.recipeId)}
-                          >
-                            🗑️
-                          </button>
-                        </div>
                       </div>
                       <div className="favorite-info">
                         <h4 className="favorite-title">{favorite.title}</h4>
                         <p className="favorite-author">作者: {favorite.author}</p>
                         <div className="favorite-date">
                           お気に入り追加日: {favorite.createdAt?.toDate?.()?.toLocaleDateString('ja-JP') || '不明'}
+                        </div>
+                        <div className="favorite-actions" onClick={(e) => e.stopPropagation()}>
+                          <button 
+                            className="action-btn small view"
+                            onClick={() => handleViewFavoriteRecipe(favorite.recipeId)}
+                          >
+                            見る
+                          </button>
+                          <button 
+                            className="action-btn small remove"
+                            onClick={() => handleRemoveFavorite(favorite.recipeId)}
+                          >
+                            削除
+                          </button>
                         </div>
                       </div>
                     </div>

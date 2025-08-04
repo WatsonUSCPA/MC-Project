@@ -448,11 +448,13 @@
   overflow: hidden;
   transition: all 0.3s ease;
   position: relative;
+  cursor: pointer;
 }
 
 .recipe-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
 }
 
 .recipe-image {
@@ -479,28 +481,22 @@
 }
 
 .recipe-actions {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   display: flex;
-  gap: 5px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.recipe-card:hover .recipe-actions {
-  opacity: 1;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: center;
 }
 
 .action-btn.small {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border-radius: 50%;
-  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 50px;
+  height: auto;
 }
 
 .action-btn.small.view {
@@ -679,6 +675,124 @@
 .danger-zone h4 {
   color: #dc3545;
   border-bottom-color: #dc3545;
+}
+
+/* お気に入りタブ */
+.favorites-tab {
+  min-height: 400px;
+}
+
+.favorites-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.favorites-header h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.favorites-description {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.no-favorites {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-light);
+}
+
+.no-favorites p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+/* お気に入りグリッド */
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.favorite-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.favorite-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.favorite-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.favorite-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--color-background-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--color-text-light);
+}
+
+.favorite-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  justify-content: center;
+}
+
+.action-btn.small.remove {
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+}
+
+.favorite-info {
+  padding: 15px;
+}
+
+.favorite-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.favorite-author {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+}
+
+.favorite-date {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
 }
 
 /* レスポンシブデザイン */
