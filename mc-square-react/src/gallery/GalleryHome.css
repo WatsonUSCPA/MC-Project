@@ -1300,12 +1300,12 @@ section {
   }
 
   .keywords-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
   .recipes-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     padding: 0 10px;
   }
@@ -1379,21 +1379,22 @@ section {
 
 @media (max-width: 480px) {
   .recipes-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 0 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 0 10px;
   }
 
   .recipe-image {
-    height: 100px;
+    height: 120px;
   }
 
   .recipe-info {
-    padding: 6px;
+    padding: 8px;
   }
 
   .recipe-title {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.2;
   }
 
   .keywords-grid {

@@ -4,7 +4,6 @@ import './GalleryHome.css';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { app } from './firebase';
-import AdSense from '../components/AdSense';
 
 interface Recipe {
   id: string;
@@ -160,9 +159,16 @@ const getDisplayRecipes = (recipes: Recipe[]) => {
     ...mockRecipes.slice(0, popularMockNeeded)
   ];
 
-  // 新着レシピセクション用（投稿日時順の最初の3件）
-  const newRecipes = realRecipes.slice(0, 3);
-  const newMockNeeded = Math.max(0, 3 - newRecipes.length);
+  // 新着レシピセクション用（createdAtでソートされた最初の10件）
+  // 元のデータをcreatedAtでソートして新着を取得
+  const sortedByDate = [...realRecipes].sort((a, b) => {
+    const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+    const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+    return dateB.getTime() - dateA.getTime(); // 新しい順
+  });
+  
+  const newRecipes = sortedByDate.slice(0, 10);
+  const newMockNeeded = Math.max(0, 10 - newRecipes.length);
   const newDisplay = [
     ...newRecipes,
     ...mockRecipes.slice(popularMockNeeded, popularMockNeeded + newMockNeeded)
@@ -227,8 +233,18 @@ const GalleryHome: React.FC = () => {
         setPopularKeywords(keywords);
       } catch (error) {
         console.error('Error fetching popular keywords:', error);
-        // エラーの場合は空配列を設定
-        setPopularKeywords([]);
+        console.error('Error details:', {
+          message: error instanceof Error ? error.message : 'Unknown error',
+          stack: error instanceof Error ? error.stack : undefined
+        });
+        // エラーの場合はデフォルトキーワードを設定
+        const defaultKeywords: PopularKeyword[] = [
+          { id: 'default-1', name: 'バッグ', image: '/Image/Gift to Grandma.png', order: 1 },
+          { id: 'default-2', name: 'クッション', image: '/Image/Gift to Mom.png', order: 2 },
+          { id: 'default-3', name: 'キッズ', image: '/Image/Gift to Kids.png', order: 3 },
+          { id: 'default-4', name: 'コットン', image: '/Image/US Cotton subscription.png', order: 4 }
+        ];
+        setPopularKeywords(defaultKeywords);
       }
     };
     
@@ -247,7 +263,7 @@ const GalleryHome: React.FC = () => {
         // クエリを最適化：文字情報のみ先に取得
         const q = query(
           recipesRef,
-          // orderBy('createdAt', 'desc'),
+          // orderBy('createdAt', 'desc'), // パフォーマンスのためコメントアウト
           // limit(6)
         );
         
@@ -313,6 +329,10 @@ const GalleryHome: React.FC = () => {
         
       } catch (error) {
         console.error('Error fetching recipes:', error);
+        console.error('Error details:', {
+          message: error instanceof Error ? error.message : 'Unknown error',
+          stack: error instanceof Error ? error.stack : undefined
+        });
         
         // タイムアウトエラーの場合、最大3回までリトライ
         if (error instanceof Error && error.message === 'Timeout' && retryCount < 3) {
@@ -476,9 +496,6 @@ const GalleryHome: React.FC = () => {
           </section>
         )}
 
-        {/* Google AdSense - 人気キーワード後広告 */}
-        <AdSense adSlot="YOUR_GALLERY_KEYWORD_AD_SLOT" />
-
         {/* 人気レシピ */}
         <section className="popular-recipes">
           <h2 className="section-title">クラフトキッチン 人気レシピ</h2>
@@ -526,9 +543,6 @@ const GalleryHome: React.FC = () => {
           </div>
         </section>
 
-        {/* Google AdSense - 人気レシピ後広告 */}
-        <AdSense adSlot="YOUR_GALLERY_POPULAR_AD_SLOT" />
-
         {/* 新着レシピ */}
         <section className="new-recipes">
           <h2 className="section-title">クラフトキッチン 新着レシピ</h2>
@@ -575,9 +589,6 @@ const GalleryHome: React.FC = () => {
             ))}
           </div>
         </section>
-
-        {/* Google AdSense - 新着レシピ後広告 */}
-        <AdSense adSlot="YOUR_GALLERY_NEW_AD_SLOT" />
 
         {/* 投稿ボタン */}
         <div className="upload-section">

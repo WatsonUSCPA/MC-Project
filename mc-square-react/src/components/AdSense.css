@@ -48,9 +48,21 @@
 
 /* Gallery詳細ページ用のAdSenseスタイル */
 .recipe-detail .adsense-container {
-  margin: 2rem 0;
+  margin: 1rem 0;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 動画がない場合のAdSenseコンテナの調整 */
+.recipe-detail:not(:has(.recipe-video)) .adsense-container {
+  margin: 0.5rem 0;
+  padding: 1rem;
+}
+
+/* 動画セクションの直後のAdSenseコンテナの調整 */
+.recipe-video + .adsense-container {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 } 

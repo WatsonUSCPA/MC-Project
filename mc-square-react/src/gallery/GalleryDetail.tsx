@@ -4,7 +4,16 @@ import { getFirestore, doc, getDoc, updateDoc, addDoc, collection, query, orderB
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { app } from './firebase';
 import './GalleryDetail.css';
-import AdSense from '../components/AdSense';
+
+// 商品型定義
+interface Product {
+  managementNumber: string;
+  name: string;
+  price: string;
+  imageUrl?: string;
+  status?: string;
+  description?: string;
+}
 
 interface RecipeStep {
   id: number;
@@ -72,6 +81,7 @@ const GalleryDetail: React.FC = () => {
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [favorited, setFavorited] = useState(false);
+  const [randomProducts, setRandomProducts] = useState<Product[]>([]);
 
   // 現在のユーザーがいいねを押しているかチェック
   useEffect(() => {
@@ -215,6 +225,37 @@ const GalleryDetail: React.FC = () => {
     return () => unsubscribe();
   }, [recipeId]);
 
+  // All Productsの商品データを取得してランダムに2つ選択
+  useEffect(() => {
+    const fetchRandomProducts = async () => {
+      try {
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
+        const response = await fetch(GAS_WEB_APP_URL, { 
+          method: 'GET', 
+          mode: 'cors', 
+          headers: { 'Accept': 'application/json' } 
+        });
+        
+        if (!response.ok) throw new Error(`データの取得に失敗しました (${response.status})`);
+        const data = await response.json();
+        
+        if (!Array.isArray(data)) throw new Error('データの形式が不正です');
+        
+        // 公開中の商品のみをフィルタリング
+        const availableProducts = data.filter((item: any) => item.status === '公開中');
+        
+        // ランダムに2つ選択
+        const shuffled = availableProducts.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 2);
+        
+        setRandomProducts(selected);
+      } catch (error) {
+        console.error('Error fetching random products:', error);
+      }
+    };
+
+    fetchRandomProducts();
+  }, []);
 
 
   const handleBackToGallery = () => {
@@ -489,9 +530,6 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
-            {/* Google AdSense - レシピ詳細広告 */}
-            <AdSense adSlot="YOUR_GALLERY_DETAIL_AD_SLOT" />
-
             {recipe.affiliateProducts && recipe.affiliateProducts.filter(product => 
               product.name.trim() !== '' || 
               product.description.trim() !== '' || 
@@ -499,7 +537,7 @@ const GalleryDetail: React.FC = () => {
               product.imageUrl
             ).length > 0 && (
               <div className="recipe-affiliate-products">
-                <h3>おすすめの材料・道具</h3>
+                <h3>この人のおすすめの商品はこちら。</h3>
                 <div className="affiliate-products-grid">
                   {recipe.affiliateProducts
                     .filter(product => 
@@ -538,6 +576,71 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
+            {randomProducts && randomProducts.length > 0 && (
+              <div className="recipe-random-products">
+                <h3>生地をお探しの方はこちら。</h3>
+                <div className="random-products-grid">
+                  {randomProducts.map((product, index) => (
+                    <div key={index} className="random-product-card">
+                      {product.imageUrl && (
+                        <div className="product-image">
+                          <img src={product.imageUrl} alt={product.name} />
+                        </div>
+                      )}
+                      <div className="product-info">
+                        <h4 className="product-name">{product.name}</h4>
+                        {product.price && (
+                          <p className="product-price">{product.price}</p>
+                        )}
+                        {product.description && (
+                          <p className="product-description">{product.description}</p>
+                        )}
+                        <a 
+                          href={`https://www.amazon.co.jp/dp/${product.managementNumber}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="product-link"
+                        >
+                          商品詳細を見る →
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* 生地を探しに行くボタン */}
+                <div className="fabric-search-section">
+                  <h4>もっと生地を探しに行く</h4>
+                  <button 
+                    onClick={() => navigate('/ec/all-products')}
+                    className="fabric-search-btn"
+                    style={{
+                      backgroundColor: '#FF9F7C',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '25px',
+                      padding: '12px 24px',
+                      fontSize: '1.1rem',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      marginTop: '10px',
+                      boxShadow: '0 2px 8px rgba(255, 159, 124, 0.3)',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 159, 124, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(255, 159, 124, 0.3)';
+                    }}
+                  >
+                    🧵 生地を探しに行く →
+                  </button>
+                </div>
+              </div>
+            )}
 
 
             {/* いいね・お気に入りボタン - コメントセクションの直上に配置 */}
