@@ -12,6 +12,19 @@ interface UserProfile {
   totalRecipes: number;
   totalLikes: number;
   bio?: string;
+  // SNS関連のフィールド
+  instagram?: string;
+  twitter?: string;
+  youtube?: string;
+  tiktok?: string;
+  website?: string;
+  // 自己紹介関連のフィールド
+  hometown?: string;
+  favoriteFood?: string;
+  cookingStyle?: string;
+  interests?: string[];
+  personalStory?: string;
+  achievements?: string[];
 }
 
 interface Recipe {
@@ -76,6 +89,9 @@ const GalleryUserProfile: React.FC = () => {
           
           setUserRecipes(recipes);
           
+          // authorSNSオブジェクトからSNS情報を取得
+          const authorSNS = userData.authorSNS || {};
+          
           const userProfile: UserProfile = {
             uid: userId,
             displayName: userData.displayName || 'ユーザー',
@@ -84,7 +100,18 @@ const GalleryUserProfile: React.FC = () => {
             joinDate: userData.joinDate || '2024年1月',
             totalRecipes: totalRecipes,
             totalLikes: totalLikes,
-            bio: userData.bio || ''
+            bio: userData.bio || '',
+            instagram: authorSNS.instagram || '',
+            twitter: authorSNS.twitter || '',
+            youtube: authorSNS.youtube || '',
+            tiktok: authorSNS.tiktok || '',
+            website: authorSNS.website || '',
+            hometown: userData.hometown || '未設定',
+            favoriteFood: userData.favoriteFood || '未設定',
+            cookingStyle: userData.cookingStyle || '未設定',
+            interests: userData.interests || ['料理', '写真'],
+            personalStory: userData.personalStory || '',
+            achievements: userData.achievements || []
           };
           setUserProfile(userProfile);
         } else {
@@ -128,7 +155,18 @@ const GalleryUserProfile: React.FC = () => {
             joinDate: '2024年1月',
             totalRecipes: totalRecipes,
             totalLikes: totalLikes,
-            bio: ''
+            bio: '',
+            instagram: '',
+            twitter: '',
+            youtube: '',
+            tiktok: '',
+            website: '',
+            hometown: '未設定',
+            favoriteFood: '未設定',
+            cookingStyle: '未設定',
+            interests: ['料理', '写真'],
+            personalStory: '',
+            achievements: []
           };
           setUserProfile(userProfile);
         }
@@ -143,7 +181,18 @@ const GalleryUserProfile: React.FC = () => {
           joinDate: '2024年1月',
           totalRecipes: 0,
           totalLikes: 0,
-          bio: ''
+          bio: '',
+          instagram: '',
+          twitter: '',
+          youtube: '',
+          tiktok: '',
+          website: '',
+          hometown: '未設定',
+          favoriteFood: '未設定',
+          cookingStyle: '未設定',
+          interests: ['料理', '写真'],
+          personalStory: '',
+          achievements: []
         };
         setUserProfile(userProfile);
       }
@@ -152,6 +201,8 @@ const GalleryUserProfile: React.FC = () => {
 
     fetchUserProfile();
   }, [userId]);
+
+
 
   const handleBackToGallery = () => {
     navigate('/gallery');
@@ -217,6 +268,113 @@ const GalleryUserProfile: React.FC = () => {
               )}
             </div>
           </div>
+
+          {/* 自己紹介情報 */}
+          {(userProfile.hometown !== '未設定' || userProfile.favoriteFood !== '未設定' || userProfile.cookingStyle !== '未設定' || userProfile.personalStory) && (
+            <div className="user-profile-details">
+              <h3>👤 自己紹介</h3>
+              
+              {(userProfile.hometown !== '未設定' || userProfile.favoriteFood !== '未設定' || userProfile.cookingStyle !== '未設定') && (
+                <div className="profile-info-grid">
+                  {userProfile.hometown !== '未設定' && (
+                    <div className="profile-info-item">
+                      <span className="info-label">🏠 出身地</span>
+                      <span className="info-value">{userProfile.hometown}</span>
+                    </div>
+                  )}
+                  {userProfile.favoriteFood !== '未設定' && (
+                    <div className="profile-info-item">
+                      <span className="info-label">🍽️ 好きな料理</span>
+                      <span className="info-value">{userProfile.favoriteFood}</span>
+                    </div>
+                  )}
+                  {userProfile.cookingStyle !== '未設定' && (
+                    <div className="profile-info-item">
+                      <span className="info-label">👨‍🍳 料理スタイル</span>
+                      <span className="info-value">{userProfile.cookingStyle}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {userProfile.personalStory && (
+                <div className="personal-story">
+                  <h4>📖 私の物語</h4>
+                  <p>{userProfile.personalStory}</p>
+                </div>
+              )}
+
+              {userProfile.interests && userProfile.interests.length > 0 && (
+                <div className="interests-section">
+                  <h4>🎯 興味・関心</h4>
+                  <div className="interests-tags">
+                    {userProfile.interests.map((interest, index) => (
+                      <span key={index} className="interest-tag">{interest}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* SNS情報 */}
+          {(userProfile.instagram || userProfile.twitter || userProfile.youtube || userProfile.tiktok || userProfile.website) && (
+            <div className="user-sns-section">
+              <h3>📱 SNS</h3>
+              <div className="sns-links">
+                {userProfile.instagram && (
+                  <a 
+                    href={userProfile.instagram} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="sns-link instagram"
+                  >
+                    📸 Instagram
+                  </a>
+                )}
+                {userProfile.twitter && (
+                  <a 
+                    href={userProfile.twitter} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="sns-link twitter"
+                  >
+                    🐦 Twitter
+                  </a>
+                )}
+                {userProfile.youtube && (
+                  <a 
+                    href={userProfile.youtube} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="sns-link youtube"
+                  >
+                    📺 YouTube
+                  </a>
+                )}
+                {userProfile.tiktok && (
+                  <a 
+                    href={userProfile.tiktok} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="sns-link tiktok"
+                  >
+                    🎵 TikTok
+                  </a>
+                )}
+                {userProfile.website && (
+                  <a 
+                    href={userProfile.website} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="sns-link website"
+                  >
+                    🌐 公式サイト
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* 作品一覧 */}
           <div className="user-recipes-section">

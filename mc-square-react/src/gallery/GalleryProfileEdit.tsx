@@ -9,13 +9,19 @@ interface UserProfile {
   email: string;
   photoURL?: string;
   bio?: string;
-  authorSNS?: {
-    twitter?: string;
-    instagram?: string;
-    facebook?: string;
-    line?: string;
-    website?: string;
-  };
+  // SNS関連のフィールド
+  instagram?: string;
+  twitter?: string;
+  youtube?: string;
+  tiktok?: string;
+  website?: string;
+  // 自己紹介関連のフィールド
+  hometown?: string;
+  favoriteFood?: string;
+  cookingStyle?: string;
+  interests?: string[];
+  personalStory?: string;
+  achievements?: string[];
 }
 
 const GalleryProfileEdit: React.FC = () => {
@@ -25,11 +31,19 @@ const GalleryProfileEdit: React.FC = () => {
   const [formData, setFormData] = useState({
     displayName: '',
     bio: '',
-    twitter: '',
+    // SNS情報
     instagram: '',
-    facebook: '',
-    line: '',
-    website: ''
+    twitter: '',
+    youtube: '',
+    tiktok: '',
+    website: '',
+    // 自己紹介情報
+    hometown: '',
+    favoriteFood: '',
+    cookingStyle: '',
+    interests: ['料理', '写真'],
+    personalStory: '',
+    achievements: []
   });
 
   // ユーザー認証状態の監視
@@ -45,26 +59,37 @@ const GalleryProfileEdit: React.FC = () => {
         
         if (userSnap.exists()) {
           const userData = userSnap.data();
-          const authorSNS = userData.authorSNS || {};
           setFormData({
             displayName: userData.displayName || user.displayName || '',
             bio: userData.bio || '',
-            twitter: authorSNS.twitter || '',
-            instagram: authorSNS.instagram || '',
-            facebook: authorSNS.facebook || '',
-            line: authorSNS.line || '',
-            website: authorSNS.website || ''
+            instagram: userData.instagram || '',
+            twitter: userData.twitter || '',
+            youtube: userData.youtube || '',
+            tiktok: userData.tiktok || '',
+            website: userData.website || '',
+            hometown: userData.hometown || '',
+            favoriteFood: userData.favoriteFood || '',
+            cookingStyle: userData.cookingStyle || '',
+            interests: userData.interests || ['料理', '写真'],
+            personalStory: userData.personalStory || '',
+            achievements: userData.achievements || []
           });
         } else {
           // 新規ユーザーの場合
           setFormData({
             displayName: user.displayName || '',
             bio: '',
-            twitter: '',
             instagram: '',
-            facebook: '',
-            line: '',
-            website: ''
+            twitter: '',
+            youtube: '',
+            tiktok: '',
+            website: '',
+            hometown: '',
+            favoriteFood: '',
+            cookingStyle: '',
+            interests: ['料理', '写真'],
+            personalStory: '',
+            achievements: []
           });
         }
       }
@@ -98,21 +123,42 @@ const GalleryProfileEdit: React.FC = () => {
       const userDoc = doc(db, 'users', currentUser.uid);
       
       // SNS情報をフィルタリング（空文字列やundefinedを除外）
-      const authorSNS: any = {};
-      if (formData.twitter && formData.twitter.trim()) {
-        authorSNS.twitter = formData.twitter.trim();
-      }
+      const snsData: any = {};
       if (formData.instagram && formData.instagram.trim()) {
-        authorSNS.instagram = formData.instagram.trim();
+        snsData.instagram = formData.instagram.trim();
       }
-      if (formData.facebook && formData.facebook.trim()) {
-        authorSNS.facebook = formData.facebook.trim();
+      if (formData.twitter && formData.twitter.trim()) {
+        snsData.twitter = formData.twitter.trim();
       }
-      if (formData.line && formData.line.trim()) {
-        authorSNS.line = formData.line.trim();
+      if (formData.youtube && formData.youtube.trim()) {
+        snsData.youtube = formData.youtube.trim();
+      }
+      if (formData.tiktok && formData.tiktok.trim()) {
+        snsData.tiktok = formData.tiktok.trim();
       }
       if (formData.website && formData.website.trim()) {
-        authorSNS.website = formData.website.trim();
+        snsData.website = formData.website.trim();
+      }
+
+      // 自己紹介情報をフィルタリング
+      const profileData: any = {};
+      if (formData.hometown && formData.hometown.trim()) {
+        profileData.hometown = formData.hometown.trim();
+      }
+      if (formData.favoriteFood && formData.favoriteFood.trim()) {
+        profileData.favoriteFood = formData.favoriteFood.trim();
+      }
+      if (formData.cookingStyle && formData.cookingStyle.trim()) {
+        profileData.cookingStyle = formData.cookingStyle.trim();
+      }
+      if (formData.personalStory && formData.personalStory.trim()) {
+        profileData.personalStory = formData.personalStory.trim();
+      }
+      if (formData.interests && formData.interests.length > 0) {
+        profileData.interests = formData.interests;
+      }
+      if (formData.achievements && formData.achievements.length > 0) {
+        profileData.achievements = formData.achievements;
       }
 
       await setDoc(userDoc, {
@@ -120,7 +166,8 @@ const GalleryProfileEdit: React.FC = () => {
         displayName: formData.displayName,
         email: currentUser.email,
         bio: formData.bio || null,
-        authorSNS: Object.keys(authorSNS).length > 0 ? authorSNS : null,
+        ...snsData,
+        ...profileData,
         updatedAt: new Date()
       }, { merge: true });
 
@@ -205,27 +252,12 @@ const GalleryProfileEdit: React.FC = () => {
 
           {/* SNS情報 */}
           <div className="edit-section">
-            <h3>SNS情報</h3>
+            <h3>📱 SNS情報</h3>
             <p className="section-description">
-              SNSやWebサイトのURLを入力すると、作品ページであなたのプロフィールとして表示されます。
+              SNSやWebサイトのURLを入力すると、プロフィールページで表示されます。
             </p>
 
             <div className="sns-inputs">
-              <div className="form-group">
-                <label htmlFor="twitter">
-                  <span className="sns-icon">🐦</span>
-                  X (Twitter)
-                </label>
-                <input
-                  id="twitter"
-                  type="url"
-                  value={formData.twitter}
-                  onChange={(e) => handleInputChange('twitter', e.target.value)}
-                  placeholder="https://twitter.com/yourname"
-                  className="form-input"
-                />
-              </div>
-
               <div className="form-group">
                 <label htmlFor="instagram">
                   <span className="sns-icon">📸</span>
@@ -242,39 +274,54 @@ const GalleryProfileEdit: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="facebook">
-                  <span className="sns-icon">📘</span>
-                  Facebook
+                <label htmlFor="twitter">
+                  <span className="sns-icon">🐦</span>
+                  X (Twitter)
                 </label>
                 <input
-                  id="facebook"
+                  id="twitter"
                   type="url"
-                  value={formData.facebook}
-                  onChange={(e) => handleInputChange('facebook', e.target.value)}
-                  placeholder="https://facebook.com/yourname"
+                  value={formData.twitter}
+                  onChange={(e) => handleInputChange('twitter', e.target.value)}
+                  placeholder="https://twitter.com/yourname"
                   className="form-input"
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="line">
-                  <span className="sns-icon">💬</span>
-                  LINE
+                <label htmlFor="youtube">
+                  <span className="sns-icon">📺</span>
+                  YouTube
                 </label>
                 <input
-                  id="line"
-                  type="text"
-                  value={formData.line}
-                  onChange={(e) => handleInputChange('line', e.target.value)}
-                  placeholder="LINE IDやURL"
+                  id="youtube"
+                  type="url"
+                  value={formData.youtube}
+                  onChange={(e) => handleInputChange('youtube', e.target.value)}
+                  placeholder="https://youtube.com/@yourchannel"
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="tiktok">
+                  <span className="sns-icon">🎵</span>
+                  TikTok
+                </label>
+                <input
+                  id="tiktok"
+                  type="url"
+                  value={formData.tiktok}
+                  onChange={(e) => handleInputChange('tiktok', e.target.value)}
+                  placeholder="https://tiktok.com/@yourname"
                   className="form-input"
                 />
               </div>
 
               <div className="form-group">
                 <label htmlFor="website">
-                  <span className="sns-icon">🔗</span>
-                  その他Webサイト
+                  <span className="sns-icon">🌐</span>
+                  公式サイト・ブログ
                 </label>
                 <input
                   id="website"
@@ -283,6 +330,76 @@ const GalleryProfileEdit: React.FC = () => {
                   onChange={(e) => handleInputChange('website', e.target.value)}
                   placeholder="https://your-website.com"
                   className="form-input"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 自己紹介情報 */}
+          <div className="edit-section">
+            <h3>👤 自己紹介詳細</h3>
+            <p className="section-description">
+              より親近感が湧くプロフィールにするための情報を入力してください。
+            </p>
+
+            <div className="profile-inputs">
+              <div className="form-group">
+                <label htmlFor="hometown">
+                  <span className="profile-icon">🏠</span>
+                  出身地
+                </label>
+                <input
+                  id="hometown"
+                  type="text"
+                  value={formData.hometown}
+                  onChange={(e) => handleInputChange('hometown', e.target.value)}
+                  placeholder="例: 東京都"
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="favoriteFood">
+                  <span className="profile-icon">🍽️</span>
+                  好きな料理
+                </label>
+                <input
+                  id="favoriteFood"
+                  type="text"
+                  value={formData.favoriteFood}
+                  onChange={(e) => handleInputChange('favoriteFood', e.target.value)}
+                  placeholder="例: カレーライス"
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="cookingStyle">
+                  <span className="profile-icon">👨‍🍳</span>
+                  料理スタイル
+                </label>
+                <input
+                  id="cookingStyle"
+                  type="text"
+                  value={formData.cookingStyle}
+                  onChange={(e) => handleInputChange('cookingStyle', e.target.value)}
+                  placeholder="例: 和食中心、簡単レシピ"
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="personalStory">
+                  <span className="profile-icon">📖</span>
+                  私の物語
+                </label>
+                <textarea
+                  id="personalStory"
+                  value={formData.personalStory}
+                  onChange={(e) => handleInputChange('personalStory', e.target.value)}
+                  placeholder="料理を始めたきっかけや、大切にしていることなどを書いてください"
+                  className="form-textarea"
+                  rows={4}
                 />
               </div>
             </div>
@@ -306,11 +423,11 @@ const GalleryProfileEdit: React.FC = () => {
                 <p className="preview-email">{currentUser.email}</p>
                 {formData.bio && <p className="preview-bio">{formData.bio}</p>}
                 <div className="preview-sns">
-                  {formData.twitter && formData.twitter.trim() && <span className="sns-badge twitter">🐦 Twitter</span>}
                   {formData.instagram && formData.instagram.trim() && <span className="sns-badge instagram">📸 Instagram</span>}
-                  {formData.facebook && formData.facebook.trim() && <span className="sns-badge facebook">📘 Facebook</span>}
-                  {formData.line && formData.line.trim() && <span className="sns-badge line">💬 LINE</span>}
-                  {formData.website && formData.website.trim() && <span className="sns-badge website">🔗 Webサイト</span>}
+                  {formData.twitter && formData.twitter.trim() && <span className="sns-badge twitter">🐦 Twitter</span>}
+                  {formData.youtube && formData.youtube.trim() && <span className="sns-badge youtube">📺 YouTube</span>}
+                  {formData.tiktok && formData.tiktok.trim() && <span className="sns-badge tiktok">🎵 TikTok</span>}
+                  {formData.website && formData.website.trim() && <span className="sns-badge website">🌐 公式サイト</span>}
                 </div>
               </div>
             </div>

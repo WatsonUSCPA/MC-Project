@@ -147,7 +147,173 @@
   color: var(--color-text);
   font-size: 0.95rem;
   line-height: 1.5;
+  margin: 0 0 15px 0;
+}
+
+/* 自己紹介セクション */
+.user-profile-details {
+  padding: 25px 30px;
+  background: white;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.user-profile-details h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.profile-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: var(--color-background);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.info-value {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+}
+
+.personal-story {
+  margin-bottom: 20px;
+}
+
+.personal-story h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.personal-story p {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin: 0;
+  text-align: justify;
+}
+
+.interests-section {
+  margin-bottom: 20px;
+}
+
+.interests-section h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.interests-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.interest-tag {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #ff8a65 100%);
+  color: white;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+/* SNSセクション */
+.user-sns-section {
+  padding: 25px 30px;
+  background: white;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.user-sns-section h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sns-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.sns-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.sns-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.sns-link.instagram {
+  border-color: #e4405f;
+  color: #e4405f;
+}
+
+.sns-link.twitter {
+  border-color: #1da1f2;
+  color: #1da1f2;
+}
+
+.sns-link.youtube {
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.sns-link.tiktok {
+  border-color: #000000;
+  color: #000000;
+}
+
+.sns-link.website {
+  border-color: #6c757d;
+  color: #6c757d;
 }
 
 /* 作品一覧セクション */
@@ -272,6 +438,23 @@
     padding: 20px;
     flex-direction: column;
     text-align: center;
+  }
+
+  .user-profile-details,
+  .user-sns-section {
+    padding: 20px;
+  }
+
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sns-links {
+    flex-direction: column;
+  }
+
+  .sns-link {
+    justify-content: center;
   }
 
   .user-avatar {
