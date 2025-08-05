@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, signOut, User, updateEmail, deleteUser } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, User, updateEmail, deleteUser, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 import { getFirestore, doc, getDoc, collection, query, where, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
 import './GalleryMyPage.css';
 
@@ -274,6 +274,57 @@ const GalleryMyPage: React.FC = () => {
     }
   };
 
+  const handleChangePassword = () => {
+    const currentPassword = window.prompt('現在のパスワードを入力してください:');
+    if (!currentPassword) return;
+    
+    const newPassword = window.prompt('新しいパスワードを入力してください（6文字以上）:');
+    if (!newPassword || newPassword.length < 6) {
+      alert('新しいパスワードは6文字以上で入力してください。');
+      return;
+    }
+    
+    const confirmPassword = window.prompt('新しいパスワードを再入力してください:');
+    if (newPassword !== confirmPassword) {
+      alert('新しいパスワードが一致しません。');
+      return;
+    }
+    
+    if (window.confirm('パスワードを変更しますか？\n\n※変更後、新しいパスワードでログインする必要があります。')) {
+      handlePasswordChange(currentPassword, newPassword);
+    }
+  };
+
+  const handlePasswordChange = async (currentPassword: string, newPassword: string) => {
+    if (!currentUser) return;
+    
+    try {
+      const auth = getAuth();
+      
+      // 現在のパスワードで再認証
+      const credential = EmailAuthProvider.credential(currentUser.email!, currentPassword);
+      await reauthenticateWithCredential(currentUser, credential);
+      
+      // パスワードを更新
+      await updatePassword(currentUser, newPassword);
+      
+      alert('パスワードを変更しました。新しいパスワードでログインしてください。');
+      await signOut(auth);
+      window.location.href = '/gallery/login';
+    } catch (error: any) {
+      console.error('Error updating password:', error);
+      if (error.code === 'auth/wrong-password') {
+        alert('現在のパスワードが正しくありません。');
+      } else if (error.code === 'auth/weak-password') {
+        alert('新しいパスワードが弱すぎます。6文字以上で入力してください。');
+      } else if (error.code === 'auth/requires-recent-login') {
+        alert('セキュリティのため、再度ログインしてからパスワードを変更してください。');
+      } else {
+        alert('パスワードの変更に失敗しました: ' + error.message);
+      }
+    }
+  };
+
   const handleAccountDeletion = async () => {
     if (!currentUser) return;
     
@@ -461,6 +512,15 @@ const GalleryMyPage: React.FC = () => {
                     <p className="setting-description">アカウントのメールアドレスを変更</p>
                   </div>
                   <button className="edit-btn" onClick={handleChangeEmail}>
+                    変更する
+                  </button>
+                </div>
+                <div className="setting-item">
+                  <div className="setting-info">
+                    <label>パスワード変更</label>
+                    <p className="setting-description">アカウントのパスワードを変更</p>
+                  </div>
+                  <button className="edit-btn" onClick={handleChangePassword}>
                     変更する
                   </button>
                 </div>

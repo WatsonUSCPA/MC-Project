@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import './GalleryAdmin.css';
 
@@ -151,16 +150,73 @@ const GalleryAdmin: React.FC = () => {
     }
   };
 
-  // 画像アップロード
+  // 画像アップロード（Base64エンコード）
   const handleImageUpload = async (file: File): Promise<string> => {
     try {
       setUploadingImage(true);
-      const storage = getStorage();
-      const storageRef = ref(storage, `keywords/${Date.now()}_${file.name}`);
-      const snapshot = await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(snapshot.ref);
+      
+      // ファイルサイズチェック（10MB制限に緩和）
+      if (file.size > 10 * 1024 * 1024) {
+        throw new Error('画像サイズは10MB以下にしてください。');
+      }
+
+      // より効率的な画像圧縮
+      const compressImage = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const img = new Image();
+          
+          img.onload = () => {
+            try {
+              // 元のサイズを取得
+              let { width, height } = img;
+              
+              // より大きなサイズ制限に変更（1200x900）
+              const maxWidth = 1200;
+              const maxHeight = 900;
+              
+              // アスペクト比を保ちながらリサイズ
+              if (width > height) {
+                if (width > maxWidth) {
+                  height = (height * maxWidth) / width;
+                  width = maxWidth;
+                }
+              } else {
+                if (height > maxHeight) {
+                  width = (width * maxHeight) / height;
+                  height = maxHeight;
+                }
+              }
+              
+              canvas.width = width;
+              canvas.height = height;
+              
+              // 高品質な描画設定
+              ctx!.imageSmoothingEnabled = true;
+              ctx!.imageSmoothingQuality = 'high';
+              
+              ctx?.drawImage(img, 0, 0, width, height);
+              
+              // 品質を0.8に上げてJPEG形式で圧縮
+              const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+              resolve(compressedDataUrl);
+            } catch (error) {
+              reject(error);
+            }
+          };
+          
+          img.onerror = () => {
+            reject(new Error('画像の読み込みに失敗しました'));
+          };
+          
+          img.src = URL.createObjectURL(file);
+        });
+      };
+
+      const compressedImage = await compressImage(file);
       setUploadingImage(false);
-      return downloadURL;
+      return compressedImage;
     } catch (error) {
       console.error('Error uploading image:', error);
       setUploadingImage(false);

@@ -46,10 +46,11 @@ interface Recipe {
   steps: RecipeStep[];
   mainImageUrl?: string;
   image?: string;
+  pdfUrl?: string;
   cookingTime: string;
   difficulty: string;
   youtubeUrl?: string;
-  explanationType: 'video' | 'website' | 'none';
+  explanationType: 'video' | 'website' | 'pdf' | 'none';
   websiteExplanation?: string;
   affiliateProducts: AffiliateProduct[];
   authorSNS: {
@@ -153,6 +154,7 @@ const GalleryDetail: React.FC = () => {
             steps: recipeData.steps || [],
             mainImageUrl: recipeData.mainImageUrl,
             image: recipeData.image,
+            pdfUrl: recipeData.pdfUrl,
             cookingTime: recipeData.cookingTime === '30min' ? '30分以内' :
                         recipeData.cookingTime === '1hour' ? '1時間以内' :
                         recipeData.cookingTime === '2hours' ? '2時間以内' :
@@ -392,8 +394,43 @@ const GalleryDetail: React.FC = () => {
   };
 
   const getYoutubeEmbedUrl = (url: string) => {
-    const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-    return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : url;
+    if (!url) return null;
+    
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+      /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/
+    ];
+
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) {
+        return `https://www.youtube.com/embed/${match[1]}`;
+      }
+    }
+    
+    return null;
+  };
+
+  const handlePdfDownload = () => {
+    if (!recipe?.pdfUrl) return;
+    
+    try {
+      // Create a temporary link element
+      const link = document.createElement('a');
+      link.href = recipe.pdfUrl;
+      link.download = `${recipe.title}_レシピ.pdf`;
+      link.target = '_blank';
+      
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      alert('PDFのダウンロードに失敗しました。');
+    }
   };
 
   if (loading) {
@@ -475,6 +512,24 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
+            {recipe.pdfUrl && recipe.explanationType === 'pdf' && (
+              <div className="recipe-pdf-download">
+                <h3>📄 詳細なレシピPDF</h3>
+                <div className="pdf-download-container">
+                  <div className="pdf-info">
+                    <span className="pdf-icon">📄</span>
+                    <span className="pdf-text">詳細な作り方が記載されたPDFファイル</span>
+                  </div>
+                  <button 
+                    onClick={handlePdfDownload}
+                    className="pdf-download-btn"
+                  >
+                    📥 PDFをダウンロード
+                  </button>
+                </div>
+              </div>
+            )}
+
             {recipe.ingredients && recipe.ingredients.filter(ingredient => ingredient.trim() !== '').length > 0 && (
               <div className="recipe-ingredients">
                 <h3>必要な材料</h3>
@@ -514,7 +569,7 @@ const GalleryDetail: React.FC = () => {
                 <h3>制作動画</h3>
                 <div className="youtube-embed">
                   <iframe
-                    src={getYoutubeEmbedUrl(recipe.youtubeUrl)}
+                    src={getYoutubeEmbedUrl(recipe.youtubeUrl) || ''}
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

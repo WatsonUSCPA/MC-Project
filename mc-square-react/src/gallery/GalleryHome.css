@@ -8,6 +8,35 @@
   padding: 20px 0;
 }
 
+/* 商用利用制限の注意書き */
+.commercial-use-disclaimer {
+  margin: 0 20px 30px 20px;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border: 1px solid #ffc107;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.15);
+}
+
+.disclaimer-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.disclaimer-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.disclaimer-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #856404;
+  font-weight: 500;
+}
+
 .loading {
   text-align: center;
   padding: 50px;
@@ -1284,6 +1313,19 @@ section {
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
+  .commercial-use-disclaimer {
+    margin: 0 15px 25px 15px;
+    padding: 12px 16px;
+  }
+  
+  .disclaimer-content {
+    gap: 10px;
+  }
+  
+  .disclaimer-text {
+    font-size: 0.85rem;
+  }
+  
   .gallery-header {
     flex-direction: column;
     gap: 15px;
@@ -1378,6 +1420,15 @@ section {
 }
 
 @media (max-width: 480px) {
+  .commercial-use-disclaimer {
+    margin: 0 10px 20px 10px;
+    padding: 10px 14px;
+  }
+  
+  .disclaimer-text {
+    font-size: 0.8rem;
+  }
+  
   .recipes-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;

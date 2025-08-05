@@ -482,6 +482,17 @@ const GalleryHome: React.FC = () => {
       {/* コンテンツエリア */}
       <div className="gallery-content">
 
+        {/* 商用利用制限の注意書き */}
+        <div className="commercial-use-disclaimer">
+          <div className="disclaimer-content">
+            <span className="disclaimer-icon">⚠️</span>
+            <p className="disclaimer-text">
+              商用利用が制限されている場合があります。<br />
+              必ずご確認の上レシピをお楽しみください。
+            </p>
+          </div>
+        </div>
+
         {/* 人気キーワード */}
         {popularKeywords.length > 0 && (
           <section className="popular-keywords">

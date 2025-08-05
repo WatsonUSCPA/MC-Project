@@ -4,6 +4,7 @@
   "description": "Netlify Functions for MC Square",
   "main": "index.js",
   "dependencies": {
-    "stripe": "^16.2.0"
+    "stripe": "^16.2.0",
+    "nodemailer": "^6.9.7"
   }
 } 

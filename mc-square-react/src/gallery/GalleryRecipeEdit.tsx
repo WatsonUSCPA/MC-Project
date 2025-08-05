@@ -26,10 +26,11 @@ interface Recipe {
   ingredients: string[];
   steps: RecipeStep[];
   mainImageUrl?: string;
+  pdfUrl?: string;
   cookingTime: string;
   difficulty: string;
   youtubeUrl?: string;
-  explanationType: 'video' | 'website' | 'none';
+  explanationType: 'video' | 'website' | 'pdf' | 'none';
   websiteExplanation?: string;
   affiliateProducts: AffiliateProduct[];
   authorId: string;
@@ -94,6 +95,7 @@ const GalleryRecipeEdit: React.FC = () => {
           ingredients: recipeData.ingredients || [],
           steps: recipeData.steps || [],
           mainImageUrl: recipeData.mainImageUrl || undefined,
+          pdfUrl: recipeData.pdfUrl || undefined,
           cookingTime: recipeData.cookingTime || '',
           difficulty: recipeData.difficulty || '初級',
           youtubeUrl: recipeData.youtubeUrl || '',
@@ -159,13 +161,14 @@ const GalleryRecipeEdit: React.FC = () => {
     }
   };
 
-  const handleExplanationTypeChange = (type: 'video' | 'website' | 'none') => {
+  const handleExplanationTypeChange = (type: 'video' | 'website' | 'pdf' | 'none') => {
     if (recipe) {
       setRecipe({ 
         ...recipe, 
         explanationType: type,
         youtubeUrl: type !== 'video' ? '' : recipe.youtubeUrl,
-        websiteExplanation: type !== 'website' ? '' : recipe.websiteExplanation
+        websiteExplanation: type !== 'website' ? '' : recipe.websiteExplanation,
+        pdfUrl: type !== 'pdf' ? '' : recipe.pdfUrl
       });
     }
   };
@@ -173,6 +176,12 @@ const GalleryRecipeEdit: React.FC = () => {
   const handleWebsiteExplanationChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (recipe) {
       setRecipe({ ...recipe, websiteExplanation: e.target.value });
+    }
+  };
+
+  const handlePdfUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (recipe) {
+      setRecipe({ ...recipe, pdfUrl: e.target.value });
     }
   };
 
@@ -442,6 +451,9 @@ const GalleryRecipeEdit: React.FC = () => {
       if (recipe.websiteExplanation && recipe.websiteExplanation.trim()) {
         recipeData.websiteExplanation = recipe.websiteExplanation.trim();
       }
+      if (recipe.pdfUrl && recipe.pdfUrl.trim()) {
+        recipeData.pdfUrl = recipe.pdfUrl.trim();
+      }
 
       await updateDoc(recipeDoc, recipeData);
       
@@ -648,6 +660,23 @@ const GalleryRecipeEdit: React.FC = () => {
                   </div>
                 </label>
                 
+                <label className={`explanation-option ${recipe.explanationType === 'pdf' ? 'active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="explanationType"
+                    value="pdf"
+                    checked={recipe.explanationType === 'pdf'}
+                    onChange={() => handleExplanationTypeChange('pdf')}
+                  />
+                  <div className="option-content">
+                    <span className="option-icon">📄</span>
+                    <div className="option-text">
+                      <h4>PDFで説明</h4>
+                      <p>PDFファイルのURLで詳細な説明を提供</p>
+                    </div>
+                  </div>
+                </label>
+                
                 <label className={`explanation-option ${recipe.explanationType === 'none' ? 'active' : ''}`}>
                   <input
                     type="radio"
@@ -728,6 +757,28 @@ const GalleryRecipeEdit: React.FC = () => {
                 <span className="help-text">
                   初心者でも分かりやすいように、手順を詳しく書いてください
                 </span>
+              </div>
+            </div>
+          )}
+
+          {/* PDF URL（PDF選択時のみ表示） */}
+          {recipe.explanationType === 'pdf' && (
+            <div className="form-section">
+              <h3>PDF URL</h3>
+              <div className="pdf-url-area">
+                <input
+                  type="url"
+                  value={recipe.pdfUrl || ''}
+                  onChange={handlePdfUrlChange}
+                  placeholder="https://example.com/recipe.pdf"
+                  className="form-input pdf-url-input"
+                />
+                <div className="pdf-help">
+                  <span className="help-icon">ℹ️</span>
+                  <span className="help-text">
+                    詳細な作り方が記載されたPDFファイルのURLを入力してください
+                  </span>
+                </div>
               </div>
             </div>
           )}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp, getDocs, doc, getDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './GalleryUpload.css';
 
 interface RecipeStep {
@@ -24,10 +25,11 @@ interface Recipe {
   ingredients: string[];
   steps: RecipeStep[];
   mainImage?: File;
+  pdfUrl?: string;
   cookingTime: string;
   difficulty: string;
   youtubeUrl?: string;
-  explanationType: 'video' | 'website' | 'none';
+  explanationType: 'video' | 'website' | 'pdf' | 'none';
   websiteExplanation?: string;
   affiliateProducts: AffiliateProduct[];
 }
@@ -103,7 +105,7 @@ const GalleryUpload: React.FC = () => {
     setRecipe({ ...recipe, youtubeUrl: e.target.value });
   };
 
-  const handleExplanationTypeChange = (type: 'video' | 'website' | 'none') => {
+  const handleExplanationTypeChange = (type: 'video' | 'website' | 'pdf' | 'none') => {
     setRecipe({ 
       ...recipe, 
       explanationType: type,
@@ -176,9 +178,9 @@ const GalleryUpload: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // ファイルサイズチェック（5MB制限）
-    if (file.size > 5 * 1024 * 1024) {
-      alert('画像サイズは5MB以下にしてください。');
+    // ファイルサイズチェック（10MB制限に緩和）
+    if (file.size > 10 * 1024 * 1024) {
+      alert('画像サイズは10MB以下にしてください。');
       return;
     }
 
@@ -190,9 +192,9 @@ const GalleryUpload: React.FC = () => {
         const img = new Image();
         
         img.onload = () => {
-          // 最大サイズを設定（800x600）
-          const maxWidth = 800;
-          const maxHeight = 600;
+          // より大きなサイズ制限に変更（1200x900）
+          const maxWidth = 1200;
+          const maxHeight = 900;
           let { width, height } = img;
           
           if (width > height) {
@@ -210,10 +212,14 @@ const GalleryUpload: React.FC = () => {
           canvas.width = width;
           canvas.height = height;
           
+          // 高品質な描画設定
+          ctx!.imageSmoothingEnabled = true;
+          ctx!.imageSmoothingQuality = 'high';
+          
           ctx?.drawImage(img, 0, 0, width, height);
           
-          // 品質を0.7に設定してJPEG形式で圧縮
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          // 品質を0.8に上げてJPEG形式で圧縮
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
           resolve(compressedDataUrl);
         };
         
@@ -239,6 +245,10 @@ const GalleryUpload: React.FC = () => {
         setPreviewImages({ ...previewImages, [`affiliate-${productId}`]: compressedImage });
       }
     });
+  };
+
+  const handlePdfUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRecipe({ ...recipe, pdfUrl: e.target.value });
   };
 
   // アフィリエイト商品の管理機能
@@ -324,6 +334,8 @@ const GalleryUpload: React.FC = () => {
         mainImageUrl = previewImages.main;
       }
 
+
+
       // ステップ画像もBase64エンコード（既に圧縮済み）
       const stepsWithImages = recipe.steps.map(step => {
         const stepData: any = {
@@ -389,6 +401,11 @@ const GalleryUpload: React.FC = () => {
       // mainImageUrlが存在する場合のみ追加
       if (mainImageUrl) {
         recipeData.mainImageUrl = mainImageUrl;
+      }
+
+      // pdfUrlが存在する場合のみ追加
+      if (recipe.pdfUrl) {
+        recipeData.pdfUrl = recipe.pdfUrl;
       }
 
       // Firestoreに保存
@@ -701,6 +718,23 @@ const GalleryUpload: React.FC = () => {
                   </div>
                 </label>
                 
+                <label className={`explanation-option ${recipe.explanationType === 'pdf' ? 'active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="explanationType"
+                    value="pdf"
+                    checked={recipe.explanationType === 'pdf'}
+                    onChange={() => handleExplanationTypeChange('pdf')}
+                  />
+                  <div className="option-content">
+                    <span className="option-icon">📄</span>
+                    <div className="option-text">
+                      <h4>PDFファイルで説明</h4>
+                      <p>詳細な作り方が記載されたPDFファイルをアップロード</p>
+                    </div>
+                  </div>
+                </label>
+                
                 <label className={`explanation-option ${recipe.explanationType === 'none' ? 'active' : ''}`}>
                   <input
                     type="radio"
@@ -781,6 +815,28 @@ const GalleryUpload: React.FC = () => {
                 <span className="help-text">
                   初心者でも分かりやすいように、手順を詳しく書いてください
                 </span>
+              </div>
+            </div>
+          )}
+
+          {/* PDF URL（PDF選択時のみ表示） */}
+          {recipe.explanationType === 'pdf' && (
+            <div className="form-section">
+              <h3>PDF URL</h3>
+              <div className="pdf-url-area">
+                <input
+                  type="url"
+                  value={recipe.pdfUrl || ''}
+                  onChange={handlePdfUrlChange}
+                  placeholder="https://example.com/recipe.pdf"
+                  className="form-input pdf-url-input"
+                />
+                <div className="pdf-help">
+                  <span className="help-icon">ℹ️</span>
+                  <span className="help-text">
+                    詳細な作り方が記載されたPDFファイルのURLを入力してください
+                  </span>
+                </div>
               </div>
             </div>
           )}

@@ -207,28 +207,82 @@
 }
 
 .recipe-description p {
-  color: var(--color-text);
   line-height: 1.6;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 15px;
-  border-radius: 8px;
+  color: var(--color-text);
   margin: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-  min-height: fit-content;
-  height: auto;
-  overflow: visible;
-  display: block;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 1;
-  /* ボックスの高さを動的に調整 */
-  height: auto !important;
-  min-height: fit-content !important;
-  max-height: none !important;
-  overflow: visible !important;
+}
+
+/* PDF Download Styles */
+.recipe-pdf-download {
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(255, 159, 124, 0.05), rgba(255, 179, 71, 0.05));
+  margin: 20px 0;
+}
+
+.recipe-pdf-download h3 {
+  color: var(--color-primary);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pdf-download-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.pdf-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.pdf-icon {
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.pdf-text {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.pdf-download-btn {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.pdf-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, #ff8a65, #ffb74d);
+}
+
+.pdf-download-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 
 .recipe-description {
@@ -551,6 +605,22 @@
   .sns-icons {
     margin-left: 0;
   }
+
+  .pdf-download-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .pdf-info {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pdf-download-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -568,8 +638,23 @@
   .recipe-video,
   .recipe-explanation,
   .recipe-tags,
-  .recipe-affiliate-products {
+  .recipe-affiliate-products,
+  .recipe-random-products,
+  .recipe-pdf-download {
     padding: 15px;
+  }
+
+  .recipe-pdf-download h3 {
+    font-size: 1.1rem;
+  }
+
+  .pdf-text {
+    font-size: 0.9rem;
+  }
+
+  .pdf-download-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
 }
 

@@ -187,8 +187,90 @@
 }
 
 .image-preview.small {
-  width: 120px;
-  height: 120px;
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* PDF Upload Styles */
+.pdf-upload-area {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.pdf-input {
+  display: none;
+}
+
+.pdf-upload-label {
+  display: block;
+  cursor: pointer;
+  border: 2px dashed var(--color-border);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: var(--color-background-alt);
+}
+
+.pdf-upload-label:hover {
+  border-color: var(--color-primary);
+  background: rgba(255, 159, 124, 0.05);
+  transform: translateY(-2px);
+}
+
+.pdf-preview {
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 20px;
+  background: var(--color-background-alt);
+}
+
+.pdf-file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.pdf-icon {
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.pdf-name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--color-text);
+  word-break: break-all;
+}
+
+.remove-pdf-btn {
+  background: var(--color-danger);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.remove-pdf-btn:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+.pdf-help {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 159, 124, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid var(--color-primary);
 }
 
 /* 材料 */

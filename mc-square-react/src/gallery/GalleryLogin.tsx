@@ -63,6 +63,27 @@ const GalleryLogin: React.FC = () => {
           });
         }
         
+        // ウェルカムメールを送信
+        try {
+          const response = await fetch('/.netlify/functions/send-welcome-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: email,
+              displayName: displayName.trim() || 'ユーザー'
+            })
+          });
+          
+          if (!response.ok) {
+            console.warn('Welcome email sending failed, but registration was successful');
+          }
+        } catch (error) {
+          console.warn('Welcome email sending failed:', error);
+          // メール送信に失敗しても登録は成功しているので、ユーザーには通知しない
+        }
+        
         window.location.href = '/gallery';
       }
     } catch (error: any) {
