@@ -543,6 +543,132 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
+            {/* 控えめなEC宣伝セクション */}
+            <div className="subtle-ec-promotion" style={{
+              margin: '20px 0',
+              padding: '20px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '12px',
+              border: '1px solid #e9ecef',
+              textAlign: 'center',
+              fontSize: '0.9rem',
+              color: '#6c757d'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '15px'
+              }}>
+                <p style={{ 
+                  margin: '0', 
+                  fontStyle: 'italic',
+                  fontSize: '0.9rem',
+                  lineHeight: '1.4'
+                }}>
+                  材料をお探しの方は、当店のオンラインショップもご利用ください
+                </p>
+                
+                {/* 商品画像の横並び表示 */}
+                {randomProducts && randomProducts.length > 0 && (
+                  <div style={{
+                    display: 'flex',
+                    gap: '10px',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
+                    marginBottom: '15px'
+                  }}>
+                    {randomProducts.slice(0, 4).map((product, index) => (
+                      <div key={index} style={{
+                        width: '80px',
+                        height: '80px',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        border: '2px solid #e9ecef',
+                        backgroundColor: '#fff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        {product.imageUrl ? (
+                          <img 
+                            src={product.imageUrl} 
+                            alt={product.name}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover'
+                            }}
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              const fallbackElement = e.currentTarget.nextElementSibling as HTMLElement;
+                              if (fallbackElement) {
+                                fallbackElement.style.display = 'flex';
+                              }
+                            }}
+                          />
+                        ) : (
+                          <div style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#f8f9fa',
+                            fontSize: '24px'
+                          }}>
+                            🧵
+                          </div>
+                        )}
+                        <div style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'none',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: '#f8f9fa',
+                          fontSize: '24px'
+                        }}>
+                          🧵
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                <button 
+                  onClick={() => navigate('/all-products')}
+                  style={{
+                    backgroundColor: 'transparent',
+                    color: '#007bff',
+                    border: '1px solid #007bff',
+                    borderRadius: '20px',
+                    padding: '8px 16px',
+                    fontSize: '0.8rem',
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#007bff';
+                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#007bff';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  <span>🛒</span>
+                  商品一覧を見る →
+                </button>
+              </div>
+            </div>
+
             {recipe.steps && recipe.steps.length > 0 && (
               <div className="recipe-steps">
                 <h3>制作手順</h3>
