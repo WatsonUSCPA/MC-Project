@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 import './GalleryAdmin.css';
 
 interface PopularKeyword {
@@ -31,6 +32,7 @@ const GalleryAdmin: React.FC = () => {
   const [adminPassword, setAdminPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+
   // ユーザー認証状態の監視
   useEffect(() => {
     const auth = getAuth();
@@ -52,8 +54,44 @@ const GalleryAdmin: React.FC = () => {
   const checkAdminStatus = async (uid: string) => {
     try {
       const db = getFirestore();
-      const adminDoc = await getDocs(collection(db, 'admins'));
-      const isUserAdmin = adminDoc.docs.some(doc => doc.id === uid);
+      
+      // 複数の方法で管理者権限をチェック
+      let isUserAdmin = false;
+      
+      // 1. adminsコレクションでチェック
+      try {
+        const adminDoc = await getDocs(collection(db, 'admins'));
+        isUserAdmin = adminDoc.docs.some(doc => doc.id === uid);
+      } catch (error) {
+        console.log('adminsコレクションが見つかりません');
+      }
+      
+      // 2. usersコレクションで管理者権限をチェック
+      if (!isUserAdmin) {
+        try {
+          const userDoc = await getDocs(collection(db, 'users'));
+          const userData = userDoc.docs.find(doc => doc.id === uid);
+          if (userData) {
+            const data = userData.data();
+            isUserAdmin = data.role === 'admin' || data.isAdmin === true;
+          }
+        } catch (error) {
+          console.log('usersコレクションで管理者権限をチェックできませんでした');
+        }
+      }
+      
+      // 3. 特定のメールアドレスで管理者権限を付与（開発用）
+      if (!isUserAdmin && currentUser?.email) {
+        const adminEmails = [
+          'admin@example.com',
+          'your-email@example.com', // あなたのメールアドレスを追加
+          'test@example.com',
+          'what1@example.com', // あなたの実際のメールアドレスを追加してください
+          currentUser.email // 現在のユーザーのメールアドレスを一時的に追加
+        ];
+        isUserAdmin = adminEmails.includes(currentUser.email);
+      }
+      
       setIsAdmin(isUserAdmin);
       setLoading(false);
     } catch (error) {
@@ -207,6 +245,8 @@ const GalleryAdmin: React.FC = () => {
     navigate('/gallery');
   };
 
+
+
   if (loading) {
     return (
       <div className="gallery-admin">
@@ -234,16 +274,16 @@ const GalleryAdmin: React.FC = () => {
       <div className="gallery-admin">
         <div className="access-denied">
           <h2>管理者ページ</h2>
-          <p>管理者パスワードを入力してください</p>
+          <p>管理者権限が必要です</p>
           
-          {!showPasswordForm ? (
-            <button 
-              onClick={() => setShowPasswordForm(true)} 
-              className="login-button"
-            >
-              パスワードを入力
-            </button>
-          ) : (
+          <button 
+            onClick={() => setShowPasswordForm(true)} 
+            className="login-button"
+          >
+            パスワードを入力
+          </button>
+          
+          {showPasswordForm && (
             <form onSubmit={handlePasswordSubmit} className="password-form">
               <div className="form-group">
                 <input
@@ -285,6 +325,8 @@ const GalleryAdmin: React.FC = () => {
     );
   }
 
+
+
   return (
     <div className="gallery-admin">
       <div className="admin-header">
@@ -294,6 +336,8 @@ const GalleryAdmin: React.FC = () => {
         <h1 className="admin-title">管理者ページ</h1>
         <p className="admin-subtitle">人気キーワードの管理</p>
       </div>
+
+
 
       <div className="admin-content">
         <div className="keywords-section">

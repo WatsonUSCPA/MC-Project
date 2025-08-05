@@ -59,14 +59,15 @@ const GalleryProfileEdit: React.FC = () => {
         
         if (userSnap.exists()) {
           const userData = userSnap.data();
+          const authorSNS = userData.authorSNS || {};
           setFormData({
             displayName: userData.displayName || user.displayName || '',
             bio: userData.bio || '',
-            instagram: userData.instagram || '',
-            twitter: userData.twitter || '',
-            youtube: userData.youtube || '',
-            tiktok: userData.tiktok || '',
-            website: userData.website || '',
+            instagram: authorSNS.instagram || '',
+            twitter: authorSNS.twitter || '',
+            youtube: authorSNS.youtube || '',
+            tiktok: authorSNS.tiktok || '',
+            website: authorSNS.website || '',
             hometown: userData.hometown || '',
             favoriteFood: userData.favoriteFood || '',
             cookingStyle: userData.cookingStyle || '',
@@ -99,11 +100,78 @@ const GalleryProfileEdit: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  // URLを正規化する関数
+  const normalizeUrl = (url: string, platform: string): string => {
+    if (!url.trim()) return '';
+    
+    let normalizedUrl = url.trim();
+    
+    // プロトコルがない場合は追加
+    if (!normalizedUrl.startsWith('http://') && !normalizedUrl.startsWith('https://')) {
+      normalizedUrl = 'https://' + normalizedUrl;
+    }
+    
+    // プラットフォーム別の正規化
+    switch (platform) {
+      case 'instagram':
+        // InstagramのURLを正規化
+        if (normalizedUrl.includes('instagram.com/')) {
+          // 既に正しい形式の場合はそのまま
+          return normalizedUrl;
+        } else if (normalizedUrl.includes('instagram.com')) {
+          // プロトコルがない場合
+          return normalizedUrl.startsWith('https://') ? normalizedUrl : 'https://' + normalizedUrl;
+        } else {
+          // ユーザー名のみの場合
+          const username = normalizedUrl.replace('https://', '').replace('http://', '').replace('@', '');
+          return `https://instagram.com/${username}`;
+        }
+      case 'twitter':
+        // TwitterのURLを正規化
+        if (normalizedUrl.includes('twitter.com/') || normalizedUrl.includes('x.com/')) {
+          return normalizedUrl;
+        } else {
+          const username = normalizedUrl.replace('https://', '').replace('http://', '').replace('@', '');
+          return `https://twitter.com/${username}`;
+        }
+      case 'youtube':
+        // YouTubeのURLを正規化
+        if (normalizedUrl.includes('youtube.com/') || normalizedUrl.includes('youtu.be/')) {
+          return normalizedUrl;
+        } else {
+          const channel = normalizedUrl.replace('https://', '').replace('http://', '').replace('@', '');
+          return `https://youtube.com/${channel}`;
+        }
+      case 'tiktok':
+        // TikTokのURLを正規化
+        if (normalizedUrl.includes('tiktok.com/')) {
+          return normalizedUrl;
+        } else {
+          const username = normalizedUrl.replace('https://', '').replace('http://', '').replace('@', '');
+          return `https://tiktok.com/@${username}`;
+        }
+      case 'website':
+        // ウェブサイトのURLを正規化
+        return normalizedUrl;
+      default:
+        return normalizedUrl;
+    }
+  };
+
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    // SNSフィールドの場合は正規化を適用
+    if (['instagram', 'twitter', 'youtube', 'tiktok', 'website'].includes(field)) {
+      const normalizedValue = normalizeUrl(value, field);
+      setFormData(prev => ({
+        ...prev,
+        [field]: normalizedValue
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    }
   };
 
   const handleSave = async () => {
@@ -123,21 +191,21 @@ const GalleryProfileEdit: React.FC = () => {
       const userDoc = doc(db, 'users', currentUser.uid);
       
       // SNS情報をフィルタリング（空文字列やundefinedを除外）
-      const snsData: any = {};
+      const authorSNS: any = {};
       if (formData.instagram && formData.instagram.trim()) {
-        snsData.instagram = formData.instagram.trim();
+        authorSNS.instagram = formData.instagram.trim();
       }
       if (formData.twitter && formData.twitter.trim()) {
-        snsData.twitter = formData.twitter.trim();
+        authorSNS.twitter = formData.twitter.trim();
       }
       if (formData.youtube && formData.youtube.trim()) {
-        snsData.youtube = formData.youtube.trim();
+        authorSNS.youtube = formData.youtube.trim();
       }
       if (formData.tiktok && formData.tiktok.trim()) {
-        snsData.tiktok = formData.tiktok.trim();
+        authorSNS.tiktok = formData.tiktok.trim();
       }
       if (formData.website && formData.website.trim()) {
-        snsData.website = formData.website.trim();
+        authorSNS.website = formData.website.trim();
       }
 
       // 自己紹介情報をフィルタリング
@@ -166,7 +234,7 @@ const GalleryProfileEdit: React.FC = () => {
         displayName: formData.displayName,
         email: currentUser.email,
         bio: formData.bio || null,
-        ...snsData,
+        authorSNS: authorSNS,
         ...profileData,
         updatedAt: new Date()
       }, { merge: true });

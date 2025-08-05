@@ -3,8 +3,13 @@ service cloud.firestore {
   match /databases/{database}/documents {
     // ユーザー関連のデータ
     match /users/{userId} {
-      // 自分のデータのみ読み書き可能
+      // 自分のデータの読み書き
       allow read, write: if request.auth != null && request.auth.uid == userId;
+      // 管理者による管理対象アカウントの読み書き
+      allow read, write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' &&
+        resource.data.managedBy == request.auth.uid;
     }
     
     // ニュース記事（公開データ）

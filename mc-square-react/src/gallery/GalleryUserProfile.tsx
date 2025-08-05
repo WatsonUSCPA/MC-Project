@@ -208,6 +208,18 @@ const GalleryUserProfile: React.FC = () => {
     navigate('/gallery');
   };
 
+  // URLが有効かどうかをチェックする関数
+  const isValidUrl = (url: string): boolean => {
+    if (!url || !url.trim()) return false;
+    
+    try {
+      const urlObj = new URL(url);
+      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
   const handleViewRecipe = (recipeId: string) => {
     navigate(`/gallery/detail/${recipeId}`);
   };
@@ -322,7 +334,7 @@ const GalleryUserProfile: React.FC = () => {
             <div className="user-sns-section">
               <h3>📱 SNS</h3>
               <div className="sns-links">
-                {userProfile.instagram && (
+                {userProfile.instagram && isValidUrl(userProfile.instagram) && (
                   <a 
                     href={userProfile.instagram} 
                     target="_blank" 
@@ -332,7 +344,7 @@ const GalleryUserProfile: React.FC = () => {
                     📸 Instagram
                   </a>
                 )}
-                {userProfile.twitter && (
+                {userProfile.twitter && isValidUrl(userProfile.twitter) && (
                   <a 
                     href={userProfile.twitter} 
                     target="_blank" 
@@ -342,7 +354,7 @@ const GalleryUserProfile: React.FC = () => {
                     🐦 Twitter
                   </a>
                 )}
-                {userProfile.youtube && (
+                {userProfile.youtube && isValidUrl(userProfile.youtube) && (
                   <a 
                     href={userProfile.youtube} 
                     target="_blank" 
@@ -352,7 +364,7 @@ const GalleryUserProfile: React.FC = () => {
                     📺 YouTube
                   </a>
                 )}
-                {userProfile.tiktok && (
+                {userProfile.tiktok && isValidUrl(userProfile.tiktok) && (
                   <a 
                     href={userProfile.tiktok} 
                     target="_blank" 
@@ -362,7 +374,7 @@ const GalleryUserProfile: React.FC = () => {
                     🎵 TikTok
                   </a>
                 )}
-                {userProfile.website && (
+                {userProfile.website && isValidUrl(userProfile.website) && (
                   <a 
                     href={userProfile.website} 
                     target="_blank" 

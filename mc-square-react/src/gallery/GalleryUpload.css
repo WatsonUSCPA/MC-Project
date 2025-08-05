@@ -580,6 +580,61 @@
   transform: translateY(-2px);
 }
 
+.permission-denied {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 20px;
+}
+
+.permission-denied-content {
+  background: white;
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid var(--color-border);
+  max-width: 500px;
+  width: 100%;
+}
+
+.permission-denied-content h2 {
+  color: #dc3545;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.permission-denied-content p {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.permission-actions {
+  margin-top: 30px;
+}
+
+.permission-actions .back-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.permission-actions .back-btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
   .recipe-upload-container {

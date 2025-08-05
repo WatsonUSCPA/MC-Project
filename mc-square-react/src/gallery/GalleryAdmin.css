@@ -46,6 +46,8 @@
   margin: 0;
 }
 
+
+
 .admin-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -492,4 +494,6 @@
   .keyword-image {
     height: 120px;
   }
-} 
+}
+
+ 

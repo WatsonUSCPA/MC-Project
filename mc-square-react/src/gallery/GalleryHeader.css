@@ -283,33 +283,7 @@
   font-size: 14px;
 }
 
-/* 生地を購入ボタン */
-.purchase-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #FF6B6B;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.purchase-button:hover {
-  background-color: #FF5252;
-}
-
-.fabric-icon {
-  font-size: 16px;
-}
-
-.button-text {
-  white-space: nowrap;
-}
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
@@ -328,11 +302,6 @@
   .search-input {
     padding: 10px 45px 10px 15px;
     font-size: 13px;
-  }
-  
-  .purchase-button {
-    padding: 8px 15px;
-    font-size: 12px;
   }
   
   .user-section {

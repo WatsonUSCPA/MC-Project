@@ -46,10 +46,6 @@ const GalleryHeader: React.FC = () => {
     setIsMenuOpen(false);
   };
 
-  const handleMainSiteClick = () => {
-    navigate('/gallery/main-site');
-  };
-
   return (
     <header className="gallery-header">
       <div className="gallery-header-container">
@@ -120,11 +116,6 @@ const GalleryHeader: React.FC = () => {
                 <span className="login-text">ログイン</span>
               </Link>
             )}
-            
-            <button className="purchase-button" onClick={handleMainSiteClick}>
-              <span className="fabric-icon">🧵</span>
-              <span className="button-text">生地を購入</span>
-            </button>
           </div>
         </div>
       </div>

@@ -148,6 +148,18 @@ const GallerySearch: React.FC = () => {
     navigate(`/gallery/user/${authorId}`);
   };
 
+  // URLが有効かどうかをチェックする関数
+  const isValidUrl = (url: string): boolean => {
+    if (!url || !url.trim()) return false;
+    
+    try {
+      const urlObj = new URL(url);
+      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
   const handleBackToHome = () => {
     navigate('/gallery');
   };
@@ -219,11 +231,11 @@ const GallerySearch: React.FC = () => {
                         <span className="author-name">{recipe.author}</span>
                         {recipe.authorSNS && (
                           <span className="sns-icons">
-                            {recipe.authorSNS.twitter && <span className="sns-icon twitter">🐦</span>}
-                            {recipe.authorSNS.instagram && <span className="sns-icon instagram">📸</span>}
-                            {recipe.authorSNS.facebook && <span className="sns-icon facebook">📘</span>}
-                            {recipe.authorSNS.line && <span className="sns-icon line">💬</span>}
-                            {recipe.authorSNS.website && <span className="sns-icon website">🔗</span>}
+                            {recipe.authorSNS.twitter && isValidUrl(recipe.authorSNS.twitter) && <span className="sns-icon twitter">🐦</span>}
+                            {recipe.authorSNS.instagram && isValidUrl(recipe.authorSNS.instagram) && <span className="sns-icon instagram">📸</span>}
+                            {recipe.authorSNS.facebook && isValidUrl(recipe.authorSNS.facebook) && <span className="sns-icon facebook">📘</span>}
+                            {recipe.authorSNS.line && isValidUrl(recipe.authorSNS.line) && <span className="sns-icon line">💬</span>}
+                            {recipe.authorSNS.website && isValidUrl(recipe.authorSNS.website) && <span className="sns-icon website">🔗</span>}
                           </span>
                         )}
                       </div>

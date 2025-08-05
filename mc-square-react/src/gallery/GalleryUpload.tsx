@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, serverTimestamp, getDocs, doc, getDoc } from 'firebase/firestore';
 import './GalleryUpload.css';
 
 interface RecipeStep {
@@ -35,6 +35,12 @@ interface Recipe {
 const GalleryUpload: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userPermissions, setUserPermissions] = useState({
+    canUpload: true,
+    canModerate: false,
+    canManageUsers: false,
+    canDeleteContent: false,
+  });
   const [recipe, setRecipe] = useState<Recipe>({
     title: '',
     description: '',
@@ -53,13 +59,37 @@ const GalleryUpload: React.FC = () => {
   // ユーザー認証状態の監視
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      if (user) {
+        await checkUserPermissions(user.uid);
+      }
       setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
+
+  // ユーザーの権限をチェック
+  const checkUserPermissions = async (uid: string) => {
+    try {
+      const db = getFirestore();
+      const userDoc = await getDocs(collection(db, 'users'));
+      const userData = userDoc.docs.find((doc: any) => doc.id === uid);
+      
+      if (userData) {
+        const data = userData.data();
+        setUserPermissions(data.permissions || {
+          canUpload: true,
+          canModerate: false,
+          canManageUsers: false,
+          canDeleteContent: false,
+        });
+      }
+    } catch (error) {
+      console.error('Error checking user permissions:', error);
+    }
+  };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRecipe({ ...recipe, title: e.target.value });
@@ -321,6 +351,19 @@ const GalleryUpload: React.FC = () => {
         return productData;
       });
 
+      // ユーザーのSNS情報を取得
+      let authorSNS = {};
+      try {
+        const userDoc = doc(db, 'users', currentUser.uid);
+        const userSnap = await getDoc(userDoc);
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          authorSNS = userData.authorSNS || {};
+        }
+      } catch (error) {
+        console.error('Error fetching user SNS data:', error);
+      }
+
       // Firestoreに保存するデータ
       const recipeData: any = {
         title: recipe.title,
@@ -336,6 +379,7 @@ const GalleryUpload: React.FC = () => {
         authorId: currentUser.uid,
         authorName: currentUser.displayName || '匿名ユーザー',
         authorEmail: currentUser.email || '',
+        authorSNS: authorSNS,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         likes: 0,
@@ -413,6 +457,29 @@ const GalleryUpload: React.FC = () => {
               </button>
               <button 
                 className="login-btn secondary" 
+                onClick={() => window.history.back()}
+              >
+                戻る
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 投稿権限がない場合
+  if (!userPermissions.canUpload) {
+    return (
+      <div className="recipe-upload">
+        <div className="permission-denied">
+          <div className="permission-denied-content">
+            <h2>投稿権限がありません</h2>
+            <p>現在のアカウントには投稿権限が付与されていません。</p>
+            <p>管理者にお問い合わせください。</p>
+            <div className="permission-actions">
+              <button 
+                className="back-btn" 
                 onClick={() => window.history.back()}
               >
                 戻る
