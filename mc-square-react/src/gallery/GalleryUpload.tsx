@@ -146,27 +146,69 @@ const GalleryUpload: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
+    // ファイルサイズチェック（5MB制限）
+    if (file.size > 5 * 1024 * 1024) {
+      alert('画像サイズは5MB以下にしてください。');
+      return;
+    }
+
+    // 画像を圧縮してBase64エンコード
+    const compressImage = (file: File): Promise<string> => {
+      return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        
+        img.onload = () => {
+          // 最大サイズを設定（800x600）
+          const maxWidth = 800;
+          const maxHeight = 600;
+          let { width, height } = img;
+          
+          if (width > height) {
+            if (width > maxWidth) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = (width * maxHeight) / height;
+              height = maxHeight;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // 品質を0.7に設定してJPEG形式で圧縮
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          resolve(compressedDataUrl);
+        };
+        
+        img.src = URL.createObjectURL(file);
+      });
+    };
+
+    compressImage(file).then((compressedImage) => {
       if (type === 'main') {
         setRecipe({ ...recipe, mainImage: file });
-        setPreviewImages({ ...previewImages, main: result });
+        setPreviewImages({ ...previewImages, main: compressedImage });
       } else if (type === 'step' && stepId) {
         const newSteps = recipe.steps.map(step => 
           step.id === stepId ? { ...step, image: file } : step
         );
         setRecipe({ ...recipe, steps: newSteps });
-        setPreviewImages({ ...previewImages, [`step-${stepId}`]: result });
+        setPreviewImages({ ...previewImages, [`step-${stepId}`]: compressedImage });
       } else if (type === 'affiliate' && productId) {
         const newProducts = recipe.affiliateProducts.map(product =>
           product.id === productId ? { ...product, image: file } : product
         );
         setRecipe({ ...recipe, affiliateProducts: newProducts });
-        setPreviewImages({ ...previewImages, [`affiliate-${productId}`]: result });
+        setPreviewImages({ ...previewImages, [`affiliate-${productId}`]: compressedImage });
       }
-    };
-    reader.readAsDataURL(file);
+    });
   };
 
   // アフィリエイト商品の管理機能
@@ -246,65 +288,38 @@ const GalleryUpload: React.FC = () => {
       const db = getFirestore();
       const recipesRef = collection(db, 'recipes');
 
-      // 画像をBase64エンコード
+      // 画像をBase64エンコード（既に圧縮済み）
       let mainImageUrl = '';
       if (recipe.mainImage) {
-        const reader = new FileReader();
-        mainImageUrl = await new Promise<string>((resolve) => {
-          reader.onload = () => resolve(reader.result as string);
-          reader.readAsDataURL(recipe.mainImage!);
-        });
+        mainImageUrl = previewImages.main;
       }
 
-      // ステップ画像もBase64エンコード
-      const stepsWithImages = await Promise.all(
-        recipe.steps.map(async (step) => {
-          if (step.image) {
-            const reader = new FileReader();
-            const imageUrl = await new Promise<string>((resolve) => {
-              reader.onload = () => resolve(reader.result as string);
-              reader.readAsDataURL(step.image!);
-            });
-            return { 
-              id: step.id, 
-              description: step.description, 
-              imageUrl 
-            };
-          }
-          return { 
-            id: step.id, 
-            description: step.description 
-          };
-        })
-      );
+      // ステップ画像もBase64エンコード（既に圧縮済み）
+      const stepsWithImages = recipe.steps.map(step => {
+        const stepData: any = {
+          id: step.id,
+          description: step.description
+        };
+        if (step.image) {
+          stepData.imageUrl = previewImages[`step-${step.id}`];
+        }
+        return stepData;
+      });
 
-      // アフィリエイト商品の画像もBase64エンコード
-      const affiliateProductsWithImages = await Promise.all(
-        recipe.affiliateProducts.map(async (product) => {
-          if (product.image) {
-            const reader = new FileReader();
-            const imageUrl = await new Promise<string>((resolve) => {
-              reader.onload = () => resolve(reader.result as string);
-              reader.readAsDataURL(product.image!);
-            });
-            return { 
-              id: product.id,
-              name: product.name,
-              description: product.description,
-              productUrl: product.productUrl,
-              price: product.price,
-              imageUrl 
-            };
-          }
-          return { 
-            id: product.id,
-            name: product.name,
-            description: product.description,
-            productUrl: product.productUrl,
-            price: product.price
-          };
-        })
-      );
+      // アフィリエイト商品の画像もBase64エンコード（既に圧縮済み）
+      const affiliateProductsWithImages = recipe.affiliateProducts.map(product => {
+        const productData: any = {
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          productUrl: product.productUrl,
+          price: product.price
+        };
+        if (product.image) {
+          productData.imageUrl = previewImages[`affiliate-${product.id}`];
+        }
+        return productData;
+      });
 
       // Firestoreに保存するデータ
       const recipeData: any = {

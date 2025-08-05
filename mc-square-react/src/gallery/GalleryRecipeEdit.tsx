@@ -49,6 +49,7 @@ const GalleryRecipeEdit: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [previewImages, setPreviewImages] = useState<{ [key: string]: string }>({});
+  const [uploadedFiles, setUploadedFiles] = useState<{ [key: string]: File }>({});
   
   // デバッグ用：previewImagesの変更を監視
   useEffect(() => {
@@ -247,27 +248,72 @@ const GalleryRecipeEdit: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // ファイルサイズチェック（5MB制限）
+    if (file.size > 5 * 1024 * 1024) {
+      alert('画像サイズは5MB以下にしてください。');
+      return;
+    }
+
     console.log('Image upload started:', { type, stepId, productId, fileName: file.name });
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      console.log('FileReader result:', { type, resultLength: result.length });
+    // 画像を圧縮してBase64エンコード
+    const compressImage = (file: File): Promise<string> => {
+      return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        
+        img.onload = () => {
+          // 最大サイズを設定（800x600）
+          const maxWidth = 800;
+          const maxHeight = 600;
+          let { width, height } = img;
+          
+          if (width > height) {
+            if (width > maxWidth) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = (width * maxHeight) / height;
+              height = maxHeight;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // 品質を0.7に設定してJPEG形式で圧縮
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          resolve(compressedDataUrl);
+        };
+        
+        img.src = URL.createObjectURL(file);
+      });
+    };
+
+    compressImage(file).then((compressedImage) => {
+      console.log('FileReader result:', { type, resultLength: compressedImage.length });
       
       if (type === 'main') {
         console.log('Setting main image preview');
         setPreviewImages(prev => {
-          const newState = { ...prev, main: result };
+          const newState = { ...prev, main: compressedImage };
           console.log('New preview state:', newState);
           return newState;
         });
+        setUploadedFiles(prev => ({ ...prev, main: file }));
       } else if (type === 'step' && stepId) {
-        setPreviewImages(prev => ({ ...prev, [`step-${stepId}`]: result }));
+        setPreviewImages(prev => ({ ...prev, [`step-${stepId}`]: compressedImage }));
+        setUploadedFiles(prev => ({ ...prev, [`step-${stepId}`]: file }));
       } else if (type === 'affiliate' && productId) {
-        setPreviewImages(prev => ({ ...prev, [`affiliate-${productId}`]: result }));
+        setPreviewImages(prev => ({ ...prev, [`affiliate-${productId}`]: compressedImage }));
+        setUploadedFiles(prev => ({ ...prev, [`affiliate-${productId}`]: file }));
       }
-    };
-    reader.readAsDataURL(file);
+    });
   };
 
   // アフィリエイト商品の管理機能
@@ -334,26 +380,28 @@ const GalleryRecipeEdit: React.FC = () => {
 
       // 画像をBase64エンコード（新しい画像がアップロードされた場合）
       let mainImageUrl = recipe.mainImageUrl;
-      if (previewImages.main && previewImages.main !== recipe.mainImageUrl) {
+      if (uploadedFiles.main) {
         mainImageUrl = previewImages.main;
       }
 
-      // ステップ画像もBase64エンコード（undefined値を除外）
+      // ステップ画像もBase64エンコード
       const stepsWithImages = recipe.steps.map(step => {
-        const stepImageUrl = previewImages[`step-${step.id}`] || step.imageUrl;
         const stepData: any = {
           id: step.id,
           description: step.description
         };
-        if (stepImageUrl) {
-          stepData.imageUrl = stepImageUrl;
+        
+        if (uploadedFiles[`step-${step.id}`]) {
+          stepData.imageUrl = previewImages[`step-${step.id}`];
+        } else if (step.imageUrl) {
+          stepData.imageUrl = step.imageUrl;
         }
+        
         return stepData;
       });
 
-      // アフィリエイト商品の画像もBase64エンコード（undefined値を除外）
+      // アフィリエイト商品の画像もBase64エンコード
       const affiliateProductsWithImages = recipe.affiliateProducts.map(product => {
-        const productImageUrl = previewImages[`affiliate-${product.id}`] || product.imageUrl;
         const productData: any = {
           id: product.id,
           name: product.name,
@@ -361,9 +409,13 @@ const GalleryRecipeEdit: React.FC = () => {
           productUrl: product.productUrl,
           price: product.price
         };
-        if (productImageUrl) {
-          productData.imageUrl = productImageUrl;
+        
+        if (uploadedFiles[`affiliate-${product.id}`]) {
+          productData.imageUrl = previewImages[`affiliate-${product.id}`];
+        } else if (product.imageUrl) {
+          productData.imageUrl = product.imageUrl;
         }
+        
         return productData;
       });
 
