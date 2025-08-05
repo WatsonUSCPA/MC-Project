@@ -140,7 +140,12 @@ const GalleryLogin: React.FC = () => {
       
       await sendPasswordResetEmail(auth, resetEmail, actionCodeSettings);
       console.log('Password reset email sent successfully');
-      setResetMessage('パスワードリセットメールを送信しました。\n\n📧 メールをご確認ください。\n\n※迷惑メールフォルダもご確認ください。\n※数分経っても届かない場合は、再度お試しください。\n\n🔍 デバッグ情報: Consoleで詳細を確認できます。');
+      const isLocalhost = window.location.hostname === 'localhost';
+      const message = isLocalhost 
+        ? 'パスワードリセットメールを送信しました。\n\n📧 メールをご確認ください。\n\n⚠️ ローカル環境でのテスト中です。\n※本番環境でテストすることをお勧めします。\n※迷惑メールフォルダもご確認ください。\n\n🔍 デバッグ情報: Consoleで詳細を確認できます。'
+        : 'パスワードリセットメールを送信しました。\n\n📧 メールをご確認ください。\n\n※迷惑メールフォルダもご確認ください。\n※数分経っても届かない場合は、再度お試しください。\n\n🔍 デバッグ情報: Consoleで詳細を確認できます。';
+      
+      setResetMessage(message);
       setResetEmail('');
     } catch (error: any) {
       console.error('=== Password Reset Error ===');
