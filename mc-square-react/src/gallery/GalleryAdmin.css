@@ -54,7 +54,37 @@
   padding: 0 20px;
 }
 
-.keywords-section {
+/* タブナビゲーション */
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: 15px 25px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-button:hover {
+  color: var(--color-primary);
+}
+
+.tab-button.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.keywords-section,
+.situations-section {
   background: white;
   border-radius: 12px;
   padding: 30px;
@@ -89,13 +119,15 @@
   background: var(--color-primary-dark);
 }
 
-.gallery-admin .keywords-grid {
+.gallery-admin .keywords-grid,
+.situations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
-.keyword-card {
+.keyword-card,
+.situation-card {
   background: #f8f9fa;
   border-radius: 12px;
   padding: 20px;
@@ -103,12 +135,14 @@
   transition: all 0.3s ease;
 }
 
-.keyword-card:hover {
+.keyword-card:hover,
+.situation-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.keyword-image {
+.keyword-image,
+.situation-image {
   width: 100%;
   height: 150px;
   border-radius: 8px;
@@ -116,25 +150,29 @@
   margin-bottom: 15px;
 }
 
-.keyword-image img {
+.keyword-image img,
+.situation-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.keyword-info h3 {
+.keyword-info h3,
+.situation-info h3 {
   font-size: 18px;
   color: var(--color-text);
   margin: 0 0 8px 0;
 }
 
-.keyword-info p {
+.keyword-info p,
+.situation-info p {
   font-size: 14px;
   color: var(--color-text-light);
   margin: 0;
 }
 
-.keyword-actions {
+.keyword-actions,
+.situation-actions {
   display: flex;
   gap: 8px;
   margin-top: 15px;
@@ -214,7 +252,8 @@
   margin: 0 0 20px 0;
 }
 
-.keyword-form {
+.keyword-form,
+.situation-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -436,7 +475,8 @@
     font-size: 28px;
   }
 
-  .keywords-section {
+  .keywords-section,
+  .situations-section {
     padding: 20px;
   }
 
@@ -450,16 +490,19 @@
     width: 100%;
   }
 
-  .gallery-admin .keywords-grid {
+  .gallery-admin .keywords-grid,
+  .situations-grid {
     grid-template-columns: 1fr;
     gap: 15px;
   }
 
-  .keyword-card {
+  .keyword-card,
+  .situation-card {
     padding: 15px;
   }
 
-  .keyword-actions {
+  .keyword-actions,
+  .situation-actions {
     justify-content: center;
   }
 
@@ -483,15 +526,18 @@
     font-size: 24px;
   }
 
-  .keywords-section {
+  .keywords-section,
+  .situations-section {
     padding: 15px;
   }
 
-  .keyword-card {
+  .keyword-card,
+  .situation-card {
     padding: 12px;
   }
 
-  .keyword-image {
+  .keyword-image,
+  .situation-image {
     height: 120px;
   }
 }

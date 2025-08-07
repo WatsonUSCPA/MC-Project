@@ -43,6 +43,13 @@ interface PopularKeyword {
   order?: number;
 }
 
+interface SituationCategory {
+  id: string;
+  name: string;
+  image: string;
+  order: number;
+}
+
 interface UserProfile {
   uid: string;
   displayName: string;
@@ -99,92 +106,42 @@ const MOCK_RECIPES: Recipe[] = [
       instagram: 'https://instagram.com/interior',
       line: 'interior-line-id'
     }
-  },
-  {
-    id: 'mock-4',
-    title: '春らしい花柄コースター',
-    author: '春の風',
-    image: '/Image/JP Cotton subscription.png',
-    likes: 12,
-    difficulty: '初級',
-    cookingTime: '1時間',
-    tags: ['コースター', '春', '初級'],
-    authorSNS: {
-      instagram: 'https://instagram.com/spring_craft',
-      website: 'https://spring-craft.com'
-    }
-  },
-  {
-    id: 'mock-5',
-    title: '夏用の涼しげなクッション',
-    author: '夏の手作り',
-    image: '/Image/US Cotton subscription.png',
-    likes: 18,
-    difficulty: '中級',
-    cookingTime: '2時間',
-    tags: ['クッション', '夏', '中級'],
-    authorSNS: {
-      twitter: 'https://twitter.com/summer_craft',
-      facebook: 'https://facebook.com/summer_craft'
-    }
-  },
-  {
-    id: 'mock-6',
-    title: '秋色のキルト作品',
-    author: '秋のクラフト',
-    image: '/Image/Yorisoi_Craft.png',
-    likes: 25,
-    difficulty: '上級',
-    cookingTime: '数日',
-    tags: ['キルト', '秋', '上級'],
-    authorSNS: {
-      instagram: 'https://instagram.com/autumn_craft',
-      line: 'autumn-craft-line'
-    }
   }
 ];
 
+// レベルとシチュエーションのデータを定義
+const LEVEL_CATEGORIES = [
+  { id: 'beginner', name: '初級', image: '/Image/CraftKitchen.png' },
+  { id: 'intermediate', name: '中級', image: '/Image/CraftKitchen.png' },
+  { id: 'advanced', name: '上級', image: '/Image/CraftKitchen.png' }
+];
+
+
+
 // データを補完する関数
 const getDisplayRecipes = (recipes: Recipe[]) => {
-  const realRecipes = recipes.filter(recipe => !recipe.id.startsWith('mock-'));
-  const mockRecipes = MOCK_RECIPES.filter(recipe => 
-    !realRecipes.some(real => real.id === recipe.id)
-  );
+  // 人気レシピ（いいね数でソート、上位2つ）
+  const popular = recipes
+    .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+    .slice(0, 2);
 
-  // 人気レシピセクション用（いいね数順の最初の3件）
-  const popularRecipes = realRecipes.slice(0, 3);
-  const popularMockNeeded = Math.max(0, 3 - popularRecipes.length);
-  const popularDisplay = [
-    ...popularRecipes,
-    ...mockRecipes.slice(0, popularMockNeeded)
-  ];
+  // 新着レシピ（作成日でソート、上位2つ）
+  const newRecipes = recipes
+    .sort((a, b) => {
+      const dateA = a.createdAt?.toDate?.() || new Date(0);
+      const dateB = b.createdAt?.toDate?.() || new Date(0);
+      return dateB.getTime() - dateA.getTime();
+    })
+    .slice(0, 2);
 
-  // 新着レシピセクション用（createdAtでソートされた最初の10件）
-  // 元のデータをcreatedAtでソートして新着を取得
-  const sortedByDate = [...realRecipes].sort((a, b) => {
-    const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-    const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-    return dateB.getTime() - dateA.getTime(); // 新しい順
-  });
-  
-  const newRecipes = sortedByDate.slice(0, 10);
-  const newMockNeeded = Math.max(0, 10 - newRecipes.length);
-  const newDisplay = [
-    ...newRecipes,
-    ...mockRecipes.slice(popularMockNeeded, popularMockNeeded + newMockNeeded)
-  ];
-
-  return {
-    popular: popularDisplay,
-    new: newDisplay,
-    all: [...popularDisplay, ...newDisplay]
-  };
+  return { popular, new: newRecipes };
 };
 
 const GalleryHome: React.FC = () => {
   const navigate = useNavigate();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [popularKeywords, setPopularKeywords] = useState<PopularKeyword[]>([]);
+  const [situationCategories, setSituationCategories] = useState<SituationCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -249,6 +206,42 @@ const GalleryHome: React.FC = () => {
     };
     
     fetchPopularKeywords();
+    
+    // シチュエーションカテゴリを取得
+    const fetchSituationCategories = async () => {
+      try {
+        const db = getFirestore();
+        const situationsRef = collection(db, 'situationCategories');
+        const snapshot = await getDocs(situationsRef);
+        const situations: SituationCategory[] = [];
+        
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          situations.push({
+            id: doc.id,
+            name: data.name || '',
+            image: data.image || '/Image/CraftKitchen.png',
+            order: data.order || 0
+          });
+        });
+        
+        // 順序でソート
+        situations.sort((a, b) => a.order - b.order);
+        setSituationCategories(situations);
+      } catch (error) {
+        console.error('Error fetching situation categories:', error);
+        // エラーの場合はデフォルトカテゴリを設定
+        const defaultSituations: SituationCategory[] = [
+          { id: 'default-1', name: '小学校向け', image: '/Image/Gift to Kids.png', order: 1 },
+          { id: 'default-2', name: '幼稚園向け', image: '/Image/Gift to Kids.png', order: 2 },
+          { id: 'default-3', name: 'おじいちゃんおばあちゃん向け', image: '/Image/Gift to Grandma.png', order: 3 },
+          { id: 'default-4', name: 'プレゼント向け', image: '/Image/Gift to Mom.png', order: 4 }
+        ];
+        setSituationCategories(defaultSituations);
+      }
+    };
+    
+    fetchSituationCategories();
   }, []);
 
   // Firestoreからデータを取得
@@ -442,6 +435,26 @@ const GalleryHome: React.FC = () => {
     navigate('/gallery/admin');
   };
 
+  const handleLevelClick = (level: { id: string; name: string }) => {
+    // レベル別検索ページに遷移
+    navigate(`/gallery/search?level=${level.id}&category=${level.name}`);
+  };
+
+  const handleSituationClick = (situation: { id: string; name: string }) => {
+    // シチュエーション別検索ページに遷移
+    navigate(`/gallery/search?situation=${situation.id}&category=${situation.name}`);
+  };
+
+  const handleViewMorePopular = () => {
+    // 人気レシピ一覧ページに遷移
+    navigate('/gallery/search?sort=popular');
+  };
+
+  const handleViewMoreNew = () => {
+    // 新着レシピ一覧ページに遷移
+    navigate('/gallery/search?sort=new');
+  };
+
   if (loading) {
     return (
       <div className="recipe-gallery">
@@ -519,9 +532,56 @@ const GalleryHome: React.FC = () => {
           </section>
         )}
 
+        {/* レベルから探す */}
+        <section className="level-categories">
+          <h2 className="section-title">レベルから探す</h2>
+          <div className="categories-grid">
+            {LEVEL_CATEGORIES.map(level => (
+              <div key={level.id} className="category-card" onClick={() => handleLevelClick(level)}>
+                <img 
+                  src={level.image} 
+                  alt={level.name} 
+                  className="category-image" 
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = '/Image/CraftKitchen.png';
+                  }}
+                />
+                <span className="category-name">{level.name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* シチュエーションから探す */}
+        <section className="situation-categories">
+          <h2 className="section-title">シチュエーションから探す</h2>
+          <div className="categories-grid">
+            {situationCategories.map(situation => (
+              <div key={situation.id} className="category-card" onClick={() => handleSituationClick(situation)}>
+                <img 
+                  src={situation.image} 
+                  alt={situation.name} 
+                  className="category-image" 
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = '/Image/CraftKitchen.png';
+                  }}
+                />
+                <span className="category-name">{situation.name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* 人気レシピ */}
         <section className="popular-recipes">
-          <h2 className="section-title">クラフトキッチン 人気レシピ</h2>
+          <div className="section-header">
+            <h2 className="section-title">クラフトキッチン 人気レシピ</h2>
+            <button className="view-more-button" onClick={handleViewMorePopular}>
+              もっと見る →
+            </button>
+          </div>
           <div className="recipes-grid">
             {displayRecipes.popular.map(recipe => (
               <div key={recipe.id} className="recipe-card" onClick={() => handleRecipeClick(recipe)}>
@@ -568,7 +628,12 @@ const GalleryHome: React.FC = () => {
 
         {/* 新着レシピ */}
         <section className="new-recipes">
-          <h2 className="section-title">クラフトキッチン 新着レシピ</h2>
+          <div className="section-header">
+            <h2 className="section-title">クラフトキッチン 新着レシピ</h2>
+            <button className="view-more-button" onClick={handleViewMoreNew}>
+              もっと見る →
+            </button>
+          </div>
           <div className="recipes-grid">
             {displayRecipes.new.map(recipe => (
               <div key={recipe.id} className="recipe-card" onClick={() => handleRecipeClick(recipe)}>

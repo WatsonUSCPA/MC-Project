@@ -45,15 +45,47 @@ const GallerySearch: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [categoryTitle, setCategoryTitle] = useState('');
+  
+  // ページネーション用の状態
+  const [displayedResults, setDisplayedResults] = useState<Recipe[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const ITEMS_PER_PAGE = 6;
 
   // URLパラメータから検索クエリを取得
   useEffect(() => {
     const searchQueryParam = searchParams.get('q') || '';
+    const levelParam = searchParams.get('level') || '';
+    const situationParam = searchParams.get('situation') || '';
+    const categoryParam = searchParams.get('category') || '';
+    const sortParam = searchParams.get('sort') || '';
+    
     setSearchQuery(searchQueryParam);
+    setCategoryTitle(categoryParam);
+    
+    // ページネーション状態をリセット
+    setCurrentPage(1);
+    setDisplayedResults([]);
+    setHasMore(false);
+    
     if (searchQueryParam) {
       performSearch(searchQueryParam);
+    } else if (levelParam || situationParam) {
+      performCategorySearch(levelParam, situationParam);
+    } else if (sortParam) {
+      performSortSearch(sortParam);
     }
   }, [searchParams]);
+
+  // 検索結果が変更されたときにページネーションを更新
+  useEffect(() => {
+    const startIndex = 0;
+    const endIndex = currentPage * ITEMS_PER_PAGE;
+    const newDisplayedResults = searchResults.slice(startIndex, endIndex);
+    setDisplayedResults(newDisplayedResults);
+    setHasMore(endIndex < searchResults.length);
+  }, [searchResults, currentPage]);
 
   // ユーザー認証状態の監視
   useEffect(() => {
@@ -64,6 +96,160 @@ const GallerySearch: React.FC = () => {
 
     return () => unsubscribe();
   }, []);
+
+  // もっと見るボタンのハンドラー
+  const handleLoadMore = () => {
+    setCurrentPage(prev => prev + 1);
+  };
+
+  // カテゴリ検索実行関数
+  const performCategorySearch = async (level: string, situation: string) => {
+    try {
+      setLoading(true);
+      setHasSearched(true);
+
+      const db = getFirestore();
+      const recipesRef = collection(db, 'recipes');
+
+      let q = firestoreQuery(recipesRef, orderBy('createdAt', 'desc'));
+      const querySnapshot = await getDocs(q);
+      const allRecipes: Recipe[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as any;
+        const recipe = {
+          id: doc.id,
+          title: data.title || '',
+          author: data.authorName || '匿名ユーザー',
+          image: '/Image/Goods Picture.png',
+          likes: data.likes || 0,
+          difficulty: data.difficulty || '初級',
+          cookingTime: data.cookingTime || '1時間',
+          tags: data.tags || [],
+          authorSNS: data.authorSNS || {},
+          mainImageUrl: data.mainImageUrl,
+          description: data.description,
+          ingredients: data.ingredients,
+          steps: data.steps,
+          youtubeUrl: data.youtubeUrl,
+          explanationType: data.explanationType,
+          websiteExplanation: data.websiteExplanation,
+          authorId: data.authorId,
+          authorName: data.authorName,
+          authorEmail: data.authorEmail,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+          views: data.views
+        };
+
+        // レベルフィルタリング
+        if (level) {
+          const levelMapping = {
+            'beginner': '初級',
+            'intermediate': '中級',
+            'advanced': '上級'
+          };
+          const targetDifficulty = levelMapping[level as keyof typeof levelMapping];
+          if (recipe.difficulty !== targetDifficulty) {
+            return;
+          }
+        }
+
+        // シチュエーションフィルタリング
+        if (situation) {
+          const situationKeywords = {
+            'elementary': ['小学校', '小学生'],
+            'kindergarten': ['幼稚園', '保育園'],
+            'elderly': ['おじいちゃん', 'おばあちゃん', '高齢者'],
+            'gift': ['プレゼント', '贈り物', 'ギフト']
+          };
+          
+          const keywords = situationKeywords[situation as keyof typeof situationKeywords] || [];
+          const hasMatchingTag = recipe.tags.some((recipeTag: string) => 
+            keywords.some(keyword => recipeTag.includes(keyword))
+          );
+          
+          if (!hasMatchingTag) {
+            return;
+          }
+        }
+
+        allRecipes.push(recipe);
+      });
+
+      setSearchResults(allRecipes);
+    } catch (error) {
+      console.error('カテゴリ検索エラー:', error);
+      setSearchResults([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ソート検索実行関数
+  const performSortSearch = async (sortType: string) => {
+    try {
+      setLoading(true);
+      setHasSearched(true);
+
+      // タイトルを設定
+      if (sortType === 'popular') {
+        setCategoryTitle('人気レシピ');
+      } else if (sortType === 'new') {
+        setCategoryTitle('新着レシピ');
+      }
+
+      const db = getFirestore();
+      const recipesRef = collection(db, 'recipes');
+
+      let q;
+      if (sortType === 'popular') {
+        q = firestoreQuery(recipesRef, orderBy('likes', 'desc'));
+      } else if (sortType === 'new') {
+        q = firestoreQuery(recipesRef, orderBy('createdAt', 'desc'));
+      } else {
+        q = firestoreQuery(recipesRef, orderBy('createdAt', 'desc'));
+      }
+
+      const querySnapshot = await getDocs(q);
+      const allRecipes: Recipe[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as any;
+        allRecipes.push({
+          id: doc.id,
+          title: data.title || '',
+          author: data.authorName || '匿名ユーザー',
+          image: '/Image/Goods Picture.png',
+          likes: data.likes || 0,
+          difficulty: data.difficulty || '初級',
+          cookingTime: data.cookingTime || '1時間',
+          tags: data.tags || [],
+          authorSNS: data.authorSNS || {},
+          mainImageUrl: data.mainImageUrl,
+          description: data.description,
+          ingredients: data.ingredients,
+          steps: data.steps,
+          youtubeUrl: data.youtubeUrl,
+          explanationType: data.explanationType,
+          websiteExplanation: data.websiteExplanation,
+          authorId: data.authorId,
+          authorName: data.authorName,
+          authorEmail: data.authorEmail,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+          views: data.views
+        });
+      });
+
+      setSearchResults(allRecipes);
+    } catch (error) {
+      console.error('ソート検索エラー:', error);
+      setSearchResults([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // 検索実行関数
   const performSearch = async (query: string) => {
@@ -98,7 +284,7 @@ const GallerySearch: React.FC = () => {
           image: '/Image/Goods Picture.png',
           likes: data.likes || 0,
           difficulty: data.difficulty || '初級',
-          cookingTime: data.cookingTime || '',
+          cookingTime: data.cookingTime || '1時間',
           tags: data.tags || [],
           authorSNS: data.authorSNS || {},
           mainImageUrl: data.mainImageUrl,
@@ -113,29 +299,26 @@ const GallerySearch: React.FC = () => {
           authorEmail: data.authorEmail,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
-          views: data.views || 0
+          views: data.views
         });
       });
 
       // クライアントサイドで検索フィルタリング
       const filteredRecipes = allRecipes.filter(recipe => {
         const searchLower = query.toLowerCase();
-        const titleMatch = recipe.title.toLowerCase().includes(searchLower);
-        const descriptionMatch = recipe.description?.toLowerCase().includes(searchLower);
-        const tagsMatch = recipe.tags.some(tag => tag.toLowerCase().includes(searchLower));
-        const authorMatch = recipe.author.toLowerCase().includes(searchLower);
-        const ingredientsMatch = recipe.ingredients?.some(ingredient => 
-          ingredient.toLowerCase().includes(searchLower)
-        ) || false;
-
-        return titleMatch || descriptionMatch || tagsMatch || authorMatch || ingredientsMatch;
+        return (
+          recipe.title.toLowerCase().includes(searchLower) ||
+          recipe.description?.toLowerCase().includes(searchLower) ||
+          recipe.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
+          recipe.author.toLowerCase().includes(searchLower)
+        );
       });
 
       setSearchResults(filteredRecipes);
-      setLoading(false);
     } catch (error) {
-      console.error('Error searching recipes:', error);
+      console.error('検索エラー:', error);
       setSearchResults([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -171,7 +354,7 @@ const GallerySearch: React.FC = () => {
           ← ホームに戻る
         </button>
         <h1 className="search-title">
-          検索結果: "{searchQuery}"
+          {categoryTitle ? `${categoryTitle}のレシピ` : `検索結果: "${searchQuery}"`}
         </h1>
       </div>
 
@@ -190,21 +373,21 @@ const GallerySearch: React.FC = () => {
               <div className="no-results-icon">🔍</div>
               <h3>検索結果が見つかりませんでした</h3>
               <p>別のキーワードで検索してみてください</p>
-                             <div className="search-suggestions">
-                 <h4>検索のヒント:</h4>
-                 <ul>
-                   <li>作品名で検索</li>
-                   <li>作者名で検索</li>
-                   <li>タグ（パッチワーク、クッションなど）で検索</li>
-                   <li>材料名（綿、リネン、ボタンなど）で検索</li>
-                   <li>難易度（初級、中級、上級）で検索</li>
-                 </ul>
-               </div>
+              <div className="search-suggestions">
+                <h4>検索のヒント:</h4>
+                <ul>
+                  <li>作品名で検索</li>
+                  <li>作者名で検索</li>
+                  <li>タグ（パッチワーク、クッションなど）で検索</li>
+                  <li>材料名（綿、リネン、ボタンなど）で検索</li>
+                  <li>難易度（初級、中級、上級）で検索</li>
+                </ul>
+              </div>
             </div>
           ) : (
             <div className="search-results">
               <div className="recipes-grid">
-                {searchResults.map(recipe => (
+                {displayedResults.map(recipe => (
                   <div key={recipe.id} className="recipe-card" onClick={() => handleRecipeClick(recipe)}>
                     <div className="recipe-image">
                       <img 
@@ -239,22 +422,18 @@ const GallerySearch: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      <div className="recipe-stats">
-                        <span className="likes">{recipe.likes}つくれぽ</span>
-                        <span className="difficulty">{recipe.difficulty}</span>
-                        <span className="time">{recipe.cookingTime}</span>
-                      </div>
-                      {recipe.tags.length > 0 && (
-                        <div className="recipe-tags">
-                          {recipe.tags.slice(0, 3).map((tag, index) => (
-                            <span key={index} className="tag">{tag}</span>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}
               </div>
+              
+              {hasMore && (
+                <div className="load-more-container">
+                  <button className="load-more-button" onClick={handleLoadMore}>
+                    もっと見る ({displayedResults.length}/{searchResults.length})
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

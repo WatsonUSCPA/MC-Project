@@ -12,6 +12,13 @@ interface PopularKeyword {
   order: number;
 }
 
+interface SituationCategory {
+  id: string;
+  name: string;
+  image: string;
+  order: number;
+}
+
 interface AdminUser {
   uid: string;
   email: string;
@@ -24,12 +31,16 @@ const GalleryAdmin: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [keywords, setKeywords] = useState<PopularKeyword[]>([]);
+  const [situations, setSituations] = useState<SituationCategory[]>([]);
   const [editingKeyword, setEditingKeyword] = useState<PopularKeyword | null>(null);
+  const [editingSituation, setEditingSituation] = useState<SituationCategory | null>(null);
   const [isAddingNew, setIsAddingNew] = useState(false);
+  const [isAddingNewSituation, setIsAddingNewSituation] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [activeTab, setActiveTab] = useState<'keywords' | 'situations'>('keywords');
 
 
   // ユーザー認証状態の監視
@@ -122,6 +133,7 @@ const GalleryAdmin: React.FC = () => {
   useEffect(() => {
     if (isAdmin) {
       fetchKeywords();
+      fetchSituations();
     }
   }, [isAdmin]);
 
@@ -147,6 +159,32 @@ const GalleryAdmin: React.FC = () => {
       setKeywords(keywordsData);
     } catch (error) {
       console.error('Error fetching keywords:', error);
+    }
+  };
+
+  // シチュエーションカテゴリを取得
+  const fetchSituations = async () => {
+    try {
+      const db = getFirestore();
+      const situationsRef = collection(db, 'situationCategories');
+      const snapshot = await getDocs(situationsRef);
+      const situationsData: SituationCategory[] = [];
+      
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        situationsData.push({
+          id: doc.id,
+          name: data.name || '',
+          image: data.image || '',
+          order: data.order || 0
+        });
+      });
+
+      // 順序でソート
+      situationsData.sort((a, b) => a.order - b.order);
+      setSituations(situationsData);
+    } catch (error) {
+      console.error('Error fetching situations:', error);
     }
   };
 
@@ -297,6 +335,79 @@ const GalleryAdmin: React.FC = () => {
     }
   };
 
+  // 新しいシチュエーションカテゴリを追加
+  const handleAddSituation = async (situationData: Omit<SituationCategory, 'id'>) => {
+    try {
+      const db = getFirestore();
+      const situationsRef = collection(db, 'situationCategories');
+      await addDoc(situationsRef, {
+        name: situationData.name,
+        image: situationData.image,
+        order: situations.length
+      });
+      
+      setIsAddingNewSituation(false);
+      fetchSituations();
+    } catch (error) {
+      console.error('Error adding situation:', error);
+      alert('シチュエーションカテゴリの追加に失敗しました');
+    }
+  };
+
+  // シチュエーションカテゴリを更新
+  const handleUpdateSituation = async (situationData: Omit<SituationCategory, 'id'>) => {
+    if (!editingSituation) return;
+    
+    try {
+      const db = getFirestore();
+      const situationRef = doc(db, 'situationCategories', editingSituation.id);
+      await updateDoc(situationRef, {
+        name: situationData.name,
+        image: situationData.image,
+        order: situationData.order
+      });
+      
+      setEditingSituation(null);
+      fetchSituations();
+    } catch (error) {
+      console.error('Error updating situation:', error);
+      alert('シチュエーションカテゴリの更新に失敗しました');
+    }
+  };
+
+  // シチュエーションカテゴリを削除
+  const handleDeleteSituation = async (situationId: string) => {
+    if (!window.confirm('このシチュエーションカテゴリを削除しますか？')) {
+      return;
+    }
+
+    try {
+      const db = getFirestore();
+      const situationRef = doc(db, 'situationCategories', situationId);
+      await deleteDoc(situationRef);
+      
+      fetchSituations();
+    } catch (error) {
+      console.error('Error deleting situation:', error);
+      alert('シチュエーションカテゴリの削除に失敗しました');
+    }
+  };
+
+  // シチュエーションカテゴリの順序を変更
+  const handleReorderSituation = async (situationId: string, newOrder: number) => {
+    try {
+      const db = getFirestore();
+      const situationRef = doc(db, 'situationCategories', situationId);
+      await updateDoc(situationRef, {
+        order: newOrder
+      });
+      
+      fetchSituations();
+    } catch (error) {
+      console.error('Error reordering situation:', error);
+    }
+  };
+
   const handleBackToHome = () => {
     navigate('/gallery');
   };
@@ -390,67 +501,143 @@ const GalleryAdmin: React.FC = () => {
           ← ホームに戻る
         </button>
         <h1 className="admin-title">管理者ページ</h1>
-        <p className="admin-subtitle">人気キーワードの管理</p>
+        <p className="admin-subtitle">コンテンツ管理</p>
       </div>
 
-
-
       <div className="admin-content">
-        <div className="keywords-section">
-          <div className="section-header">
-            <h2>人気キーワード一覧</h2>
-            <button 
-              className="add-button"
-              onClick={() => setIsAddingNew(true)}
-            >
-              + 新しいキーワードを追加
-            </button>
-          </div>
-
-          <div className="keywords-grid">
-            {keywords.map((keyword, index) => (
-              <div key={keyword.id} className="keyword-card">
-                <div className="keyword-image">
-                  <img src={keyword.image} alt={keyword.name} />
-                </div>
-                <div className="keyword-info">
-                  <h3>{keyword.name}</h3>
-                  <p>順序: {keyword.order}</p>
-                </div>
-                <div className="keyword-actions">
-                  <button 
-                    className="edit-button"
-                    onClick={() => setEditingKeyword(keyword)}
-                  >
-                    編集
-                  </button>
-                  <button 
-                    className="delete-button"
-                    onClick={() => handleDeleteKeyword(keyword.id)}
-                  >
-                    削除
-                  </button>
-                  {index > 0 && (
-                    <button 
-                      className="move-up-button"
-                      onClick={() => handleReorder(keyword.id, keyword.order - 1)}
-                    >
-                      ↑
-                    </button>
-                  )}
-                  {index < keywords.length - 1 && (
-                    <button 
-                      className="move-down-button"
-                      onClick={() => handleReorder(keyword.id, keyword.order + 1)}
-                    >
-                      ↓
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* タブナビゲーション */}
+        <div className="admin-tabs">
+          <button 
+            className={`tab-button ${activeTab === 'keywords' ? 'active' : ''}`}
+            onClick={() => setActiveTab('keywords')}
+          >
+            人気キーワード
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'situations' ? 'active' : ''}`}
+            onClick={() => setActiveTab('situations')}
+          >
+            シチュエーションカテゴリ
+          </button>
         </div>
+
+        {/* 人気キーワードタブ */}
+        {activeTab === 'keywords' && (
+          <div className="keywords-section">
+            <div className="section-header">
+              <h2>人気キーワード一覧</h2>
+              <button 
+                className="add-button"
+                onClick={() => setIsAddingNew(true)}
+              >
+                + 新しいキーワードを追加
+              </button>
+            </div>
+
+            <div className="keywords-grid">
+              {keywords.map((keyword, index) => (
+                <div key={keyword.id} className="keyword-card">
+                  <div className="keyword-image">
+                    <img src={keyword.image} alt={keyword.name} />
+                  </div>
+                  <div className="keyword-info">
+                    <h3>{keyword.name}</h3>
+                    <p>順序: {keyword.order}</p>
+                  </div>
+                  <div className="keyword-actions">
+                    <button 
+                      className="edit-button"
+                      onClick={() => setEditingKeyword(keyword)}
+                    >
+                      編集
+                    </button>
+                    <button 
+                      className="delete-button"
+                      onClick={() => handleDeleteKeyword(keyword.id)}
+                    >
+                      削除
+                    </button>
+                    {index > 0 && (
+                      <button 
+                        className="move-up-button"
+                        onClick={() => handleReorder(keyword.id, keyword.order - 1)}
+                      >
+                        ↑
+                      </button>
+                    )}
+                    {index < keywords.length - 1 && (
+                      <button 
+                        className="move-down-button"
+                        onClick={() => handleReorder(keyword.id, keyword.order + 1)}
+                      >
+                        ↓
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* シチュエーションカテゴリタブ */}
+        {activeTab === 'situations' && (
+          <div className="situations-section">
+            <div className="section-header">
+              <h2>シチュエーションカテゴリ一覧</h2>
+              <button 
+                className="add-button"
+                onClick={() => setIsAddingNewSituation(true)}
+              >
+                + 新しいカテゴリを追加
+              </button>
+            </div>
+
+            <div className="situations-grid">
+              {situations.map((situation, index) => (
+                <div key={situation.id} className="situation-card">
+                  <div className="situation-image">
+                    <img src={situation.image} alt={situation.name} />
+                  </div>
+                                     <div className="situation-info">
+                     <h3>{situation.name}</h3>
+                     <p>順序: {situation.order}</p>
+                   </div>
+                  <div className="situation-actions">
+                    <button 
+                      className="edit-button"
+                      onClick={() => setEditingSituation(situation)}
+                    >
+                      編集
+                    </button>
+                    <button 
+                      className="delete-button"
+                      onClick={() => handleDeleteSituation(situation.id)}
+                    >
+                      削除
+                    </button>
+                    {index > 0 && (
+                      <button 
+                        className="move-up-button"
+                        onClick={() => handleReorderSituation(situation.id, situation.order - 1)}
+                      >
+                        ↑
+                      </button>
+                    )}
+                    {index < situations.length - 1 && (
+                      <button 
+                        className="move-down-button"
+                        onClick={() => handleReorderSituation(situation.id, situation.order + 1)}
+                      >
+                        ↓
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* 新規追加モーダル */}
         {isAddingNew && (
@@ -468,6 +655,27 @@ const GalleryAdmin: React.FC = () => {
             keyword={editingKeyword}
             onSubmit={handleUpdateKeyword}
             onCancel={() => setEditingKeyword(null)}
+            onImageUpload={handleImageUpload}
+            uploadingImage={uploadingImage}
+          />
+        )}
+
+        {/* シチュエーション新規追加モーダル */}
+        {isAddingNewSituation && (
+          <SituationForm
+            onSubmit={handleAddSituation}
+            onCancel={() => setIsAddingNewSituation(false)}
+            onImageUpload={handleImageUpload}
+            uploadingImage={uploadingImage}
+          />
+        )}
+
+        {/* シチュエーション編集モーダル */}
+        {editingSituation && (
+          <SituationForm
+            situation={editingSituation}
+            onSubmit={handleUpdateSituation}
+            onCancel={() => setEditingSituation(null)}
             onImageUpload={handleImageUpload}
             uploadingImage={uploadingImage}
           />
@@ -549,6 +757,112 @@ const KeywordForm: React.FC<KeywordFormProps> = ({
               required
             />
           </div>
+
+          <div className="form-group">
+            <label htmlFor="image">画像</label>
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {previewUrl && (
+              <div className="image-preview">
+                <img src={previewUrl} alt="プレビュー" />
+              </div>
+            )}
+          </div>
+
+          <div className="form-actions">
+            <button type="button" onClick={onCancel} className="cancel-button">
+              キャンセル
+            </button>
+            <button type="submit" className="save-button" disabled={uploadingImage}>
+              {uploadingImage ? 'アップロード中...' : '保存'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// シチュエーションカテゴリフォームコンポーネント
+interface SituationFormProps {
+  situation?: SituationCategory;
+  onSubmit: (data: Omit<SituationCategory, 'id'>) => void;
+  onCancel: () => void;
+  onImageUpload: (file: File) => Promise<string>;
+  uploadingImage: boolean;
+}
+
+const SituationForm: React.FC<SituationFormProps> = ({
+  situation,
+  onSubmit,
+  onCancel,
+  onImageUpload,
+  uploadingImage
+}) => {
+  const [name, setName] = useState(situation?.name || '');
+  const [image, setImage] = useState(situation?.image || '');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState(situation?.image || '');
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!name.trim()) {
+      alert('カテゴリ名を入力してください');
+      return;
+    }
+
+
+
+    try {
+      let imageUrl = image;
+      if (imageFile) {
+        imageUrl = await onImageUpload(imageFile);
+      }
+
+      onSubmit({
+        name: name.trim(),
+        image: imageUrl,
+        order: situation?.order || 0
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('保存に失敗しました');
+    }
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>{situation ? 'シチュエーションカテゴリを編集' : '新しいシチュエーションカテゴリを追加'}</h3>
+        
+        <form onSubmit={handleSubmit} className="situation-form">
+          <div className="form-group">
+            <label htmlFor="name">カテゴリ名</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="例: 小学校向け"
+              required
+            />
+          </div>
+
+
 
           <div className="form-group">
             <label htmlFor="image">画像</label>
