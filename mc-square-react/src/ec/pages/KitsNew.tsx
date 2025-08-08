@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 // Firebase
 import { app } from '../../firebase';
@@ -453,6 +454,36 @@ const KitsNew: React.FC = () => {
           )}
         </>
       )}
+
+      {/* ギャラリー導線 */}
+      <div style={{ textAlign: 'center', margin: '2rem 0 0' }}>
+        <div style={{ color: '#636E72', fontSize: '1.05rem', marginBottom: '0.75rem' }}>
+          もっといろいろな作品を見たい人は
+        </div>
+        <Link
+          to="/gallery"
+          style={{
+            display: 'inline-block',
+            background: '#FF6B6B',
+            color: '#FFFFFF',
+            textDecoration: 'none',
+            borderRadius: 20,
+            padding: '0.9rem 1.6rem',
+            fontSize: '1rem',
+            fontWeight: 700,
+            boxShadow: '0 4px 10px rgba(255, 107, 107, 0.25)',
+            transition: 'transform 0.15s ease',
+          }}
+          onMouseOver={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-1px)';
+          }}
+          onMouseOut={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
+          }}
+        >
+          クラフトキッチンへ行く
+        </Link>
+      </div>
 
       {/* お問合せ先 */}
       <div style={{ 
