@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, collection, query, where, getDocs, limit, startAfter, orderBy } from 'firebase/firestore';
 import './GalleryUserProfile.css';
 
 interface UserProfile {
@@ -44,6 +44,13 @@ const GalleryUserProfile: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [userRecipes, setUserRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // ページネーション用の状態
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recipesPerPage] = useState(6);
+  const [hasMoreRecipes, setHasMoreRecipes] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [lastVisible, setLastVisible] = useState<any>(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -61,13 +68,23 @@ const GalleryUserProfile: React.FC = () => {
         if (userSnap.exists()) {
           const userData = userSnap.data();
           
-          // ユーザーの投稿レシピ数を取得
+          // ユーザーの投稿レシピ数を取得（最初の6件のみ）
           const recipesQuery = query(
             collection(db, 'recipes'),
-            where('authorId', '==', userId)
+            where('authorId', '==', userId),
+            orderBy('createdAt', 'desc'),
+            limit(recipesPerPage)
           );
           const recipesSnap = await getDocs(recipesQuery);
           const totalRecipes = recipesSnap.size;
+          
+          // 総レシピ数を取得（カウントのみ）
+          const totalRecipesQuery = query(
+            collection(db, 'recipes'),
+            where('authorId', '==', userId)
+          );
+          const totalRecipesSnap = await getDocs(totalRecipesQuery);
+          const actualTotalRecipes = totalRecipesSnap.size;
           
           // ユーザーの投稿レシピの総いいね数を計算
           let totalLikes = 0;
@@ -88,6 +105,8 @@ const GalleryUserProfile: React.FC = () => {
           });
           
           setUserRecipes(recipes);
+          setLastVisible(recipesSnap.docs[recipesSnap.docs.length - 1]);
+          setHasMoreRecipes(actualTotalRecipes > recipesPerPage);
           
           // authorSNSオブジェクトからSNS情報を取得
           const authorSNS = userData.authorSNS || {};
@@ -98,7 +117,7 @@ const GalleryUserProfile: React.FC = () => {
             email: '', // セキュリティのため表示しない
             photoURL: userData.photoURL || undefined,
             joinDate: userData.joinDate || '2024年1月',
-            totalRecipes: totalRecipes,
+            totalRecipes: actualTotalRecipes,
             totalLikes: totalLikes,
             bio: userData.bio || '',
             instagram: authorSNS.instagram || '',
@@ -118,10 +137,20 @@ const GalleryUserProfile: React.FC = () => {
           // ユーザーが見つからない場合、レシピから情報を取得
           const recipesQuery = query(
             collection(db, 'recipes'),
-            where('authorId', '==', userId)
+            where('authorId', '==', userId),
+            orderBy('createdAt', 'desc'),
+            limit(recipesPerPage)
           );
           const recipesSnap = await getDocs(recipesQuery);
           const totalRecipes = recipesSnap.size;
+          
+          // 総レシピ数を取得（カウントのみ）
+          const totalRecipesQuery = query(
+            collection(db, 'recipes'),
+            where('authorId', '==', userId)
+          );
+          const totalRecipesSnap = await getDocs(totalRecipesQuery);
+          const actualTotalRecipes = totalRecipesSnap.size;
           
           let totalLikes = 0;
           const recipes: Recipe[] = [];
@@ -146,6 +175,8 @@ const GalleryUserProfile: React.FC = () => {
           });
           
           setUserRecipes(recipes);
+          setLastVisible(recipesSnap.docs[recipesSnap.docs.length - 1]);
+          setHasMoreRecipes(actualTotalRecipes > recipesPerPage);
           
           const userProfile: UserProfile = {
             uid: userId,
@@ -153,7 +184,7 @@ const GalleryUserProfile: React.FC = () => {
             email: '',
             photoURL: undefined,
             joinDate: '2024年1月',
-            totalRecipes: totalRecipes,
+            totalRecipes: actualTotalRecipes,
             totalLikes: totalLikes,
             bio: '',
             instagram: '',
@@ -200,9 +231,50 @@ const GalleryUserProfile: React.FC = () => {
     };
 
     fetchUserProfile();
-  }, [userId]);
+  }, [userId, recipesPerPage]);
 
+  // 次のページのレシピを読み込む関数
+  const loadMoreRecipes = async () => {
+    if (!userId || !hasMoreRecipes || loadingMore) return;
 
+    setLoadingMore(true);
+    try {
+      const db = getFirestore();
+      const recipesQuery = query(
+        collection(db, 'recipes'),
+        where('authorId', '==', userId),
+        orderBy('createdAt', 'desc'),
+        startAfter(lastVisible),
+        limit(recipesPerPage)
+      );
+      
+      const recipesSnap = await getDocs(recipesQuery);
+      const newRecipes: Recipe[] = [];
+      
+      recipesSnap.forEach((doc: any) => {
+        const recipeData = doc.data();
+        newRecipes.push({
+          id: doc.id,
+          title: recipeData.title,
+          description: recipeData.description,
+          mainImageUrl: recipeData.mainImageUrl,
+          likes: recipeData.likes || 0,
+          views: recipeData.views || 0,
+          createdAt: recipeData.createdAt,
+          updatedAt: recipeData.updatedAt
+        });
+      });
+      
+      setUserRecipes(prev => [...prev, ...newRecipes]);
+      setLastVisible(recipesSnap.docs[recipesSnap.docs.length - 1]);
+      setHasMoreRecipes(recipesSnap.docs.length === recipesPerPage);
+      setCurrentPage(prev => prev + 1);
+    } catch (error) {
+      console.error('Error loading more recipes:', error);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const handleBackToGallery = () => {
     navigate('/gallery');
@@ -390,40 +462,67 @@ const GalleryUserProfile: React.FC = () => {
 
           {/* 作品一覧 */}
           <div className="user-recipes-section">
-            <h3>作品一覧 ({userRecipes.length}件)</h3>
+            <h3>作品一覧 ({userProfile.totalRecipes}件)</h3>
             
-            {userRecipes.length === 0 ? (
+            {userProfile.totalRecipes === 0 ? (
               <div className="no-recipes">
                 <p>まだ作品がありません</p>
               </div>
             ) : (
-              <div className="recipes-grid">
-                {userRecipes.map((recipe) => (
-                  <div 
-                    key={recipe.id} 
-                    className="recipe-card"
-                    onClick={() => handleViewRecipe(recipe.id)}
-                  >
-                    <div className="recipe-image">
-                      {recipe.mainImageUrl ? (
-                        <img src={recipe.mainImageUrl} alt={recipe.title} />
-                      ) : (
-                        <div className="no-image">
-                          <span>📷</span>
+              <>
+                <div className="recipes-grid">
+                  {userRecipes.map((recipe) => (
+                    <div 
+                      key={recipe.id} 
+                      className="recipe-card"
+                      onClick={() => handleViewRecipe(recipe.id)}
+                    >
+                      <div className="recipe-image">
+                        {recipe.mainImageUrl ? (
+                          <img src={recipe.mainImageUrl} alt={recipe.title} />
+                        ) : (
+                          <div className="no-image">
+                            <span>📷</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="recipe-info">
+                        <h4 className="recipe-title">{recipe.title}</h4>
+                        <p className="recipe-description">{recipe.description}</p>
+                        <div className="recipe-stats">
+                          <span className="likes">❤️ {recipe.likes}</span>
+                          <span className="views">👁️ {recipe.views}</span>
                         </div>
-                      )}
-                    </div>
-                    <div className="recipe-info">
-                      <h4 className="recipe-title">{recipe.title}</h4>
-                      <p className="recipe-description">{recipe.description}</p>
-                      <div className="recipe-stats">
-                        <span className="likes">❤️ {recipe.likes}</span>
-                        <span className="views">👁️ {recipe.views}</span>
                       </div>
                     </div>
+                  ))}
+                </div>
+                
+                {/* ページネーション */}
+                {hasMoreRecipes && (
+                  <div className="pagination-container">
+                    <button 
+                      className="load-more-btn"
+                      onClick={loadMoreRecipes}
+                      disabled={loadingMore}
+                    >
+                      {loadingMore ? (
+                        <>
+                          <div className="loading-spinner-small"></div>
+                          読み込み中...
+                        </>
+                      ) : (
+                        'さらに読み込む'
+                      )}
+                    </button>
                   </div>
-                ))}
-              </div>
+                )}
+                
+                {/* 表示済みレシピ数 */}
+                <div className="recipes-count">
+                  <p>表示中: {userRecipes.length}件 / 全{userProfile.totalRecipes}件</p>
+                </div>
+              </>
             )}
           </div>
         </div>
