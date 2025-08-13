@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB2nPjePLfr6ZlxTOLPC7OuYWrD0k6JqJ4",
@@ -21,7 +22,10 @@ try {
   throw error;
 }
 
-export { app };
+// Firestoreの初期化
+const db = getFirestore(app);
+
+export { app, db };
 
 // Firebase Authの永続性をlocalに明示設定（必ず一度だけ実行）
 try {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDoc, collection, query, where, getDocs, limit, startAfter, orderBy } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, limit, startAfter } from 'firebase/firestore';
+import { db } from '../firebase';
 import './GalleryUserProfile.css';
 
 interface UserProfile {
@@ -60,23 +61,28 @@ const GalleryUserProfile: React.FC = () => {
       }
 
       try {
+        console.log('Fetching profile for userId:', userId);
+        
         // Firestoreからユーザープロフィール情報を取得
-        const db = getFirestore();
         const userDoc = doc(db, 'users', userId);
         const userSnap = await getDoc(userDoc);
         
         if (userSnap.exists()) {
           const userData = userSnap.data();
+          console.log('User data found:', userData);
           
           // ユーザーの投稿レシピ数を取得（最初の6件のみ）
           const recipesQuery = query(
             collection(db, 'recipes'),
             where('authorId', '==', userId),
-            orderBy('createdAt', 'desc'),
             limit(recipesPerPage)
           );
+          console.log('Recipes query:', recipesQuery);
+          
           const recipesSnap = await getDocs(recipesQuery);
           const totalRecipes = recipesSnap.size;
+          console.log('Initial recipes found:', totalRecipes);
+          console.log('Recipes snapshot:', recipesSnap);
           
           // 総レシピ数を取得（カウントのみ）
           const totalRecipesQuery = query(
@@ -85,12 +91,14 @@ const GalleryUserProfile: React.FC = () => {
           );
           const totalRecipesSnap = await getDocs(totalRecipesQuery);
           const actualTotalRecipes = totalRecipesSnap.size;
+          console.log('Total recipes count:', actualTotalRecipes);
           
           // ユーザーの投稿レシピの総いいね数を計算
           let totalLikes = 0;
           const recipes: Recipe[] = [];
           recipesSnap.forEach((doc: any) => {
             const recipeData = doc.data();
+            console.log('Recipe data:', recipeData);
             totalLikes += recipeData.likes || 0;
             recipes.push({
               id: doc.id,
@@ -103,6 +111,9 @@ const GalleryUserProfile: React.FC = () => {
               updatedAt: recipeData.updatedAt
             });
           });
+          
+          console.log('Processed recipes:', recipes);
+          console.log('Total likes calculated:', totalLikes);
           
           setUserRecipes(recipes);
           setLastVisible(recipesSnap.docs[recipesSnap.docs.length - 1]);
@@ -132,17 +143,19 @@ const GalleryUserProfile: React.FC = () => {
             personalStory: userData.personalStory || '',
             achievements: userData.achievements || []
           };
+          console.log('Final user profile:', userProfile);
           setUserProfile(userProfile);
         } else {
+          console.log('User not found in users collection, checking recipes...');
           // ユーザーが見つからない場合、レシピから情報を取得
           const recipesQuery = query(
             collection(db, 'recipes'),
             where('authorId', '==', userId),
-            orderBy('createdAt', 'desc'),
             limit(recipesPerPage)
           );
           const recipesSnap = await getDocs(recipesQuery);
           const totalRecipes = recipesSnap.size;
+          console.log('Recipes found for user:', totalRecipes);
           
           // 総レシピ数を取得（カウントのみ）
           const totalRecipesQuery = query(
@@ -151,6 +164,7 @@ const GalleryUserProfile: React.FC = () => {
           );
           const totalRecipesSnap = await getDocs(totalRecipesQuery);
           const actualTotalRecipes = totalRecipesSnap.size;
+          console.log('Total recipes count from recipes collection:', actualTotalRecipes);
           
           let totalLikes = 0;
           const recipes: Recipe[] = [];
@@ -158,6 +172,7 @@ const GalleryUserProfile: React.FC = () => {
           
           recipesSnap.forEach((doc: any) => {
             const recipeData = doc.data();
+            console.log('Recipe data from recipes collection:', recipeData);
             totalLikes += recipeData.likes || 0;
             if (recipeData.authorName) {
               authorName = recipeData.authorName;
@@ -173,6 +188,10 @@ const GalleryUserProfile: React.FC = () => {
               updatedAt: recipeData.updatedAt
             });
           });
+          
+          console.log('Processed recipes from recipes collection:', recipes);
+          console.log('Author name found:', authorName);
+          console.log('Total likes calculated from recipes:', totalLikes);
           
           setUserRecipes(recipes);
           setLastVisible(recipesSnap.docs[recipesSnap.docs.length - 1]);
@@ -199,6 +218,7 @@ const GalleryUserProfile: React.FC = () => {
             personalStory: '',
             achievements: []
           };
+          console.log('Final user profile from recipes:', userProfile);
           setUserProfile(userProfile);
         }
       } catch (error) {
@@ -239,11 +259,9 @@ const GalleryUserProfile: React.FC = () => {
 
     setLoadingMore(true);
     try {
-      const db = getFirestore();
       const recipesQuery = query(
         collection(db, 'recipes'),
         where('authorId', '==', userId),
-        orderBy('createdAt', 'desc'),
         startAfter(lastVisible),
         limit(recipesPerPage)
       );
