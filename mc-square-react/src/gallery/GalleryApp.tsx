@@ -1,5 +1,6 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import GalleryHome from './GalleryHome';
 import GalleryDetail from './GalleryDetail';
 import GalleryUpload from './GalleryUpload';
@@ -14,9 +15,27 @@ import GalleryAdmin from './GalleryAdmin';
 import GalleryHeader from './GalleryHeader';
 import './GalleryApp.css';
 
+// ギャラリー内でのページ遷移時にスクロール位置をリセットするコンポーネント
+const GalleryScrollToTop: React.FC = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // ページ遷移時にスクロール位置を最上部にリセット
+    // 少し遅延を入れて確実にスクロール位置をリセット
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+  
+  return null;
+};
+
 const GalleryApp: React.FC = () => {
   return (
     <div className="gallery-app">
+      <GalleryScrollToTop />
       <GalleryHeader />
       <main className="gallery-main">
         <Routes>

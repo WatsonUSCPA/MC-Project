@@ -1,3 +1,13 @@
+/* ページ遷移時のスクロール動作を制御 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ページ遷移時にスクロール位置を確実にリセット */
+body {
+  scroll-behavior: auto;
+}
+
 .gallery-app {
   min-height: 100vh;
   background: var(--color-background);

@@ -25,6 +25,23 @@ import Login from './ec/pages/Login';
 // Firebase設定
 const db = getFirestore(app);
 
+// ページ遷移時にスクロール位置を最上部にリセットするコンポーネント
+const ScrollToTop: React.FC = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // ページ遷移時にスクロール位置を最上部にリセット
+    // 少し遅延を入れて確実にスクロール位置をリセット
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+  
+  return null;
+};
+
 // ヘッダーとフッターを条件付きで表示するコンポーネント
 const AppLayout: React.FC = () => {
   const location = useLocation();
@@ -32,6 +49,7 @@ const AppLayout: React.FC = () => {
 
   return (
     <>
+      <ScrollToTop />
       {!isGalleryRoute && <Header />}
       <Routes>
         <Route path="/all-products" element={<AllProducts />} />
