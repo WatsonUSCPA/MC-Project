@@ -149,7 +149,10 @@ const GallerySearch: React.FC = () => {
             'intermediate': '中級',
             'advanced': '上級'
           };
+          
           const targetDifficulty = levelMapping[level as keyof typeof levelMapping];
+          
+          // 難易度フィールドから直接検索
           if (recipe.difficulty !== targetDifficulty) {
             return;
           }
@@ -157,19 +160,37 @@ const GallerySearch: React.FC = () => {
 
         // シチュエーションフィルタリング
         if (situation) {
-          const situationKeywords = {
-            'elementary': ['小学校', '小学生'],
-            'kindergarten': ['幼稚園', '保育園'],
-            'elderly': ['おじいちゃん', 'おばあちゃん', '高齢者'],
-            'gift': ['プレゼント', '贈り物', 'ギフト']
+          // シチュエーションカテゴリ名で検索
+          const situationNames = {
+            'default-1': '小学校向け',
+            'default-2': '幼稚園向け',
+            'default-3': 'おじいちゃんおばあちゃん向け',
+            'default-4': 'プレゼント向け',
+            // 従来のIDにも対応（後方互換性）
+            'elementary': '小学校向け',
+            'kindergarten': '幼稚園向け',
+            'elderly': 'おじいちゃんおばあちゃん向け',
+            'gift': 'プレゼント向け'
           };
           
-          const keywords = situationKeywords[situation as keyof typeof situationKeywords] || [];
-          const hasMatchingTag = recipe.tags.some((recipeTag: string) => 
-            keywords.some(keyword => recipeTag.includes(keyword))
-          );
+          const targetSituation = situationNames[situation as keyof typeof situationNames];
           
-          if (!hasMatchingTag) {
+          // タイトル、説明、タグからシチュエーション名を検索
+          const searchableTexts = [
+            recipe.title,
+            recipe.description,
+            ...recipe.tags
+          ].filter(text => text && typeof text === 'string');
+          
+          const hasMatch = searchableTexts.some(text => {
+            const textLower = text.toLowerCase();
+            const situationLower = targetSituation.toLowerCase();
+            
+            // シチュエーション名が含まれているかチェック
+            return textLower.includes(situationLower);
+          });
+          
+          if (!hasMatch) {
             return;
           }
         }
@@ -177,6 +198,19 @@ const GallerySearch: React.FC = () => {
         allRecipes.push(recipe);
       });
 
+      // デバッグ情報を出力
+      console.log('カテゴリ検索結果:', {
+        level,
+        situation,
+        totalRecipes: allRecipes.length,
+        levelFilter: level ? `適用 (${level})` : 'なし',
+        situationFilter: situation ? `適用 (${situation})` : 'なし',
+        searchMethod: {
+          level: level ? 'difficultyフィールドから直接検索' : 'なし',
+          situation: situation ? 'カテゴリ名で検索' : 'なし'
+        }
+      });
+      
       setSearchResults(allRecipes);
     } catch (error) {
       console.error('カテゴリ検索エラー:', error);
