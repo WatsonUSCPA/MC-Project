@@ -468,7 +468,7 @@ const GalleryUpload: React.FC = () => {
             <div className="login-actions">
               <button 
                 className="login-btn primary" 
-                onClick={() => window.location.href = '/login'}
+                onClick={() => window.location.href = '/gallery/login'}
               >
                 ログインする
               </button>
@@ -819,22 +819,22 @@ const GalleryUpload: React.FC = () => {
             </div>
           )}
 
-          {/* PDF URL（PDF選択時のみ表示） */}
+          {/* ウェブサイトで説明（ウェブサイト選択時のみ表示） */}
           {recipe.explanationType === 'pdf' && (
             <div className="form-section">
-              <h3>PDF URL</h3>
+              <h3>ウェブサイトで説明</h3>
               <div className="pdf-url-area">
                 <input
                   type="url"
                   value={recipe.pdfUrl || ''}
                   onChange={handlePdfUrlChange}
-                  placeholder="https://example.com/recipe.pdf"
+                  placeholder="https://example.com/recipe"
                   className="form-input pdf-url-input"
                 />
                 <div className="pdf-help">
                   <span className="help-icon">ℹ️</span>
                   <span className="help-text">
-                    詳細な作り方が記載されたPDFファイルのURLを入力してください
+                    詳細な作り方が記載されたウェブサイトのURLを入力してください
                   </span>
                 </div>
               </div>

@@ -383,6 +383,18 @@ const GallerySearch: React.FC = () => {
                   <li>難易度（初級、中級、上級）で検索</li>
                 </ul>
               </div>
+              <div className="be-first-poster">
+                <div className="be-first-poster-icon">🎨</div>
+                <h4>あなたが最初の投稿者になりませんか？</h4>
+                <p>このキーワードやカテゴリで作品を投稿して、他の方の参考にしてみてください！</p>
+                <button 
+                  className="upload-encouragement-btn"
+                  onClick={() => navigate('/gallery/upload')}
+                >
+                  <span role="img" aria-label="投稿">📝</span>
+                  作品を投稿する
+                </button>
+              </div>
             </div>
           ) : (
             <div className="search-results">

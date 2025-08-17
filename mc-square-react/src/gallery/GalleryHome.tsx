@@ -582,48 +582,63 @@ const GalleryHome: React.FC = () => {
               もっと見る →
             </button>
           </div>
-          <div className="recipes-grid">
-            {displayRecipes.popular.map(recipe => (
-              <div key={recipe.id} className="recipe-card" onClick={() => handleRecipeClick(recipe)}>
-                <div className="recipe-image">
-                  <img 
-                    src={recipe.mainImageUrl || recipe.image} 
-                    alt={recipe.title}
-                    loading="lazy"
-                    onLoad={(e) => {
-                      // 画像読み込み完了時の処理
-                      e.currentTarget.style.opacity = '1';
-                    }}
-                    onError={(e) => {
-                      // 画像読み込みエラー時の処理
-                      e.currentTarget.src = '/Image/Goods Picture.png';
-                      e.currentTarget.style.opacity = '1';
-                    }}
-                    style={{ opacity: 0, transition: 'opacity 0.3s' }}
-                  />
-                </div>
-                <div className="recipe-info">
-                  <h3 className="recipe-title">{recipe.title}</h3>
-                  <div className="recipe-author-info" onClick={(e) => {
-                    e.stopPropagation();
-                    handleAuthorClick(recipe.author, recipe.authorId || '');
-                  }}>
-                    <span className="author-avatar">👤</span>
-                    <span className="author-name">{recipe.author}</span>
-                    {recipe.authorSNS && (
-                      <span className="sns-icons">
-                        {recipe.authorSNS.twitter && isValidUrl(recipe.authorSNS.twitter) && <span className="sns-icon twitter">🐦</span>}
-                        {recipe.authorSNS.instagram && isValidUrl(recipe.authorSNS.instagram) && <span className="sns-icon instagram">📸</span>}
-                        {recipe.authorSNS.facebook && isValidUrl(recipe.authorSNS.facebook) && <span className="sns-icon facebook">📘</span>}
-                        {recipe.authorSNS.line && isValidUrl(recipe.authorSNS.line) && <span className="sns-icon line">💬</span>}
-                        {recipe.authorSNS.website && isValidUrl(recipe.authorSNS.website) && <span className="sns-icon website">🔗</span>}
-                      </span>
-                    )}
+          {displayRecipes.popular.length > 0 ? (
+            <div className="recipes-grid">
+              {displayRecipes.popular.map(recipe => (
+                <div key={recipe.id} className="recipe-card" onClick={() => handleRecipeClick(recipe)}>
+                  <div className="recipe-image">
+                    <img 
+                      src={recipe.mainImageUrl || recipe.image} 
+                      alt={recipe.title}
+                      loading="lazy"
+                      onLoad={(e) => {
+                        // 画像読み込み完了時の処理
+                        e.currentTarget.style.opacity = '1';
+                      }}
+                      onError={(e) => {
+                        // 画像読み込みエラー時の処理
+                        e.currentTarget.src = '/Image/Goods Picture.png';
+                        e.currentTarget.style.opacity = '1';
+                      }}
+                      style={{ opacity: 0, transition: 'opacity 0.3s' }}
+                    />
+                  </div>
+                  <div className="recipe-info">
+                    <h3 className="recipe-title">{recipe.title}</h3>
+                    <div className="recipe-author-info" onClick={(e) => {
+                      e.stopPropagation();
+                      handleAuthorClick(recipe.author, recipe.authorId || '');
+                    }}>
+                      <span className="author-avatar">👤</span>
+                      <span className="author-name">{recipe.author}</span>
+                      {recipe.authorSNS && (
+                        <span className="sns-icons">
+                          {recipe.authorSNS.twitter && isValidUrl(recipe.authorSNS.twitter) && <span className="sns-icon twitter">🐦</span>}
+                          {recipe.authorSNS.instagram && isValidUrl(recipe.authorSNS.instagram) && <span className="sns-icon instagram">📸</span>}
+                          {recipe.authorSNS.facebook && isValidUrl(recipe.authorSNS.facebook) && <span className="sns-icon facebook">📘</span>}
+                          {recipe.authorSNS.line && isValidUrl(recipe.authorSNS.line) && <span className="sns-icon line">💬</span>}
+                          {recipe.authorSNS.website && isValidUrl(recipe.authorSNS.website) && <span className="sns-icon website">🔗</span>}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="no-recipes-message">
+              <div className="no-recipes-icon">🎨</div>
+              <h3>まだレシピが投稿されていません</h3>
+              <p>あなたが最初の投稿者になりませんか？</p>
+              <button 
+                className="be-first-poster-btn"
+                onClick={handleUploadRecipe}
+              >
+                <span role="img" aria-label="投稿">📝</span>
+                最初のレシピを投稿する
+              </button>
+            </div>
+          )}
         </section>
 
         {/* 新着レシピ */}
@@ -634,48 +649,63 @@ const GalleryHome: React.FC = () => {
               もっと見る →
             </button>
           </div>
-          <div className="recipes-grid">
-            {displayRecipes.new.map(recipe => (
-              <div key={recipe.id} className="recipe-card" onClick={() => handleRecipeClick(recipe)}>
-                <div className="recipe-image">
-                  <img 
-                    src={recipe.mainImageUrl || recipe.image} 
-                    alt={recipe.title}
-                    loading="lazy"
-                    onLoad={(e) => {
-                      // 画像読み込み完了時の処理
-                      e.currentTarget.style.opacity = '1';
-                    }}
-                    onError={(e) => {
-                      // 画像読み込みエラー時の処理
-                      e.currentTarget.src = '/Image/Goods Picture.png';
-                      e.currentTarget.style.opacity = '1';
-                    }}
-                    style={{ opacity: 0, transition: 'opacity 0.3s' }}
-                  />
-                </div>
-                <div className="recipe-info">
-                  <h3 className="recipe-title">{recipe.title}</h3>
-                  <div className="recipe-author-info" onClick={(e) => {
-                    e.stopPropagation();
-                    handleAuthorClick(recipe.author, recipe.authorId || '');
-                  }}>
-                    <span className="author-avatar">👤</span>
-                    <span className="author-name">{recipe.author}</span>
-                    {recipe.authorSNS && (
-                      <span className="sns-icons">
-                        {recipe.authorSNS.twitter && isValidUrl(recipe.authorSNS.twitter) && <span className="sns-icon twitter">🐦</span>}
-                        {recipe.authorSNS.instagram && isValidUrl(recipe.authorSNS.instagram) && <span className="sns-icon instagram">📸</span>}
-                        {recipe.authorSNS.facebook && isValidUrl(recipe.authorSNS.facebook) && <span className="sns-icon facebook">📘</span>}
-                        {recipe.authorSNS.line && isValidUrl(recipe.authorSNS.line) && <span className="sns-icon line">💬</span>}
-                        {recipe.authorSNS.website && isValidUrl(recipe.authorSNS.website) && <span className="sns-icon website">🔗</span>}
-                      </span>
-                    )}
+          {displayRecipes.new.length > 0 ? (
+            <div className="recipes-grid">
+              {displayRecipes.new.map(recipe => (
+                <div key={recipe.id} className="recipe-card" onClick={() => handleRecipeClick(recipe)}>
+                  <div className="recipe-image">
+                    <img 
+                      src={recipe.mainImageUrl || recipe.image} 
+                      alt={recipe.title}
+                      loading="lazy"
+                      onLoad={(e) => {
+                        // 画像読み込み完了時の処理
+                        e.currentTarget.style.opacity = '1';
+                      }}
+                      onError={(e) => {
+                        // 画像読み込みエラー時の処理
+                        e.currentTarget.src = '/Image/Goods Picture.png';
+                        e.currentTarget.style.opacity = '1';
+                      }}
+                      style={{ opacity: 0, transition: 'opacity 0.3s' }}
+                    />
+                  </div>
+                  <div className="recipe-info">
+                    <h3 className="recipe-title">{recipe.title}</h3>
+                    <div className="recipe-author-info" onClick={(e) => {
+                      e.stopPropagation();
+                      handleAuthorClick(recipe.author, recipe.authorId || '');
+                    }}>
+                      <span className="author-avatar">👤</span>
+                      <span className="author-name">{recipe.author}</span>
+                      {recipe.authorSNS && (
+                        <span className="sns-icons">
+                          {recipe.authorSNS.twitter && isValidUrl(recipe.authorSNS.twitter) && <span className="sns-icon twitter">🐦</span>}
+                          {recipe.authorSNS.instagram && isValidUrl(recipe.authorSNS.instagram) && <span className="sns-icon instagram">📸</span>}
+                          {recipe.authorSNS.facebook && isValidUrl(recipe.authorSNS.facebook) && <span className="sns-icon facebook">📘</span>}
+                          {recipe.authorSNS.line && isValidUrl(recipe.authorSNS.line) && <span className="sns-icon line">💬</span>}
+                          {recipe.authorSNS.website && isValidUrl(recipe.authorSNS.website) && <span className="sns-icon website">🔗</span>}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="no-recipes-message">
+              <div className="no-recipes-icon">🎨</div>
+              <h3>まだレシピが投稿されていません</h3>
+              <p>あなたが最初の投稿者になりませんか？</p>
+              <button 
+                className="be-first-poster-btn"
+                onClick={handleUploadRecipe}
+              >
+                <span role="img" aria-label="投稿">📝</span>
+                最初のレシピを投稿する
+              </button>
+            </div>
+          )}
         </section>
 
         {/* 投稿ボタン */}

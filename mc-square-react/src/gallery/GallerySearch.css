@@ -119,6 +119,78 @@
   border-bottom: none;
 }
 
+/* 最初の投稿者を促すメッセージのスタイル */
+.be-first-poster {
+  margin-top: 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, #fff5f5 0%, #fef7f0 100%);
+  border-radius: 16px;
+  border: 2px solid #ffe4e4;
+  text-align: center;
+}
+
+.be-first-poster-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.be-first-poster h4 {
+  font-size: 20px;
+  color: var(--color-primary);
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.be-first-poster p {
+  font-size: 16px;
+  color: var(--color-text-light);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.upload-encouragement-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #ff8a80 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-encouragement-btn:hover {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, #ff6b6b 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.upload-encouragement-btn:active {
+  transform: translateY(-1px);
+}
+
+.upload-encouragement-btn span {
+  font-size: 18px;
+}
+
 .search-results {
   margin-top: 20px;
 }
@@ -309,6 +381,24 @@
   .recipe-stats {
     flex-direction: column;
     gap: 8px;
+  }
+
+  .be-first-poster {
+    padding: 20px 15px;
+    margin-top: 30px;
+  }
+
+  .be-first-poster h4 {
+    font-size: 18px;
+  }
+
+  .be-first-poster p {
+    font-size: 14px;
+  }
+
+  .upload-encouragement-btn {
+    padding: 12px 24px;
+    font-size: 14px;
   }
 }
 

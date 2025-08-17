@@ -372,6 +372,79 @@ section {
   margin: 0 auto;
 }
 
+/* レシピが0件の場合のメッセージ */
+.no-recipes-message {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  margin: 20px 0;
+  border: 2px solid #ffe4e4;
+}
+
+.no-recipes-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.no-recipes-message h3 {
+  font-size: 20px;
+  color: var(--color-primary);
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.no-recipes-message p {
+  font-size: 16px;
+  color: var(--color-text-light);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.be-first-poster-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #ff8a80 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.be-first-poster-btn:hover {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, #ff6b6b 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.be-first-poster-btn:active {
+  transform: translateY(-1px);
+}
+
+.be-first-poster-btn span {
+  font-size: 18px;
+}
+
 .recipe-card {
   background: white;
   border: 1.5px solid var(--color-border);
@@ -1599,6 +1672,23 @@ section {
   .upload-btn {
     padding: 10px 20px;
     font-size: 0.9rem;
+  }
+
+  .no-recipes-message {
+    padding: 40px 15px;
+  }
+
+  .no-recipes-message h3 {
+    font-size: 18px;
+  }
+
+  .no-recipes-message p {
+    font-size: 14px;
+  }
+
+  .be-first-poster-btn {
+    padding: 12px 24px;
+    font-size: 14px;
   }
   .sns-modal {
     max-width: 95vw;
