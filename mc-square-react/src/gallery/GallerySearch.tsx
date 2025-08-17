@@ -160,38 +160,28 @@ const GallerySearch: React.FC = () => {
 
         // シチュエーションフィルタリング
         if (situation) {
-          // シチュエーションカテゴリ名で検索
-          const situationNames = {
-            'default-1': '小学校向け',
-            'default-2': '幼稚園向け',
-            'default-3': 'おじいちゃんおばあちゃん向け',
-            'default-4': 'プレゼント向け',
-            // 従来のIDにも対応（後方互換性）
-            'elementary': '小学校向け',
-            'kindergarten': '幼稚園向け',
-            'elderly': 'おじいちゃんおばあちゃん向け',
-            'gift': 'プレゼント向け'
-          };
+          // カテゴリ名で直接検索（例：「ハロウィン」）
+          const categoryName = searchParams.get('category') || '';
           
-          const targetSituation = situationNames[situation as keyof typeof situationNames];
-          
-          // タイトル、説明、タグからシチュエーション名を検索
-          const searchableTexts = [
-            recipe.title,
-            recipe.description,
-            ...recipe.tags
-          ].filter(text => text && typeof text === 'string');
-          
-          const hasMatch = searchableTexts.some(text => {
-            const textLower = text.toLowerCase();
-            const situationLower = targetSituation.toLowerCase();
+          if (categoryName) {
+            // タイトル、説明、タグからカテゴリ名を検索
+            const searchableTexts = [
+              recipe.title,
+              recipe.description,
+              ...recipe.tags
+            ].filter(text => text && typeof text === 'string');
             
-            // シチュエーション名が含まれているかチェック
-            return textLower.includes(situationLower);
-          });
-          
-          if (!hasMatch) {
-            return;
+            const hasMatch = searchableTexts.some(text => {
+              const textLower = text.toLowerCase();
+              const categoryLower = categoryName.toLowerCase();
+              
+              // カテゴリ名が含まれているかチェック
+              return textLower.includes(categoryLower);
+            });
+            
+            if (!hasMatch) {
+              return;
+            }
           }
         }
 
@@ -199,15 +189,17 @@ const GallerySearch: React.FC = () => {
       });
 
       // デバッグ情報を出力
+      const categoryName = searchParams.get('category') || '';
       console.log('カテゴリ検索結果:', {
         level,
         situation,
+        categoryName,
         totalRecipes: allRecipes.length,
         levelFilter: level ? `適用 (${level})` : 'なし',
-        situationFilter: situation ? `適用 (${situation})` : 'なし',
+        situationFilter: situation ? `適用 (${situation}) - カテゴリ名: ${categoryName}` : 'なし',
         searchMethod: {
           level: level ? 'difficultyフィールドから直接検索' : 'なし',
-          situation: situation ? 'カテゴリ名で検索' : 'なし'
+          situation: situation ? 'カテゴリ名で直接検索' : 'なし'
         }
       });
       
