@@ -46,6 +46,7 @@ const GallerySearch: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState('');
+  const [sortOrder, setSortOrder] = useState<'likes' | 'createdAt' | 'title'>('likes');
   
   // ページネーション用の状態
   const [displayedResults, setDisplayedResults] = useState<Recipe[]>([]);
@@ -76,7 +77,7 @@ const GallerySearch: React.FC = () => {
     } else if (sortParam) {
       performSortSearch(sortParam);
     }
-  }, [searchParams]);
+  }, [searchParams, sortOrder]);
 
   // 検索結果が変更されたときにページネーションを更新
   useEffect(() => {
@@ -102,6 +103,28 @@ const GallerySearch: React.FC = () => {
     setCurrentPage(prev => prev + 1);
   };
 
+  // 並び順変更ハンドラー
+  const handleSortOrderChange = (newSortOrder: 'likes' | 'createdAt' | 'title') => {
+    setSortOrder(newSortOrder);
+    setCurrentPage(1);
+    setDisplayedResults([]);
+    setHasMore(false);
+    
+    // 現在の検索条件で再検索
+    const searchQueryParam = searchParams.get('q') || '';
+    const levelParam = searchParams.get('level') || '';
+    const situationParam = searchParams.get('situation') || '';
+    const sortParam = searchParams.get('sort') || '';
+    
+    if (searchQueryParam) {
+      performSearch(searchQueryParam);
+    } else if (levelParam || situationParam) {
+      performCategorySearch(levelParam, situationParam);
+    } else if (sortParam) {
+      performSortSearch(sortParam);
+    }
+  };
+
   // カテゴリ検索実行関数
   const performCategorySearch = async (level: string, situation: string) => {
     try {
@@ -111,7 +134,7 @@ const GallerySearch: React.FC = () => {
       const db = getFirestore();
       const recipesRef = collection(db, 'recipes');
 
-      let q = firestoreQuery(recipesRef, orderBy('createdAt', 'desc'));
+      let q = firestoreQuery(recipesRef, orderBy(sortOrder, sortOrder === 'title' ? 'asc' : 'desc'));
       const querySnapshot = await getDocs(q);
       const allRecipes: Recipe[] = [];
 
@@ -295,7 +318,7 @@ const GallerySearch: React.FC = () => {
       // 検索クエリを作成（タイトル、説明、タグで検索）
       const q = firestoreQuery(
         recipesRef,
-        orderBy('createdAt', 'desc')
+        orderBy(sortOrder, sortOrder === 'title' ? 'asc' : 'desc')
       );
 
       const querySnapshot = await getDocs(q);
@@ -389,8 +412,23 @@ const GallerySearch: React.FC = () => {
       ) : (
         <div className="search-content">
           {hasSearched && (
-            <div className="search-stats">
-              {searchResults.length}件の結果が見つかりました
+            <div className="search-controls">
+              <div className="search-stats">
+                {searchResults.length}件の結果が見つかりました
+              </div>
+              <div className="sort-controls">
+                <label htmlFor="sort-order">並び順:</label>
+                <select
+                  id="sort-order"
+                  value={sortOrder}
+                  onChange={(e) => handleSortOrderChange(e.target.value as 'likes' | 'createdAt' | 'title')}
+                  className="sort-select"
+                >
+                  <option value="likes">人気順</option>
+                  <option value="createdAt">新着順</option>
+                  <option value="title">タイトル順</option>
+                </select>
+              </div>
             </div>
           )}
 
