@@ -92,9 +92,18 @@ const ECApp: React.FC = () => {
                   インフルエンサーコラボ
                 </Link>
                 <Link to="/kits" className="hero-btn">
-                  <span role="img" aria-label="キット">🧩</span>
-                  キット
+                  <span role="img" aria-label="レシピ">📖</span>
+                  レシピ
                 </Link>
+                <a 
+                  href="https://instagram.com/mcsquare_official" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hero-btn hero-instagram-btn"
+                >
+                  <span role="img" aria-label="Instagram">📸</span>
+                  Instagram
+                </a>
               </div>
             </section>
             <NewsSection />

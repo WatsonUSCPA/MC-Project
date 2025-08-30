@@ -180,6 +180,126 @@ body {
   font-size: 1rem;
 }
 
+/* Instagramフォローセクション */
+.instagram-follow-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.instagram-follow-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="instagram-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23instagram-pattern)"/></svg>');
+  pointer-events: none;
+}
+
+.instagram-follow-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.instagram-intro-image {
+  margin: 30px 0;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.instagram-preview {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.instagram-preview:hover {
+  transform: scale(1.05);
+}
+
+.instagram-image-link {
+  display: block;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.instagram-image-link:hover {
+  transform: scale(1.02);
+}
+
+.instagram-image-link:hover .instagram-preview {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.instagram-follow-content {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.instagram-follow-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.95;
+  line-height: 1.6;
+}
+
+.instagram-follow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-primary);
+  text-decoration: none;
+  padding: 18px 36px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.instagram-follow-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.instagram-follow-btn:hover::before {
+  left: 100%;
+}
+
+.instagram-follow-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-4px) scale(1.02);
+  color: var(--color-primary);
+  text-decoration: none;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
 /* ミッションセクション */
 .mission-section {
   padding: 100px 20px;

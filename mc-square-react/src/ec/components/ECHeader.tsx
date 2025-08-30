@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext';
 
 const navItems = [
   { to: '/all-products', icon: '🧵', label: '生地' },
-  { to: '/kits', icon: '🧩', label: 'キット' },
+  { to: '/kits', icon: '📖', label: 'レシピ' },
   { to: '/influencer_subscription', icon: '🌟', label: 'コラボ' },
   { to: '/subscription', icon: '📦', label: 'サブスク' },
 ];

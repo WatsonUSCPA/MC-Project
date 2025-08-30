@@ -7,7 +7,7 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 const db = getFirestore(app);
 
-// キット型定義
+// レシピ型定義
 interface Kit {
   id: string;
   name: string;
@@ -38,7 +38,7 @@ const KitsNew: React.FC = () => {
     return sum;
   }, 0);
   
-  // 次の無料キット獲得までの必要数を計算
+  // 次の無料レシピ獲得までの必要数を計算
   const getNextFreeKitInfo = () => {
     if (fabricCount >= 1 && fabricCount <= 5) {
       return { current: fabricCount, next: 6, remaining: 6 - fabricCount };
@@ -59,10 +59,10 @@ const KitsNew: React.FC = () => {
   // フィルタ適用
   const filteredKits = filterLevel ? kits.filter(k => k.level.trim() === filterLevel.trim()) : kits;
 
-  // 表示するキットリスト
+  // 表示するレシピリスト
   const visibleKits = filteredKits.slice(0, visibleCount);
 
-  // Firestoreからキット取得
+  // Firestoreからレシピ取得
   useEffect(() => {
     async function fetchKits() {
       setLoading(true);
@@ -72,7 +72,7 @@ const KitsNew: React.FC = () => {
         const kitsCol = collection(db, 'kits');
         const snapshot = await getDocs(kitsCol);
         const kitsList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Kit));
-        console.log('取得したキット数:', kitsList.length);
+        console.log('取得したレシピ数:', kitsList.length);
         
         // 作成日時でソート（新しい順）
         kitsList.sort((a, b) => {
@@ -89,7 +89,7 @@ const KitsNew: React.FC = () => {
         } else if (e.code === 'unavailable') {
           setError('Firebaseサービスが利用できません。しばらく待ってから再試行してください');
         } else {
-          setError(`キットの取得に失敗しました: ${e.message || '不明なエラー'}`);
+          setError(`レシピの取得に失敗しました: ${e.message || '不明なエラー'}`);
         }
       } finally {
         setLoading(false);
@@ -98,7 +98,7 @@ const KitsNew: React.FC = () => {
     fetchKits();
   }, []);
 
-  // 無料キット数を計算（新しいルール：生地を購入いただくと、レシピを2個まで無料でお付けします）
+  // 無料レシピ数を計算（新しいルール：生地を購入いただくと、レシピを2個まで無料でお付けします）
   const getFreeKitCount = () => {
     return fabricCount > 0 ? 2 : 0; // 生地1個以上でレシピ2個無料
   };
@@ -107,18 +107,18 @@ const KitsNew: React.FC = () => {
   const usedFreeKits = cart.filter(item => item.productType === 'kit').length;
   const availableFreeKits = Math.max(0, freeKitCount - usedFreeKits);
 
-  // カートにキットを追加
+  // カートにレシピを追加
   const handleAddToCart = (kit: Kit) => {
-    // キットが既にカートにある場合は追加しない
+    // レシピが既にカートにある場合は追加しない
     if (isKitInCart(kit.id)) {
-      console.log('このキットは既にカートに追加されています');
+      console.log('このレシピは既にカートに追加されています');
       return;
     }
     
-    // 無料キットが利用可能かチェック
+    // 無料レシピが利用可能かチェック
     const isFree = availableFreeKits > 0;
     
-    // キットを商品としてカートに追加（管理番号としてキットIDを使用）
+    // レシピを商品としてカートに追加（管理番号としてレシピIDを使用）
     const productForCart = {
       managementNumber: kit.id,
       name: isFree ? `${kit.name} (無料)` : kit.name,
@@ -130,9 +130,9 @@ const KitsNew: React.FC = () => {
     addToCart(productForCart);
   };
 
-  // キットが既にカートにあるかチェック
+  // レシピが既にカートにあるかチェック
   const isKitInCart = (kitId: string) => {
-    // カート内のキットタイプのアイテムをチェック
+    // カート内のレシピタイプのアイテムをチェック
     const kitItems = cart.filter(item => item.productType === 'kit');
     return kitItems.some(item => item.managementNumber === kitId);
   };
@@ -159,16 +159,16 @@ const KitsNew: React.FC = () => {
   if (loading) {
     return (
       <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <h1 style={{ color: '#FF6B6B', fontSize: '1.6rem', marginBottom: '0.5rem' }}>🧩 キットページ</h1>
-        <div style={{ color: '#666', fontSize: '1.1rem' }}>キットを読み込み中...</div>
+        <h1 style={{ color: '#FF6B6B', fontSize: '1.6rem', marginBottom: '0.5rem' }}>🧩 レシピページ</h1>
+        <div style={{ color: '#666', fontSize: '1.1rem' }}>レシピを読み込み中...</div>
       </div>
     );
   }
 
-  if (error) {
+  if (error){
     return (
       <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <h1 style={{ color: '#FF6B6B', fontSize: '1.6rem', marginBottom: '0.5rem' }}>🧩 キットページ</h1>
+        <h1 style={{ color: '#FF6B6B', fontSize: '1.6rem', marginBottom: '0.5rem' }}>🧩 レシピページ</h1>
         <div style={{ color: '#f44336', fontSize: '1.1rem', marginBottom: '1rem' }}>エラー: {error}</div>
         <button 
           onClick={() => window.location.reload()} 
@@ -190,9 +190,9 @@ const KitsNew: React.FC = () => {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ color: '#FF6B6B', fontSize: '1.6rem', marginBottom: '0.5rem' }}>🧩 キットページ</h1>
+      <h1 style={{ color: '#FF6B6B', fontSize: '1.6rem', marginBottom: '0.5rem' }}>🧩 レシピページ</h1>
       <p style={{ fontSize: '1.1rem', color: '#636E72', marginBottom: '1rem', lineHeight: 1.6 }}>
-        エムシースクエア厳選の手作りキットをご紹介します。<br />
+        エムシースクエア厳選の手作りレシピをご紹介します。<br />
         初心者から上級者まで、お好みのレベルをお選びください。<br />
         <strong style={{ color: '#FF6B6B' }}>※ 生地を購入いただくと、レシピを2個まで無料でお付けします。</strong>
       </p>
@@ -256,11 +256,11 @@ const KitsNew: React.FC = () => {
         </div>
       )}
 
-      {/* キット一覧 */}
+      {/* レシピ一覧 */}
       {kits.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '3rem', color: '#666' }}>
-          <div style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>キットがまだ登録されていません</div>
-          <div>管理者がキットを追加すると、ここに表示されます。</div>
+          <div style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>レシピがまだ登録されていません</div>
+          <div>管理者がレシピを追加すると、ここに表示されます。</div>
         </div>
       ) : (
         <>
@@ -279,7 +279,7 @@ const KitsNew: React.FC = () => {
                 border: '1px solid #FFD4C4',
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease'
               }}>
-                {/* キット画像 */}
+                {/* レシピ画像 */}
                 <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
                   <img 
                     src={getImageSrc(kit.imageUrl)} 
@@ -294,7 +294,7 @@ const KitsNew: React.FC = () => {
                   />
                 </div>
 
-                {/* キット情報 */}
+                {/* レシピ情報 */}
                 <div style={{ marginBottom: '1rem' }}>
                   <h3 style={{ 
                     fontSize: '1.3rem', 
@@ -360,7 +360,7 @@ const KitsNew: React.FC = () => {
                   )}
                 </div>
 
-                {/* 無料キット状況表示 */}
+                {/* 無料レシピ状況表示 */}
                 {fabricCount > 0 && (
                   <div style={{ 
                     marginBottom: '0.8rem',
@@ -374,7 +374,7 @@ const KitsNew: React.FC = () => {
                   }}>
                     {availableFreeKits > 0 ? (
                       <span style={{ color: '#2E7D32', fontWeight: 700 }}>
-                        🎁 無料キット利用可能 ({availableFreeKits}個残り)
+                        🎁 無料レシピ利用可能 ({availableFreeKits}個残り)
                       </span>
                     ) : (
                       <span style={{ color: '#E65100', fontWeight: 600 }}>
@@ -418,7 +418,7 @@ const KitsNew: React.FC = () => {
                   }}
                 >
                   {isKitInCart(kit.id) ? '✅ カートに追加済み（1個のみ）' : 
-                   availableFreeKits > 0 ? '🎁 無料で追加（1個のみ）' : '🛒 カートに追加（1個のみ）'}
+                   availableFreeKits > 0 ? '🎁 無料レシピ追加（1個のみ）' : '🛒 カートに追加（1個のみ）'}
                 </button>
               </div>
             ))}

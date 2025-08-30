@@ -90,13 +90,46 @@ const AppLayout: React.FC = () => {
                   よりそいクラフト
                 </Link> */}
                 <Link to="/kits" className="hero-btn">
-                  <span role="img" aria-label="キット">🧩</span>
-                  キット
+                  <span role="img" aria-label="レシピ">📖</span>
+                  レシピ
                 </Link>
                 <Link to="/gallery" className="hero-btn">
                   <span role="img" aria-label="ギャラリー">🎨</span>
                   レシピギャラリー
                 </Link>
+              </div>
+            </section>
+            
+            {/* Instagramフォローセクション */}
+            <section className="instagram-follow-section">
+              <div className="instagram-follow-title">📸 Instagramでは最新記事などの情報を発信しています。</div>
+              
+              {/* Instagram紹介写真 */}
+              <div className="instagram-intro-image">
+                <a 
+                  href="https://www.instagram.com/mc.square_official/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="instagram-image-link"
+                >
+                  <img 
+                    src="/Image/Introdocu Instagram.png" 
+                    alt="Instagram紹介写真 - クリックしてフォロー" 
+                    className="instagram-preview"
+                  />
+                </a>
+              </div>
+              
+              <div className="instagram-follow-content">
+                <p>最新の作品やレシピ、手作りのヒントを毎日配信中！</p>
+                <a 
+                  href="https://www.instagram.com/mc.square_official/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="instagram-follow-btn"
+                >
+                  📸 Instagramをフォロー
+                </a>
               </div>
             </section>
             <NewsSection />
