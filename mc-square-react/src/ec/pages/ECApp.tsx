@@ -12,6 +12,7 @@ import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import Success from './Success';
 import Cancel from './Cancel';
 import Login from './Login';
+import ImageSlider from '../components/ImageSlider';
 import '../styles/ECApp.css';
 
 // Firebase設定
@@ -76,6 +77,7 @@ const ECApp: React.FC = () => {
         <Route path="/" element={
           <main>
             <section className="hero-section">
+              <h1 style={{color: 'red', textAlign: 'center'}}>🚨 テスト: このファイルは更新されています 🚨</h1>
               <h1 className="hero-title">いいものはいつまでも<br />エムシースクエア公式サイト</h1>
               <p className="hero-subtitle">生地の販売・インフルエンサーコラボ・よりそいクラフトなど、<br />あなたの手作りを応援する本格ECサイトへようこそ。</p>
               <div className="hero-buttons">
@@ -106,6 +108,7 @@ const ECApp: React.FC = () => {
                 </a>
               </div>
             </section>
+            <ImageSlider />
             <NewsSection />
             <section className="mission-section">
               <div className="mission-title">Mission</div>
