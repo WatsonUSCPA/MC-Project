@@ -19,6 +19,7 @@ import PrivacyPolicy from './ec/pages/PrivacyPolicy';
 import LegalNotice from './ec/pages/LegalNotice';
 import Contact from './ec/pages/Contact';
 import GalleryApp from './gallery/GalleryApp';
+import ImageSlider from './ec/components/ImageSlider';
 
 import Login from './ec/pages/Login';
 
@@ -99,6 +100,9 @@ const AppLayout: React.FC = () => {
                 </Link>
               </div>
             </section>
+            
+            {/* ImageSlider セクション */}
+            <ImageSlider />
             
             {/* Instagramフォローセクション */}
             <section className="instagram-follow-section">

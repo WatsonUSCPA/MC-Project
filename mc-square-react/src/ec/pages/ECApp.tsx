@@ -61,8 +61,27 @@ function NewsSection() {
 }
 
 const ECApp: React.FC = () => {
+  console.log('🎯 ECApp コンポーネントが呼び出されました！');
+  
   return (
     <CartProvider>
+      {/* テスト用のコード */}
+      <div style={{
+        backgroundColor: 'purple',
+        color: 'white',
+        padding: '10px',
+        margin: '10px',
+        textAlign: 'center',
+        fontSize: '18px',
+        border: '2px solid yellow',
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        zIndex: 10000
+      }}>
+        🚨 ECApp テスト: この紫のボックスが見えていれば、ECAppは動作しています 🚨
+      </div>
+      
       <ECHeader />
       <Routes>
         <Route path="/all-products" element={<AllProducts />} />

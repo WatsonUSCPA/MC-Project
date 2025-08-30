@@ -1,30 +1,86 @@
 import React, { useState, useEffect } from 'react';
-import '../../styles/ImageSlider.css';
+import { useNavigate } from 'react-router-dom';
+import '../styles/ImageSlider.css';
+
+// 商品型定義
+interface Product {
+  managementNumber: string;
+  name: string;
+  price: string;
+  imageUrl?: string;
+  status?: string;
+  description?: string;
+}
 
 const ImageSlider: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [imageLoadStatus, setImageLoadStatus] = useState<{[key: string]: boolean}>({});
+  const [images, setImages] = useState<string[]>([]);
+  const navigate = useNavigate();
   
-  const images = [
-    '/Image/Goods Picture.png', // 生地の販売画像1
+  // 固定画像（4枚）
+  const fixedImages = [
     '/Image/JP Cotton subscription.png', // JP Cotton subscription
     '/Image/US Cotton subscription.png', // US Cotton subscription
     '/Image/Gift to Grandma.png', // Gift to Grandma
-    '/Image/Gift to Kids.png', // Gift to Kids
-    '/Image/Gift to Mom.png' // Gift to Mom
+    '/Image/UsankoClub.png' // UsankoClub
   ];
 
   useEffect(() => {
-    // 画像の読み込み状況をログに出力
-    console.log('🎯 ImageSlider Debug Info:');
-    console.log('📁 画像配列:', images);
-    console.log('🔍 現在の作業ディレクトリ:', window.location.origin);
-    console.log('📂 画像の完全パス:');
-    images.forEach((image, index) => {
-      const fullPath = `${window.location.origin}${image}`;
-      console.log(`  ${index + 1}. ${image} → ${fullPath}`);
-    });
+    async function fetchProductImages() {
+      try {
+        // AllProductsから商品画像を取得
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
+        
+        const response = await fetch(GAS_WEB_APP_URL, { 
+          method: 'GET', 
+          mode: 'cors', 
+          headers: { 'Accept': 'application/json' } 
+        });
+        
+        if (!response.ok) throw new Error(`データの取得に失敗しました (${response.status})`);
+        
+        const data = await response.json();
+        if (!Array.isArray(data)) throw new Error('データの形式が不正です');
+        
+        // 公開中の商品で、画像URLがあるものをフィルタリング
+        const productsWithImages = data
+          .filter((item: any) => item.status === '公開中' && item.imageUrl)
+          .map((item: any) => item.imageUrl);
+        
+        console.log('📊 利用可能な商品画像数:', productsWithImages.length);
+        console.log('📋 利用可能な商品画像:', productsWithImages);
+        
+        // ランダムに2枚選択（確実に2枚に制限）
+        const shuffledProductImages = [...productsWithImages].sort(() => Math.random() - 0.5);
+        const selectedProductImages = shuffledProductImages.slice(0, 2);
+        
+        // 最終的な画像配列を作成（商品画像2枚 + 固定画像4枚 = 合計6枚）
+        const finalImages = [...selectedProductImages, ...fixedImages];
+        setImages(finalImages);
+        
+        console.log('🎯 選択された商品画像:', selectedProductImages);
+        console.log('📸 最終的な画像配列:', finalImages);
+        console.log('🔢 合計画像数:', finalImages.length);
+      } catch (error) {
+        console.error('❌ 商品画像の取得に失敗:', error);
+        
+        // エラーが発生した場合は、デフォルトの生地画像を使用
+        const fallbackImages = [
+          '/Image/Goods Picture.png',
+          '/Image/CraftKitchen.png',
+          ...fixedImages
+        ];
+        setImages(fallbackImages);
+        console.log('🔄 フォールバック画像を使用:', fallbackImages);
+      }
+    }
+    
+    fetchProductImages();
+  }, []);
 
+  useEffect(() => {
+    if (images.length === 0) return;
+    
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % images.length);
     }, 5000); // 5秒ごとに自動スライド
@@ -32,27 +88,21 @@ const ImageSlider: React.FC = () => {
     return () => clearInterval(timer);
   }, [images.length]);
 
-  const handleImageLoad = (imagePath: string) => {
-    console.log(`✅ 画像が正常に読み込まれました: ${imagePath}`);
-    setImageLoadStatus(prev => ({ ...prev, [imagePath]: true }));
-  };
-
-  const handleImageError = (imagePath: string, event: React.SyntheticEvent<HTMLImageElement>) => {
-    const imgElement = event.currentTarget;
-    console.error(`❌ 画像の読み込みに失敗しました: ${imagePath}`);
-    console.error(`   📍 要素のsrc属性: ${imgElement.src}`);
-    console.error(`   📍 要素のcurrentSrc: ${imgElement.currentSrc}`);
-    console.error(`   📍 要素のnaturalWidth: ${imgElement.naturalWidth}`);
-    console.error(`   📍 要素のnaturalHeight: ${imgElement.naturalHeight}`);
-    console.error(`   📍 要素のdisplay: ${imgElement.style.display}`);
-    
-    // 画像が存在しない場合の代替表示
-    imgElement.style.display = 'none';
-    setImageLoadStatus(prev => ({ ...prev, [imagePath]: false }));
-    
-    // エラー画像の統計を表示
-    const failedImages = Object.values(imageLoadStatus).filter(status => !status).length;
-    console.warn(`⚠️ 読み込み失敗した画像数: ${failedImages}/${images.length}`);
+  // 画像クリック時の処理
+  const handleImageClick = (index: number) => {
+    if (index === 0 || index === 1) {
+      // 最初の2枚（生地の販売）
+      navigate('/all-products');
+    } else if (index === 2 || index === 3) {
+      // 次の2枚（サブスク）
+      navigate('/subscription');
+    } else if (index === 4) {
+      // 5枚目（ギャラリー）
+      navigate('/gallery');
+    } else if (index === 5) {
+      // 6枚目（インフルエンサーコラボ）
+      navigate('/influencer_subscription');
+    }
   };
 
   const goToSlide = (index: number) => {
@@ -67,31 +117,14 @@ const ImageSlider: React.FC = () => {
     setCurrentSlide((prev) => (prev + 1) % images.length);
   };
 
-  return (
-    <div className="image-slider-container" style={{ border: '5px solid blue', padding: '20px', margin: '20px 0' }}>
-      {/* デバッグ用の一時的な表示 */}
-      <div style={{
-        backgroundColor: 'red',
-        color: 'white',
-        padding: '30px',
-        margin: '30px 0',
-        textAlign: 'center',
-        fontSize: '24px',
-        border: '5px solid yellow',
-        fontWeight: 'bold',
-        zIndex: 9999,
-        position: 'relative'
-      }}>
-        🚨 ImageSlider コンポーネントが表示されています！ 🚨
-        <br />
-        もしこの赤いボックスが見えていれば、コンポーネントは正常に動作しています
-        <br />
-        <span style={{ fontSize: '18px', color: 'yellow' }}>
-          現在のスライド: {currentSlide + 1} / {images.length}
-        </span>
-      </div>
+  // 画像がまだ読み込まれていない場合は表示しない
+  if (images.length === 0) {
+    return null;
+  }
 
-      <div className="image-slider" style={{ border: '3px solid green', minHeight: '200px' }}>
+  return (
+    <div className="image-slider-container">
+      <div className="image-slider">
         <div className="slide-container">
           {images.map((image, index) => (
             <div
@@ -99,32 +132,40 @@ const ImageSlider: React.FC = () => {
               className={`slide ${index === currentSlide ? 'active' : ''}`}
               style={{
                 transform: `translateX(-${currentSlide * 100}%)`,
-                border: '2px solid purple',
-                minHeight: '150px'
               }}
             >
               <img 
                 src={image} 
                 alt={`Slide ${index + 1}`}
                 className="slide-image"
-                onLoad={() => handleImageLoad(image)}
-                onError={(e) => handleImageError(image, e)}
-                style={{ maxWidth: '100%', height: 'auto' }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  backgroundColor: '#f8f8f8',
+                  cursor: 'pointer'
+                }}
+                onClick={() => handleImageClick(index)}
               />
-              {/* 画像読み込み状況のデバッグ表示 */}
-              <div style={{
-                position: 'absolute',
-                top: '10px',
-                left: '10px',
-                background: imageLoadStatus[image] ? 'rgba(0, 255, 0, 0.9)' : 'rgba(255, 0, 0, 0.9)',
-                color: 'white',
-                padding: '8px',
-                borderRadius: '5px',
-                fontSize: '14px',
-                zIndex: 1000,
-                fontWeight: 'bold'
-              }}>
-                {imageLoadStatus[image] ? '✅' : '❌'} {image.split('/').pop()}
+              {/* クリック可能であることを示すオーバーレイ */}
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  background: 'rgba(0, 0, 0, 0.7)',
+                  color: 'white',
+                  padding: '5px 10px',
+                  borderRadius: '15px',
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                  zIndex: 1000
+                }}
+              >
+                {index === 0 || index === 1 ? '🧵 生地の販売' :
+                 index === 2 || index === 3 ? '📦 サブスク' :
+                 index === 4 ? '🎨 ギャラリー' :
+                 '🌟 インフルエンサーコラボ'}
               </div>
             </div>
           ))}
@@ -137,16 +178,19 @@ const ImageSlider: React.FC = () => {
           style={{
             position: 'absolute',
             top: '50%',
-            left: '20px',
+            left: '10px',
             transform: 'translateY(-50%)',
             background: 'rgba(255, 255, 255, 0.9)',
             border: '2px solid #333',
             borderRadius: '50%',
-            width: '50px',
-            height: '50px',
+            width: '40px',
+            height: '40px',
             cursor: 'pointer',
-            fontSize: '20px',
-            zIndex: 1000
+            fontSize: '16px',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           &#10094;
@@ -157,16 +201,19 @@ const ImageSlider: React.FC = () => {
           style={{
             position: 'absolute',
             top: '50%',
-            right: '20px',
+            right: '10px',
             transform: 'translateY(-50%)',
             background: 'rgba(255, 255, 255, 0.9)',
             border: '2px solid #333',
             borderRadius: '50%',
-            width: '50px',
-            height: '50px',
+            width: '40px',
+            height: '40px',
             cursor: 'pointer',
-            fontSize: '20px',
-            zIndex: 1000
+            fontSize: '16px',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
         >
           &#10095;
@@ -175,11 +222,11 @@ const ImageSlider: React.FC = () => {
         {/* ドットインジケーター */}
         <div className="dots-container" style={{
           position: 'absolute',
-          bottom: '20px',
+          bottom: '15px',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',
-          gap: '10px',
+          gap: '8px',
           zIndex: 1000
         }}>
           {images.map((_, index) => (
@@ -188,42 +235,17 @@ const ImageSlider: React.FC = () => {
               className={`dot ${index === currentSlide ? 'active' : ''}`}
               onClick={() => goToSlide(index)}
               style={{
-                width: '15px',
-                height: '15px',
+                width: '10px',
+                height: '10px',
                 borderRadius: '50%',
                 background: index === currentSlide ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.5)',
                 cursor: 'pointer',
-                border: '2px solid #333'
+                border: '1px solid #333',
+                transition: 'all 0.3s ease'
               }}
             />
           ))}
         </div>
-      </div>
-      
-      {/* 開発環境でのデバッグ情報表示 */}
-      <div style={{
-        marginTop: '20px',
-        padding: '20px',
-        backgroundColor: '#f0f0f0',
-        borderRadius: '10px',
-        fontSize: '16px',
-        fontFamily: 'monospace',
-        border: '3px solid #333'
-      }}>
-        <h4 style={{ margin: '0 0 15px 0', color: '#333' }}>🐛 デバッグ情報</h4>
-        <p style={{ margin: '5px 0' }}>現在のスライド: {currentSlide + 1} / {images.length}</p>
-        <p style={{ margin: '5px 0' }}>画像読み込み状況:</p>
-        <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-          {images.map((image, index) => (
-            <li key={index} style={{ 
-              color: imageLoadStatus[image] ? 'green' : 'red',
-              margin: '3px 0',
-              fontWeight: 'bold'
-            }}>
-              {image.split('/').pop()}: {imageLoadStatus[image] ? '✅ 成功' : '❌ 失敗'}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
