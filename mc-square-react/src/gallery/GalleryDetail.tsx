@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDoc, updateDoc, addDoc, collection, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, setDoc } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getRecipeSource, RecipeSource } from './partners';
 import { app } from './firebase';
 import './GalleryDetail.css';
 
@@ -30,13 +30,6 @@ interface AffiliateProduct {
   price?: string;
 }
 
-interface Comment {
-  id: string;
-  text: string;
-  authorId: string;
-  authorName: string;
-  createdAt: any;
-}
 
 interface Recipe {
   id: string;
@@ -75,60 +68,8 @@ const GalleryDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [newComment, setNewComment] = useState('');
-  const [submittingComment, setSubmittingComment] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(0);
-  const [favorited, setFavorited] = useState(false);
+  const [source, setSource] = useState<RecipeSource | null>(null);
   const [randomProducts, setRandomProducts] = useState<Product[]>([]);
-
-  // 現在のユーザーがいいねを押しているかチェック
-  useEffect(() => {
-    if (!currentUser || !recipeId) return;
-
-    const checkUserLike = async () => {
-      try {
-        const db = getFirestore(app);
-        const userLikeDoc = doc(db, 'recipes', recipeId, 'likes', currentUser.uid);
-        const likeSnap = await getDoc(userLikeDoc);
-        setLiked(likeSnap.exists());
-      } catch (error) {
-        console.error('Error checking user like:', error);
-      }
-    };
-
-    checkUserLike();
-  }, [currentUser, recipeId]);
-
-  // 現在のユーザーがお気に入りに追加しているかチェック
-  useEffect(() => {
-    if (!currentUser || !recipeId) return;
-
-    const checkUserFavorite = async () => {
-      try {
-        const db = getFirestore(app);
-        const userFavoriteDoc = doc(db, 'users', currentUser.uid, 'favorites', recipeId);
-        const favoriteSnap = await getDoc(userFavoriteDoc);
-        setFavorited(favoriteSnap.exists());
-      } catch (error) {
-        console.error('Error checking user favorite:', error);
-      }
-    };
-
-    checkUserFavorite();
-  }, [currentUser, recipeId]);
-
-  // ユーザー認証状態の監視
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -144,6 +85,13 @@ const GalleryDetail: React.FC = () => {
         
         if (recipeDoc.exists()) {
           const recipeData = recipeDoc.data();
+          // パートナー（提携先）のレシピのみ表示
+          const recipeSource = getRecipeSource(recipeData);
+          if (!recipeSource) {
+            setError('レシピが見つかりません');
+            return;
+          }
+          setSource(recipeSource);
           // データベースのフィールド名をインターフェースに合わせてマッピング
           const mappedRecipe: Recipe = {
             ...recipeData,
@@ -178,7 +126,7 @@ const GalleryDetail: React.FC = () => {
               line: '',
               website: ''
             },
-            author: recipeData.authorName || '匿名ユーザー', // authorNameをauthorにマッピング
+            author: recipeSource.name,
             authorId: recipeData.authorId || '',
             likes: recipeData.likes || 0,
             views: recipeData.views || 0,
@@ -186,9 +134,6 @@ const GalleryDetail: React.FC = () => {
             createdAt: recipeData.createdAt
           };
           setRecipe(mappedRecipe);
-          setLikesCount(recipeData.likes || 0);
-          console.log('Recipe authorId:', mappedRecipe.authorId);
-          console.log('Recipe data:', recipeData);
         } else {
           setError('レシピが見つかりません');
         }
@@ -201,30 +146,6 @@ const GalleryDetail: React.FC = () => {
     };
 
     fetchRecipe();
-  }, [recipeId]);
-
-  // コメントの取得
-  useEffect(() => {
-    if (!recipeId) return;
-
-    const db = getFirestore(app);
-    const commentsQuery = query(
-      collection(db, 'recipes', recipeId, 'comments'),
-      orderBy('createdAt', 'desc')
-    );
-
-    const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
-      const commentsData: Comment[] = [];
-      snapshot.forEach((doc) => {
-        commentsData.push({
-          id: doc.id,
-          ...doc.data()
-        } as Comment);
-      });
-      setComments(commentsData);
-    });
-
-    return () => unsubscribe();
   }, [recipeId]);
 
   // All Productsの商品データを取得してランダムに2つ選択
@@ -262,123 +183,6 @@ const GalleryDetail: React.FC = () => {
 
   const handleBackToGallery = () => {
     navigate('/gallery');
-  };
-
-  // コメント投稿
-  const handleSubmitComment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!currentUser || !recipeId || !newComment.trim()) return;
-
-    setSubmittingComment(true);
-    try {
-      const db = getFirestore(app);
-      await addDoc(collection(db, 'recipes', recipeId, 'comments'), {
-        text: newComment.trim(),
-        authorId: currentUser.uid,
-        authorName: currentUser.displayName || '匿名ユーザー',
-        createdAt: serverTimestamp()
-      });
-      setNewComment('');
-    } catch (error) {
-      console.error('Error submitting comment:', error);
-      alert('コメントの投稿に失敗しました');
-    } finally {
-      setSubmittingComment(false);
-    }
-  };
-
-  // いいね機能
-  const handleLike = async () => {
-    if (!currentUser || !recipeId) {
-      alert('いいねするにはログインが必要です');
-      return;
-    }
-
-    try {
-      const db = getFirestore(app);
-      const recipeRef = doc(db, 'recipes', recipeId);
-      const userLikeRef = doc(db, 'recipes', recipeId, 'likes', currentUser.uid);
-      
-      if (liked) {
-        // いいねを削除
-        await updateDoc(recipeRef, {
-          likes: likesCount - 1
-        });
-        await deleteDoc(userLikeRef);
-        setLikesCount(likesCount - 1);
-        setLiked(false);
-      } else {
-        // いいねを追加
-        await updateDoc(recipeRef, {
-          likes: likesCount + 1
-        });
-        await setDoc(userLikeRef, {
-          userId: currentUser.uid,
-          createdAt: serverTimestamp()
-        });
-        setLikesCount(likesCount + 1);
-        setLiked(true);
-      }
-    } catch (error) {
-      console.error('Error updating likes:', error);
-      alert('いいねの更新に失敗しました');
-    }
-  };
-
-  // お気に入り機能
-  const handleFavorite = async () => {
-    if (!currentUser || !recipeId || !recipe) {
-      alert('お気に入りに追加するにはログインが必要です');
-      return;
-    }
-
-    try {
-      const db = getFirestore(app);
-      const userFavoriteRef = doc(db, 'users', currentUser.uid, 'favorites', recipeId);
-      
-      if (favorited) {
-        // お気に入りから削除
-        await deleteDoc(userFavoriteRef);
-        setFavorited(false);
-        alert('お気に入りから削除しました');
-      } else {
-        // お気に入りに追加
-        await setDoc(userFavoriteRef, {
-          recipeId: recipeId,
-          title: recipe.title,
-          author: recipe.author,
-          mainImageUrl: recipe.mainImageUrl || recipe.image,
-          createdAt: serverTimestamp()
-        });
-        setFavorited(true);
-        alert('お気に入りに追加しました');
-      }
-    } catch (error) {
-      console.error('Error updating favorite:', error);
-      alert('お気に入りの更新に失敗しました');
-    }
-  };
-
-  const handleDeleteComment = async (commentId: string) => {
-    if (!currentUser || !recipeId) {
-      alert('コメントを削除するにはログインが必要です');
-      return;
-    }
-
-    // 削除確認ダイアログ
-    const isConfirmed = window.confirm('このコメントを削除しますか？\n削除すると元に戻すことはできません。');
-    if (!isConfirmed) {
-      return;
-    }
-
-    try {
-      const db = getFirestore(app);
-      const commentRef = doc(db, 'recipes', recipeId, 'comments', commentId);
-      await deleteDoc(commentRef);
-    } catch (error) {
-      console.error('Error deleting comment:', error);
-      alert('コメントの削除に失敗しました');
-    }
   };
 
   // URLが有効かどうかをチェックする関数
@@ -483,8 +287,7 @@ const GalleryDetail: React.FC = () => {
 
           <div className="recipe-info">
             <div className="recipe-author" onClick={() => {
-              console.log('Author clicked - authorId:', recipe.authorId);
-              navigate(`/gallery/user/${recipe.authorId}`);
+              if (source) navigate(`/gallery/search?partner=${encodeURIComponent(source.partner.id)}`);
             }}>
               <span className="author-avatar">👤</span>
               <span className="author-name">{recipe.author || '匿名ユーザー'}</span>
@@ -499,8 +302,22 @@ const GalleryDetail: React.FC = () => {
               )}
             </div>
 
+            {/* 出典（パートナーの元動画・元ページ） */}
+            {source?.url && (
+              <div className="recipe-source" style={{ margin: '8px 0 12px' }}>
+                <span style={{ marginRight: '8px', color: '#636E72' }}>出典: {source.name}</span>
+                <a
+                  href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#FF6B6B', fontWeight: 'bold' }}
+                >
+                  {source.linkLabel} ↗
+                </a>
+              </div>
+            )}
+
             <div className="recipe-stats">
-              <span className="likes">❤️ {likesCount}いいね</span>
               <span className="difficulty">難易度: {recipe.difficulty === '初級' ? '初級' : recipe.difficulty === '中級' ? '中級' : recipe.difficulty === '上級' ? '上級' : recipe.difficulty}</span>
               <span className="time">制作時間: {recipe.cookingTime}</span>
             </div>
@@ -831,137 +648,6 @@ const GalleryDetail: React.FC = () => {
             )}
 
 
-            {/* いいね・お気に入りボタン - コメントセクションの直上に配置 */}
-            <div style={{ 
-              margin: '20px 0',
-              textAlign: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '15px',
-              flexWrap: 'wrap'
-            }}>
-              <button 
-                className={`like-btn ${liked ? 'liked' : ''}`}
-                onClick={handleLike}
-                disabled={!currentUser}
-                title={!currentUser ? 'ログインが必要です' : ''}
-                style={{ 
-                  border: `3px solid ${liked ? '#6c757d' : '#dc3545'}`,
-                  backgroundColor: liked ? '#6c757d' : '#dc3545',
-                  color: 'white',
-                  padding: '12px 24px',
-                  borderRadius: '25px',
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-              >
-                <span className="like-icon">{liked ? '❤️' : '🤍'}</span>
-                <span className="like-text">
-                  {!currentUser ? 'ログインしていいね' : (liked ? 'いいね済み' : 'いいね')}
-                </span>
-              </button>
-
-              <button 
-                onClick={handleFavorite}
-                disabled={!currentUser}
-                title={!currentUser ? 'ログインが必要です' : ''}
-                style={{ 
-                  border: `3px solid ${favorited ? '#6c757d' : '#ffc107'}`,
-                  backgroundColor: favorited ? '#6c757d' : '#ffc107',
-                  color: 'white',
-                  padding: '12px 24px',
-                  borderRadius: '25px',
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ marginRight: '8px' }}>{favorited ? '⭐' : '☆'}</span>
-                <span>
-                  {!currentUser ? 'ログインしてお気に入り' : (favorited ? 'お気に入り済み' : 'お気に入り')}
-                </span>
-              </button>
-
-              {!currentUser && (
-                <div style={{ 
-                  fontSize: '0.9rem', 
-                  color: '#666', 
-                  marginTop: '8px',
-                  fontStyle: 'italic',
-                  width: '100%'
-                }}>
-                  ※ いいね・お気に入りするにはログインが必要です
-                </div>
-              )}
-            </div>
-
-            {/* コメントセクション */}
-            <div className="recipe-comments">
-              <h3>作品へのコメント ({comments.length})</h3>
-              
-              {/* コメント投稿フォーム */}
-              {currentUser ? (
-                <form onSubmit={handleSubmitComment} className="comment-form">
-                  <textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="作品についてコメントを書いてください..."
-                    className="comment-input"
-                    rows={3}
-                    maxLength={500}
-                  />
-                  <div className="comment-form-actions">
-                    <span className="comment-length">{newComment.length}/500</span>
-                    <button 
-                      type="submit" 
-                      className="comment-submit-btn"
-                      disabled={submittingComment || !newComment.trim()}
-                    >
-                      {submittingComment ? '投稿中...' : 'コメントを投稿する'}
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <div className="login-prompt">
-                  <p>コメントを投稿するにはログインが必要です</p>
-                  <button onClick={() => navigate('/gallery/login')} className="login-btn">
-                    ログイン
-                  </button>
-                </div>
-              )}
-
-              {/* コメント一覧 */}
-              <div className="comments-list">
-                {comments.length === 0 ? (
-                  <p className="no-comments">まだコメントがありません。最初のコメントを投稿してみませんか？</p>
-                ) : (
-                  comments.map((comment) => (
-                    <div key={comment.id} className="comment-item">
-                      <div className="comment-header">
-                        <span className="comment-author">{comment.authorName}</span>
-                        <span className="comment-date">
-                          {comment.createdAt?.toDate?.() 
-                            ? comment.createdAt.toDate().toLocaleDateString('ja-JP')
-                            : '投稿日時不明'
-                          }
-                        </span>
-                        {currentUser && currentUser.uid === comment.authorId && (
-                          <button
-                            onClick={() => handleDeleteComment(comment.id)}
-                            className="comment-delete-btn"
-                            title="コメントを削除"
-                          >
-                            🗑️
-                          </button>
-                        )}
-                      </div>
-                      <p className="comment-text">{comment.text}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </div>

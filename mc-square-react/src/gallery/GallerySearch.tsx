@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { getRecipeSource, PARTNERS } from './partners';
 import { getFirestore, collection, query as firestoreQuery, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { app } from './firebase';
 import './GallerySearch.css';
@@ -30,7 +30,7 @@ interface Recipe {
   websiteExplanation?: string;
   authorId?: string;
   authorName?: string;
-  authorEmail?: string;
+  partnerId?: string;
   createdAt?: any;
   updatedAt?: any;
   views?: number;
@@ -41,7 +41,6 @@ const GallerySearch: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Recipe[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
@@ -61,6 +60,7 @@ const GallerySearch: React.FC = () => {
     const situationParam = searchParams.get('situation') || '';
     const categoryParam = searchParams.get('category') || '';
     const sortParam = searchParams.get('sort') || '';
+    const partnerParam = searchParams.get('partner') || '';
     
     setSearchQuery(searchQueryParam);
     setCategoryTitle(categoryParam);
@@ -76,6 +76,8 @@ const GallerySearch: React.FC = () => {
       performCategorySearch(levelParam, situationParam);
     } else if (sortParam) {
       performSortSearch(sortParam);
+    } else if (partnerParam) {
+      performPartnerSearch(partnerParam);
     }
   }, [searchParams, sortOrder]);
 
@@ -87,16 +89,6 @@ const GallerySearch: React.FC = () => {
     setDisplayedResults(newDisplayedResults);
     setHasMore(endIndex < searchResults.length);
   }, [searchResults, currentPage]);
-
-  // ユーザー認証状態の監視
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   // もっと見るボタンのハンドラー
   const handleLoadMore = () => {
@@ -115,6 +107,7 @@ const GallerySearch: React.FC = () => {
     const levelParam = searchParams.get('level') || '';
     const situationParam = searchParams.get('situation') || '';
     const sortParam = searchParams.get('sort') || '';
+    const partnerParam = searchParams.get('partner') || '';
     
     if (searchQueryParam) {
       performSearch(searchQueryParam);
@@ -122,6 +115,53 @@ const GallerySearch: React.FC = () => {
       performCategorySearch(levelParam, situationParam);
     } else if (sortParam) {
       performSortSearch(sortParam);
+    } else if (partnerParam) {
+      performPartnerSearch(partnerParam);
+    }
+  };
+
+  // パートナー別一覧
+  const performPartnerSearch = async (partnerId: string) => {
+    try {
+      setLoading(true);
+      setHasSearched(true);
+      const partner = PARTNERS.find(p => p.id === partnerId);
+      setCategoryTitle(partner ? partner.name : '');
+
+      const db = getFirestore();
+      const recipesRef = collection(db, 'recipes');
+      const q = firestoreQuery(recipesRef, orderBy(sortOrder, sortOrder === 'title' ? 'asc' : 'desc'));
+      const querySnapshot = await getDocs(q);
+      const allRecipes: Recipe[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as any;
+        const source = getRecipeSource(data);
+        if (!source || source.partner.id !== partnerId) return;
+        allRecipes.push({
+          id: doc.id,
+          title: data.title || '',
+          author: source.name,
+          image: '/Image/Goods Picture.png',
+          likes: data.likes || 0,
+          difficulty: data.difficulty || '初級',
+          cookingTime: data.cookingTime || '1時間',
+          tags: data.tags || [],
+          authorSNS: data.authorSNS || {},
+          mainImageUrl: data.mainImageUrl,
+          description: data.description,
+          partnerId: source.partner.id,
+          createdAt: data.createdAt,
+          views: data.views
+        });
+      });
+
+      setSearchResults(allRecipes);
+    } catch (error) {
+      console.error('パートナー別検索エラー:', error);
+      setSearchResults([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -140,10 +180,13 @@ const GallerySearch: React.FC = () => {
 
       querySnapshot.forEach((doc) => {
         const data = doc.data() as any;
+        // パートナー（提携先）のレシピのみ掲載
+        const source = getRecipeSource(data);
+        if (!source) return;
         const recipe = {
           id: doc.id,
           title: data.title || '',
-          author: data.authorName || '匿名ユーザー',
+          author: source.name,
           image: '/Image/Goods Picture.png',
           likes: data.likes || 0,
           difficulty: data.difficulty || '初級',
@@ -158,8 +201,8 @@ const GallerySearch: React.FC = () => {
           explanationType: data.explanationType,
           websiteExplanation: data.websiteExplanation,
           authorId: data.authorId,
-          authorName: data.authorName,
-          authorEmail: data.authorEmail,
+          authorName: source.name,
+          partnerId: source.partner.id,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
           views: data.views
@@ -211,21 +254,6 @@ const GallerySearch: React.FC = () => {
         allRecipes.push(recipe);
       });
 
-      // デバッグ情報を出力
-      const categoryName = searchParams.get('category') || '';
-      console.log('カテゴリ検索結果:', {
-        level,
-        situation,
-        categoryName,
-        totalRecipes: allRecipes.length,
-        levelFilter: level ? `適用 (${level})` : 'なし',
-        situationFilter: situation ? `適用 (${situation}) - カテゴリ名: ${categoryName}` : 'なし',
-        searchMethod: {
-          level: level ? 'difficultyフィールドから直接検索' : 'なし',
-          situation: situation ? 'カテゴリ名で直接検索' : 'なし'
-        }
-      });
-      
       setSearchResults(allRecipes);
     } catch (error) {
       console.error('カテゴリ検索エラー:', error);
@@ -265,10 +293,13 @@ const GallerySearch: React.FC = () => {
 
       querySnapshot.forEach((doc) => {
         const data = doc.data() as any;
+        // パートナー（提携先）のレシピのみ掲載
+        const source = getRecipeSource(data);
+        if (!source) return;
         allRecipes.push({
           id: doc.id,
           title: data.title || '',
-          author: data.authorName || '匿名ユーザー',
+          author: source.name,
           image: '/Image/Goods Picture.png',
           likes: data.likes || 0,
           difficulty: data.difficulty || '初級',
@@ -283,8 +314,8 @@ const GallerySearch: React.FC = () => {
           explanationType: data.explanationType,
           websiteExplanation: data.websiteExplanation,
           authorId: data.authorId,
-          authorName: data.authorName,
-          authorEmail: data.authorEmail,
+          authorName: source.name,
+          partnerId: source.partner.id,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
           views: data.views
@@ -326,10 +357,13 @@ const GallerySearch: React.FC = () => {
 
       querySnapshot.forEach((doc) => {
         const data = doc.data() as any;
+        // パートナー（提携先）のレシピのみ掲載
+        const source = getRecipeSource(data);
+        if (!source) return;
         allRecipes.push({
           id: doc.id,
           title: data.title || '',
-          author: data.authorName || '匿名ユーザー',
+          author: source.name,
           image: '/Image/Goods Picture.png',
           likes: data.likes || 0,
           difficulty: data.difficulty || '初級',
@@ -344,8 +378,8 @@ const GallerySearch: React.FC = () => {
           explanationType: data.explanationType,
           websiteExplanation: data.websiteExplanation,
           authorId: data.authorId,
-          authorName: data.authorName,
-          authorEmail: data.authorEmail,
+          authorName: source.name,
+          partnerId: source.partner.id,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
           views: data.views
@@ -376,8 +410,8 @@ const GallerySearch: React.FC = () => {
     navigate(`/gallery/detail/${recipe.id}`);
   };
 
-  const handleAuthorClick = (author: string, authorId: string) => {
-    navigate(`/gallery/user/${authorId}`);
+  const handleAuthorClick = (partnerId?: string) => {
+    if (partnerId) navigate(`/gallery/search?partner=${encodeURIComponent(partnerId)}`);
   };
 
   // URLが有効かどうかをチェックする関数
@@ -441,23 +475,11 @@ const GallerySearch: React.FC = () => {
                 <h4>検索のヒント:</h4>
                 <ul>
                   <li>作品名で検索</li>
-                  <li>作者名で検索</li>
+                  <li>パートナー名（うさんこ、クロバー）で検索</li>
                   <li>タグ（パッチワーク、クッションなど）で検索</li>
                   <li>材料名（綿、リネン、ボタンなど）で検索</li>
                   <li>難易度（初級、中級、上級）で検索</li>
                 </ul>
-              </div>
-              <div className="be-first-poster">
-                <div className="be-first-poster-icon">🎨</div>
-                <h4>あなたが最初の投稿者になりませんか？</h4>
-                <p>このキーワードやカテゴリで作品を投稿して、他の方の参考にしてみてください！</p>
-                <button 
-                  className="upload-encouragement-btn"
-                  onClick={() => navigate('/gallery/upload')}
-                >
-                  <span role="img" aria-label="投稿">📝</span>
-                  作品を投稿する
-                </button>
               </div>
             </div>
           ) : (
@@ -484,7 +506,7 @@ const GallerySearch: React.FC = () => {
                       <h3 className="recipe-title">{recipe.title}</h3>
                       <div className="recipe-author-info" onClick={(e) => {
                         e.stopPropagation();
-                        handleAuthorClick(recipe.author, recipe.authorId || '');
+                        handleAuthorClick(recipe.partnerId);
                       }}>
                         <span className="author-avatar">👤</span>
                         <span className="author-name">{recipe.author}</span>

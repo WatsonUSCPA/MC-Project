@@ -1,17 +1,10 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import GalleryHome from './GalleryHome';
 import GalleryDetail from './GalleryDetail';
-import GalleryUpload from './GalleryUpload';
-import GalleryLogin from './GalleryLogin';
-import GalleryMyPage from './GalleryMyPage';
-import GalleryProfileEdit from './GalleryProfileEdit';
-import GalleryRecipeEdit from './GalleryRecipeEdit';
 import GalleryMainSite from './GalleryMainSite';
-import GalleryUserProfile from './GalleryUserProfile';
 import GallerySearch from './GallerySearch';
-import GalleryAdmin from './GalleryAdmin';
 import GalleryHeader from './GalleryHeader';
 import './GalleryApp.css';
 
@@ -38,18 +31,14 @@ const GalleryApp: React.FC = () => {
       <GalleryScrollToTop />
       <GalleryHeader />
       <main className="gallery-main">
+        {/* 閲覧専用のレシピライブラリ（ログイン・投稿・コメント・いいね機能は廃止） */}
         <Routes>
           <Route path="/" element={<GalleryHome />} />
           <Route path="/detail/:recipeId" element={<GalleryDetail />} />
-          <Route path="/upload" element={<GalleryUpload />} />
-          <Route path="/login" element={<GalleryLogin />} />
-          <Route path="/mypage" element={<GalleryMyPage />} />
-          <Route path="/profile-edit" element={<GalleryProfileEdit />} />
-          <Route path="/recipe-edit/:recipeId" element={<GalleryRecipeEdit />} />
           <Route path="/main-site" element={<GalleryMainSite />} />
-          <Route path="/user/:userId" element={<GalleryUserProfile />} />
           <Route path="/search" element={<GallerySearch />} />
-          <Route path="/admin" element={<GalleryAdmin />} />
+          {/* 旧URL（ログイン・投稿・マイページ・管理画面など）はギャラリートップへ */}
+          <Route path="*" element={<Navigate to="/gallery" replace />} />
         </Routes>
       </main>
     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './GalleryHome.css';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { getRecipeSource } from './partners';
 import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { app } from './firebase';
 
@@ -30,7 +30,8 @@ interface Recipe {
   websiteExplanation?: string;
   authorId?: string;
   authorName?: string;
-  authorEmail?: string;
+  partnerId?: string;
+  sourceUrl?: string;
   createdAt?: any;
   updatedAt?: any;
   views?: number;
@@ -50,15 +51,6 @@ interface SituationCategory {
   order: number;
 }
 
-interface UserProfile {
-  uid: string;
-  displayName: string;
-  email: string;
-  photoURL?: string;
-  myRecipes: Recipe[];
-  bookmarks: Recipe[];
-  joinDate: string;
-}
 
 
 
@@ -144,9 +136,6 @@ const GalleryHome: React.FC = () => {
   const [situationCategories, setSituationCategories] = useState<SituationCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [showMyPage, setShowMyPage] = useState(false);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [retryCount, setRetryCount] = useState(0);
 
 
@@ -273,10 +262,13 @@ const GalleryHome: React.FC = () => {
         const fetchedRecipes: Recipe[] = [];
         querySnapshot.forEach((doc: any) => {
           const data = doc.data();
+          // パートナー（提携先）のレシピのみ掲載
+          const source = getRecipeSource(data);
+          if (!source) return;
           fetchedRecipes.push({
             id: doc.id,
             title: data.title || '',
-            author: data.authorName || '匿名ユーザー',
+            author: source.name,
             image: '/Image/Goods Picture.png', // デフォルト画像を先に使用
             likes: data.likes || 0,
             difficulty: data.difficulty || '初級',
@@ -292,8 +284,9 @@ const GalleryHome: React.FC = () => {
             explanationType: data.explanationType,
             websiteExplanation: data.websiteExplanation,
             authorId: data.authorId,
-            authorName: data.authorName,
-            authorEmail: data.authorEmail,
+            authorName: source.name,
+            partnerId: source.partner.id,
+            sourceUrl: source.url,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt,
             views: data.views || 0
@@ -358,30 +351,6 @@ const GalleryHome: React.FC = () => {
     fetchRecipes();
   }, []);
 
-  // ユーザー認証状態の監視
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      if (user) {
-        // ユーザープロフィール情報を取得（軽量化）
-        const mockUserProfile: UserProfile = {
-          uid: user.uid,
-          displayName: user.displayName || 'ユーザー',
-          email: user.email || '',
-          photoURL: user.photoURL || undefined,
-          myRecipes: [], // 空配列で初期化
-          bookmarks: [], // 空配列で初期化
-          joinDate: '2024年1月'
-        };
-        setUserProfile(mockUserProfile);
-      } else {
-        setUserProfile(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []); // recipesの依存関係を削除
 
   // URLが有効かどうかをチェックする関数
   const isValidUrl = (url: string): boolean => {
@@ -395,9 +364,9 @@ const GalleryHome: React.FC = () => {
     }
   };
 
-  const handleAuthorClick = (author: string, authorId: string) => {
-    // ユーザープロフィールページに直接遷移
-    navigate(`/gallery/user/${authorId}`);
+  const handleAuthorClick = (partnerId?: string) => {
+    // パートナーのレシピ一覧（検索ページ）に遷移
+    if (partnerId) navigate(`/gallery/search?partner=${encodeURIComponent(partnerId)}`);
   };
 
 
@@ -411,28 +380,6 @@ const GalleryHome: React.FC = () => {
   const handleKeywordClick = (keyword: PopularKeyword) => {
     // キーワードで検索ページに遷移
     navigate(`/gallery/search?q=${encodeURIComponent(keyword.name)}`);
-  };
-
-  const handleMyPageToggle = () => {
-    // マイページにリダイレクト
-    window.location.href = '/gallery/mypage';
-  };
-
-  const handleLogout = () => {
-    const auth = getAuth();
-    auth.signOut();
-    setShowMyPage(false);
-  };
-
-  const handleUploadRecipe = () => {
-    // Recipe Uploadページに遷移
-    navigate('/gallery/upload');
-    setShowMyPage(false);
-  };
-
-  const handleAdminPage = () => {
-    // 管理者ページに遷移
-    navigate('/gallery/admin');
   };
 
   const handleLevelClick = (level: { id: string; name: string }) => {
@@ -607,7 +554,7 @@ const GalleryHome: React.FC = () => {
                     <h3 className="recipe-title">{recipe.title}</h3>
                     <div className="recipe-author-info" onClick={(e) => {
                       e.stopPropagation();
-                      handleAuthorClick(recipe.author, recipe.authorId || '');
+                      handleAuthorClick(recipe.partnerId);
                     }}>
                       <span className="author-avatar">👤</span>
                       <span className="author-name">{recipe.author}</span>
@@ -628,15 +575,8 @@ const GalleryHome: React.FC = () => {
           ) : (
             <div className="no-recipes-message">
               <div className="no-recipes-icon">🎨</div>
-              <h3>まだレシピが投稿されていません</h3>
-              <p>あなたが最初の投稿者になりませんか？</p>
-              <button 
-                className="be-first-poster-btn"
-                onClick={handleUploadRecipe}
-              >
-                <span role="img" aria-label="投稿">📝</span>
-                最初のレシピを投稿する
-              </button>
+              <h3>レシピを準備中です</h3>
+              <p>パートナーのレシピを順次掲載していきます。</p>
             </div>
           )}
         </section>
@@ -674,7 +614,7 @@ const GalleryHome: React.FC = () => {
                     <h3 className="recipe-title">{recipe.title}</h3>
                     <div className="recipe-author-info" onClick={(e) => {
                       e.stopPropagation();
-                      handleAuthorClick(recipe.author, recipe.authorId || '');
+                      handleAuthorClick(recipe.partnerId);
                     }}>
                       <span className="author-avatar">👤</span>
                       <span className="author-name">{recipe.author}</span>
@@ -695,29 +635,12 @@ const GalleryHome: React.FC = () => {
           ) : (
             <div className="no-recipes-message">
               <div className="no-recipes-icon">🎨</div>
-              <h3>まだレシピが投稿されていません</h3>
-              <p>あなたが最初の投稿者になりませんか？</p>
-              <button 
-                className="be-first-poster-btn"
-                onClick={handleUploadRecipe}
-              >
-                <span role="img" aria-label="投稿">📝</span>
-                最初のレシピを投稿する
-              </button>
+              <h3>レシピを準備中です</h3>
+              <p>パートナーのレシピを順次掲載していきます。</p>
             </div>
           )}
         </section>
 
-        {/* 投稿ボタン */}
-        <div className="upload-section">
-          <button 
-            className="upload-btn"
-            onClick={handleUploadRecipe}
-          >
-            <span role="img" aria-label="投稿">📝</span>
-            クラフトキッチンに作品を投稿する
-          </button>
-        </div>
       </div>
     </div>
   );

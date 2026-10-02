@@ -97,65 +97,28 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
-    // ===== ギャラリー: レシピ =====
+    // ===== ギャラリー（クラフトキッチン）: レシピ =====
+    // 閲覧専用のレシピライブラリ。誰でも読めるが、サイトからの書き込みは一切不可。
+    // レシピの追加・編集は Firebase コンソール（または管理者用のサーバー処理）から行う。
     match /recipes/{recipeId} {
       allow read: if true;
-      // 作成者は自分自身、いいね・閲覧数は 0 から
-      allow create: if signedIn() &&
-        request.resource.data.authorId == request.auth.uid &&
-        request.resource.data.get('likes', 0) == 0 &&
-        request.resource.data.get('views', 0) == 0;
-      // 作成者本人（作成者は変更不可）または管理者
-      allow update: if (signedIn() &&
-          resource.data.authorId == request.auth.uid &&
-          request.resource.data.authorId == resource.data.authorId)
-        || isAdmin()
-        // ログインユーザーは「likes の ±1」だけ変更できる（いいねボタン用）
-        || (signedIn() &&
-            onlyChanges(['likes']) &&
-            request.resource.data.likes is int &&
-            (request.resource.data.likes == resource.data.get('likes', 0) + 1 ||
-             request.resource.data.likes == resource.data.get('likes', 0) - 1));
-      allow delete: if (signedIn() && resource.data.authorId == request.auth.uid) || isAdmin();
+      allow write: if false;
 
-      // レシピのコメント
+      // 旧コメント・旧いいね（サブコレクション）: 機能廃止のため読み書き不可
       match /comments/{commentId} {
-        allow read: if true;
-        allow create: if signedIn() &&
-          request.resource.data.authorId == request.auth.uid &&
-          request.resource.data.text is string &&
-          request.resource.data.text.size() > 0 &&
-          request.resource.data.text.size() <= 1000;
-        allow delete: if (signedIn() && resource.data.authorId == request.auth.uid) || isAdmin();
+        allow read, write: if false;
       }
-
-      // レシピのいいね（ドキュメントID = ユーザーID、本人のみ）
       match /likes/{likeUserId} {
-        allow read: if true;
-        allow create: if isSelf(likeUserId) && request.resource.data.userId == request.auth.uid;
-        allow delete: if isSelf(likeUserId);
+        allow read, write: if false;
       }
     }
 
-    // ===== いいね（ドキュメントID = recipeId_userId、本人のみ）=====
+    // ===== 旧いいね・旧コメント（トップレベル）: 機能廃止のため読み書き不可 =====
     match /likes/{likeId} {
-      allow read: if signedIn();
-      allow create: if signedIn() &&
-        request.resource.data.userId == request.auth.uid &&
-        likeId == request.resource.data.recipeId + '_' + request.auth.uid;
-      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
-      allow update: if false;
+      allow read, write: if false;
     }
-
-    // ===== コメント（旧コメント機能）=====
     match /comments/{commentId} {
-      allow read: if true;
-      allow create: if signedIn() &&
-        request.resource.data.userId == request.auth.uid &&
-        request.resource.data.text is string &&
-        request.resource.data.text.size() > 0 &&
-        request.resource.data.text.size() <= 500;
-      allow delete: if (signedIn() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow read, write: if false;
     }
   }
 }
