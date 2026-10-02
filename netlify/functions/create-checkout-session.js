@@ -5,9 +5,8 @@
 //  - success_url / cancel_url はサイト自身のURL（環境変数）から組み立てる
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// 生地の商品データ（AllProducts.tsx と同じ Google Apps Script）
-const PRODUCTS_API_URL = process.env.PRODUCTS_API_URL ||
-  'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
+// 生地の商品データ（AllProducts.tsx と同じ Google Apps Script。取得とキャッシュは ../lib/products.js）
+const { fetchPublicProducts } = require('../lib/products');
 // レシピ（キット）データ（KitsNew.tsx と同じ Firestore の kits コレクション）
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'link-manager-f4ea8';
 
@@ -59,11 +58,8 @@ const toAbsoluteImageUrl = (url, siteUrl) => {
   return undefined;
 };
 
-// Google Apps Script は応答に数秒〜10秒以上かかることがあるため、
-// 起動中の関数インスタンス内で短時間キャッシュし、タイムアウトも設ける
-const PRODUCT_CACHE_MS = 5 * 60 * 1000;
+// Firestore 取得のタイムアウト
 const FETCH_TIMEOUT_MS = Number(process.env.PRODUCTS_FETCH_TIMEOUT_MS || 8000);
-let productCache = { at: 0, map: null };
 
 async function fetchWithTimeout(url, options = {}) {
   const controller = new AbortController();
@@ -76,21 +72,12 @@ async function fetchWithTimeout(url, options = {}) {
 }
 
 async function fetchFabricProducts() {
-  if (productCache.map && Date.now() - productCache.at < PRODUCT_CACHE_MS) {
-    return productCache.map;
-  }
-  const res = await fetchWithTimeout(PRODUCTS_API_URL, { headers: { Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`product data fetch failed (${res.status})`);
-  const data = await res.json();
-  if (!Array.isArray(data)) throw new Error('product data has unexpected format');
+  const list = await fetchPublicProducts();
   const map = new Map();
-  for (const p of data) {
-    if (p && p.status === '公開中' && p.managementNumber != null) {
-      const id = String(p.managementNumber);
-      if (!map.has(id)) map.set(id, p); // 重複IDは最初の1件を採用
-    }
+  for (const p of list) {
+    const id = String(p.managementNumber);
+    if (!map.has(id)) map.set(id, p); // 重複IDは最初の1件を採用
   }
-  productCache = { at: Date.now(), map };
   return map;
 }
 

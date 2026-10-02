@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
+import RecipeStrip from '../../shared/components/RecipeStrip';
 
 // 商品型定義
 interface Product {
@@ -338,6 +339,12 @@ const AllProducts: React.FC = () => {
           >もっと見る</button>
         </div>
       )}
+      <RecipeStrip
+        title="この生地で作れるレシピ"
+        subtitle="クラフトキッチンで人気の作り方レシピ（無料）"
+        mode="popular"
+        moreLink="/gallery/search?sort=popular"
+      />
     </div>
   );
 };

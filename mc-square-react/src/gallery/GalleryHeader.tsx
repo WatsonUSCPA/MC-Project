@@ -15,7 +15,7 @@ const GalleryHeader: React.FC = () => {
   };
 
   return (
-    <header className="gallery-header">
+    <div className="gallery-header gallery-subheader">
       <div className="gallery-header-container">
         <div className="gallery-header-left">
           <Link to="/gallery" className="gallery-logo">
@@ -52,17 +52,8 @@ const GalleryHeader: React.FC = () => {
           </form>
         </div>
 
-        <div className="gallery-header-right">
-          {/* クラフトキッチンはログイン不要の閲覧専用ライブラリ。ショップへのリンクのみ表示 */}
-          <div className="user-section">
-            <Link to="/" className="login-button">
-              <span className="login-icon">🧵</span>
-              <span className="login-text">ショップへ</span>
-            </Link>
-          </div>
-        </div>
       </div>
-    </header>
+    </div>
   );
 };
 

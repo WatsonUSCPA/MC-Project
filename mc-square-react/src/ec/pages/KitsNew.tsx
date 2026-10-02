@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import RecipeStrip from '../../shared/components/RecipeStrip';
 // Firebase
 import { app } from '../../firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
@@ -486,6 +487,12 @@ const KitsNew: React.FC = () => {
       </div>
 
       {/* お問合せ先 */}
+      <RecipeStrip
+        title="キットと一緒に見たいレシピ"
+        subtitle="クラフトキッチンの関連レシピ"
+        mode="related"
+        relatedText={kits.map(k => k.name).join(' ')}
+      />
       <div style={{ 
         background: '#FFF8F5', 
         borderRadius: 20, 

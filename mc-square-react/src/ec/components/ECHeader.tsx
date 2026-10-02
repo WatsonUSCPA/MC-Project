@@ -9,6 +9,12 @@ const navItems = [
   { to: '/subscription', icon: '📦', label: 'サブスク' },
 ];
 
+// サイト共通の切り替えタブ（ショップ／クラフトキッチン）
+const sectionTabs = [
+  { to: '/', icon: '🧵', label: 'ショップ', match: (p: string) => !p.startsWith('/gallery') },
+  { to: '/gallery', icon: '📖', label: 'クラフトキッチン レシピ', match: (p: string) => p.startsWith('/gallery') },
+];
+
 const getImageSrc = (url?: string) => {
   if (!url) return '/Image/MC square Logo.png';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -32,6 +38,7 @@ const useIsMobile = () => {
 
 const ECHeader: React.FC = () => {
   const location = useLocation();
+  const isGalleryRoute = location.pathname.startsWith('/gallery');
   const { cart, getTotalItems, getTotalPrice, updateQuantity, removeFromCart, updateKitPrice, canProceedToCheckout } = useCart();
   
   const [cartOpen, setCartOpen] = useState(false);
@@ -438,7 +445,7 @@ const ECHeader: React.FC = () => {
       <div className="header-main-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: 1200, margin: '0 auto', padding: '0.6em 1.2em', position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.7em', minWidth: 120 }}>
           <Link to="/">
-            <img src="/Image/MC square Logo.png" alt="MC Square ロゴ" style={{ height: 34, width: 'auto', display: 'block' }} />
+            <img src="/Image/mc-square-logo-96.webp" alt="MC Square ロゴ" width={34} height={34} style={{ height: 34, width: 'auto', display: 'block' }} />
           </Link>
           <Link to="/" style={{ textDecoration: 'none' }}>
             <span style={{ fontSize: '1.08rem', fontWeight: 700, color: 'var(--color-primary)', letterSpacing: '0.04em' }}>エムシースクエア</span>
@@ -473,6 +480,25 @@ const ECHeader: React.FC = () => {
           {cartOpen && CartDetail}
         </div>
       </div>
+      {/* ショップ ⇔ クラフトキッチン の切り替えタブ（サイト共通） */}
+      <div className="site-section-tabs" role="tablist" aria-label="サイトの切り替え">
+        {sectionTabs.map(tab => {
+          const active = tab.match(location.pathname);
+          return (
+            <Link
+              key={tab.to}
+              to={tab.to}
+              role="tab"
+              aria-selected={active}
+              className={`site-section-tab${active ? ' active' : ''}`}
+            >
+              <span aria-hidden="true">{tab.icon}</span>
+              <span>{tab.label}</span>
+            </Link>
+          );
+        })}
+      </div>
+      {!isGalleryRoute && (
       <nav style={{ background: '#f7f3ef', borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' }}>
         <ul className="header-nav-list" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.7em', margin: 0, padding: '0.35em 0', listStyle: 'none', fontSize: '0.98em' }}>
           {navItems.map(item => (
@@ -497,6 +523,7 @@ const ECHeader: React.FC = () => {
           ))}
         </ul>
       </nav>
+      )}
     </header>
   );
 };

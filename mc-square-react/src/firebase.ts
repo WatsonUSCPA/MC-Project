@@ -1,5 +1,4 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -16,7 +15,6 @@ const firebaseConfig = {
 let app: FirebaseApp;
 try {
   app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-  console.log('Firebase初期化成功:', firebaseConfig.projectId);
 } catch (error) {
   console.error('Firebase初期化エラー:', error);
   throw error;
@@ -26,13 +24,3 @@ try {
 const db = getFirestore(app);
 
 export { app, db };
-
-// Firebase Authの永続性をlocalに明示設定（必ず一度だけ実行）
-try {
-  const auth = getAuth(app);
-  setPersistence(auth, browserLocalPersistence).catch((e) => {
-    console.error('Auth persistence設定エラー:', e);
-  });
-} catch (error) {
-  console.error('Firebase Auth初期化エラー:', error);
-} 

@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { getRecipeSource, RecipeSource } from './partners';
-import { app } from './firebase';
+import { fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
+import { useCart } from '../ec/context/CartContext';
+import RecipeStrip from '../shared/components/RecipeStrip';
 import './GalleryDetail.css';
 
-// 商品型定義
-interface Product {
-  managementNumber: string;
-  name: string;
-  price: string;
-  imageUrl?: string;
-  status?: string;
-  description?: string;
-}
+interface DetailSource { partnerId: string; name: string; url: string | null; linkLabel: string; }
 
 interface RecipeStep {
   id: number;
@@ -22,7 +14,7 @@ interface RecipeStep {
 }
 
 interface AffiliateProduct {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   imageUrl?: string;
@@ -68,118 +60,91 @@ const GalleryDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [source, setSource] = useState<RecipeSource | null>(null);
-  const [randomProducts, setRandomProducts] = useState<Product[]>([]);
+  const [source, setSource] = useState<DetailSource | null>(null);
+  const [matchedKits, setMatchedKits] = useState<CatalogKit[]>([]);
+  const [fabricPicks, setFabricPicks] = useState<CatalogProduct[]>([]);
+  const [addedId, setAddedId] = useState<string | null>(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
-    const fetchRecipe = async () => {
-      if (!recipeId) {
-        setError('レシピIDが指定されていません');
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const db = getFirestore(app);
-        const recipeDoc = await getDoc(doc(db, 'recipes', recipeId));
-        
-        if (recipeDoc.exists()) {
-          const recipeData = recipeDoc.data();
-          // パートナー（提携先）のレシピのみ表示
-          const recipeSource = getRecipeSource(recipeData);
-          if (!recipeSource) {
-            setError('レシピが見つかりません');
-            return;
-          }
-          setSource(recipeSource);
-          // データベースのフィールド名をインターフェースに合わせてマッピング
-          const mappedRecipe: Recipe = {
-            ...recipeData,
-            id: recipeDoc.id,
-            title: recipeData.title || '',
-            description: recipeData.description || '',
-            ingredients: recipeData.ingredients || [],
-            steps: recipeData.steps || [],
-            mainImageUrl: recipeData.mainImageUrl,
-            image: recipeData.image,
-            pdfUrl: recipeData.pdfUrl,
-            cookingTime: recipeData.cookingTime === '30min' ? '30分以内' :
-                        recipeData.cookingTime === '1hour' ? '1時間以内' :
-                        recipeData.cookingTime === '2hours' ? '2時間以内' :
-                        recipeData.cookingTime === '3hours' ? '3時間以内' :
-                        recipeData.cookingTime === 'half-day' ? '半日' :
-                        recipeData.cookingTime === 'full-day' ? '1日' :
-                        recipeData.cookingTime === 'multiple-days' ? '数日' :
-                        recipeData.cookingTime || '',
-            difficulty: recipeData.difficulty === 'easy' ? '初級' : 
-                      recipeData.difficulty === 'medium' ? '中級' : 
-                      recipeData.difficulty === 'hard' ? '上級' : 
-                      recipeData.difficulty || '',
-            youtubeUrl: recipeData.youtubeUrl,
-            explanationType: recipeData.explanationType || 'none',
-            websiteExplanation: recipeData.websiteExplanation,
-            affiliateProducts: recipeData.affiliateProducts || [],
-            authorSNS: recipeData.authorSNS || {
-              twitter: '',
-              instagram: '',
-              facebook: '',
-              line: '',
-              website: ''
-            },
-            author: recipeSource.name,
-            authorId: recipeData.authorId || '',
-            likes: recipeData.likes || 0,
-            views: recipeData.views || 0,
-            tags: recipeData.tags || [],
-            createdAt: recipeData.createdAt
-          };
-          setRecipe(mappedRecipe);
-        } else {
-          setError('レシピが見つかりません');
-        }
-      } catch (err) {
-        console.error('Error fetching recipe:', err);
-        setError('レシピの取得に失敗しました');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecipe();
+    let alive = true;
+    if (!recipeId) {
+      setError('レシピIDが指定されていません');
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    window.scrollTo(0, 0);
+    // パートナーのレシピのみ返す軽量API（メイン画像は縮小WebP）
+    fetchRecipeDetail(recipeId)
+      .then((d: any) => {
+        if (!alive) return;
+        const label = d.sourceLabel || '元のレシピを見る';
+        setSource({ partnerId: d.partnerId, name: d.partnerName, url: d.sourceUrl, linkLabel: label });
+        setRecipe({
+          ...d,
+          id: d.id,
+          title: d.title || '',
+          description: d.description || '',
+          ingredients: d.ingredients || [],
+          steps: (d.steps || []).map((st: any) => ({ ...st, imageUrl: st.imageUrl || st.image })),
+          mainImageUrl: d.mainImageUrl,
+          image: d.thumb,
+          cookingTime: d.cookingTime === '30min' ? '30分以内' :
+                      d.cookingTime === '1hour' ? '1時間以内' :
+                      d.cookingTime === '2hours' ? '2時間以内' :
+                      d.cookingTime === '3hours' ? '3時間以内' :
+                      d.cookingTime === 'half-day' ? '半日' :
+                      d.cookingTime === 'full-day' ? '1日' :
+                      d.cookingTime === 'multiple-days' ? '数日' :
+                      d.cookingTime || '',
+          difficulty: d.difficulty === 'easy' ? '初級' :
+                    d.difficulty === 'medium' ? '中級' :
+                    d.difficulty === 'hard' ? '上級' :
+                    d.difficulty || '',
+          explanationType: d.explanationType || 'none',
+          affiliateProducts: d.affiliateProducts || [],
+          authorSNS: d.authorSNS || {},
+          author: d.partnerName,
+          authorId: '',
+          likes: d.likes || 0,
+          views: d.views || 0,
+          tags: d.tags || [],
+          createdAt: d.createdAt,
+        });
+      })
+      .catch(() => alive && setError('レシピが見つかりません'))
+      .finally(() => alive && setLoading(false));
+    return () => { alive = false; };
   }, [recipeId]);
 
-  // All Productsの商品データを取得してランダムに2つ選択
+  // このレシピに使えるショップ商品（キット・生地）
   useEffect(() => {
-    const fetchRandomProducts = async () => {
-      try {
-        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbygEEOmylE1fzaMtpxAReEQfY02zIcUVKwVPaV4R5H5AKWnQtgnUbYOKfq3y4mYJPdzYg/exec';
-        const response = await fetch(GAS_WEB_APP_URL, { 
-          method: 'GET', 
-          mode: 'cors', 
-          headers: { 'Accept': 'application/json' } 
-        });
-        
-        if (!response.ok) throw new Error(`データの取得に失敗しました (${response.status})`);
-        const data = await response.json();
-        
-        if (!Array.isArray(data)) throw new Error('データの形式が不正です');
-        
-        // 公開中の商品のみをフィルタリング
-        const availableProducts = data.filter((item: any) => item.status === '公開中');
-        
-        // ランダムに2つ選択
-        const shuffled = availableProducts.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 2);
-        
-        setRandomProducts(selected);
-      } catch (error) {
-        console.error('Error fetching random products:', error);
-      }
-    };
+    if (!recipe) return;
+    let alive = true;
+    fetchCatalog()
+      .then((c) => {
+        if (!alive) return;
+        setMatchedKits(kitsForRecipe(recipe, c.kits));
+        setFabricPicks(fabricPicksForRecipe(recipe.id, c.products, 4));
+      })
+      .catch(() => { /* 商品が取れなくてもレシピは表示 */ });
+    return () => { alive = false; };
+  }, [recipe]);
 
-    fetchRandomProducts();
-  }, []);
-
+  const handleAddFabric = (p: CatalogProduct) => {
+    addToCart({
+      managementNumber: p.managementNumber,
+      name: p.name,
+      price: String(p.price),
+      imageUrl: p.imageUrl,
+      quantity: 1,
+      productType: 'fabric',
+    });
+    setAddedId(p.managementNumber);
+    setTimeout(() => setAddedId((cur) => (cur === p.managementNumber ? null : cur)), 2000);
+  };
 
   const handleBackToGallery = () => {
     navigate('/gallery');
@@ -237,6 +202,9 @@ const GalleryDetail: React.FC = () => {
     }
   };
 
+  // うさんこのレシピの affiliateProducts は「うさんこクラブ」（当店BASEショップの材料セット）
+  const kitLinks = (recipe?.affiliateProducts || []).filter((p) => p.productUrl && /mcsquare\.thebase\.in/.test(p.productUrl));
+
   if (loading) {
     return (
       <div className="recipe-detail">
@@ -277,6 +245,9 @@ const GalleryDetail: React.FC = () => {
             <img
               src={recipe.mainImageUrl || recipe.image}
               alt={recipe.title}
+              width={960}
+              height={540}
+              decoding="async"
               onError={(e) => {
                 if (recipe.mainImageUrl) {
                   e.currentTarget.src = recipe.image || '/placeholder-image.jpg';
@@ -287,7 +258,7 @@ const GalleryDetail: React.FC = () => {
 
           <div className="recipe-info">
             <div className="recipe-author" onClick={() => {
-              if (source) navigate(`/gallery/search?partner=${encodeURIComponent(source.partner.id)}`);
+              if (source) navigate(`/gallery/search?partner=${encodeURIComponent(source.partnerId)}`);
             }}>
               <span className="author-avatar">👤</span>
               <span className="author-name">{recipe.author || '匿名ユーザー'}</span>
@@ -360,131 +331,58 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
-            {/* 控えめなEC宣伝セクション */}
-            <div className="subtle-ec-promotion" style={{
-              margin: '20px 0',
-              padding: '20px',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '12px',
-              border: '1px solid #e9ecef',
-              textAlign: 'center',
-              fontSize: '0.9rem',
-              color: '#6c757d'
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '15px'
-              }}>
-                <p style={{ 
-                  margin: '0', 
-                  fontStyle: 'italic',
-                  fontSize: '0.9rem',
-                  lineHeight: '1.4'
-                }}>
-                  材料をお探しの方は、当店のオンラインショップもご利用ください
-                </p>
-                
-                {/* 商品画像の横並び表示 */}
-                {randomProducts && randomProducts.length > 0 && (
-                  <div style={{
-                    display: 'flex',
-                    gap: '10px',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    marginBottom: '15px'
-                  }}>
-                    {randomProducts.slice(0, 4).map((product, index) => (
-                      <div key={index} style={{
-                        width: '80px',
-                        height: '80px',
-                        borderRadius: '8px',
-                        overflow: 'hidden',
-                        border: '2px solid #e9ecef',
-                        backgroundColor: '#fff',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
-                        {product.imageUrl ? (
-                          <img 
-                            src={product.imageUrl} 
-                            alt={product.name}
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover'
-                            }}
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              const fallbackElement = e.currentTarget.nextElementSibling as HTMLElement;
-                              if (fallbackElement) {
-                                fallbackElement.style.display = 'flex';
-                              }
-                            }}
-                          />
-                        ) : (
-                          <div style={{
-                            width: '100%',
-                            height: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#f8f9fa',
-                            fontSize: '24px'
-                          }}>
-                            🧵
-                          </div>
-                        )}
-                        <div style={{
-                          width: '100%',
-                          height: '100%',
-                          display: 'none',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: '#f8f9fa',
-                          fontSize: '24px'
-                        }}>
-                          🧵
-                        </div>
-                      </div>
+            {/* このレシピに使える商品（キット・うさんこクラブ・生地） */}
+            {(matchedKits.length > 0 || fabricPicks.length > 0 || (source?.partnerId !== 'clover' && kitLinks.length > 0)) && (
+              <section className="recipe-shop-block" aria-label="このレシピに使える商品">
+                <h3>🧵 このレシピに使える商品</h3>
+                {matchedKits.length > 0 && (
+                  <div className="rsb-kits">
+                    {matchedKits.map((kit) => (
+                      <button key={kit.id} type="button" className="rsb-kit" onClick={() => navigate('/kits')}>
+                        {kit.imageUrl && <img src={thumbUrl(kit.imageUrl, 160)} alt="" loading="lazy" width={64} height={64} />}
+                        <span className="rsb-kit-text">
+                          <span className="rsb-badge">キット</span>
+                          <strong>{kit.name}</strong>
+                          <span className="rsb-kit-price">{kit.price}円{kit.level ? `・${kit.level}` : ''}</span>
+                        </span>
+                        <span className="rsb-arrow">キットを見る →</span>
+                      </button>
                     ))}
                   </div>
                 )}
-                
-                <button 
-                  onClick={() => navigate('/all-products')}
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: '#007bff',
-                    border: '1px solid #007bff',
-                    borderRadius: '20px',
-                    padding: '8px 16px',
-                    fontSize: '0.8rem',
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#007bff';
-                    e.currentTarget.style.color = 'white';
-                    e.currentTarget.style.transform = 'translateY(-1px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#007bff';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  <span>🛒</span>
-                  商品一覧を見る →
+                {source?.partnerId !== 'clover' && kitLinks.map((p, i) => (
+                  <a key={i} href={p.productUrl} target="_blank" rel="noopener noreferrer" className="rsb-kit rsb-external">
+                    {p.imageUrl && <img src={p.imageUrl} alt="" loading="lazy" width={64} height={64} />}
+                    <span className="rsb-kit-text">
+                      <span className="rsb-badge">材料セット</span>
+                      <strong>{p.name || 'うさんこクラブ'}</strong>
+                      {p.description && <span className="rsb-kit-price">{p.description}</span>}
+                    </span>
+                    <span className="rsb-arrow">BASEショップで見る ↗</span>
+                  </a>
+                ))}
+                {fabricPicks.length > 0 && (
+                  <>
+                    <p className="rsb-lead">このレシピにおすすめの生地（50cm）</p>
+                    <div className="rsb-fabrics">
+                      {fabricPicks.map((p) => (
+                        <div key={p.managementNumber} className="rsb-fabric">
+                          <img src={thumbUrl(p.imageUrl, 320)} alt={p.name} loading="lazy" decoding="async" width={160} height={160} />
+                          <span className="rsb-fabric-name">{p.name}</span>
+                          <span className="rsb-fabric-price">¥{Number(p.price).toLocaleString()}</span>
+                          <button type="button" className="rsb-add" onClick={() => handleAddFabric(p)}>
+                            {addedId === p.managementNumber ? '✓ 追加しました' : 'カートに入れる'}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+                <button type="button" className="rsb-more" onClick={() => navigate('/all-products')}>
+                  🛒 生地をもっと見る →
                 </button>
-              </div>
-            </div>
+              </section>
+            )}
 
             {recipe.steps && recipe.steps.length > 0 && (
               <div className="recipe-steps">
@@ -540,14 +438,14 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
-            {recipe.affiliateProducts && recipe.affiliateProducts.filter(product => 
+            {source?.partnerId === 'clover' && recipe.affiliateProducts && recipe.affiliateProducts.filter(product => 
               product.name.trim() !== '' || 
               product.description.trim() !== '' || 
               product.productUrl.trim() !== '' ||
               product.imageUrl
             ).length > 0 && (
               <div className="recipe-affiliate-products">
-                <h3>この人のおすすめの商品はこちら。</h3>
+                <h3>{source?.partnerId === 'clover' ? '✂️ このレシピで使うクロバーの道具' : `${recipe.author}のおすすめ商品`}</h3>
                 <div className="affiliate-products-grid">
                   {recipe.affiliateProducts
                     .filter(product => 
@@ -556,11 +454,11 @@ const GalleryDetail: React.FC = () => {
                       product.productUrl.trim() !== '' ||
                       product.imageUrl
                     )
-                    .map((product) => (
-                      <div key={product.id} className="affiliate-product-card">
+                    .map((product, i) => (
+                      <div key={i} className="affiliate-product-card">
                         {product.imageUrl && (
                           <div className="product-image">
-                            <img src={product.imageUrl} alt={product.name} />
+                            <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" />
                           </div>
                         )}
                         <div className="product-info">
@@ -571,14 +469,16 @@ const GalleryDetail: React.FC = () => {
                           {product.description && (
                             <p className="product-description">{product.description}</p>
                           )}
-                          <a 
-                            href={product.productUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="product-link"
-                          >
-                            商品詳細を見る →
-                          </a>
+                          {product.productUrl && (
+                            <a 
+                              href={product.productUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="product-link"
+                            >
+                              クロバーの商品ページを見る ↗
+                            </a>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -586,67 +486,12 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
-            {randomProducts && randomProducts.length > 0 && (
-              <div className="recipe-random-products">
-                <h3>生地をお探しの方はこちら。</h3>
-                <div className="random-products-grid">
-                  {randomProducts.map((product, index) => (
-                    <div key={index} className="random-product-card">
-                      {product.imageUrl && (
-                        <div className="product-image">
-                          <img src={product.imageUrl} alt={product.name} />
-                        </div>
-                      )}
-                      <div className="product-info">
-                        <h4 className="product-name">{product.name}</h4>
-                        {product.description && (
-                          <p className="product-description">{product.description}</p>
-                        )}
-                        <a 
-                          href={`/all-products`} 
-                          className="product-link"
-                        >
-                          商品詳細を見る →
-                        </a>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* 生地を探しに行くボタン */}
-                <div className="fabric-search-section">
-                  <h4>もっと生地を探しに行く</h4>
-                  <button 
-                    onClick={() => navigate('/all-products')}
-                    className="fabric-search-btn"
-                    style={{
-                      backgroundColor: '#FF9F7C',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '25px',
-                      padding: '12px 24px',
-                      fontSize: '1.1rem',
-                      fontWeight: 'bold',
-                      cursor: 'pointer',
-                      marginTop: '10px',
-                      boxShadow: '0 2px 8px rgba(255, 159, 124, 0.3)',
-                      transition: 'all 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 159, 124, 0.4)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(255, 159, 124, 0.3)';
-                    }}
-                  >
-                    🧵 生地を探しに行く →
-                  </button>
-                </div>
-              </div>
-            )}
-
+            <RecipeStrip
+              title="関連レシピ"
+              mode="related"
+              relatedText={`${recipe.title} ${recipe.tags.join(' ')}`}
+              excludeId={recipe.id}
+            />
 
           </div>
         </div>

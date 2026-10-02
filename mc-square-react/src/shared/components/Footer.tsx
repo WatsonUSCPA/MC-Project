@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+const INSTAGRAM_URL = 'https://www.instagram.com/mc.square_official/';
 
 const Footer: React.FC = () => {
   return (
@@ -50,6 +53,18 @@ const Footer: React.FC = () => {
                 retail@mcsquareofficials.com
               </a>
             </p>
+            <p style={{
+              color: 'var(--color-text-light)',
+              lineHeight: 1.6,
+              marginTop: '0.5rem'
+            }}>
+              Instagram：<a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" style={{
+                color: 'var(--color-primary)',
+                textDecoration: 'none'
+              }}>
+                @mc.square_official
+              </a>
+            </p>
           </div>
 
           {/* サービス */}
@@ -68,40 +83,40 @@ const Footer: React.FC = () => {
               margin: 0
             }}>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/all-products" style={{
+                <Link to="/all-products" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
                   生地販売
-                </a>
+                </Link>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/kits" style={{
+                <Link to="/kits" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
                   キット販売
-                </a>
+                </Link>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/subscription" style={{
+                <Link to="/subscription" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
                   サブスクリプション
-                </a>
+                </Link>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/gallery" style={{
+                <Link to="/gallery" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
-                  レシピギャラリー
-                </a>
+                  クラフトキッチン レシピ
+                </Link>
               </li>
             </ul>
           </div>
@@ -122,40 +137,40 @@ const Footer: React.FC = () => {
               margin: 0
             }}>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/terms" style={{
+                <Link to="/terms" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
                   利用規約
-                </a>
+                </Link>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/privacy" style={{
+                <Link to="/privacy" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
                   プライバシーポリシー
-                </a>
+                </Link>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/legal" style={{
+                <Link to="/legal" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
                   特定商取引法
-                </a>
+                </Link>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
-                <a href="/contact" style={{
+                <Link to="/contact" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}>
                   お問い合わせ
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

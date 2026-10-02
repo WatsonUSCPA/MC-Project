@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getRecipeSource, PARTNERS } from './partners';
-import { getFirestore, collection, query as firestoreQuery, where, getDocs, orderBy, limit } from 'firebase/firestore';
-import { app } from './firebase';
+import { PARTNERS } from './partners';
+import { fetchRecipeIndex, RecipeSummary } from '../shared/recipesApi';
 import './GallerySearch.css';
 
 interface Recipe {
@@ -120,290 +119,95 @@ const GallerySearch: React.FC = () => {
     }
   };
 
-  // パートナー別一覧
-  const performPartnerSearch = async (partnerId: string) => {
-    try {
-      setLoading(true);
-      setHasSearched(true);
-      const partner = PARTNERS.find(p => p.id === partnerId);
-      setCategoryTitle(partner ? partner.name : '');
 
-      const db = getFirestore();
-      const recipesRef = collection(db, 'recipes');
-      const q = firestoreQuery(recipesRef, orderBy(sortOrder, sortOrder === 'title' ? 'asc' : 'desc'));
-      const querySnapshot = await getDocs(q);
-      const allRecipes: Recipe[] = [];
 
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as any;
-        const source = getRecipeSource(data);
-        if (!source || source.partner.id !== partnerId) return;
-        allRecipes.push({
-          id: doc.id,
-          title: data.title || '',
-          author: source.name,
-          image: '/Image/Goods Picture.png',
-          likes: data.likes || 0,
-          difficulty: data.difficulty || '初級',
-          cookingTime: data.cookingTime || '1時間',
-          tags: data.tags || [],
-          authorSNS: data.authorSNS || {},
-          mainImageUrl: data.mainImageUrl,
-          description: data.description,
-          partnerId: source.partner.id,
-          createdAt: data.createdAt,
-          views: data.views
-        });
-      });
-
-      setSearchResults(allRecipes);
-    } catch (error) {
-      console.error('パートナー別検索エラー:', error);
-      setSearchResults([]);
-    } finally {
-      setLoading(false);
-    }
+  // 軽量レシピ一覧（パートナーのみ・CDNキャッシュ）を取得して画面用の形に変換
+  const loadRecipes = async (): Promise<Recipe[]> => {
+    const { recipes: list } = await fetchRecipeIndex();
+    return list.map((r: RecipeSummary) => ({
+      id: r.id,
+      title: r.title,
+      author: r.partnerName,
+      image: r.thumb,
+      likes: r.likes,
+      difficulty: r.difficulty || '初級',
+      cookingTime: r.cookingTime || '1時間',
+      tags: r.tags || [],
+      authorSNS: r.authorSNS || {},
+      mainImageUrl: r.thumb,
+      description: r.description,
+      ingredients: r.ingredients,
+      partnerId: r.partnerId,
+      createdAt: r.createdAt,
+      views: r.views,
+    }));
   };
 
-  // カテゴリ検索実行関数
-  const performCategorySearch = async (level: string, situation: string) => {
-    try {
-      setLoading(true);
-      setHasSearched(true);
-
-      const db = getFirestore();
-      const recipesRef = collection(db, 'recipes');
-
-      let q = firestoreQuery(recipesRef, orderBy(sortOrder, sortOrder === 'title' ? 'asc' : 'desc'));
-      const querySnapshot = await getDocs(q);
-      const allRecipes: Recipe[] = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as any;
-        // パートナー（提携先）のレシピのみ掲載
-        const source = getRecipeSource(data);
-        if (!source) return;
-        const recipe = {
-          id: doc.id,
-          title: data.title || '',
-          author: source.name,
-          image: '/Image/Goods Picture.png',
-          likes: data.likes || 0,
-          difficulty: data.difficulty || '初級',
-          cookingTime: data.cookingTime || '1時間',
-          tags: data.tags || [],
-          authorSNS: data.authorSNS || {},
-          mainImageUrl: data.mainImageUrl,
-          description: data.description,
-          ingredients: data.ingredients,
-          steps: data.steps,
-          youtubeUrl: data.youtubeUrl,
-          explanationType: data.explanationType,
-          websiteExplanation: data.websiteExplanation,
-          authorId: data.authorId,
-          authorName: source.name,
-          partnerId: source.partner.id,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-          views: data.views
-        };
-
-        // レベルフィルタリング
-        if (level) {
-          const levelMapping = {
-            'beginner': '初級',
-            'intermediate': '中級',
-            'advanced': '上級'
-          };
-          
-          const targetDifficulty = levelMapping[level as keyof typeof levelMapping];
-          
-          // 難易度フィールドから直接検索
-          if (recipe.difficulty !== targetDifficulty) {
-            return;
-          }
-        }
-
-        // シチュエーションフィルタリング
-        if (situation) {
-          // カテゴリ名で直接検索（例：「ハロウィン」）
-          const categoryName = searchParams.get('category') || '';
-          
-          if (categoryName) {
-            // タイトル、説明、タグからカテゴリ名を検索
-            const searchableTexts = [
-              recipe.title,
-              recipe.description,
-              ...recipe.tags
-            ].filter(text => text && typeof text === 'string');
-            
-            const hasMatch = searchableTexts.some(text => {
-              const textLower = text.toLowerCase();
-              const categoryLower = categoryName.toLowerCase();
-              
-              // カテゴリ名が含まれているかチェック
-              return textLower.includes(categoryLower);
-            });
-            
-            if (!hasMatch) {
-              return;
-            }
-          }
-        }
-
-        allRecipes.push(recipe);
-      });
-
-      setSearchResults(allRecipes);
-    } catch (error) {
-      console.error('カテゴリ検索エラー:', error);
-      setSearchResults([]);
-    } finally {
-      setLoading(false);
-    }
+  // 並び順（人気・新着・タイトル）
+  const sortRecipes = (list: Recipe[], order: 'likes' | 'createdAt' | 'title') => {
+    const t = (v: any) => (v ? new Date(v).getTime() || 0 : 0);
+    return [...list].sort((a, b) =>
+      order === 'title' ? a.title.localeCompare(b.title, 'ja')
+        : order === 'createdAt' ? t(b.createdAt) - t(a.createdAt)
+        : (b.likes - a.likes));
   };
 
-  // ソート検索実行関数
-  const performSortSearch = async (sortType: string) => {
+  const runSearch = async (filter: (r: Recipe) => boolean, order: 'likes' | 'createdAt' | 'title' = sortOrder) => {
     try {
       setLoading(true);
       setHasSearched(true);
-
-      // タイトルを設定
-      if (sortType === 'popular') {
-        setCategoryTitle('人気レシピ');
-      } else if (sortType === 'new') {
-        setCategoryTitle('新着レシピ');
-      }
-
-      const db = getFirestore();
-      const recipesRef = collection(db, 'recipes');
-
-      let q;
-      if (sortType === 'popular') {
-        q = firestoreQuery(recipesRef, orderBy('likes', 'desc'));
-      } else if (sortType === 'new') {
-        q = firestoreQuery(recipesRef, orderBy('createdAt', 'desc'));
-      } else {
-        q = firestoreQuery(recipesRef, orderBy('createdAt', 'desc'));
-      }
-
-      const querySnapshot = await getDocs(q);
-      const allRecipes: Recipe[] = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as any;
-        // パートナー（提携先）のレシピのみ掲載
-        const source = getRecipeSource(data);
-        if (!source) return;
-        allRecipes.push({
-          id: doc.id,
-          title: data.title || '',
-          author: source.name,
-          image: '/Image/Goods Picture.png',
-          likes: data.likes || 0,
-          difficulty: data.difficulty || '初級',
-          cookingTime: data.cookingTime || '1時間',
-          tags: data.tags || [],
-          authorSNS: data.authorSNS || {},
-          mainImageUrl: data.mainImageUrl,
-          description: data.description,
-          ingredients: data.ingredients,
-          steps: data.steps,
-          youtubeUrl: data.youtubeUrl,
-          explanationType: data.explanationType,
-          websiteExplanation: data.websiteExplanation,
-          authorId: data.authorId,
-          authorName: source.name,
-          partnerId: source.partner.id,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-          views: data.views
-        });
-      });
-
-      setSearchResults(allRecipes);
-    } catch (error) {
-      console.error('ソート検索エラー:', error);
-      setSearchResults([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 検索実行関数
-  const performSearch = async (query: string) => {
-    if (!query.trim()) {
-      setSearchResults([]);
-      setHasSearched(false);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setHasSearched(true);
-
-      const db = getFirestore();
-      const recipesRef = collection(db, 'recipes');
-
-      // 検索クエリを作成（タイトル、説明、タグで検索）
-      const q = firestoreQuery(
-        recipesRef,
-        orderBy(sortOrder, sortOrder === 'title' ? 'asc' : 'desc')
-      );
-
-      const querySnapshot = await getDocs(q);
-      const allRecipes: Recipe[] = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as any;
-        // パートナー（提携先）のレシピのみ掲載
-        const source = getRecipeSource(data);
-        if (!source) return;
-        allRecipes.push({
-          id: doc.id,
-          title: data.title || '',
-          author: source.name,
-          image: '/Image/Goods Picture.png',
-          likes: data.likes || 0,
-          difficulty: data.difficulty || '初級',
-          cookingTime: data.cookingTime || '1時間',
-          tags: data.tags || [],
-          authorSNS: data.authorSNS || {},
-          mainImageUrl: data.mainImageUrl,
-          description: data.description,
-          ingredients: data.ingredients,
-          steps: data.steps,
-          youtubeUrl: data.youtubeUrl,
-          explanationType: data.explanationType,
-          websiteExplanation: data.websiteExplanation,
-          authorId: data.authorId,
-          authorName: source.name,
-          partnerId: source.partner.id,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-          views: data.views
-        });
-      });
-
-      // クライアントサイドで検索フィルタリング
-      const filteredRecipes = allRecipes.filter(recipe => {
-        const searchLower = query.toLowerCase();
-        return (
-          recipe.title.toLowerCase().includes(searchLower) ||
-          recipe.description?.toLowerCase().includes(searchLower) ||
-          recipe.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
-          recipe.author.toLowerCase().includes(searchLower)
-        );
-      });
-
-      setSearchResults(filteredRecipes);
+      const all = await loadRecipes();
+      setSearchResults(sortRecipes(all.filter(filter), order));
     } catch (error) {
       console.error('検索エラー:', error);
       setSearchResults([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  // カテゴリ検索（レベル・シチュエーション）
+  const performCategorySearch = async (level: string, situation: string) => {
+    const levelMapping: Record<string, string> = { beginner: '初級', intermediate: '中級', advanced: '上級' };
+    const categoryName = (searchParams.get('category') || '').toLowerCase();
+    await runSearch((recipe) => {
+      if (level && recipe.difficulty !== levelMapping[level]) return false;
+      if (situation && categoryName) {
+        const texts = [recipe.title, recipe.description, ...recipe.tags].filter((t) => t && typeof t === 'string') as string[];
+        if (!texts.some((t) => t.toLowerCase().includes(categoryName))) return false;
+      }
+      return true;
+    });
+  };
+
+  // 人気順・新着順の一覧
+  const performSortSearch = async (sortType: string) => {
+    if (sortType === 'popular') setCategoryTitle('人気レシピ');
+    else if (sortType === 'new') setCategoryTitle('新着レシピ');
+    await runSearch(() => true, sortType === 'popular' ? 'likes' : 'createdAt');
+  };
+
+  // パートナー別一覧
+  const performPartnerSearch = async (partnerId: string) => {
+    const partner = PARTNERS.find(p => p.id === partnerId);
+    setCategoryTitle(partner ? partner.name : '');
+    await runSearch((recipe) => recipe.partnerId === partnerId);
+  };
+
+  // キーワード検索（タイトル・説明・タグ・パートナー名・材料）
+  const performSearch = async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setHasSearched(false);
+      return;
+    }
+    const q = query.toLowerCase();
+    await runSearch((recipe) =>
+      recipe.title.toLowerCase().includes(q) ||
+      !!recipe.description?.toLowerCase().includes(q) ||
+      recipe.tags.some(tag => tag.toLowerCase().includes(q)) ||
+      recipe.author.toLowerCase().includes(q) ||
+      !!recipe.ingredients?.some(i => i.toLowerCase().includes(q)));
   };
 
   const handleRecipeClick = (recipe: Recipe) => {
@@ -492,6 +296,9 @@ const GallerySearch: React.FC = () => {
                         src={recipe.mainImageUrl || recipe.image} 
                         alt={recipe.title}
                         loading="lazy"
+                        decoding="async"
+                        width={480}
+                        height={270}
                         onLoad={(e) => {
                           e.currentTarget.style.opacity = '1';
                         }}

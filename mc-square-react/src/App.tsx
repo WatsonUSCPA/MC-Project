@@ -1,30 +1,28 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Header from './ec/components/ECHeader';
 import Footer from './shared/components/Footer';
-import AllProducts from './ec/pages/AllProducts';
-import Kits from './ec/pages/KitsNew';
-import InfluencerCollab from './ec/pages/InfluencerCollab';
-import Subscription from './ec/pages/Subscription';
 // import YorisoiCraft from './YorisoiCraft';
 import { CartProvider } from './ec/context/CartContext';
 import { useEffect, useState } from 'react';
-import { app } from './firebase';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import Success from './ec/pages/Success';
-import Cancel from './ec/pages/Cancel';
-import TermsOfService from './ec/pages/TermsOfService';
-import PrivacyPolicy from './ec/pages/PrivacyPolicy';
-import LegalNotice from './ec/pages/LegalNotice';
-import Contact from './ec/pages/Contact';
-import GalleryApp from './gallery/GalleryApp';
+import RecipeStrip from './shared/components/RecipeStrip';
 import ImageSlider from './ec/components/ImageSlider';
 
-import Login from './ec/pages/Login';
 
-// Firebase設定
-const db = getFirestore(app);
+// 各ページは開いたときだけ読み込む（トップページの初回表示を軽くする）
+const AllProducts = lazy(() => import('./ec/pages/AllProducts'));
+const Kits = lazy(() => import('./ec/pages/KitsNew'));
+const InfluencerCollab = lazy(() => import('./ec/pages/InfluencerCollab'));
+const Subscription = lazy(() => import('./ec/pages/Subscription'));
+const Success = lazy(() => import('./ec/pages/Success'));
+const Cancel = lazy(() => import('./ec/pages/Cancel'));
+const TermsOfService = lazy(() => import('./ec/pages/TermsOfService'));
+const PrivacyPolicy = lazy(() => import('./ec/pages/PrivacyPolicy'));
+const LegalNotice = lazy(() => import('./ec/pages/LegalNotice'));
+const Contact = lazy(() => import('./ec/pages/Contact'));
+const Login = lazy(() => import('./ec/pages/Login'));
+const GalleryApp = lazy(() => import('./gallery/GalleryApp'));
 
 // ページ遷移時にスクロール位置を最上部にリセットするコンポーネント
 const ScrollToTop: React.FC = () => {
@@ -43,15 +41,14 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-// ヘッダーとフッターを条件付きで表示するコンポーネント
+// ショップとクラフトキッチンで共通のヘッダー・フッター
 const AppLayout: React.FC = () => {
-  const location = useLocation();
-  const isGalleryRoute = location.pathname.startsWith('/gallery');
 
   return (
     <>
       <ScrollToTop />
-      {!isGalleryRoute && <Header />}
+      <Header />
+      <Suspense fallback={<div className="page-loading" style={{ minHeight: '60vh' }} aria-busy="true" />}>
       <Routes>
         <Route path="/all-products" element={<AllProducts />} />
         <Route path="/kits" element={<Kits />} />
@@ -95,14 +92,23 @@ const AppLayout: React.FC = () => {
                   レシピ
                 </Link>
                 <Link to="/gallery" className="hero-btn">
-                  <span role="img" aria-label="ギャラリー">🎨</span>
-                  レシピギャラリー
+                  <span role="img" aria-label="クラフトキッチン">🎨</span>
+                  クラフトキッチン
                 </Link>
               </div>
             </section>
             
             {/* ImageSlider セクション */}
             <ImageSlider />
+
+            {/* クラフトキッチン（提携クリエイターのレシピ） */}
+            <RecipeStrip
+              title="クラフトキッチン 新着レシピ"
+              subtitle="うさんこチャンネル・クロバーの作り方レシピを無料で公開中"
+              mode="new"
+              moreLink="/gallery/search?sort=new"
+            />
+            <RecipeStrip title="人気のレシピ" mode="popular" moreLink="/gallery/search?sort=popular" />
             
             {/* Instagramフォローセクション */}
             <section className="instagram-follow-section">
@@ -117,7 +123,11 @@ const AppLayout: React.FC = () => {
                   className="instagram-image-link"
                 >
                   <img 
-                    src="/Image/Introdocu Instagram.png" 
+                    src="/Image/introduce-instagram-800.webp"
+                    width={400}
+                    height={686}
+                    loading="lazy"
+                    decoding="async" 
                     alt="Instagram紹介写真 - クリックしてフォロー" 
                     className="instagram-preview"
                   />
@@ -178,7 +188,8 @@ const AppLayout: React.FC = () => {
           </main>
         } />
       </Routes>
-      {!isGalleryRoute && <Footer />}
+      </Suspense>
+      <Footer />
     </>
   );
 };
@@ -193,7 +204,12 @@ function NewsSection() {
       setLoading(true);
       setError(null);
       try {
-        const newsCol = collection(db, 'news');
+        // Firebase SDK はお知らせ表示時に遅れて読み込む（初回表示を軽くする）
+        const [{ getFirestore, collection, getDocs }, { app }] = await Promise.all([
+          import('firebase/firestore'),
+          import('./firebase'),
+        ]);
+        const newsCol = collection(getFirestore(app), 'news');
         const snapshot = await getDocs(newsCol);
         const newsList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as any[];
         // 日付で降順ソート

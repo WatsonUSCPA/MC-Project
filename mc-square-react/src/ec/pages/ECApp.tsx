@@ -97,7 +97,7 @@ const ECApp: React.FC = () => {
                   レシピ
                 </Link>
                 <a 
-                  href="https://instagram.com/mcsquare_official" 
+                  href="https://www.instagram.com/mc.square_official/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="hero-btn hero-instagram-btn"
