@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { getFirestore, collection, addDoc, serverTimestamp, getDocs, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './GalleryUpload.css';
 
@@ -76,10 +76,9 @@ const GalleryUpload: React.FC = () => {
   const checkUserPermissions = async (uid: string) => {
     try {
       const db = getFirestore();
-      const userDoc = await getDocs(collection(db, 'users'));
-      const userData = userDoc.docs.find((doc: any) => doc.id === uid);
+      const userData = await getDoc(doc(db, 'users', uid));
       
-      if (userData) {
+      if (userData.exists()) {
         const data = userData.data();
         setUserPermissions(data.permissions || {
           canUpload: true,

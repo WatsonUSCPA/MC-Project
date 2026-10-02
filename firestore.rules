@@ -1,67 +1,161 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // ユーザー関連のデータ
+
+    // ===== 共通関数 =====
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+    // 管理者: admins/{uid} が存在する、または users/{uid}.role == 'admin'
+    function isAdmin() {
+      return signedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '') == 'admin')
+      );
+    }
+    // 更新で変更されたフィールドが keys のみか
+    function onlyChanges(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+    // 本人が変更してはいけない権限系フィールド
+    function privilegedUserFields() {
+      return ['role', 'isAdmin', 'permissions', 'managedBy'];
+    }
+
+    // ===== 管理者リスト =====
+    // 本人が「自分が管理者か」を確認するための読み取りのみ。追加・削除は Firebase コンソールから行う
+    match /admins/{adminId} {
+      allow read: if isSelf(adminId);
+      allow write: if false;
+    }
+
+    // ===== ユーザー =====
     match /users/{userId} {
-      // 自分のデータの読み書き
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      // 管理者による管理対象アカウントの読み書き
-      allow read, write: if request.auth != null && 
-        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' &&
-        resource.data.managedBy == request.auth.uid;
+      allow read: if isSelf(userId) || isAdmin();
+      // 本人は作成・更新できるが、権限系フィールド（role など）は自分で付けられない
+      allow create: if isSelf(userId) &&
+        !request.resource.data.keys().hasAny(privilegedUserFields());
+      allow update: if isSelf(userId) &&
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(privilegedUserFields());
+      allow delete: if isSelf(userId);
+      // 管理者による管理対象アカウントの読み書き（従来ルールを維持）
+      allow read, write: if isAdmin() && resource != null &&
+        resource.data.get('managedBy', '') == request.auth.uid;
+
+      // お気に入り（本人のみ）
+      match /favorites/{recipeId} {
+        allow read, write: if isSelf(userId);
+      }
     }
-    
-    // ニュース記事（公開データ）
+
+    // ===== ニュース・リンク（公開データ、管理者のみ書き込み）=====
     match /news/{newsId} {
-      // 誰でも読み取り可能、管理者のみ書き込み可能
       allow read: if true;
-      allow write: if request.auth != null && 
-        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow write: if isAdmin();
     }
-    
-    // リンクデータ（公開データ）
     match /links/{linkId} {
-      // 誰でも読み取り可能、管理者のみ書き込み可能
       allow read: if true;
-      allow write: if request.auth != null && 
-        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow write: if isAdmin();
     }
-    
-    // 注文履歴
+
+    // ===== EC: レシピキット（公開データ、管理者のみ書き込み）=====
+    match /kits/{kitId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ===== ギャラリー: 人気キーワード・シチュエーション（公開データ、管理者のみ書き込み）=====
+    match /popularKeywords/{keywordId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /situationCategories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ===== 注文履歴 =====
+    // 現在のサイトのコードは orders に書き込んでいない。将来は Stripe Webhook（サーバー側）からの作成を推奨
     match /orders/{orderId} {
-      // 自分の注文のみ読み取り可能
-      allow read: if request.auth != null && 
-        resource.data.userId == request.auth.uid;
-      // 注文作成は認証済みユーザーのみ
-      allow create: if request.auth != null;
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn() &&
+        request.resource.data.keys().hasOnly(['userId', 'items', 'totalAmount', 'shipping', 'status', 'createdAt', 'stripeSessionId']) &&
+        request.resource.data.keys().hasAll(['userId', 'items', 'totalAmount', 'status', 'createdAt']) &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.items is list &&
+        request.resource.data.items.size() > 0 &&
+        request.resource.data.items.size() <= 50 &&
+        request.resource.data.totalAmount is int &&
+        request.resource.data.totalAmount >= 0 &&
+        (!('shipping' in request.resource.data) || (request.resource.data.shipping is int && request.resource.data.shipping >= 0)) &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
     }
-    
-    // レシピデータ
+
+    // ===== ギャラリー: レシピ =====
     match /recipes/{recipeId} {
-      // 誰でも読み取り可能
       allow read: if true;
-      // 認証済みユーザーのみ作成・更新可能
-      allow create, update: if request.auth != null;
+      // 作成者は自分自身、いいね・閲覧数は 0 から
+      allow create: if signedIn() &&
+        request.resource.data.authorId == request.auth.uid &&
+        request.resource.data.get('likes', 0) == 0 &&
+        request.resource.data.get('views', 0) == 0;
+      // 作成者本人（作成者は変更不可）または管理者
+      allow update: if (signedIn() &&
+          resource.data.authorId == request.auth.uid &&
+          request.resource.data.authorId == resource.data.authorId)
+        || isAdmin()
+        // ログインユーザーは「likes の ±1」だけ変更できる（いいねボタン用）
+        || (signedIn() &&
+            onlyChanges(['likes']) &&
+            request.resource.data.likes is int &&
+            (request.resource.data.likes == resource.data.get('likes', 0) + 1 ||
+             request.resource.data.likes == resource.data.get('likes', 0) - 1));
+      allow delete: if (signedIn() && resource.data.authorId == request.auth.uid) || isAdmin();
+
+      // レシピのコメント
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if signedIn() &&
+          request.resource.data.authorId == request.auth.uid &&
+          request.resource.data.text is string &&
+          request.resource.data.text.size() > 0 &&
+          request.resource.data.text.size() <= 1000;
+        allow delete: if (signedIn() && resource.data.authorId == request.auth.uid) || isAdmin();
+      }
+
+      // レシピのいいね（ドキュメントID = ユーザーID、本人のみ）
+      match /likes/{likeUserId} {
+        allow read: if true;
+        allow create: if isSelf(likeUserId) && request.resource.data.userId == request.auth.uid;
+        allow delete: if isSelf(likeUserId);
+      }
     }
-    
-    // いいねデータ
+
+    // ===== いいね（ドキュメントID = recipeId_userId、本人のみ）=====
     match /likes/{likeId} {
-      // 認証済みユーザーのみ読み書き可能
-      allow read, write: if request.auth != null;
+      allow read: if signedIn();
+      allow create: if signedIn() &&
+        request.resource.data.userId == request.auth.uid &&
+        likeId == request.resource.data.recipeId + '_' + request.auth.uid;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+      allow update: if false;
     }
-    
-    // コメントデータ
+
+    // ===== コメント（旧コメント機能）=====
     match /comments/{commentId} {
-      // 誰でも読み取り可能
       allow read: if true;
-      // 認証済みユーザーのみ作成可能
-      allow create: if request.auth != null;
-      // 自分のコメントのみ削除可能
-      allow delete: if request.auth != null && 
-        resource.data.userId == request.auth.uid;
+      allow create: if signedIn() &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.text is string &&
+        request.resource.data.text.size() > 0 &&
+        request.resource.data.text.size() <= 500;
+      allow delete: if (signedIn() && resource.data.userId == request.auth.uid) || isAdmin();
     }
   }
-} 
+}

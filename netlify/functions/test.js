@@ -1,6 +1,5 @@
 exports.handler = async (event, context) => {
   console.log('Test function invoked at:', new Date().toISOString());
-  console.log('Event:', JSON.stringify(event, null, 2));
   
   const headers = {
     'Access-Control-Allow-Origin': '*',

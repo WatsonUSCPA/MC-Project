@@ -30,3 +30,9 @@
   to = "/.netlify/functions/:splat"
   # ステータスコード200は「成功」を意味します
   status = 200 
+
+# 管理者リンクページを検索エンジンに載せない
+[[headers]]
+  for = "/admin_links.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"

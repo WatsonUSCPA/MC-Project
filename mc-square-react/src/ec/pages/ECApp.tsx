@@ -61,27 +61,8 @@ function NewsSection() {
 }
 
 const ECApp: React.FC = () => {
-  console.log('🎯 ECApp コンポーネントが呼び出されました！');
-  
   return (
     <CartProvider>
-      {/* テスト用のコード */}
-      <div style={{
-        backgroundColor: 'purple',
-        color: 'white',
-        padding: '10px',
-        margin: '10px',
-        textAlign: 'center',
-        fontSize: '18px',
-        border: '2px solid yellow',
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        zIndex: 10000
-      }}>
-        🚨 ECApp テスト: この紫のボックスが見えていれば、ECAppは動作しています 🚨
-      </div>
-      
       <ECHeader />
       <Routes>
         <Route path="/all-products" element={<AllProducts />} />
@@ -96,7 +77,6 @@ const ECApp: React.FC = () => {
         <Route path="/" element={
           <main>
             <section className="hero-section">
-              <h1 style={{color: 'red', textAlign: 'center'}}>🚨 テスト: このファイルは更新されています 🚨</h1>
               <h1 className="hero-title">いいものはいつまでも<br />エムシースクエア公式サイト</h1>
               <p className="hero-subtitle">生地の販売・インフルエンサーコラボ・よりそいクラフトなど、<br />あなたの手作りを応援する本格ECサイトへようこそ。</p>
               <div className="hero-buttons">

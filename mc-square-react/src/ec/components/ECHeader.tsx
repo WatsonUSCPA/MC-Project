@@ -17,15 +17,6 @@ const getImageSrc = (url?: string) => {
   return '/Image/MC square Logo.png';
 };
 
-// Stripe用の絶対URLに変換する関数
-const getAbsoluteImageUrl = (url?: string) => {
-  const imageSrc = getImageSrc(url);
-  if (imageSrc.startsWith('http://') || imageSrc.startsWith('https://')) {
-    return imageSrc;
-  }
-  // 相対パスの場合は絶対URLに変換
-  return `${window.location.origin}${imageSrc}`;
-};
 
 // モバイル判定
 const useIsMobile = () => {
@@ -124,44 +115,12 @@ const ECHeader: React.FC = () => {
     if (cart.length === 0) return;
     setLoading(true);
     try {
-      // Stripe line_itemsを商品と送料で構成
-      const line_items = [];
-      
-      // 各商品を個別に送信
-      cart.forEach(item => {
-        const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
-        line_items.push({
-          price_data: {
-            currency: 'jpy',
-            product_data: {
-              name: item.name,
-              description: item.description || `管理番号: ${item.managementNumber}`,
-              metadata: {
-                managementNumber: item.managementNumber
-              },
-              images: item.imageUrl ? [getAbsoluteImageUrl(item.imageUrl)] : undefined
-            },
-            unit_amount: priceNum,
-          },
-          quantity: item.quantity,
-        });
-      });
-      
-      // 送料
-      if (shipping > 0) {
-        line_items.push({
-          price_data: {
-            currency: 'jpy',
-            product_data: {
-              name: '送料',
-              metadata: { managementNumber: 'shipping' },
-              images: undefined
-            },
-            unit_amount: shipping,
-          },
-          quantity: 1
-        });
-      }
+      // 価格・送料はサーバー側で確定させるため、商品IDと数量だけを送る
+      const items = cart.map(item => ({
+        id: item.managementNumber,
+        type: item.productType === 'kit' ? 'kit' : 'fabric',
+        quantity: item.quantity,
+      }));
 
       const apiBaseUrl = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/.netlify/functions');
       const apiEndpoint = `${apiBaseUrl}/create-checkout-session`;
@@ -169,11 +128,9 @@ const ECHeader: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          line_items,
-          mode: 'payment',
-          success_url: window.location.origin + '/success',
-          cancel_url: window.location.origin + location.pathname,
-          metadata: { from: 'header-cart' }
+          items,
+          returnPath: location.pathname,
+          from: 'header-cart'
         })
       });
       const data = await response.json();

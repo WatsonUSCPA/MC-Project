@@ -1,10 +1,15 @@
 const nodemailer = require('nodemailer');
+const { verifyFirebaseIdToken, getBearerToken } = require('../lib/firebase-auth');
+const escapeHtml = require('../lib/escape-html');
+
+// メール内のリンク先（サイト自身のURL）
+const SITE_URL = (process.env.SITE_URL || process.env.URL || 'https://mcsquareofficials.com').replace(/\/$/, '');
 
 exports.handler = async (event, context) => {
   // CORSヘッダーを設定
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Origin': SITE_URL,
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'POST, OPTIONS'
   };
 
@@ -26,11 +31,34 @@ exports.handler = async (event, context) => {
     };
   }
 
+  // ログイン中ユーザー本人であることを Firebase ID トークンで確認する
+  let user;
   try {
-    const { email, displayName } = JSON.parse(event.body);
+    user = await verifyFirebaseIdToken(getBearerToken(event.headers));
+  } catch (e) {
+    console.warn('welcome email: token rejected:', e.message);
+    return { statusCode: 401, headers, body: JSON.stringify({ success: false, error: 'Unauthorized' }) };
+  }
+  if (!user.email) {
+    return { statusCode: 400, headers, body: JSON.stringify({ success: false, error: 'No email on account' }) };
+  }
+  // 新規登録直後のみ送信（アカウント作成から15分以内）。何度も送れないようにする
+  const authTime = Number(user.claims.auth_time || 0);
+  if (!authTime || Date.now() / 1000 - authTime > 15 * 60) {
+    return { statusCode: 403, headers, body: JSON.stringify({ success: false, error: 'Welcome email is only sent right after sign-up' }) };
+  }
+
+  try {
+    let body = {};
+    try { body = JSON.parse(event.body || '{}'); } catch (e) { body = {}; }
+    // 宛先はトークンで確認できた本人のメールアドレスのみ（リクエストの email は使わない）
+    const email = user.email;
+    // 表示名は HTML エスケープしてから差し込む
+    const rawName = (typeof body.displayName === 'string' && body.displayName.trim()) || user.claims.name || 'ユーザー';
+    const displayName = escapeHtml(String(rawName).slice(0, 50));
 
     // メール送信の設定
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
@@ -73,7 +101,7 @@ exports.handler = async (event, context) => {
             </div>
 
             <div style="text-align: center; margin-bottom: 30px;">
-              <a href="https://mc-square.netlify.app/gallery" 
+              <a href="${SITE_URL}/gallery" 
                  style="display: inline-block; background-color: #007bff; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
                 🎨 ギャラリーを見る
               </a>
@@ -114,15 +142,14 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Error sending welcome email:', error);
-    
+    console.error('Error sending welcome email:', error && error.message);
+
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ 
-        success: false, 
-        error: 'Failed to send welcome email',
-        details: error.message 
+      body: JSON.stringify({
+        success: false,
+        error: 'Failed to send welcome email'
       })
     };
   }

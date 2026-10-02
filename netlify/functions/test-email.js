@@ -1,9 +1,14 @@
 const nodemailer = require('nodemailer');
+const { verifyFirebaseIdToken, getBearerToken } = require('../lib/firebase-auth');
+
+// メール設定テスト用。誰でも任意の宛先に送れてしまわないよう、
+// 1) 環境変数 ENABLE_TEST_EMAIL=true のときだけ有効
+// 2) ログイン中ユーザー本人（Firebase ID トークンで確認）のメールアドレスにだけ送信
 
 exports.handler = async (event, context) => {
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Origin': (process.env.SITE_URL || process.env.URL || 'https://mcsquareofficials.com'),
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'POST, OPTIONS'
   };
 
@@ -23,11 +28,24 @@ exports.handler = async (event, context) => {
     };
   }
 
+  if (process.env.ENABLE_TEST_EMAIL !== 'true') {
+    return { statusCode: 404, headers, body: JSON.stringify({ error: 'Not found' }) };
+  }
+  let user;
   try {
-    const { testEmail } = JSON.parse(event.body);
+    user = await verifyFirebaseIdToken(getBearerToken(event.headers));
+  } catch (e) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+  }
+  if (!user.email) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'No email on account' }) };
+  }
+
+  try {
+    const testEmail = user.email;
 
     // メール送信の設定
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,

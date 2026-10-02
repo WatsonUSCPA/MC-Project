@@ -1,14 +1,16 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /admin_links.html
 
 # Google AdSenseクローラの許可
 User-agent: Mediapartners-Google
 Allow: /
+Disallow: /admin_links.html
 
 # Googlebotの許可
 User-agent: Googlebot
 Allow: /
+Disallow: /admin_links.html
 
 # サイトマップの場所
 Sitemap: https://www.mcsquareofficials.com/sitemap.xml

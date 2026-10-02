@@ -65,13 +65,15 @@ const GalleryLogin: React.FC = () => {
         
         // ウェルカムメールを送信
         try {
+          // ログイン中ユーザーの ID トークンを付けて送信（サーバー側で本人確認し、本人のアドレスにのみ送信）
+          const idToken = await userCredential.user.getIdToken();
           const response = await fetch('/.netlify/functions/send-welcome-email', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`,
             },
             body: JSON.stringify({
-              email: email,
               displayName: displayName.trim() || 'ユーザー'
             })
           });
@@ -125,56 +127,22 @@ const GalleryLogin: React.FC = () => {
     setLoading(true);
     setResetMessage(null);
 
-    console.log('=== Password Reset Debug ===');
-    console.log('Email:', resetEmail);
-    console.log('Auth object:', auth);
-    console.log('Firebase config:', auth.app.options);
-    console.log('Current user:', auth.currentUser);
-    console.log('Auth state:', auth.authStateReady());
-    console.log('Browser info:', {
-      userAgent: navigator.userAgent,
-      platform: navigator.platform,
-      language: navigator.language,
-      cookieEnabled: navigator.cookieEnabled,
-      onLine: navigator.onLine
-    });
-
     try {
-      console.log('Attempting to send password reset email...');
-      
       // パスワードリセットメールの設定
       const actionCodeSettings = {
         url: window.location.hostname === 'localhost' 
-          ? 'https://mc-square.netlify.app/gallery/login' // ローカル環境の場合は本番URL
+          ? 'https://mcsquareofficials.com/gallery/login' // ローカル環境の場合は本番URL
           : `${window.location.origin}/gallery/login`, // 本番環境の場合は現在のURL
         handleCodeInApp: false,
       };
       
-      console.log('Action code settings:', actionCodeSettings);
-      
-      // より詳細なデバッグ情報
-      console.log('=== Additional Debug Info ===');
-      console.log('Window location:', window.location);
-      console.log('Document domain:', document.domain);
-      console.log('Current timestamp:', new Date().toISOString());
-      console.log('==========================');
-      
       await sendPasswordResetEmail(auth, resetEmail, actionCodeSettings);
-      console.log('Password reset email sent successfully');
-      const isLocalhost = window.location.hostname === 'localhost';
-      const message = isLocalhost 
-        ? 'パスワードリセットメールを送信しました。\n\n📧 メールをご確認ください。\n\n⚠️ ローカル環境でのテスト中です。\n※本番環境でテストすることをお勧めします。\n※迷惑メールフォルダもご確認ください。\n\n🔍 デバッグ情報: Consoleで詳細を確認できます。'
-        : 'パスワードリセットメールを送信しました。\n\n📧 メールをご確認ください。\n\n※迷惑メールフォルダもご確認ください。\n※数分経っても届かない場合は、再度お試しください。\n\n🔍 デバッグ情報: Consoleで詳細を確認できます。';
+      const message = 'パスワードリセットメールを送信しました。\n\n📧 メールをご確認ください。\n\n※迷惑メールフォルダもご確認ください。\n※数分経っても届かない場合は、再度お試しください。';
       
       setResetMessage(message);
       setResetEmail('');
     } catch (error: any) {
-      console.error('=== Password Reset Error ===');
-      console.error('Error code:', error.code);
-      console.error('Error message:', error.message);
-      console.error('Error name:', error.name);
-      console.error('Full error object:', error);
-      console.error('==========================');
+      console.error('Password reset error:', error.code);
       
       let errorMessage = 'パスワードリセットに失敗しました。';
       

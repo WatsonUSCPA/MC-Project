@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 import './GalleryAdmin.css';
 
@@ -37,9 +37,6 @@ const GalleryAdmin: React.FC = () => {
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [isAddingNewSituation, setIsAddingNewSituation] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [showPasswordForm, setShowPasswordForm] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
   const [activeTab, setActiveTab] = useState<'keywords' | 'situations'>('keywords');
 
 
@@ -61,71 +58,40 @@ const GalleryAdmin: React.FC = () => {
   }, []);
 
   // 管理者権限をチェック
+  // 管理者は Firestore の admins/{uid} ドキュメント、または users/{uid}.role === 'admin' で判定します。
+  // （画面側の判定は表示の切り替えのみ。実際の書き込み可否は firestore.rules で制御されます）
   const checkAdminStatus = async (uid: string) => {
     try {
       const db = getFirestore();
-      
-      // 複数の方法で管理者権限をチェック
       let isUserAdmin = false;
-      
-      // 1. adminsコレクションでチェック
+
+      // 1. admins コレクションに自分の uid のドキュメントがあるか
       try {
-        const adminDoc = await getDocs(collection(db, 'admins'));
-        isUserAdmin = adminDoc.docs.some(doc => doc.id === uid);
+        const adminSnap = await getDoc(doc(db, 'admins', uid));
+        isUserAdmin = adminSnap.exists();
       } catch (error) {
-        console.log('adminsコレクションが見つかりません');
+        console.log('adminsコレクションを確認できませんでした');
       }
-      
-      // 2. usersコレクションで管理者権限をチェック
+
+      // 2. users/{uid} の role / isAdmin
       if (!isUserAdmin) {
         try {
-          const userDoc = await getDocs(collection(db, 'users'));
-          const userData = userDoc.docs.find(doc => doc.id === uid);
-          if (userData) {
-            const data = userData.data();
+          const userSnap = await getDoc(doc(db, 'users', uid));
+          if (userSnap.exists()) {
+            const data = userSnap.data();
             isUserAdmin = data.role === 'admin' || data.isAdmin === true;
           }
         } catch (error) {
           console.log('usersコレクションで管理者権限をチェックできませんでした');
         }
       }
-      
-      // 3. 特定のメールアドレスで管理者権限を付与（開発用）
-      if (!isUserAdmin && currentUser?.email) {
-        const adminEmails = [
-          'admin@example.com',
-          'your-email@example.com', // あなたのメールアドレスを追加
-          'test@example.com',
-          'what1@example.com', // あなたの実際のメールアドレスを追加してください
-          currentUser.email // 現在のユーザーのメールアドレスを一時的に追加
-        ];
-        isUserAdmin = adminEmails.includes(currentUser.email);
-      }
-      
+
       setIsAdmin(isUserAdmin);
       setLoading(false);
     } catch (error) {
       console.error('Error checking admin status:', error);
       setIsAdmin(false);
       setLoading(false);
-    }
-  };
-
-  // パスワード認証
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setPasswordError('');
-    
-    // 管理者パスワード（実際の運用では環境変数などで管理）
-    const correctPassword = 'admin1234';
-    
-    if (adminPassword === correctPassword) {
-      setIsAdmin(true);
-      setShowPasswordForm(false);
-      setAdminPassword('');
-    } else {
-      setPasswordError('パスワードが正しくありません');
-      setAdminPassword('');
     }
   };
 
@@ -442,47 +408,6 @@ const GalleryAdmin: React.FC = () => {
         <div className="access-denied">
           <h2>管理者ページ</h2>
           <p>管理者権限が必要です</p>
-          
-          <button 
-            onClick={() => setShowPasswordForm(true)} 
-            className="login-button"
-          >
-            パスワードを入力
-          </button>
-          
-          {showPasswordForm && (
-            <form onSubmit={handlePasswordSubmit} className="password-form">
-              <div className="form-group">
-                <input
-                  type="password"
-                  value={adminPassword}
-                  onChange={(e) => setAdminPassword(e.target.value)}
-                  placeholder="管理者パスワード"
-                  required
-                  className="password-input"
-                />
-              </div>
-              {passwordError && (
-                <div className="error-message">{passwordError}</div>
-              )}
-              <div className="form-actions">
-                <button type="submit" className="submit-button">
-                  認証
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => {
-                    setShowPasswordForm(false);
-                    setAdminPassword('');
-                    setPasswordError('');
-                  }}
-                  className="cancel-button"
-                >
-                  キャンセル
-                </button>
-              </div>
-            </form>
-          )}
           
           <button onClick={handleBackToHome} className="back-button">
             ホームに戻る
