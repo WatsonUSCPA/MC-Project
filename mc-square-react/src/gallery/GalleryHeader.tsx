@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import './GalleryHeader.css';
 
 const GalleryHeader: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const [currentParams] = useSearchParams();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       // 検索結果ページに遷移
-      navigate(`/gallery/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      // つくり手で絞り込み中なら、その絞り込みを保ったまま検索する
+      const params = new URLSearchParams({ q: searchQuery.trim() });
+      const creator = currentParams.get('creator') || currentParams.get('partner');
+      if (creator) params.set('creator', creator);
+      navigate(`/gallery/search?${params.toString()}`);
     }
   };
 

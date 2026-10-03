@@ -20,6 +20,7 @@ const admin = require('firebase-admin');
 const PARTNERS = [
   { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch' },
   { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/' },
+  { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon' },
 ];
 
 const WRITE = process.argv.includes('--write');
@@ -33,10 +34,12 @@ async function main() {
   let tagged = 0, skipped = 0;
   for (const docSnap of snap.docs) {
     const d = docSnap.data();
-    const partner = PARTNERS.find((p) => p.authorIds.includes(d.authorId));
+    const partner = (d.source && PARTNERS.find((p) => p.id === d.source.partner)) ||
+      PARTNERS.find((p) => p.authorIds.includes(d.authorId));
     if (!partner) { skipped++; console.log('skip (not partner):', docSnap.id, d.authorName); continue; }
     const url = [d.source && d.source.url, d.youtubeUrl, d.pdfUrl, d.authorSNS && d.authorSNS.website, partner.website].find(isHttps);
-    const update = { source: { partner: partner.id, name: partner.name, ...(url ? { url } : {}) } };
+    const name = (d.source && typeof d.source.name === 'string' && d.source.name.trim()) || partner.name;
+    const update = { source: { partner: partner.id, name, ...(url ? { url } : {}) } };
     if (REMOVE_EMAIL && 'authorEmail' in d) update.authorEmail = admin.firestore.FieldValue.delete();
     console.log(WRITE ? 'update' : 'would update', docSnap.id, JSON.stringify(update.source), REMOVE_EMAIL ? '(remove authorEmail)' : '');
     if (WRITE) await docSnap.ref.update(update);

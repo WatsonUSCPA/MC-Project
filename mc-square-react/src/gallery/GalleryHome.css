@@ -1741,3 +1741,23 @@ section {
     font-size: 0.8rem;
   }
 } 
+/* つくり手から探す */
+.creator-section {
+  margin-bottom: 2rem;
+}
+.creator-section .creator-filter {
+  margin-bottom: 0.75rem;
+}
+.creator-all-link {
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.creator-all-link:hover {
+  color: var(--color-primary-dark, #e85a5a);
+  text-decoration: underline;
+}

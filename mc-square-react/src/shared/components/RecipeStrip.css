@@ -119,3 +119,8 @@
   .rs-title { font-size: 1.12rem; }
   .rs-card-title { font-size: 0.84rem; }
 }
+.rs-partner-quiltkon {
+  color: #2f4f8f;
+  border-color: #c9d6ef;
+  background: #f2f5fc;
+}

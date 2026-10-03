@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './GalleryHome.css';
-import { getRecipeSource } from './partners';
+import { findPartner } from './partners';
+import CreatorFilter from './CreatorFilter';
 import { fetchRecipeIndex, sortNew, sortPopular } from '../shared/recipesApi';
 
 interface Recipe {
@@ -77,6 +78,9 @@ const DEFAULT_KEYWORDS: PopularKeyword[] = [
 
 const GalleryHome: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  // つくり手（パートナー）の絞り込み。?creator=<partnerId> で共有できる
+  const creator = findPartner(searchParams.get('creator') || searchParams.get('partner'));
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [popularKeywords, setPopularKeywords] = useState<PopularKeyword[]>([]);
   const [situationCategories, setSituationCategories] = useState<SituationCategory[]>([]);
@@ -149,8 +153,19 @@ const GalleryHome: React.FC = () => {
 
   const handleAuthorClick = (partnerId?: string) => {
     // パートナーのレシピ一覧（検索ページ）に遷移
-    if (partnerId) navigate(`/gallery/search?partner=${encodeURIComponent(partnerId)}`);
+    if (partnerId) navigate(`/gallery/search?creator=${encodeURIComponent(partnerId)}`);
   };
+
+  const handleCreatorChange = (partnerId: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.delete('partner');
+    if (partnerId) next.set('creator', partnerId); else next.delete('creator');
+    setSearchParams(next, { replace: true });
+  };
+
+  // 「もっと見る」などで検索ページへ移るときも、つくり手の絞り込みを引き継ぐ
+  const withCreator = (path: string) =>
+    creator ? `${path}${path.includes('?') ? '&' : '?'}creator=${encodeURIComponent(creator.id)}` : path;
 
 
   const handleRecipeClick = (recipe: Recipe) => {
@@ -177,13 +192,20 @@ const GalleryHome: React.FC = () => {
 
   const handleViewMorePopular = () => {
     // 人気レシピ一覧ページに遷移
-    navigate('/gallery/search?sort=popular');
+    navigate(withCreator('/gallery/search?sort=popular'));
   };
 
   const handleViewMoreNew = () => {
     // 新着レシピ一覧ページに遷移
-    navigate('/gallery/search?sort=new');
+    navigate(withCreator('/gallery/search?sort=new'));
   };
+
+  // つくり手ごとの件数（絞り込みチップに表示）
+  const creatorCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    recipes.forEach((r) => { if (r.partnerId) counts[r.partnerId] = (counts[r.partnerId] || 0) + 1; });
+    return counts;
+  }, [recipes]);
 
   if (loading) {
     return (
@@ -218,7 +240,8 @@ const GalleryHome: React.FC = () => {
     );
   }
 
-  const displayRecipes = getDisplayRecipes(recipes);
+  const creatorRecipes = creator ? recipes.filter((r) => r.partnerId === creator.id) : recipes;
+  const displayRecipes = getDisplayRecipes(creatorRecipes);
 
   return (
     <div className="recipe-gallery">
@@ -302,6 +325,27 @@ const GalleryHome: React.FC = () => {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* つくり手（パートナー）で絞り込み */}
+        <section className="creator-section" id="creators">
+          <h2 className="section-title">つくり手から探す</h2>
+          <CreatorFilter
+            value={creator ? creator.id : ''}
+            onChange={handleCreatorChange}
+            counts={creatorCounts}
+            total={recipes.length}
+            label="つくり手"
+          />
+          {creator && (
+            <button
+              type="button"
+              className="creator-all-link"
+              onClick={() => navigate(`/gallery/search?creator=${encodeURIComponent(creator.id)}`)}
+            >
+              {creator.name}のレシピをすべて見る（{creatorRecipes.length}件） →
+            </button>
+          )}
         </section>
 
         {/* 人気レシピ */}

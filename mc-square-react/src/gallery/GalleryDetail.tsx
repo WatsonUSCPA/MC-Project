@@ -258,7 +258,7 @@ const GalleryDetail: React.FC = () => {
 
           <div className="recipe-info">
             <div className="recipe-author" onClick={() => {
-              if (source) navigate(`/gallery/search?partner=${encodeURIComponent(source.partnerId)}`);
+              if (source) navigate(`/gallery/search?creator=${encodeURIComponent(source.partnerId)}`);
             }}>
               <span className="author-avatar">👤</span>
               <span className="author-name">{recipe.author || '匿名ユーザー'}</span>
