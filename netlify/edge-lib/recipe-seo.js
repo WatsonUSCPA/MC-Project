@@ -6,7 +6,9 @@
 export const SITE_ORIGIN = 'https://www.mcsquareofficials.com';
 const PROJECT_ID = 'link-manager-f4ea8';
 const FIRESTORE = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
-export const RECIPE_FIELDS = ['title', 'description', 'ingredients', 'youtubeUrl', 'pdfUrl', 'authorId', 'authorSNS', 'source', 'createdAt'];
+export const RECIPE_FIELDS = ['title', 'description', 'ingredients', 'youtubeUrl', 'pdfUrl', 'authorId', 'authorSNS', 'source', 'createdAt', 'youtubePublishedAt'];
+// 説明文に作り方の要約が入っているため、説明文を出さないパートナー（材料＋動画＋サムネ＋リンクのみのルール）
+const NO_DESCRIPTION_PARTNERS = ['usanko', 'quiltkon'];
 
 const PARTNERS = [
   { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch' },
@@ -69,12 +71,13 @@ export function toRecipe(doc) {
   return {
     id,
     title: String(data.title).trim(),
-    description: String(data.description || '').trim(),
+    description: NO_DESCRIPTION_PARTNERS.includes(source.partnerId) ? '' : String(data.description || '').trim(),
     ingredients: (Array.isArray(data.ingredients) ? data.ingredients : []).map((s) => String(s).trim()).filter(Boolean).slice(0, 40),
     youtubeId: youtubeId(data.youtubeUrl) || youtubeId(source.url),
     sourceUrl: source.url || null,
     partnerName: source.name,
     createdAt: data.createdAt || null,
+    youtubePublishedAt: typeof data.youtubePublishedAt === 'string' ? data.youtubePublishedAt : null,
     updateTime: doc.updateTime || '',
   };
 }
@@ -98,9 +101,9 @@ export const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '
 const safeJson = (obj) => JSON.stringify(obj).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
 const clip = (s, n) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
 
-export function buildMeta(r, origin) {
+export function buildMeta(r) {
   const pageUrl = `${SITE_ORIGIN}/gallery/detail/${r.id}`;
-  const image = `${origin}/.netlify/functions/recipe-image?c=recipes&id=${encodeURIComponent(r.id)}&f=main&w=960&v=${encodeURIComponent(r.updateTime)}`;
+  const image = `${SITE_ORIGIN}/.netlify/functions/recipe-image?c=recipes&id=${encodeURIComponent(r.id)}&f=main&w=960&v=${encodeURIComponent(r.updateTime)}`;
   const title = `${r.title}｜${r.partnerName}のレシピ｜エムシースクエア クラフトキッチン`;
   const base = r.description || (r.ingredients.length ? `材料：${r.ingredients.join('、')}` : '');
   const description = clip(`${r.partnerName}のレシピ。${base}`.replace(/\s+/g, ' '), 120);
@@ -115,15 +118,17 @@ export function buildMeta(r, origin) {
     ],
   };
   const jsonLd = [breadcrumb];
-  // 動画のあるレシピだけ VideoObject。uploadDate は Google の必須項目なので、日付がないときは出さない
-  if (r.youtubeId && r.createdAt) {
+  // 動画のあるレシピだけ VideoObject。uploadDate は YouTube の公開日（youtubePublishedAt）を優先し、
+  // まだ入っていないレシピはサイトへの登録日で代用する。どちらもないときは出さない
+  const uploadDate = r.youtubePublishedAt || r.createdAt;
+  if (r.youtubeId && uploadDate) {
     jsonLd.push({
       '@context': 'https://schema.org',
       '@type': 'VideoObject',
       name: r.title,
       description,
       thumbnailUrl: [`https://i.ytimg.com/vi/${r.youtubeId}/hqdefault.jpg`],
-      uploadDate: r.createdAt,
+      uploadDate,
       embedUrl: `https://www.youtube.com/embed/${r.youtubeId}`,
       contentUrl: `https://www.youtube.com/watch?v=${r.youtubeId}`,
     });

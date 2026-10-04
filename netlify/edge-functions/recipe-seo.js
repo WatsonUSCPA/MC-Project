@@ -26,7 +26,7 @@ export default async (request, context) => {
   const [page, recipe] = await Promise.all([context.next(), fetchRecipe(id)]);
   if (!recipe || !page.ok || !(page.headers.get('content-type') || '').includes('text/html')) return page;
 
-  const html = injectIntoHtml(await page.text(), buildMeta(recipe, url.origin));
+  const html = injectIntoHtml(await page.text(), buildMeta(recipe));
   if (!html) return page;
 
   const headers = new Headers(page.headers);
