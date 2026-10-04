@@ -24,6 +24,8 @@ const Contact = lazy(() => import('./ec/pages/Contact'));
 const Login = lazy(() => import('./ec/pages/Login'));
 const GalleryApp = lazy(() => import('./gallery/GalleryApp'));
 // 検討用モック（本番のメニューからはリンクしない）
+// プレビューのビルドで REACT_APP_ENABLE_MOCKS=true のときだけルートを登録する（本番には出さない）
+const ENABLE_MOCKS = process.env.REACT_APP_ENABLE_MOCKS === 'true';
 const MembersMock = lazy(() => import('./mock/Members'));
 const StockMock = lazy(() => import('./mock/StockMock'));
 
@@ -67,8 +69,8 @@ const AppLayout: React.FC = () => {
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/login" element={<Login />} />
-        <Route path="/members" element={<MembersMock />} />
-        <Route path="/admin/stock-mock" element={<StockMock />} />
+        {ENABLE_MOCKS && <Route path="/members" element={<MembersMock />} />}
+        {ENABLE_MOCKS && <Route path="/admin/stock-mock" element={<StockMock />} />}
         {/* 必要に応じて他のRouteを追加 */}
         <Route path="/" element={
           <main>

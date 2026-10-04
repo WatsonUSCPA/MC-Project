@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MockBanner from './MockBanner';
 import './Mock.css';
 
@@ -49,7 +49,13 @@ const StockMock: React.FC = () => {
   const [toast, setToast] = useState('');
   const [form, setForm] = useState({ name: 'アメリカンコットン チェック', comp: '綿100%', width: 110, price: 2200, qty: 30, channel: '両方' });
 
-  const notify = (m: string) => { setToast(m); window.setTimeout(() => setToast(''), 2600); };
+  const toastTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(toastTimer.current), []);
+  const notify = (m: string) => {
+    setToast(m);
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(''), 2600);
+  };
   const nameOf = (id: string) => stock.find((s) => s.id === id)?.name || id;
 
   const ship = (no: string) => {
