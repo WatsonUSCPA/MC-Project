@@ -1,9 +1,10 @@
 // mc-square-react/src/gallery/partners.ts と同じ定義（サーバー側用）
+// allowInstructions：作り方（説明文・手順）を載せてよいか。false は「材料＋動画＋サムネ＋リンク」だけ
 const PARTNERS = [
-  { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch' },
-  { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/' },
+  { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch', allowInstructions: false },
+  { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/', allowInstructions: true },
   // Firebase アカウントを持たないパートナー。authorId には固定の識別子を入れ、判定は source.partner を優先する
-  { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon' },
+  { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon', allowInstructions: false },
 ];
 
 const isHttpsUrl = (u) => {

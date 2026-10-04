@@ -8,13 +8,13 @@ export const SITE_ORIGIN = 'https://mcsquareofficials.com';
 const PROJECT_ID = 'link-manager-f4ea8';
 const FIRESTORE = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
 export const RECIPE_FIELDS = ['title', 'description', 'ingredients', 'youtubeUrl', 'pdfUrl', 'authorId', 'authorSNS', 'source', 'createdAt', 'youtubePublishedAt'];
-// 説明文に作り方の要約が入っているため、説明文を出さないパートナー（材料＋動画＋サムネ＋リンクのみのルール）
-const NO_DESCRIPTION_PARTNERS = ['usanko', 'quiltkon'];
 
+// allowInstructions：作り方（説明文・手順）を載せてよいか。false は「材料＋動画＋サムネ＋リンク」だけ
+// （うさんこ・Kon の説明文には作り方の要約が入っているため、説明文も出さない）
 const PARTNERS = [
-  { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch' },
-  { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/' },
-  { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon' },
+  { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch', allowInstructions: false },
+  { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/', allowInstructions: true },
+  { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon', allowInstructions: false },
 ];
 
 export const isValidId = (id) => /^[A-Za-z0-9_-]{1,128}$/.test(String(id || ''));
@@ -33,6 +33,7 @@ export function getRecipeSource(data) {
   const url = [explicit && explicit.url, data.youtubeUrl, data.pdfUrl, data.authorSNS && data.authorSNS.website, partner.website].find(isHttpsUrl);
   return {
     partnerId: partner.id,
+    allowInstructions: partner.allowInstructions === true,
     name: (explicit && typeof explicit.name === 'string' && explicit.name.trim()) || partner.name,
     url,
   };
@@ -72,7 +73,7 @@ export function toRecipe(doc) {
   return {
     id,
     title: String(data.title).trim(),
-    description: NO_DESCRIPTION_PARTNERS.includes(source.partnerId) ? '' : String(data.description || '').trim(),
+    description: source.allowInstructions ? String(data.description || '').trim() : '',
     ingredients: (Array.isArray(data.ingredients) ? data.ingredients : []).map((s) => String(s).trim()).filter(Boolean).slice(0, 40),
     youtubeId: youtubeId(data.youtubeUrl) || youtubeId(source.url),
     sourceUrl: source.url || null,
