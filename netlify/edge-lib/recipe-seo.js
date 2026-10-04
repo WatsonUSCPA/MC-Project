@@ -3,7 +3,8 @@
 // - うさんこ・Kon のレシピは「材料＋動画＋サムネ＋リンク」だけ。作り方の手順はどのレシピでも出さない
 // - パートナーの定義は netlify/lib/partners.js と同じ（Edge Function は CommonJS を読めないため複製）
 
-export const SITE_ORIGIN = 'https://www.mcsquareofficials.com';
+// 本番は www なしが正（www は 301 でこちらへリダイレクトされる）。canonical・og:url・og:image はリダイレクトしない URL にする
+export const SITE_ORIGIN = 'https://mcsquareofficials.com';
 const PROJECT_ID = 'link-manager-f4ea8';
 const FIRESTORE = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
 export const RECIPE_FIELDS = ['title', 'description', 'ingredients', 'youtubeUrl', 'pdfUrl', 'authorId', 'authorSNS', 'source', 'createdAt', 'youtubePublishedAt'];
