@@ -23,6 +23,9 @@ const LegalNotice = lazy(() => import('./ec/pages/LegalNotice'));
 const Contact = lazy(() => import('./ec/pages/Contact'));
 const Login = lazy(() => import('./ec/pages/Login'));
 const GalleryApp = lazy(() => import('./gallery/GalleryApp'));
+// 検討用モック（本番のメニューからはリンクしない）
+const MembersMock = lazy(() => import('./mock/Members'));
+const StockMock = lazy(() => import('./mock/StockMock'));
 
 // ページ遷移時にスクロール位置を最上部にリセットするコンポーネント
 const ScrollToTop: React.FC = () => {
@@ -64,6 +67,8 @@ const AppLayout: React.FC = () => {
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/login" element={<Login />} />
+        <Route path="/members" element={<MembersMock />} />
+        <Route path="/admin/stock-mock" element={<StockMock />} />
         {/* 必要に応じて他のRouteを追加 */}
         <Route path="/" element={
           <main>
