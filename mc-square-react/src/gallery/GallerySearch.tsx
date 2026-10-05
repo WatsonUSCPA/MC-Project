@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { findPartner } from './partners';
 import CreatorFilter from './CreatorFilter';
-import { fetchRecipeIndex, RecipeSummary } from '../shared/recipesApi';
+import { fetchRecipeIndex, publishedTime, RecipeSummary } from '../shared/recipesApi';
 import './GallerySearch.css';
 
 interface Recipe {
@@ -32,6 +32,7 @@ interface Recipe {
   authorName?: string;
   partnerId?: string;
   createdAt?: any;
+  youtubePublishedAt?: string | null;
   updatedAt?: any;
   views?: number;
 }
@@ -59,18 +60,17 @@ const loadRecipes = async (): Promise<Recipe[]> => {
     ingredients: r.ingredients,
     partnerId: r.partnerId,
     createdAt: r.createdAt,
+    youtubePublishedAt: r.youtubePublishedAt,
     views: r.views,
   }));
 };
 
-// 並び順（人気・新着・タイトル）
-const sortRecipes = (list: Recipe[], order: SortOrder) => {
-  const t = (v: any) => (v ? new Date(v).getTime() || 0 : 0);
-  return [...list].sort((a, b) =>
+// 並び順（人気・新着・タイトル）。新着は YouTube の公開日、なければ登録日の新しい順
+const sortRecipes = (list: Recipe[], order: SortOrder) =>
+  [...list].sort((a, b) =>
     order === 'title' ? a.title.localeCompare(b.title, 'ja')
-      : order === 'createdAt' ? t(b.createdAt) - t(a.createdAt)
+      : order === 'createdAt' ? publishedTime(b) - publishedTime(a)
       : (b.likes - a.likes));
-};
 
 const GallerySearch: React.FC = () => {
   const navigate = useNavigate();
