@@ -1,53 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import React, { useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import './GalleryHeader.css';
 
 const GalleryHeader: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      const auth = getAuth();
-      await signOut(auth);
-      navigate('/gallery');
-      setIsMenuOpen(false);
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
+  const [currentParams] = useSearchParams();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       // 検索結果ページに遷移
-      navigate(`/gallery/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      // つくり手で絞り込み中なら、その絞り込みを保ったまま検索する
+      const params = new URLSearchParams({ q: searchQuery.trim() });
+      const creator = currentParams.get('creator') || currentParams.get('partner');
+      if (creator) params.set('creator', creator);
+      navigate(`/gallery/search?${params.toString()}`);
     }
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleMyPageClick = () => {
-    navigate('/gallery/mypage');
-    setIsMenuOpen(false);
-  };
-
   return (
-    <header className="gallery-header">
+    <div className="gallery-header gallery-subheader">
       <div className="gallery-header-container">
         <div className="gallery-header-left">
           <Link to="/gallery" className="gallery-logo">
@@ -84,42 +57,8 @@ const GalleryHeader: React.FC = () => {
           </form>
         </div>
 
-        <div className="gallery-header-right">
-          <div className="user-section">
-            {currentUser ? (
-              <div className="user-menu">
-                <button className="user-button" onClick={toggleMenu}>
-                  <div className="user-avatar">
-                    <span className="user-initials">
-                      {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : 'U'}
-                    </span>
-                  </div>
-                  <span className="user-name">{currentUser.displayName || 'ユーザー'}</span>
-                  <span className="menu-arrow">▼</span>
-                </button>
-                {isMenuOpen && (
-                  <div className="user-dropdown">
-                    <button onClick={handleMyPageClick} className="dropdown-item">
-                      <span className="dropdown-icon">👤</span>
-                      マイページ
-                    </button>
-                    <button onClick={handleLogout} className="dropdown-item">
-                      <span className="dropdown-icon">🚪</span>
-                      ログアウト
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link to="/gallery/login" className="login-button">
-                <span className="login-icon">🔑</span>
-                <span className="login-text">ログイン</span>
-              </Link>
-            )}
-          </div>
-        </div>
       </div>
-    </header>
+    </div>
   );
 };
 

@@ -9,3 +9,7 @@ mc-square-react/.env
 
 # macOSシステムファイル
 .DS_Store 
+
+# 依存関係とビルド成果物は Git で管理しない（Netlify のビルドで npm install / npm run build する）
+node_modules/
+mc-square-react/build/

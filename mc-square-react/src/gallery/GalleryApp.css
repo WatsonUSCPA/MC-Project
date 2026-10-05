@@ -29,3 +29,23 @@ body {
     padding: 15px;
   }
 } 
+/* ===== サイト共通ヘッダーの下に置くクラフトキッチンのサブバー ===== */
+.gallery-header.gallery-subheader {
+  position: static;
+  height: auto;
+  padding: 10px 0;
+  z-index: auto;
+}
+.gallery-subheader .gallery-header-container {
+  gap: 20px;
+}
+.gallery-subheader .gallery-header-center {
+  flex: 1;
+  max-width: 560px;
+}
+.gallery-app .gallery-content {
+  margin-top: 0;
+}
+@media (max-width: 600px) {
+  .gallery-subheader .gallery-header-container { gap: 10px; }
+}

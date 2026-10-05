@@ -515,3 +515,41 @@ body {
     padding: 40px 15px;
   }
 }
+
+/* ===== サイト共通：ショップ ⇔ クラフトキッチン 切り替えタブ ===== */
+.site-section-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 1em 0.5em;
+}
+.site-section-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0.45em 0.8em;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: #fff;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.site-section-tab:hover {
+  box-shadow: 0 2px 8px rgba(255, 159, 124, 0.18);
+}
+.site-section-tab.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+@media (max-width: 480px) {
+  .site-section-tab { font-size: 0.8rem; padding: 0.4em 0.5em; }
+}

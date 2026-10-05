@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
+import RecipeStrip from '../../shared/components/RecipeStrip';
 
 // 商品型定義
 interface Product {
@@ -107,58 +108,24 @@ const AllProducts: React.FC = () => {
   const handleCheckout = async () => {
     if (cart.length === 0) return;
     try {
-      // Stripe line_items形式に変換
-      const line_items = cart.map(item => {
-        const priceNum = Number(String(item.price).replace(/[^\d.]/g, ''));
-        return {
-          price_data: {
-            currency: 'jpy',
-            product_data: {
-              name: item.name,
-              description: item.description || `管理番号: ${item.managementNumber}`,
-              metadata: {
-                managementNumber: item.managementNumber
-              },
-              images: item.imageUrl ? [getAbsoluteImageUrl(item.imageUrl)] : undefined
-            },
-            unit_amount: priceNum,
-          },
-          quantity: item.quantity,
-        };
-      });
-      // 送料をStripe line_itemsに追加
-      if (shipping > 0) {
-        line_items.push({
-          price_data: {
-            currency: 'jpy',
-            product_data: {
-              name: '送料',
-              description: '商品の配送料金',
-              metadata: { managementNumber: 'shipping' },
-              images: undefined
-            },
-            unit_amount: shipping,
-          },
-          quantity: 1
-        });
-      }
+      // 価格・送料はサーバー側で確定させるため、商品IDと数量だけを送る
+      const items = cart.map(item => ({
+        id: item.managementNumber,
+        type: item.productType === 'kit' ? 'kit' : 'fabric',
+        quantity: item.quantity,
+      }));
 
       // 環境に応じてAPIエンドポイントを切り替え
       const apiBaseUrl = process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '/.netlify/functions');
       const apiEndpoint = `${apiBaseUrl}/create-checkout-session`;
 
-      console.log(`🌍 環境: ${process.env.NODE_ENV === 'development' ? '開発' : '本番'}`);
-      console.log(`🔗 API: ${apiEndpoint}`);
-
       const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          line_items,
-          mode: 'payment',
-          success_url: window.location.origin + '/success',
-          cancel_url: window.location.origin + '/all-products',
-          metadata: { from: 'react-cart' }
+          items,
+          returnPath: '/all-products',
+          from: 'react-cart'
         })
       });
 
@@ -192,15 +159,6 @@ const AllProducts: React.FC = () => {
     return '/Image/MC square Logo.png';
   };
 
-  // Stripe用の絶対URLに変換する関数
-  const getAbsoluteImageUrl = (url?: string) => {
-    const imageSrc = getImageSrc(url);
-    if (imageSrc.startsWith('http://') || imageSrc.startsWith('https://')) {
-      return imageSrc;
-    }
-    // 相対パスの場合は絶対URLに変換
-    return `${window.location.origin}${imageSrc}`;
-  };
 
   // カートモーダルUI
   const CartModal = () => (
@@ -381,6 +339,12 @@ const AllProducts: React.FC = () => {
           >もっと見る</button>
         </div>
       )}
+      <RecipeStrip
+        title="この生地で作れるレシピ"
+        subtitle="クラフトキッチンで人気の作り方レシピ（無料）"
+        mode="popular"
+        moreLink="/gallery/search?sort=popular"
+      />
     </div>
   );
 };

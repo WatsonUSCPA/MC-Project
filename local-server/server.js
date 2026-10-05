@@ -1,12 +1,21 @@
-// 仮想Netlifyサーバー
-// APIキーを安全に隠すためのローカルサーバー
+// 仮想Netlifyサーバー（ローカル開発用）
+// 本番の Netlify Function（netlify/functions/create-checkout-session.js）をそのまま呼び出すので、
+// 価格・送料の計算ロジックはローカルと本番で共通です。
+
+require('dotenv').config();
+
+// Stripe秘密鍵は環境変数（local-server/.env の STRIPE_SECRET_KEY）からのみ読み込みます。
+// コードに鍵を直接書かないでください。
+if (!process.env.STRIPE_SECRET_KEY) {
+  console.error('STRIPE_SECRET_KEY が設定されていません。local-server/.env に sk_test_... を設定してください。');
+  process.exit(1);
+}
+// 決済後の戻り先（ローカルのReactアプリ）
+process.env.SITE_URL = process.env.SITE_URL || 'http://localhost:3000';
 
 const express = require('express');
-// Stripe秘密鍵の設定（本番環境では環境変数を使用）
-// 注意: 公開鍵（pk_test_）ではなく秘密鍵（sk_test_）を使用してください
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || 'sk_test_51RarFpLF1d53iQAwAso92YvFVJaUI9e3CFGZbZtfOpkMSeGg5JJe5czCz56xlPsWvSjtattMFgGMbA6M4sUAiCWe002TKm5cPS';
-const stripe = require('stripe')(STRIPE_SECRET_KEY);
 const cors = require('cors');
+const { handler: createCheckoutSession } = require('../netlify/functions/create-checkout-session');
 
 const app = express();
 
@@ -23,45 +32,14 @@ app.get('/test', (req, res) => {
   res.json({ message: '仮想Netlifyサーバーが正常に動作しています！' });
 });
 
-// Stripe Checkout Session作成エンドポイント（Netlify Functionsと同じ機能）
+// Stripe Checkout Session作成エンドポイント（Netlify Functionと同じ処理）
 app.post('/create-checkout-session', async (req, res) => {
-  console.log('決済リクエストを受信:', req.body);
-
-  try {
-    const { line_items, mode, success_url, cancel_url, metadata } = req.body;
-
-    if (!line_items || line_items.length === 0) {
-      console.error('エラー: カートが空です');
-      return res.status(400).json({ error: 'カートが空です' });
-    }
-
-    console.log('Stripeセッションを作成中...');
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items,
-      mode,
-      success_url,
-      cancel_url,
-      metadata,
-      currency: 'jpy',
-      locale: 'ja',
-      shipping_address_collection: {
-        allowed_countries: ['JP'],
-      },
-    });
-
-    console.log('Stripeセッション作成成功. ID:', session.id);
-
-    res.json({ url: session.url });
-
-  } catch (error) {
-    console.error('Stripeエラー:', error);
-    res.status(500).json({ 
-      error: '決済セッションの作成に失敗しました',
-      details: error.message 
-    });
-  }
+  const result = await createCheckoutSession({
+    httpMethod: 'POST',
+    headers: req.headers,
+    body: JSON.stringify(req.body || {}),
+  });
+  res.status(result.statusCode).type('application/json').send(result.body);
 });
 
 // サーバー起動
@@ -72,4 +50,4 @@ app.listen(PORT, () => {
   console.log(`🔗 テスト用: http://localhost:${PORT}/test`);
   console.log(`💳 Stripe決済: http://localhost:${PORT}/create-checkout-session`);
   console.log(`📱 Reactアプリ: http://localhost:3000`);
-}); 
+});

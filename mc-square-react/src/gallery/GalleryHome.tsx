@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './GalleryHome.css';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
-import { app } from './firebase';
+import { findPartner } from './partners';
+import CreatorFilter from './CreatorFilter';
+import { fetchRecipeIndex, sortNew, sortPopular } from '../shared/recipesApi';
 
 interface Recipe {
   id: string;
@@ -30,7 +30,8 @@ interface Recipe {
   websiteExplanation?: string;
   authorId?: string;
   authorName?: string;
-  authorEmail?: string;
+  partnerId?: string;
+  sourceUrl?: string;
   createdAt?: any;
   updatedAt?: any;
   views?: number;
@@ -50,338 +51,93 @@ interface SituationCategory {
   order: number;
 }
 
-interface UserProfile {
-  uid: string;
-  displayName: string;
-  email: string;
-  photoURL?: string;
-  myRecipes: Recipe[];
-  bookmarks: Recipe[];
-  joinDate: string;
-}
 
 
-
-// Mock Dataを定数として定義
-const MOCK_RECIPES: Recipe[] = [
-  {
-    id: 'mock-1',
-    title: 'かわいいパッチワーククッション',
-    author: '手作り好きさん',
-    image: '/Image/Gift to Mom.png',
-    likes: 15,
-    difficulty: '初級',
-    cookingTime: '2時間',
-    tags: ['パッチワーク', 'クッション', '初級'],
-    authorSNS: {
-      twitter: 'https://twitter.com/teshizuki',
-      instagram: 'https://instagram.com/teshizuki',
-      website: 'https://teshizuki.com'
-    }
-  },
-  {
-    id: 'mock-2',
-    title: '簡単♪ バッグ型ポーチ',
-    author: 'クラフトマスター',
-    image: '/Image/Gift to Grandma.png',
-    likes: 23,
-    difficulty: '中級',
-    cookingTime: '3時間',
-    tags: ['バッグ', 'ポーチ', '中級'],
-    authorSNS: {
-      twitter: 'https://twitter.com/craftmaster',
-      facebook: 'https://facebook.com/craftmaster'
-    }
-  },
-  {
-    id: 'mock-3',
-    title: 'おしゃれなテーブルクロス',
-    author: 'インテリア好き',
-    image: '/Image/Gift to Kids.png',
-    likes: 8,
-    difficulty: '上級',
-    cookingTime: '1日',
-    tags: ['テーブルクロス', '上級'],
-    authorSNS: {
-      instagram: 'https://instagram.com/interior',
-      line: 'interior-line-id'
-    }
-  }
-];
 
 // レベルとシチュエーションのデータを定義
 const LEVEL_CATEGORIES = [
-  { id: 'beginner', name: '初級', image: '/Image/CraftKitchen.png' },
-  { id: 'intermediate', name: '中級', image: '/Image/CraftKitchen.png' },
-  { id: 'advanced', name: '上級', image: '/Image/CraftKitchen.png' }
+  { id: 'beginner', name: '初級', image: '/Image/CraftKitchen-240.webp' },
+  { id: 'intermediate', name: '中級', image: '/Image/CraftKitchen-240.webp' },
+  { id: 'advanced', name: '上級', image: '/Image/CraftKitchen-240.webp' }
 ];
 
 
 
-// データを補完する関数
-const getDisplayRecipes = (recipes: Recipe[]) => {
-  // 人気レシピ（いいね数でソート、上位2つ）
-  const popular = recipes
-    .sort((a, b) => (b.likes || 0) - (a.likes || 0))
-    .slice(0, 2);
+// 人気（いいね数の多い順）と新着、それぞれ上位2件
+const getDisplayRecipes = (recipes: Recipe[]) => ({
+  popular: sortPopular(recipes as any).slice(0, 2) as unknown as Recipe[],
+  new: sortNew(recipes as any).slice(0, 2) as unknown as Recipe[],
+});
 
-  // 新着レシピ（作成日でソート、上位2つ）
-  const newRecipes = recipes
-    .sort((a, b) => {
-      const dateA = a.createdAt?.toDate?.() || new Date(0);
-      const dateB = b.createdAt?.toDate?.() || new Date(0);
-      return dateB.getTime() - dateA.getTime();
-    })
-    .slice(0, 2);
-
-  return { popular, new: newRecipes };
-};
+const DEFAULT_KEYWORDS: PopularKeyword[] = [
+  { id: 'default-1', name: 'バッグ', image: '/Image/CraftKitchen-240.webp', order: 1 },
+  { id: 'default-2', name: 'ポーチ', image: '/Image/CraftKitchen-240.webp', order: 2 },
+  { id: 'default-3', name: 'キッズ', image: '/Image/CraftKitchen-240.webp', order: 3 },
+  { id: 'default-4', name: 'はぎれ', image: '/Image/CraftKitchen-240.webp', order: 4 },
+];
 
 const GalleryHome: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  // つくり手（パートナー）の絞り込み。?creator=<partnerId> で共有できる
+  const creator = findPartner(searchParams.get('creator') || searchParams.get('partner'));
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [popularKeywords, setPopularKeywords] = useState<PopularKeyword[]>([]);
   const [situationCategories, setSituationCategories] = useState<SituationCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [showMyPage, setShowMyPage] = useState(false);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [retryCount, setRetryCount] = useState(0);
 
 
-  // 人気のキーワードをFirestoreから取得
+  // レシピ一覧・人気キーワード・シチュエーションを1回の軽量リクエストで取得
+  // （以前は recipes コレクション全体＝base64画像込み約11MBを読み込んでいた）
   useEffect(() => {
-    const fetchPopularKeywords = async () => {
-      try {
-        const db = getFirestore();
-        const keywordsRef = collection(db, 'popularKeywords');
-        const snapshot = await getDocs(keywordsRef);
-        const keywords: PopularKeyword[] = [];
-        
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          // キーワードに応じたデフォルト画像を設定
-          const getDefaultImage = (keywordName: string) => {
-            const lowerName = keywordName.toLowerCase();
-            if (lowerName.includes('バッグ') || lowerName.includes('bag')) {
-              return '/Image/Gift to Grandma.png';
-            } else if (lowerName.includes('クッション') || lowerName.includes('cushion')) {
-              return '/Image/Gift to Mom.png';
-            } else if (lowerName.includes('キッズ') || lowerName.includes('kids')) {
-              return '/Image/Gift to Kids.png';
-            } else if (lowerName.includes('コットン') || lowerName.includes('cotton')) {
-              return '/Image/US Cotton subscription.png';
-            } else {
-              return '/Image/CraftKitchen.png';
-            }
-          };
-
-          keywords.push({
-            id: doc.id,
-            name: data.name || '',
-            image: data.image || getDefaultImage(data.name || ''),
-            order: data.order || 0
-          });
-        });
-        
-        // 順序でソート
-        keywords.sort((a, b) => (a.order || 0) - (b.order || 0));
-        setPopularKeywords(keywords);
-      } catch (error) {
-        console.error('Error fetching popular keywords:', error);
-        console.error('Error details:', {
-          message: error instanceof Error ? error.message : 'Unknown error',
-          stack: error instanceof Error ? error.stack : undefined
-        });
-        // エラーの場合はデフォルトキーワードを設定
-        const defaultKeywords: PopularKeyword[] = [
-          { id: 'default-1', name: 'バッグ', image: '/Image/Gift to Grandma.png', order: 1 },
-          { id: 'default-2', name: 'クッション', image: '/Image/Gift to Mom.png', order: 2 },
-          { id: 'default-3', name: 'キッズ', image: '/Image/Gift to Kids.png', order: 3 },
-          { id: 'default-4', name: 'コットン', image: '/Image/US Cotton subscription.png', order: 4 }
-        ];
-        setPopularKeywords(defaultKeywords);
-      }
-    };
-    
-    fetchPopularKeywords();
-    
-    // シチュエーションカテゴリを取得
-    const fetchSituationCategories = async () => {
-      try {
-        const db = getFirestore();
-        const situationsRef = collection(db, 'situationCategories');
-        const snapshot = await getDocs(situationsRef);
-        const situations: SituationCategory[] = [];
-        
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          situations.push({
-            id: doc.id,
-            name: data.name || '',
-            image: data.image || '/Image/CraftKitchen.png',
-            order: data.order || 0
-          });
-        });
-        
-        // 順序でソート
-        situations.sort((a, b) => a.order - b.order);
-        setSituationCategories(situations);
-      } catch (error) {
-        console.error('Error fetching situation categories:', error);
-        // エラーの場合はデフォルトカテゴリを設定
-        const defaultSituations: SituationCategory[] = [
-          { id: 'default-1', name: '小学校向け', image: '/Image/Gift to Kids.png', order: 1 },
-          { id: 'default-2', name: '幼稚園向け', image: '/Image/Gift to Kids.png', order: 2 },
-          { id: 'default-3', name: 'おじいちゃんおばあちゃん向け', image: '/Image/Gift to Grandma.png', order: 3 },
-          { id: 'default-4', name: 'プレゼント向け', image: '/Image/Gift to Mom.png', order: 4 }
-        ];
-        setSituationCategories(defaultSituations);
-      }
-    };
-    
-    fetchSituationCategories();
-  }, []);
-
-  // Firestoreからデータを取得
-  useEffect(() => {
-    const fetchRecipes = async (retryCount = 0) => {
-      try {
-        setLoading(true);
-        
-        const db = getFirestore();
-        const recipesRef = collection(db, 'recipes');
-        
-        // クエリを最適化：文字情報のみ先に取得
-        const q = query(
-          recipesRef,
-          // orderBy('createdAt', 'desc'), // パフォーマンスのためコメントアウト
-          // limit(6)
-        );
-        
-        // 並列でデータ取得を開始
-        const queryPromise = getDocs(q);
-        
-        // タイムアウトを設定（5秒に延長）
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Timeout')), 5000)
-        );
-        
-        const querySnapshot = await Promise.race([queryPromise, timeoutPromise]) as any;
-        
-        const fetchedRecipes: Recipe[] = [];
-        querySnapshot.forEach((doc: any) => {
-          const data = doc.data();
-          fetchedRecipes.push({
-            id: doc.id,
-            title: data.title || '',
-            author: data.authorName || '匿名ユーザー',
-            image: '/Image/Goods Picture.png', // デフォルト画像を先に使用
-            likes: data.likes || 0,
-            difficulty: data.difficulty || '初級',
-            cookingTime: data.cookingTime || '',
-            tags: data.tags || [],
-            authorSNS: data.authorSNS || {},
-            // 画像URLは後から取得
-            mainImageUrl: data.mainImageUrl,
-            description: data.description,
-            ingredients: data.ingredients,
-            steps: data.steps,
-            youtubeUrl: data.youtubeUrl,
-            explanationType: data.explanationType,
-            websiteExplanation: data.websiteExplanation,
-            authorId: data.authorId,
-            authorName: data.authorName,
-            authorEmail: data.authorEmail,
-            createdAt: data.createdAt,
-            updatedAt: data.updatedAt,
-            views: data.views || 0
-          });
-        });
-        
-        // いいね数でソート（多い順）
-        fetchedRecipes.sort((a, b) => {
-          return b.likes - a.likes;
-        });
-        
-        // 文字情報を先に表示
-        setRecipes(fetchedRecipes);
-        setLoading(false);
-        setRetryCount(0); // 成功時にリトライカウントをリセット
-        
-        // 画像を後から非同期で読み込み
-        setTimeout(() => {
-          const updatedRecipes = fetchedRecipes.map(recipe => ({
-            ...recipe,
-            image: recipe.mainImageUrl || recipe.image
-          }));
-          setRecipes(updatedRecipes);
+    let alive = true;
+    const load = (attempt = 0) => {
+      fetchRecipeIndex()
+        .then((index) => {
+          if (!alive) return;
+          // 画像が未登録のカテゴリはクラフトキッチンのロゴを表示
+          const withImage = <T extends { image: string }>(list: T[]) =>
+            list.map((c) => ({ ...c, image: c.image || '/Image/CraftKitchen-240.webp' }));
+          setPopularKeywords(index.keywords.length ? withImage(index.keywords) : DEFAULT_KEYWORDS);
+          setSituationCategories(withImage(index.situations));
+          setRecipes(index.recipes.map((r) => ({
+            id: r.id,
+            title: r.title,
+            author: r.partnerName,
+            image: r.thumb,
+            mainImageUrl: r.thumb,
+            likes: r.likes,
+            difficulty: r.difficulty,
+            cookingTime: r.cookingTime,
+            tags: r.tags,
+            authorSNS: r.authorSNS,
+            description: r.description,
+            partnerId: r.partnerId,
+            sourceUrl: r.sourceUrl || undefined,
+            createdAt: r.createdAt,
+            views: r.views,
+          })));
           setImagesLoaded(true);
-        }, 100);
-        
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-        console.error('Error details:', {
-          message: error instanceof Error ? error.message : 'Unknown error',
-          stack: error instanceof Error ? error.stack : undefined
+          setRetryCount(0);
+          setLoading(false);
+        })
+        .catch(() => {
+          if (!alive) return;
+          if (attempt < 2) {
+            setRetryCount(attempt + 1);
+            setTimeout(() => load(attempt + 1), 1000 * Math.pow(2, attempt));
+          } else {
+            setPopularKeywords(DEFAULT_KEYWORDS);
+            setRecipes([]);
+            setLoading(false);
+          }
         });
-        
-        // タイムアウトエラーの場合、最大3回までリトライ
-        if (error instanceof Error && error.message === 'Timeout' && retryCount < 3) {
-          const nextRetryCount = retryCount + 1;
-          console.log(`Retrying fetch... Attempt ${nextRetryCount}/3`);
-          setRetryCount(nextRetryCount);
-          
-          // 指数バックオフで待機時間を設定（1秒、2秒、4秒）
-          const waitTime = Math.pow(2, retryCount) * 1000;
-          
-          setTimeout(() => {
-            fetchRecipes(nextRetryCount);
-          }, waitTime);
-          
-          return;
-        }
-        
-        // リトライ回数上限に達した場合、またはその他のエラーの場合
-        if (retryCount >= 3) {
-          console.error('Max retry attempts reached. Showing empty state.');
-        }
-        
-        // エラー時は空配列で初期化
-        setRecipes([]);
-        setLoading(false);
-      }
     };
-
-    // 即座に実行
-    fetchRecipes();
+    load();
+    return () => { alive = false; };
   }, []);
-
-  // ユーザー認証状態の監視
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      if (user) {
-        // ユーザープロフィール情報を取得（軽量化）
-        const mockUserProfile: UserProfile = {
-          uid: user.uid,
-          displayName: user.displayName || 'ユーザー',
-          email: user.email || '',
-          photoURL: user.photoURL || undefined,
-          myRecipes: [], // 空配列で初期化
-          bookmarks: [], // 空配列で初期化
-          joinDate: '2024年1月'
-        };
-        setUserProfile(mockUserProfile);
-      } else {
-        setUserProfile(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []); // recipesの依存関係を削除
 
   // URLが有効かどうかをチェックする関数
   const isValidUrl = (url: string): boolean => {
@@ -395,10 +151,21 @@ const GalleryHome: React.FC = () => {
     }
   };
 
-  const handleAuthorClick = (author: string, authorId: string) => {
-    // ユーザープロフィールページに直接遷移
-    navigate(`/gallery/user/${authorId}`);
+  const handleAuthorClick = (partnerId?: string) => {
+    // パートナーのレシピ一覧（検索ページ）に遷移
+    if (partnerId) navigate(`/gallery/search?creator=${encodeURIComponent(partnerId)}`);
   };
+
+  const handleCreatorChange = (partnerId: string) => {
+    const next = new URLSearchParams(searchParams);
+    next.delete('partner');
+    if (partnerId) next.set('creator', partnerId); else next.delete('creator');
+    setSearchParams(next, { replace: true });
+  };
+
+  // 「もっと見る」などで検索ページへ移るときも、つくり手の絞り込みを引き継ぐ
+  const withCreator = (path: string) =>
+    creator ? `${path}${path.includes('?') ? '&' : '?'}creator=${encodeURIComponent(creator.id)}` : path;
 
 
   const handleRecipeClick = (recipe: Recipe) => {
@@ -413,28 +180,6 @@ const GalleryHome: React.FC = () => {
     navigate(`/gallery/search?q=${encodeURIComponent(keyword.name)}`);
   };
 
-  const handleMyPageToggle = () => {
-    // マイページにリダイレクト
-    window.location.href = '/gallery/mypage';
-  };
-
-  const handleLogout = () => {
-    const auth = getAuth();
-    auth.signOut();
-    setShowMyPage(false);
-  };
-
-  const handleUploadRecipe = () => {
-    // Recipe Uploadページに遷移
-    navigate('/gallery/upload');
-    setShowMyPage(false);
-  };
-
-  const handleAdminPage = () => {
-    // 管理者ページに遷移
-    navigate('/gallery/admin');
-  };
-
   const handleLevelClick = (level: { id: string; name: string }) => {
     // レベル別検索ページに遷移
     navigate(`/gallery/search?level=${level.id}&category=${level.name}`);
@@ -447,13 +192,20 @@ const GalleryHome: React.FC = () => {
 
   const handleViewMorePopular = () => {
     // 人気レシピ一覧ページに遷移
-    navigate('/gallery/search?sort=popular');
+    navigate(withCreator('/gallery/search?sort=popular'));
   };
 
   const handleViewMoreNew = () => {
     // 新着レシピ一覧ページに遷移
-    navigate('/gallery/search?sort=new');
+    navigate(withCreator('/gallery/search?sort=new'));
   };
+
+  // つくり手ごとの件数（絞り込みチップに表示）
+  const creatorCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    recipes.forEach((r) => { if (r.partnerId) counts[r.partnerId] = (counts[r.partnerId] || 0) + 1; });
+    return counts;
+  }, [recipes]);
 
   if (loading) {
     return (
@@ -462,7 +214,7 @@ const GalleryHome: React.FC = () => {
           データを読み込み中...
           {retryCount > 0 && (
             <div className="retry-info">
-              接続に時間がかかっています。再試行中... ({retryCount}/3)
+              接続に時間がかかっています。再試行中... ({retryCount}/2)
             </div>
           )}
         </div>
@@ -488,7 +240,8 @@ const GalleryHome: React.FC = () => {
     );
   }
 
-  const displayRecipes = getDisplayRecipes(recipes);
+  const creatorRecipes = creator ? recipes.filter((r) => r.partnerId === creator.id) : recipes;
+  const displayRecipes = getDisplayRecipes(creatorRecipes);
 
   return (
     <div className="recipe-gallery">
@@ -522,7 +275,7 @@ const GalleryHome: React.FC = () => {
                     loading="lazy"
                     onError={(e) => {
                       // 画像読み込みエラー時の処理
-                      e.currentTarget.src = '/Image/CraftKitchen.png';
+                      e.currentTarget.src = '/Image/CraftKitchen-240.webp';
                     }}
                   />
                   <span className="keyword-name">{keyword.name}</span>
@@ -544,7 +297,7 @@ const GalleryHome: React.FC = () => {
                   className="category-image" 
                   loading="lazy"
                   onError={(e) => {
-                    e.currentTarget.src = '/Image/CraftKitchen.png';
+                    e.currentTarget.src = '/Image/CraftKitchen-240.webp';
                   }}
                 />
                 <span className="category-name">{level.name}</span>
@@ -565,13 +318,34 @@ const GalleryHome: React.FC = () => {
                   className="category-image" 
                   loading="lazy"
                   onError={(e) => {
-                    e.currentTarget.src = '/Image/CraftKitchen.png';
+                    e.currentTarget.src = '/Image/CraftKitchen-240.webp';
                   }}
                 />
                 <span className="category-name">{situation.name}</span>
               </div>
             ))}
           </div>
+        </section>
+
+        {/* つくり手（パートナー）で絞り込み */}
+        <section className="creator-section" id="creators">
+          <h2 className="section-title">つくり手から探す</h2>
+          <CreatorFilter
+            value={creator ? creator.id : ''}
+            onChange={handleCreatorChange}
+            counts={creatorCounts}
+            total={recipes.length}
+            label="つくり手"
+          />
+          {creator && (
+            <button
+              type="button"
+              className="creator-all-link"
+              onClick={() => navigate(`/gallery/search?creator=${encodeURIComponent(creator.id)}`)}
+            >
+              {creator.name}のレシピをすべて見る（{creatorRecipes.length}件） →
+            </button>
+          )}
         </section>
 
         {/* 人気レシピ */}
@@ -591,6 +365,9 @@ const GalleryHome: React.FC = () => {
                       src={recipe.mainImageUrl || recipe.image} 
                       alt={recipe.title}
                       loading="lazy"
+                      decoding="async"
+                      width={480}
+                      height={270}
                       onLoad={(e) => {
                         // 画像読み込み完了時の処理
                         e.currentTarget.style.opacity = '1';
@@ -607,7 +384,7 @@ const GalleryHome: React.FC = () => {
                     <h3 className="recipe-title">{recipe.title}</h3>
                     <div className="recipe-author-info" onClick={(e) => {
                       e.stopPropagation();
-                      handleAuthorClick(recipe.author, recipe.authorId || '');
+                      handleAuthorClick(recipe.partnerId);
                     }}>
                       <span className="author-avatar">👤</span>
                       <span className="author-name">{recipe.author}</span>
@@ -628,15 +405,8 @@ const GalleryHome: React.FC = () => {
           ) : (
             <div className="no-recipes-message">
               <div className="no-recipes-icon">🎨</div>
-              <h3>まだレシピが投稿されていません</h3>
-              <p>あなたが最初の投稿者になりませんか？</p>
-              <button 
-                className="be-first-poster-btn"
-                onClick={handleUploadRecipe}
-              >
-                <span role="img" aria-label="投稿">📝</span>
-                最初のレシピを投稿する
-              </button>
+              <h3>レシピを準備中です</h3>
+              <p>パートナーのレシピを順次掲載していきます。</p>
             </div>
           )}
         </section>
@@ -658,6 +428,9 @@ const GalleryHome: React.FC = () => {
                       src={recipe.mainImageUrl || recipe.image} 
                       alt={recipe.title}
                       loading="lazy"
+                      decoding="async"
+                      width={480}
+                      height={270}
                       onLoad={(e) => {
                         // 画像読み込み完了時の処理
                         e.currentTarget.style.opacity = '1';
@@ -674,7 +447,7 @@ const GalleryHome: React.FC = () => {
                     <h3 className="recipe-title">{recipe.title}</h3>
                     <div className="recipe-author-info" onClick={(e) => {
                       e.stopPropagation();
-                      handleAuthorClick(recipe.author, recipe.authorId || '');
+                      handleAuthorClick(recipe.partnerId);
                     }}>
                       <span className="author-avatar">👤</span>
                       <span className="author-name">{recipe.author}</span>
@@ -695,29 +468,12 @@ const GalleryHome: React.FC = () => {
           ) : (
             <div className="no-recipes-message">
               <div className="no-recipes-icon">🎨</div>
-              <h3>まだレシピが投稿されていません</h3>
-              <p>あなたが最初の投稿者になりませんか？</p>
-              <button 
-                className="be-first-poster-btn"
-                onClick={handleUploadRecipe}
-              >
-                <span role="img" aria-label="投稿">📝</span>
-                最初のレシピを投稿する
-              </button>
+              <h3>レシピを準備中です</h3>
+              <p>パートナーのレシピを順次掲載していきます。</p>
             </div>
           )}
         </section>
 
-        {/* 投稿ボタン */}
-        <div className="upload-section">
-          <button 
-            className="upload-btn"
-            onClick={handleUploadRecipe}
-          >
-            <span role="img" aria-label="投稿">📝</span>
-            クラフトキッチンに作品を投稿する
-          </button>
-        </div>
       </div>
     </div>
   );
