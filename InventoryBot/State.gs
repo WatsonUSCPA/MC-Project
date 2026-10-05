@@ -1,12 +1,19 @@
 /**
  * 作業者ごとの会話状態と、催促先スペースの登録情報。
  * スクリプトはデプロイした人の権限で動くので、ScriptProperties に作業者IDごとに保存する。
+ *
+ * state = {
+ *   drafts: [{ no, fileIds, name, managementNumber, price, priceDefault, issue, warningFor, confirmedFor }],
+ *   seq, history, checkQueue, checkTotal, priceTarget, log: { date, count }, lastRegisteredAt
+ * }
  */
 
 function getState_(userId) {
   const raw = getProp_('state:' + userId);
   const state = raw ? JSON.parse(raw) : {};
+  state.drafts = state.drafts || [];
   state.history = state.history || [];
+  state.seq = state.seq || 0;
   return state;
 }
 
@@ -20,6 +27,13 @@ function pushHistory_(state, role, content) {
   state.history.push({ role: role, content: String(content).slice(0, 1000) });
 }
 
+function recordRegistration_(state) {
+  const today = todayString_();
+  if (!state.log || state.log.date !== today) state.log = { date: today, count: 0 };
+  state.log.count++;
+  state.lastRegisteredAt = new Date().toISOString();
+}
+
 function getSpaces_() {
   const raw = getProp_('spaces');
   return raw ? JSON.parse(raw) : {};
@@ -29,9 +43,7 @@ function saveSpaces_(spaces) {
   setProp_('spaces', JSON.stringify(spaces));
 }
 
-/**
- * 1対1（DM）のスペースだけを催促先として登録する。
- */
+/** 1対1（DM）のスペースだけを催促先として登録する。 */
 function registerSpace_(event) {
   const space = event.space || {};
   const isDm = space.type === 'DM' || space.spaceType === 'DIRECT_MESSAGE' || space.singleUserBotDm;

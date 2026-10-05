@@ -1,69 +1,69 @@
 /**
  * 在庫係Bot の設定。
  *
- * 秘密情報（APIキーなど）はここに書かず、スクリプトプロパティに保存する:
- *   XAI_API_KEY          … xAI (Grok) の APIキー（必須）
- *   SERVICE_ACCOUNT_KEY  … Chat アプリ用サービスアカウントの JSON キー全文（必須）
- *   GROK_MODEL           … 使う Grok のモデル名（任意。未設定なら CONFIG.GROK_MODEL_DEFAULT）
- *   ADMIN_EMAILS         … Chat から「指示: ○○」を出せる人のメールアドレス（カンマ区切り）
- *   INVENTORY_SHEET_ID   … 在庫表のスプレッドシートID（setup() が自動で設定）
- *   PHOTO_FOLDER_ID      … 写真保存フォルダのID（setup() が自動で設定）
+ * 秘密情報はここに書かず、Apps Script の「スクリプト プロパティ」に保存する:
+ *   AI_API_KEY             … OpenRouter の APIキー（必須）
+ *   AI_MODEL               … 使うモデル（任意。例: x-ai/grok-4。未設定なら CONFIG.AI_MODEL_DEFAULT）
+ *   AI_ENDPOINT            … 任意。OpenRouter 以外（xAI 直接など）を使うときだけ設定
+ *   SERVICE_ACCOUNT_KEY    … Chat アプリ用サービスアカウントの JSON キー全文（必須）
+ *   CLOUDINARY_CLOUD_NAME  … Cloudinary の Cloud name（必須）
+ *   CLOUDINARY_API_KEY     … Cloudinary の API Key（必須）
+ *   CLOUDINARY_API_SECRET  … Cloudinary の API Secret（必須）
+ *   ADMIN_EMAILS           … Chat から「指示: ○○」を出せる人のメールアドレス（カンマ区切り）
+ *   PRODUCT_SHEET_ID       … 任意。在庫管理シートのID（未設定なら CONFIG の値）
+ *   PHOTO_FOLDER_ID        … 写真のバックアップ用 Drive フォルダ（setup() が自動で設定）
  */
 const CONFIG = {
   TIMEZONE: 'Asia/Tokyo',
   BOT_NAME: '在庫係',
-  SHEET_NAME: '在庫',
-  ID_PREFIX: 'F-',
+
+  // 在庫管理シート（EC サイトが読んでいるシート）
+  PRODUCT_SHEET_ID_DEFAULT: '1sqR_rn_a7USuT3mpP-BHwsWT8Vi0jdCYcu1Gl2P3Z14',
+  PRODUCT_SHEET_NAME: '商品データ履歴',
+  FIRST_DATA_ROW: 4, // 1行目: 見出し / 2行目: 会社情報 / 3行目: 見出し / 4行目〜: 商品（新しい順）
+
+  DEFAULT_PRICE: 1100, // 50cm あたりの単価。作業者が言わなければこの値で登録する
+  STATUS_PUBLIC: '公開中',
+  STATUS_PRIVATE: '非公開',
 
   // 催促の時刻（時）と曜日（0=日, 1=月 ... 6=土）
   NAG_HOUR: 10,
   FOLLOWUP_HOUR: 17,
   NAG_WEEKDAYS: [1, 2, 3, 4, 5, 6],
 
-  // Bot の口調
+  // 売れ残りチェック: アップロードから AGING_MONTHS か月たった公開中の生地を、
+  // RECHECK_DAYS 日おきに「まだある？」と聞く（1日 CHECKS_PER_DAY 件まで）
+  CHECK_HOUR: 14,
+  AGING_MONTHS: 6,
+  RECHECK_DAYS: 30,
+  CHECKS_PER_DAY: 3,
+
   TONE: '敬語ベースで親しみやすく、でも仕事はきっちり進めさせる。絵文字は1〜2個まで。',
 
-  GROK_MODEL_DEFAULT: 'grok-4',
-  GROK_ENDPOINT: 'https://api.x.ai/v1/chat/completions',
-
-  // Grok に渡す会話履歴の最大件数
+  AI_ENDPOINT_DEFAULT: 'https://openrouter.ai/api/v1/chat/completions',
+  AI_MODEL_DEFAULT: 'x-ai/grok-4',
   HISTORY_TURNS: 8,
 };
 
-const STATUS = {
-  DRAFT: '入力中',
-  DONE: '登録済み',
-  CANCELLED: 'キャンセル',
+// 商品データ履歴の列番号
+const COL = {
+  name: 1,        // A 商品名
+  mn: 2,          // B 管理番号
+  photo: 3,       // C 写真URL
+  price: 4,       // D 値段（50cm の単価）
+  magazine: 5,    // E メルマガ発行年月（今は使っていないので空欄）
+  status: 6,      // F 公開ステータス
+  uploadDate: 7,  // G アップロード日
+  archiveDate: 8, // H アーカイブ日
 };
+const NUM_COLS = 8;
 
-/**
- * 在庫表の列定義。並び順がそのままシートの列順になる。
- *   system   … Bot が自動で埋める列
- *   source   … 'photo' = 写真から推定してよい / 'user' = 作業者の発言からのみ埋める
- *   required … 埋まるまで「入力中」のまま催促対象になる
- */
-const FIELDS = [
-  { key: 'id', label: '管理番号', system: true },
-  { key: 'status', label: 'ステータス', system: true },
-  { key: 'createdAt', label: '登録日時', system: true },
-  { key: 'updatedAt', label: '更新日時', system: true },
-  { key: 'reporter', label: '登録者', system: true },
-  { key: 'reporterId', label: '登録者ID', system: true },
-  { key: 'photos', label: '写真', system: true },
-  { key: 'name', label: '商品名', source: 'photo', desc: 'ECで使える短い商品名の案（例: ベージュ小花柄コットン）' },
-  { key: 'color', label: '色', source: 'photo', desc: '主な色（例: ベージュ、ネイビー×白）' },
-  { key: 'pattern', label: '柄', source: 'photo', desc: '柄の種類（例: 小花柄、ストライプ、無地）' },
-  { key: 'material', label: '素材', source: 'photo', desc: '写真からの推定でよい。作業者が言った場合はそちらを優先' },
-  { key: 'width', label: '幅(cm)', source: 'user', type: 'number', desc: '生地幅（cm）' },
-  { key: 'length', label: '長さ(m)', source: 'user', type: 'number', required: true, desc: '在庫の長さ（m）' },
-  { key: 'cost', label: '仕入れ値(円)', source: 'user', type: 'number', desc: '仕入れ値の合計（円）' },
-  { key: 'location', label: '保管場所', source: 'user', required: true, desc: '保管している棚・箱など' },
-  { key: 'memo', label: 'メモ', source: 'user', desc: 'その他、作業者が伝えた補足' },
+/** 作業者から聞き出す項目 */
+const DRAFT_FIELDS = [
+  { key: 'name', label: '商品名', desc: 'シリーズ名（例: USA COTTON, GRUNGE, French General）。作業者が言ったとおりに入れる' },
+  { key: 'managementNumber', label: '管理番号', desc: '作業者が付けた番号（例: 200-1051, 30150-335）' },
+  { key: 'price', label: '値段', type: 'number', desc: '50cmあたりの単価（円）。言われなければ既定値のまま' },
 ];
-
-function editableFields_() {
-  return FIELDS.filter(function (f) { return !f.system; });
-}
 
 function getProp_(key) {
   return PropertiesService.getScriptProperties().getProperty(key);
@@ -81,4 +81,8 @@ function setProp_(key, value) {
 
 function formatDate_(date, pattern) {
   return Utilities.formatDate(date, CONFIG.TIMEZONE, pattern || 'yyyy/MM/dd HH:mm');
+}
+
+function todayString_() {
+  return formatDate_(new Date(), 'yyyy/MM/dd');
 }
