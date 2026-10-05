@@ -20,6 +20,13 @@ export interface Partner {
   authorIds: string[];
   /** パートナーの公式ページ（出典リンクが無い場合の予備） */
   website?: string;
+  /**
+   * 作り方（説明文・手順）を載せてよいか。false のパートナーは「材料（サイズ付き）＋動画＋サムネ＋リンク」だけ。
+   * 今は SEO 用の HTML（netlify/edge-lib/recipe-seo.js）だけがこの値を見る。
+   * 投稿者が自分で細かいレシピを載せるようになったら、その投稿者を true にする。
+   * 変えるときは netlify/lib/partners.js と netlify/edge-lib/recipe-seo.js も同じ値にする。
+   */
+  allowInstructions: boolean;
 }
 
 export const PARTNERS: Partner[] = [
@@ -29,6 +36,7 @@ export const PARTNERS: Partner[] = [
     shortName: 'うさんこチャンネル',
     authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'],
     website: 'https://www.youtube.com/@usanko_ch',
+    allowInstructions: false,
   },
   {
     id: 'clover',
@@ -36,6 +44,7 @@ export const PARTNERS: Partner[] = [
     shortName: 'クロバー',
     authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'],
     website: 'https://clover.co.jp/',
+    allowInstructions: true,
   },
   {
     id: 'quiltkon',
@@ -43,6 +52,7 @@ export const PARTNERS: Partner[] = [
     shortName: 'Kon｜ミシンキルト',
     authorIds: ['partner-quiltkon'],
     website: 'https://www.youtube.com/@p_quiltkon',
+    allowInstructions: false,
   },
 ];
 

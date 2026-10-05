@@ -7,6 +7,9 @@ import './GalleryDetail.css';
 
 interface DetailSource { partnerId: string; name: string; url: string | null; linkLabel: string; }
 
+// public/index.html の <title> と同じ
+const DEFAULT_TITLE = 'エムシースクエア - "いいものはいつまでも"';
+
 interface RecipeStep {
   id: number;
   description: string;
@@ -118,6 +121,12 @@ const GalleryDetail: React.FC = () => {
       .finally(() => alive && setLoading(false));
     return () => { alive = false; };
   }, [recipeId]);
+
+  // タブのタイトル：表示中はレシピ名（SEO 用 HTML と同じ形）、ほかのページに移ったらサイトのタイトルに戻す
+  useEffect(() => {
+    if (recipe && source) document.title = `${recipe.title}｜${source.name}のレシピ｜エムシースクエア クラフトキッチン`;
+  }, [recipe, source]);
+  useEffect(() => () => { document.title = DEFAULT_TITLE; }, []);
 
   // このレシピに使えるショップ商品（キット・生地）
   useEffect(() => {
