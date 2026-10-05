@@ -8,6 +8,7 @@ import { CartProvider } from './ec/context/CartContext';
 import { useEffect, useState } from 'react';
 import RecipeStrip from './shared/components/RecipeStrip';
 import ImageSlider from './ec/components/ImageSlider';
+import InstallPrompt from './pwa/InstallPrompt';
 
 
 // 各ページは開いたときだけ読み込む（トップページの初回表示を軽くする）
@@ -190,6 +191,7 @@ const AppLayout: React.FC = () => {
       </Routes>
       </Suspense>
       <Footer />
+      <InstallPrompt />
     </>
   );
 };
