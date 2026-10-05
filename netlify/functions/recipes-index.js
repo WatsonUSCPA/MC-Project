@@ -5,7 +5,7 @@ const { getRecipeSource } = require('../lib/partners');
 const { cacheHeaders, json } = require('../lib/http');
 
 const RECIPE_FIELDS = ['title', 'authorId', 'authorSNS', 'source', 'difficulty', 'cookingTime', 'likes', 'views',
-  'createdAt', 'description', 'tags', 'youtubeUrl', 'pdfUrl', 'ingredients'];
+  'createdAt', 'youtubePublishedAt', 'description', 'tags', 'youtubeUrl', 'pdfUrl', 'ingredients'];
 
 const imageUrl = (c, id, f, v, w) =>
   `/.netlify/functions/recipe-image?c=${c}&id=${encodeURIComponent(id)}&f=${f}&w=${w}&v=${encodeURIComponent(v || '')}`;
@@ -46,6 +46,7 @@ exports.handler = async () => {
         likes: data.likes || 0,
         views: data.views || 0,
         createdAt: data.createdAt || null,
+        youtubePublishedAt: typeof data.youtubePublishedAt === 'string' ? data.youtubePublishedAt : null,
         description: String(data.description || '').slice(0, 160),
         tags: Array.isArray(data.tags) ? data.tags.slice(0, 20) : [],
         ingredients: Array.isArray(data.ingredients) ? data.ingredients.slice(0, 20).map((s) => String(s).slice(0, 60)) : [],

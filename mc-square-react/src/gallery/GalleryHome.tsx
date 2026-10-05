@@ -33,6 +33,7 @@ interface Recipe {
   partnerId?: string;
   sourceUrl?: string;
   createdAt?: any;
+  youtubePublishedAt?: string | null;
   updatedAt?: any;
   views?: number;
 }
@@ -117,6 +118,7 @@ const GalleryHome: React.FC = () => {
             partnerId: r.partnerId,
             sourceUrl: r.sourceUrl || undefined,
             createdAt: r.createdAt,
+            youtubePublishedAt: r.youtubePublishedAt,
             views: r.views,
           })));
           setImagesLoaded(true);

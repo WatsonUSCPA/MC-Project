@@ -15,6 +15,7 @@ export interface RecipeSummary {
   likes: number;
   views: number;
   createdAt: string | null;
+  youtubePublishedAt?: string | null;
   description: string;
   tags: string[];
   ingredients: string[];
@@ -74,9 +75,12 @@ export const fetchCatalog = () => cachedFetch<Catalog>('ck:catalog:v1', `${API}/
 export const fetchRecipeDetail = (id: string) =>
   cachedFetch<RecipeDetail>(`ck:recipe:${id}`, `${API}/recipe-detail?id=${encodeURIComponent(id)}`);
 
-const time = (s: string | null) => (s ? new Date(s).getTime() || 0 : 0);
+const time = (s: string | null | undefined) => (s ? new Date(s).getTime() || 0 : 0);
+/** 新着順の基準日：YouTube の公開日（youtubePublishedAt）、なければ登録日（createdAt） */
+export const publishedTime = (r: { youtubePublishedAt?: string | null; createdAt?: string | null }) =>
+  time(r.youtubePublishedAt) || time(r.createdAt);
 export const sortPopular = (list: RecipeSummary[]) => [...list].sort((a, b) => (b.likes - a.likes) || (b.views - a.views));
-export const sortNew = (list: RecipeSummary[]) => [...list].sort((a, b) => time(b.createdAt) - time(a.createdAt));
+export const sortNew = (list: RecipeSummary[]) => [...list].sort((a, b) => publishedTime(b) - publishedTime(a));
 
 // ===== レシピ ⇔ 商品のキーワードマッチング =====
 // 作品の種類を表す語。レシピ名・キット名の両方に含まれていれば関連ありとみなす
