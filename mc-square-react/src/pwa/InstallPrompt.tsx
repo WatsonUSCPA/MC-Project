@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './InstallPrompt.css';
 
 // Chrome / Edge / Android の beforeinstallprompt イベント
@@ -28,7 +29,10 @@ const recentlyDismissed = () => {
 };
 
 // ホーム画面への追加を案内するバナー
+// 購入ボタンなどに重ならないよう、トップページでだけ表示する
 const InstallPrompt: React.FC = () => {
+  const { pathname } = useLocation();
+  const isTopPage = pathname === '/';
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showIosGuide, setShowIosGuide] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -49,21 +53,21 @@ const InstallPrompt: React.FC = () => {
     window.addEventListener('beforeinstallprompt', handleBeforeInstall);
     window.addEventListener('appinstalled', handleInstalled);
 
-    // iOS Safari は beforeinstallprompt が無いため、共有メニューからの追加方法を案内する
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    if (isIos()) {
-      timer = setTimeout(() => {
-        setShowIosGuide(true);
-        setVisible(true);
-      }, 3000);
-    }
-
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
       window.removeEventListener('appinstalled', handleInstalled);
-      if (timer) clearTimeout(timer);
     };
   }, []);
+
+  // iOS Safari は beforeinstallprompt が無いため、トップページを開いて少ししたら共有メニューからの追加方法を案内する
+  useEffect(() => {
+    if (!isTopPage || showIosGuide || !isIos() || isStandalone() || recentlyDismissed()) return;
+    const timer = setTimeout(() => {
+      setShowIosGuide(true);
+      setVisible(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [isTopPage, showIosGuide]);
 
   const dismiss = () => {
     setVisible(false);
@@ -86,7 +90,7 @@ const InstallPrompt: React.FC = () => {
     }
   };
 
-  if (!visible) return null;
+  if (!visible || !isTopPage) return null;
 
   return (
     <div className="pwa-install" role="dialog" aria-label="ホーム画面に追加">
