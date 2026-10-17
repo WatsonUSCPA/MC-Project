@@ -2,16 +2,18 @@
  * 在庫係Bot の設定。
  *
  * 秘密情報はここに書かず、Apps Script の「スクリプト プロパティ」に保存する:
- *   AI_API_KEY             … OpenRouter の APIキー（必須）
- *   AI_MODEL               … 使うモデル（任意。例: x-ai/grok-4。未設定なら CONFIG.AI_MODEL_DEFAULT）
- *   AI_ENDPOINT            … 任意。OpenRouter 以外（xAI 直接など）を使うときだけ設定
- *   SERVICE_ACCOUNT_KEY    … Chat アプリ用サービスアカウントの JSON キー全文（必須）
- *   CLOUDINARY_CLOUD_NAME  … Cloudinary の Cloud name（必須）
- *   CLOUDINARY_API_KEY     … Cloudinary の API Key（必須）
- *   CLOUDINARY_API_SECRET  … Cloudinary の API Secret（必須）
- *   ADMIN_EMAILS           … Chat から「指示: ○○」を出せる人のメールアドレス（カンマ区切り）
- *   PRODUCT_SHEET_ID       … 任意。在庫管理シートのID（未設定なら CONFIG の値）
- *   PHOTO_FOLDER_ID        … 写真のバックアップ用 Drive フォルダ（setup() が自動で設定）
+ *   SLACK_BOT_TOKEN          … Slack アプリの Bot User OAuth Token（xoxb-…）（必須）
+ *   SLACK_VERIFICATION_TOKEN … Slack アプリの Verification Token（必須）
+ *   SLACK_CHANNEL_ID         … 在庫チャンネルのID（例: C0123456789）（必須）
+ *   SLACK_ADMIN_IDS          … 社長（あなた）の Slack ユーザーID。カンマ区切りで複数可（必須）
+ *   AI_API_KEY               … OpenRouter の APIキー（必須）
+ *   AI_MODEL                 … 使うモデル（任意。例: x-ai/grok-4。未設定なら CONFIG.AI_MODEL_DEFAULT）
+ *   AI_ENDPOINT              … 任意。OpenRouter 以外（xAI 直接など）を使うときだけ設定
+ *   CLOUDINARY_CLOUD_NAME    … Cloudinary の Cloud name（必須）
+ *   CLOUDINARY_API_KEY       … Cloudinary の API Key（必須）
+ *   CLOUDINARY_API_SECRET    … Cloudinary の API Secret（必須）
+ *   PRODUCT_SHEET_ID         … 任意。在庫管理シートのID（未設定なら CONFIG の値）
+ *   PHOTO_FOLDER_ID          … 写真のバックアップ用 Drive フォルダ（setup() が自動で設定）
  */
 const CONFIG = {
   TIMEZONE: 'Asia/Tokyo',
@@ -37,6 +39,10 @@ const CONFIG = {
   AGING_MONTHS: 6,
   RECHECK_DAYS: 30,
   CHECKS_PER_DAY: 3,
+
+  // 社長への日報の時刻と、何日反応がなければ社長に報告するか
+  REPORT_HOUR: 20,
+  ESCALATE_DAYS: 3,
 
   TONE: '敬語ベースで親しみやすく、でも仕事はきっちり進めさせる。絵文字は1〜2個まで。',
 

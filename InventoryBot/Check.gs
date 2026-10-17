@@ -39,7 +39,7 @@ function priceInText_(text) {
 }
 
 /** 「200-1051 売り切れ」→ 非公開にする。 */
-function handleSoldOut_(text) {
+function handleSoldOut_(text, userId) {
   if (!SOLD_WORDS.test(text)) return null;
   const found = findProductsInText_(text, listProducts_());
   if (!found.length) {
@@ -48,18 +48,22 @@ function handleSoldOut_(text) {
   found.forEach(function (p) {
     setProductStatus_(p.managementNumber, CONFIG.STATUS_PRIVATE);
     saveCheck_(p.managementNumber, 'sold');
+    logEvent_('sold', userId, productLabel_(p));
   });
   return '了解です！非公開にしました🎉\n' + found.map(function (p) { return '・' + productLabel_(p); }).join('\n');
 }
 
 /** 「200-1051 値下げ 800円」→ 値段を変える。 */
-function handlePriceChange_(text) {
+function handlePriceChange_(text, userId) {
   if (!PRICE_WORDS.test(text)) return null;
   const price = priceInText_(text);
   if (!price) return null;
   const found = findProductsInText_(text, listProducts_());
   if (!found.length) return null;
-  found.forEach(function (p) { setProductPrice_(p.managementNumber, price); });
+  found.forEach(function (p) {
+    setProductPrice_(p.managementNumber, price);
+    logEvent_('price', userId, productLabel_(p) + ' ' + p.price + '円→' + price + '円');
+  });
   return '値段を' + price + '円に変更しました🏷️\n' + found.map(function (p) {
     return '・' + productLabel_(p) + ' ' + p.price + '円 → ' + price + '円';
   }).join('\n');
@@ -87,37 +91,36 @@ function checkQuestion_(p, index, total) {
   ].filter(Boolean).join('\n');
 }
 
-/** 時間主導トリガーから呼ばれる。売れ残りを作業者に分けて聞く。 */
+/** 時間主導トリガーから呼ばれる。売れ残りを作業者（父・母）に分けて聞く。 */
 function stockCheck() {
   const weekday = Number(formatDate_(new Date(), 'u')) % 7; // 'u' は 1=月 ... 7=日
   if (CONFIG.NAG_WEEKDAYS.indexOf(weekday) < 0) return;
 
   const checks = getChecks_();
-  const spaces = Object.keys(getSpaces_()).map(function (k) { return getSpaces_()[k]; })
-    .filter(function (s) {
-      if (s.nag === false) return false;
-      const st = getState_(s.userId);
-      return !(st.checkQueue && st.checkQueue.length) && !st.priceTarget; // 前回の質問に答えていない人は飛ばす
-    });
-  if (!spaces.length) return;
+  const workers = getWorkers_().filter(function (w) {
+    const st = getState_(w.id);
+    return !st.nagOff && !(st.checkQueue && st.checkQueue.length) && !st.priceTarget; // 前回の質問に答えていない人は飛ばす
+  });
+  if (!workers.length) return;
 
   const due = listProducts_()
     .filter(function (p) { return isDueForCheck_(p, checks); })
     .sort(function (a, b) { return (a.uploadDate || 0) - (b.uploadDate || 0); })
-    .slice(0, CONFIG.CHECKS_PER_DAY * spaces.length);
+    .slice(0, CONFIG.CHECKS_PER_DAY * workers.length);
 
-  // 作業者が複数いれば、順番に振り分ける
-  spaces.forEach(function (space, i) {
-    const mine = due.filter(function (_, j) { return j % spaces.length === i; }).slice(0, CONFIG.CHECKS_PER_DAY);
+  // 順番に振り分ける
+  workers.forEach(function (w, i) {
+    const mine = due.filter(function (_, j) { return j % workers.length === i; }).slice(0, CONFIG.CHECKS_PER_DAY);
     if (!mine.length) return;
-    const state = getState_(space.userId);
+    const state = getState_(w.id);
     state.checkQueue = mine.map(function (p) { return p.managementNumber; });
     state.checkTotal = mine.length;
-    saveState_(space.userId, state);
+    saveState_(w.id, state);
+    logEvent_('check_asked', w.id, mine.length + '件');
     try {
-      postMessage_(space.spaceName, checkQuestion_(mine[0], 1, mine.length));
+      postToChannel_(mention_(w.id) + ' ' + checkQuestion_(mine[0], 1, mine.length));
     } catch (e) {
-      console.error('在庫チェックの送信に失敗: ' + space.spaceName + ' ' + e.message);
+      console.error('在庫チェックの送信に失敗: ' + w.name + ' ' + e.message);
     }
   });
 }
@@ -126,7 +129,7 @@ function stockCheck() {
  * 在庫チェックへの返事を処理し、次の質問を続けて返す。
  * チェック中でない、または返事として読めなければ null。state は呼び出し元が保存する。
  */
-function handleCheckAnswer_(text, state) {
+function handleCheckAnswer_(text, state, userId) {
   // 「ある」と答えたあとの、値段の質問への返事
   if (state.priceTarget) {
     const mn = state.priceTarget;
@@ -137,6 +140,7 @@ function handleCheckAnswer_(text, state) {
     let reply = '';
     if (price) {
       const p = setProductPrice_(mn, price);
+      logEvent_('price', userId, productLabel_(p) + ' →' + price + '円（在庫チェック）');
       reply = productLabel_(p) + ' を' + price + '円に変更しました🏷️';
     } else {
       reply = '値段はそのままにしておきます。';
@@ -156,13 +160,16 @@ function handleCheckAnswer_(text, state) {
   if (isNo) {
     setProductStatus_(mn, CONFIG.STATUS_PRIVATE);
     saveCheck_(mn, 'sold');
+    logEvent_('check_sold', userId, productLabel_(p));
     return productLabel_(p) + ' を非公開にしました。\n\n' + nextCheckQuestion_(state);
   }
 
   saveCheck_(mn, 'remaining');
+  logEvent_('check_remaining', userId, productLabel_(p));
   const price = priceInText_(text);
   if (price) {
     setProductPrice_(mn, price);
+    logEvent_('price', userId, productLabel_(p) + ' →' + price + '円（在庫チェック）');
     return productLabel_(p) + ' を' + price + '円に変更しました🏷️\n\n' + nextCheckQuestion_(state);
   }
   state.priceTarget = mn;

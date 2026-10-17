@@ -2,23 +2,36 @@
  * 初期設定と動作確認用の関数。Apps Script エディタから手動で実行する。
  */
 
-/** 写真のバックアップ用フォルダを（なければ）作り、毎日のトリガーを登録する。何度実行しても大丈夫。 */
+/**
+ * 写真のバックアップ用フォルダを（なければ）作り、作業者の一覧を読み込み、
+ * 毎日のトリガー（催促・在庫チェック・日報）を登録する。何度実行しても大丈夫。
+ */
 function setup() {
+  ['SLACK_BOT_TOKEN', 'SLACK_VERIFICATION_TOKEN', 'SLACK_CHANNEL_ID', 'SLACK_ADMIN_IDS',
+    'AI_API_KEY', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'].forEach(function (key) {
+    if (!getProp_(key)) console.warn('スクリプトプロパティ「' + key + '」がまだ設定されていません。');
+  });
+
   if (!getProp_('PHOTO_FOLDER_ID')) {
     const folder = DriveApp.createFolder(CONFIG.BOT_NAME + ' 生地写真');
     setProp_('PHOTO_FOLDER_ID', folder.getId());
   }
 
+  const handlers = ['dailyNag', 'followupNag', 'stockCheck', 'dailyReport'];
   ScriptApp.getProjectTriggers().forEach(function (t) {
-    if (['dailyNag', 'followupNag', 'stockCheck'].indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
+    if (handlers.indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
   });
-  ScriptApp.newTrigger('dailyNag').timeBased().atHour(CONFIG.NAG_HOUR).everyDays(1).inTimezone(CONFIG.TIMEZONE).create();
-  ScriptApp.newTrigger('followupNag').timeBased().atHour(CONFIG.FOLLOWUP_HOUR).everyDays(1).inTimezone(CONFIG.TIMEZONE).create();
-  ScriptApp.newTrigger('stockCheck').timeBased().atHour(CONFIG.CHECK_HOUR).everyDays(1).inTimezone(CONFIG.TIMEZONE).create();
+  const daily = function (fn, hour) {
+    ScriptApp.newTrigger(fn).timeBased().atHour(hour).everyDays(1).inTimezone(CONFIG.TIMEZONE).create();
+  };
+  daily('dailyNag', CONFIG.NAG_HOUR);
+  daily('followupNag', CONFIG.FOLLOWUP_HOUR);
+  daily('stockCheck', CONFIG.CHECK_HOUR);
+  daily('dailyReport', CONFIG.REPORT_HOUR);
 
-  ['AI_API_KEY', 'SERVICE_ACCOUNT_KEY', 'CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'].forEach(function (key) {
-    if (!getProp_(key)) console.warn('スクリプトプロパティ「' + key + '」がまだ設定されていません。');
-  });
+  const workers = refreshWorkers_();
+  console.log('作業者: ' + workers.map(function (w) { return w.name + '(' + w.id + ')'; }).join(', '));
+  console.log('社長: ' + adminIds_().map(userName_).join(', '));
   console.log('在庫管理シートの商品数: ' + listProducts_().length);
   console.log('写真フォルダ: ' + DriveApp.getFolderById(getProp_('PHOTO_FOLDER_ID')).getUrl());
 }
@@ -28,11 +41,10 @@ function testAI() {
   console.log(callAI_([{ role: 'user', content: '「接続テストOK」とだけ返してください。' }], false));
 }
 
-/** サービスアカウントで Chat API のトークンが取れるか確認する。 */
-function testChatAuth() {
-  CacheService.getScriptCache().remove('chatAppToken');
-  getAppToken_();
-  console.log('Chat API のトークン取得 OK');
+/** Slack につながるか確認する（社長に DM が1通届く）。 */
+function testSlack() {
+  postToAdmins_('在庫係Bot の接続テストです。この DM が届いていれば OK です👍');
+  console.log('作業者: ' + JSON.stringify(refreshWorkers_()));
 }
 
 /** シートを読めるか、管理番号チェックがどう判定するかを確認する（シートは変更しない）。 */
@@ -44,11 +56,6 @@ function testSheet() {
   });
 }
 
-/** 登録済みの催促先（1対1チャット）を表示する。 */
-function showSpaces() {
-  console.log(JSON.stringify(getSpaces_(), null, 2));
-}
-
 /** 催促をすぐに1回送ってみる。 */
 function testNag() {
   nagAll_('morning');
@@ -57,4 +64,9 @@ function testNag() {
 /** 在庫チェックをすぐに1回送ってみる。 */
 function testStockCheck() {
   stockCheck();
+}
+
+/** 日報をすぐに1回送ってみる。 */
+function testReport() {
+  dailyReport();
 }

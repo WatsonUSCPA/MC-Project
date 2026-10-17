@@ -1,40 +1,67 @@
 /**
  * 催促（お尻たたき）。setup() が毎日のトリガーを登録する。
- *   dailyNag    … 朝: 今日の写真を送るよう声をかける（登録待ちの写真があればそれも）
+ *   dailyNag    … 朝: 在庫チャンネルで、作業者ごとに今日の写真を送るよう声をかける。
+ *                 何日も反応がない作業者がいれば、社長に DM で知らせる
  *   followupNag … 夕方: 今日まだ1件も登録がない、または登録待ちの写真が残っている人にだけ声をかける
  */
 
 function dailyNag() {
+  try {
+    refreshWorkers_();
+  } catch (e) {
+    console.error('作業者一覧の更新に失敗: ' + e.message);
+  }
   nagAll_('morning');
+  escalateInactive_();
 }
 
 function followupNag() {
   nagAll_('evening');
 }
 
-function nagAll_(kind) {
+function isNagDay_() {
   const weekday = Number(formatDate_(new Date(), 'u')) % 7; // 'u' は 1=月 ... 7=日
-  if (CONFIG.NAG_WEEKDAYS.indexOf(weekday) < 0) return;
+  return CONFIG.NAG_WEEKDAYS.indexOf(weekday) >= 0;
+}
 
-  const spaces = getSpaces_();
-  Object.keys(spaces).forEach(function (key) {
-    const space = spaces[key];
-    if (space.nag === false) return;
-    const stats = userStats_(getState_(space.userId));
+function nagAll_(kind) {
+  if (!isNagDay_()) return;
+  getWorkers_().forEach(function (w) {
+    const state = getState_(w.id);
+    if (state.nagOff) return;
+    const stats = userStats_(state);
     if (kind === 'evening' && stats.todayCount > 0 && !stats.pending.length) return;
     try {
-      postMessage_(space.spaceName, composeNag_(kind, space, stats));
+      postToChannel_(mention_(w.id) + ' ' + composeNag_(kind, w, stats));
+      logEvent_('nag', w.id, kind === 'morning' ? '朝' : '夕方');
     } catch (e) {
-      console.error('催促の送信に失敗: ' + space.spaceName + ' ' + e.message);
+      console.error('催促の送信に失敗: ' + w.name + ' ' + e.message);
     }
   });
 }
 
+/** ESCALATE_DAYS 日以上なにも反応がない作業者を、社長に知らせる（1人1日1回まで）。 */
+function escalateInactive_() {
+  if (!isNagDay_()) return;
+  getWorkers_().forEach(function (w) {
+    const state = getState_(w.id);
+    const days = daysSince_(state.lastActiveAt || state.firstSeenAt);
+    if (days === null || days < CONFIG.ESCALATE_DAYS) return;
+    if (state.escalatedOn === todayString_()) return;
+    state.escalatedOn = todayString_();
+    saveState_(w.id, state);
+    logEvent_('escalate', w.id, days + '日');
+    postToAdmins_('🚨 ' + w.name + 'さんが' + days + '日間反応していません。'
+      + (state.nagOff ? '（本人が催促をオフにしています）' : '')
+      + '\n直接声をかけますか？「' + w.name + 'さんに○○と伝えて」と送ってもらえれば、私から伝えます。');
+  });
+}
+
 function userStats_(state) {
-  const last = state.lastRegisteredAt ? new Date(state.lastRegisteredAt) : null;
   return {
-    todayCount: state.log && state.log.date === todayString_() ? state.log.count : 0,
-    daysSinceLast: last ? Math.floor((new Date() - last) / 86400000) : null,
+    todayCount: todayCount_(state),
+    daysSinceLast: daysSince_(state.lastRegisteredAt),
+    daysSinceActive: daysSince_(state.lastActiveAt),
     pending: state.drafts.map(draftLabel_),
   };
 }
@@ -47,9 +74,9 @@ function nagLevel_(stats) {
   return 'strong';
 }
 
-function composeNag_(kind, space, stats) {
+function composeNag_(kind, worker, stats) {
   const facts = {
-    相手: space.displayName,
+    相手: worker.name,
     時間帯: kind === 'morning' ? '朝' : '夕方',
     今日の登録件数: stats.todayCount,
     前回の登録から何日: stats.daysSinceLast,
@@ -60,10 +87,10 @@ function composeNag_(kind, space, stats) {
     const text = callAI_([
       {
         role: 'system',
-        content: 'あなたは生地屋の在庫係「' + CONFIG.BOT_NAME + '」です。作業者に Google Chat で、新しい生地の写真を送るよう催促するメッセージを書きます。'
+        content: 'あなたは生地屋の在庫係「' + CONFIG.BOT_NAME + '」です。Slack の在庫チャンネルで、作業者に新しい生地の写真を送るよう催促するメッセージを書きます。社長も同じチャンネルで見ています。'
           + '口調: ' + CONFIG.TONE + ' 催促の強さ（first=初回の案内 / gentle=軽く / firm=しっかり / strong=かなり強めだが失礼にならない）に合わせる。'
           + '登録待ちの写真があれば、商品名と管理番号を教えてほしいと伝える。'
-          + 'メッセージ本文だけを3〜5行で返す。' + instructionsPrompt_(),
+          + '相手の名前やメンションは付けない（システムが付ける）。メッセージ本文だけを2〜4行で返す。' + instructionsPrompt_(),
       },
       { role: 'user', content: JSON.stringify(facts) },
     ], false).trim();
@@ -71,18 +98,17 @@ function composeNag_(kind, space, stats) {
   } catch (e) {
     console.error('催促文の生成に失敗したのでテンプレートを使います: ' + e.message);
   }
-  return nagTemplate_(kind, space, stats);
+  return nagTemplate_(kind, stats);
 }
 
-function nagTemplate_(kind, space, stats) {
-  const name = space.displayName ? space.displayName + 'さん、' : '';
+function nagTemplate_(kind, stats) {
   const lines = [];
   if (kind === 'morning') {
-    lines.push(name + 'おはようございます！今日入った生地の写真を送ってください📷');
+    lines.push('おはようございます！今日入った生地の写真を送ってください📷');
   } else if (stats.todayCount === 0) {
-    lines.push(name + 'お疲れさまです。今日はまだ生地の登録が0件です。写真を1枚だけでもお願いします📷');
+    lines.push('お疲れさまです。今日はまだ生地の登録が0件です。写真を1枚だけでもお願いします📷');
   } else {
-    lines.push(name + 'お疲れさまです。今日は' + stats.todayCount + '件登録できました。');
+    lines.push('お疲れさまです。今日は' + stats.todayCount + '件登録できました。');
   }
   if (stats.daysSinceLast !== null && stats.daysSinceLast >= 2) {
     lines.push('前回の登録から' + stats.daysSinceLast + '日たっています。');

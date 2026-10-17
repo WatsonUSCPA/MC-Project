@@ -41,7 +41,7 @@ function parseJsonLoose_(text) {
 function buildSystemPrompt_() {
   const fieldLines = DRAFT_FIELDS.map(function (f) { return '- ' + f.key + '（' + f.label + '）: ' + f.desc; }).join('\n');
   return [
-    'あなたは生地屋「MC Square」の在庫係「' + CONFIG.BOT_NAME + '」です。Google Chat で作業者（社長の親）と会話し、新しく入った生地を在庫管理シートに登録するための情報を集めます。',
+    'あなたは生地屋「MC Square」の在庫係「' + CONFIG.BOT_NAME + '」です。Slack の在庫チャンネルで作業者（社長の父・母）と会話し、新しく入った生地を在庫管理シートに登録するための情報を集めます。社長も同じチャンネルで見ています。',
     '口調: ' + CONFIG.TONE,
     '',
     '作業者が送った写真は、1枚が1つの生地です。写真には「写真①」のように番号が付いています。',
@@ -54,7 +54,7 @@ function buildSystemPrompt_() {
     '- 値段は、作業者が言わなければ既定値の' + CONFIG.DEFAULT_PRICE + '円のまま。変更を言われたら入れる。',
     '- 「全部 USA COTTON」「200-1051〜1056」のように、まとめて言われたら写真の順に割り当てる。',
     '- 写真がぼやけている、生地が写っていないなどの場合は、撮り直しをお願いする。',
-    '- 足りない項目だけを短く聞く。返事は Google Chat 向けに3〜4行以内。',
+    '- 足りない項目だけを短く聞く。返事は Slack 向けに3〜4行以内。相手の名前やメンションは付けない（システムが付ける）。',
     '- 「登録しました」「公開しました」とは言わない（登録と完了報告はシステムが行う）。情報がそろったら「確認しますね」程度にする。',
     '- 注意事項（issue）が付いている写真は、その内容を作業者に伝え、正しい番号を聞くか、このままでよいか確認する。作業者が「このままでいい」と答えたら confirm に入れる。',
     '- 作業者が「その写真はなし」「間違えた」など取り消しを求めたら cancel に入れる。',
@@ -81,7 +81,8 @@ function aiTurn_(ctx) {
   });
   const content = [{
     type: 'text',
-    text: '登録待ちの写真: ' + JSON.stringify(draftsView) + '\n作業者のメッセージ: ' + (ctx.userText || '（テキストなし）'),
+    text: '話している相手: ' + (ctx.workerName || '作業者') + '\n登録待ちの写真: ' + JSON.stringify(draftsView)
+      + '\n作業者のメッセージ: ' + (ctx.userText || '（テキストなし）'),
   }];
   (ctx.images || []).forEach(function (img) {
     content.push({ type: 'text', text: '写真' + circled_(img.no) });
@@ -104,4 +105,29 @@ function aiTurn_(ctx) {
 function circled_(n) {
   const chars = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳';
   return n >= 1 && n <= 20 ? chars[n - 1] : '(' + n + ')';
+}
+
+/**
+ * 社長からの DM を AI に読ませ、返事と「やること」を受け取る。
+ * できること（actions）は決まった種類だけで、実行はプログラムが行う。
+ */
+function aiAdminTurn_(text, context) {
+  const system = [
+    'あなたは生地屋「MC Square」の在庫係「' + CONFIG.BOT_NAME + '」です。いまは社長と1対1で話しています。',
+    'あなたは中間管理職として、作業者（社長の父・母）に新しい生地の写真を送らせ、在庫管理シートへの登録を進めさせる役目です。',
+    '社長の質問には、渡された状況（context）をもとに正直に答える。わからないことは「わかりません」と言う。',
+    '社長に頼まれたら、次の actions を返して実行してもらう:',
+    '- {"type": "tell", "worker": 作業者のID, "text": "作業者への伝言"} … 在庫チャンネルで作業者に伝える。社長の意図を汲んで、あなたの言葉で書く',
+    '- {"type": "instruct", "text": "今後の会話や催促で守るルール"} … 「父にはもっと強めに」のような、これからずっと守る指示',
+    '頼まれていないことは actions に入れない。返事は短く（5行以内）。',
+    '必ず次の形の JSON だけを返す: {"reply": "社長への返事", "actions": [...]}',
+  ].join('\n') + instructionsPrompt_();
+  const result = parseJsonLoose_(callAI_([
+    { role: 'system', content: system },
+    { role: 'user', content: 'context: ' + JSON.stringify(context) + '\n社長のメッセージ: ' + text },
+  ], true));
+  return {
+    reply: String(result.reply || ''),
+    actions: Array.isArray(result.actions) ? result.actions : [],
+  };
 }
