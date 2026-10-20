@@ -1264,3 +1264,26 @@
   .rsb-arrow { display: none; }
 }
 .recipe-detail .recipe-strip { margin-top: 32px; }
+
+/* クロバー商品カード: 商品ページリンク＋カートに入れる */
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.product-add-cart {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.product-add-cart:hover {
+  opacity: 0.9;
+}

@@ -1,0 +1,562 @@
+[
+ {
+  "id": "clover-36-191",
+  "productNumber": "36-191",
+  "name": "布切はさみ「ブラック」24cm",
+  "price": 4730,
+  "productUrl": "https://clover.co.jp/products/36191"
+ },
+ {
+  "id": "clover-57-790",
+  "productNumber": "57-790",
+  "name": "パンチニードル〈3.5mm〉",
+  "price": 2090,
+  "productUrl": "https://clover.co.jp/products/57790"
+ },
+ {
+  "id": "clover-42-405",
+  "productNumber": "42-405",
+  "name": "かぎ針「アミュレ」＜5/0号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/42405"
+ },
+ {
+  "id": "clover-57-784",
+  "productNumber": "57-784",
+  "name": "クロバー ビーズ刺し子テンプレート",
+  "price": 1760,
+  "productUrl": "https://clover.co.jp/products/57784"
+ },
+ {
+  "id": "clover-42-406",
+  "productNumber": "42-406",
+  "name": "かぎ針「アミュレ」＜6/0号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/42406"
+ },
+ {
+  "id": "clover-57-201",
+  "productNumber": "57-201",
+  "name": "クロスステッチ針 No.19～23",
+  "price": 440,
+  "productUrl": "https://clover.co.jp/products/57201"
+ },
+ {
+  "id": "clover-42-407",
+  "productNumber": "42-407",
+  "name": "かぎ針「アミュレ」＜7/0号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/42407"
+ },
+ {
+  "id": "clover-57-710",
+  "productNumber": "57-710",
+  "name": "かぎ針付タティングシャトル〈No.8（0.90mm）〉",
+  "price": 1650,
+  "productUrl": "https://clover.co.jp/products/57710"
+ },
+ {
+  "id": "clover-58-782",
+  "productNumber": "58-782",
+  "name": "タッセルメーカー〈ラージ〉",
+  "price": 1320,
+  "productUrl": "https://clover.co.jp/products/58782"
+ },
+ {
+  "id": "clover-58-621",
+  "productNumber": "58-621",
+  "name": "カード型ビーズ織り機",
+  "price": 1320,
+  "productUrl": "https://clover.co.jp/products/58621"
+ },
+ {
+  "id": "clover-57-711",
+  "productNumber": "57-711",
+  "name": "かぎ針付タティングシャトル〈No.12（0.60mm）〉",
+  "price": 1650,
+  "productUrl": "https://clover.co.jp/products/57711"
+ },
+ {
+  "id": "clover-57-965",
+  "productNumber": "57-965",
+  "name": "花あみルーム",
+  "price": 1980,
+  "productUrl": "https://clover.co.jp/products/57965"
+ },
+ {
+  "id": "clover-54-928",
+  "productNumber": "54-928",
+  "name": "「匠」ダブルフックアフガン針ジャンボ ＜8mm＞",
+  "price": 935,
+  "productUrl": "https://clover.co.jp/products/54928"
+ },
+ {
+  "id": "clover-58-795",
+  "productNumber": "58-795",
+  "name": "ちくちくヨーヨープレート＜LL＞",
+  "price": 660,
+  "productUrl": "https://clover.co.jp/products/58795"
+ },
+ {
+  "id": "clover-57-995",
+  "productNumber": "57-995",
+  "name": "ピーステンプレート＜六角形＞",
+  "price": 1210,
+  "productUrl": "https://clover.co.jp/products/57995"
+ },
+ {
+  "id": "clover-58-641",
+  "productNumber": "58-641",
+  "name": "スーパーポンポンメーカー〈55mm〉",
+  "price": 495,
+  "productUrl": "https://clover.co.jp/products/58641"
+ },
+ {
+  "id": "clover-57-463",
+  "productNumber": "57-463",
+  "name": "つまみ細工プレート 剣ひだつまみSS",
+  "price": 550,
+  "productUrl": "https://clover.co.jp/products/57463"
+ },
+ {
+  "id": "clover-18-038",
+  "productNumber": "18-038",
+  "name": "ぬい針「絆（きずな）」薄地用 短針8",
+  "price": 440,
+  "productUrl": "https://clover.co.jp/products/18038"
+ },
+ {
+  "id": "clover-57-039",
+  "productNumber": "57-039",
+  "name": "フランス刺しゅう針 No.3-9",
+  "price": 495,
+  "productUrl": "https://clover.co.jp/products/57039"
+ },
+ {
+  "id": "clover-57-232",
+  "productNumber": "57-232",
+  "name": "刺し子針",
+  "price": 440,
+  "productUrl": "https://clover.co.jp/products/57232"
+ },
+ {
+  "id": "clover-57-460",
+  "productNumber": "57-460",
+  "name": "つまみ細工プレート 丸ひだつまみSS",
+  "price": 550,
+  "productUrl": "https://clover.co.jp/products/57460"
+ },
+ {
+  "id": "clover-58-781",
+  "productNumber": "58-781",
+  "name": "タッセルメーカー〈スモール〉",
+  "price": 1100,
+  "productUrl": "https://clover.co.jp/products/58781"
+ },
+ {
+  "id": "clover-54-918",
+  "productNumber": "54-918",
+  "name": "「匠」ダブルフックアフガン針 ＜8号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/54918"
+ },
+ {
+  "id": "clover-45-804",
+  "productNumber": "45-804",
+  "name": "「匠」輪針-S 80cm 4号",
+  "price": 1375,
+  "productUrl": "https://clover.co.jp/products/45804"
+ },
+ {
+  "id": "clover-25-054",
+  "productNumber": "25-054",
+  "name": "方眼定規〈20cm〉",
+  "price": 880,
+  "productUrl": "https://clover.co.jp/products/25054"
+ },
+ {
+  "id": "clover-42-402",
+  "productNumber": "42-402",
+  "name": "かぎ針「アミュレ」＜2/0号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/42402"
+ },
+ {
+  "id": "clover-57-413",
+  "productNumber": "57-413",
+  "name": "フリーステッチングニードル",
+  "price": 1320,
+  "productUrl": "https://clover.co.jp/products/57413"
+ },
+ {
+  "id": "clover-57-247",
+  "productNumber": "57-247",
+  "name": "手芸用かんし",
+  "price": 2750,
+  "productUrl": "https://clover.co.jp/products/57247"
+ },
+ {
+  "id": "clover-57-968",
+  "productNumber": "57-968",
+  "name": "クロバー ミニ織り",
+  "price": 1760,
+  "productUrl": "https://clover.co.jp/products/57968"
+ },
+ {
+  "id": "clover-57-906",
+  "productNumber": "57-906",
+  "name": "ロゼットメーカー〈ラージ〉",
+  "price": 1100,
+  "productUrl": "https://clover.co.jp/products/57906"
+ },
+ {
+  "id": "clover-58-601",
+  "productNumber": "58-601",
+  "name": "フェルトパンチャー＜1本針＞",
+  "price": 1100,
+  "productUrl": "https://clover.co.jp/products/58601"
+ },
+ {
+  "id": "clover-25-051",
+  "productNumber": "25-051",
+  "name": "クロバー カーブ定規〈ミニものさし付〉",
+  "price": 1815,
+  "productUrl": "https://clover.co.jp/products/25051"
+ },
+ {
+  "id": "clover-42-425",
+  "productNumber": "42-425",
+  "name": "ジャンボかぎ針｢アミュレ｣＜15ｍｍ＞",
+  "price": 1100,
+  "productUrl": "https://clover.co.jp/products/42425"
+ },
+ {
+  "id": "clover-45-810",
+  "productNumber": "45-810",
+  "name": "「匠」輪針-S 80cm 10号",
+  "price": 1430,
+  "productUrl": "https://clover.co.jp/products/45810"
+ },
+ {
+  "id": "clover-58-671",
+  "productNumber": "58-671",
+  "name": "ニット用ソフトピン〈クリア〉",
+  "price": 1078,
+  "productUrl": "https://clover.co.jp/products/58671"
+ },
+ {
+  "id": "clover-57-804",
+  "productNumber": "57-804",
+  "name": "わた詰めツール〈スモール〉",
+  "price": 759,
+  "productUrl": "https://clover.co.jp/products/57804"
+ },
+ {
+  "id": "clover-57-459",
+  "productNumber": "57-459",
+  "name": "つまみ細工プレート 菱つまみSS",
+  "price": 550,
+  "productUrl": "https://clover.co.jp/products/57459"
+ },
+ {
+  "id": "clover-57-008",
+  "productNumber": "57-008",
+  "name": "フランス刺しゅう針 No.8",
+  "price": 440,
+  "productUrl": "https://clover.co.jp/products/57008"
+ },
+ {
+  "id": "clover-42-404",
+  "productNumber": "42-404",
+  "name": "かぎ針「アミュレ」＜4/0号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/42404"
+ },
+ {
+  "id": "clover-26-416",
+  "productNumber": "26-416",
+  "name": "止水ファスナー 60cm",
+  "price": 1298,
+  "productUrl": "https://clover.co.jp/products/26416"
+ },
+ {
+  "id": "clover-25-052",
+  "productNumber": "25-052",
+  "name": "方眼定規〈50cm〉",
+  "price": 1265,
+  "productUrl": "https://clover.co.jp/products/25052"
+ },
+ {
+  "id": "clover-24-150",
+  "productNumber": "24-150",
+  "name": "クロバーチャコピー＜両面・グレー＞",
+  "price": 715,
+  "productUrl": "https://clover.co.jp/products/24150"
+ },
+ {
+  "id": "clover-26-418",
+  "productNumber": "26-418",
+  "name": "メタル調樹脂ファスナー 60cm〈ベージュ〉",
+  "price": 880,
+  "productUrl": "https://clover.co.jp/products/26418"
+ },
+ {
+  "id": "clover-21-041",
+  "productNumber": "21-041",
+  "name": "Nソフトルレット",
+  "price": 1045,
+  "productUrl": "https://clover.co.jp/products/21041"
+ },
+ {
+  "id": "clover-26-422",
+  "productNumber": "26-422",
+  "name": "メタル調樹脂ファスナー 30cm〈生成〉",
+  "price": 528,
+  "productUrl": "https://clover.co.jp/products/26422"
+ },
+ {
+  "id": "clover-42-417",
+  "productNumber": "42-417",
+  "name": "ジャンボかぎ針｢アミュレ｣＜7ｍｍ＞",
+  "price": 880,
+  "productUrl": "https://clover.co.jp/products/42417"
+ },
+ {
+  "id": "clover-39-178",
+  "productNumber": "39-178",
+  "name": "らくらく取付！薄型プラスナップ13mm 〈ダークブロンズ〉",
+  "price": 462,
+  "productUrl": "https://clover.co.jp/products/39178"
+ },
+ {
+  "id": "clover-57-457",
+  "productNumber": "57-457",
+  "name": "つまみ細工プレート 丸つまみSS",
+  "price": 550,
+  "productUrl": "https://clover.co.jp/products/57457"
+ },
+ {
+  "id": "clover-26-421",
+  "productNumber": "26-421",
+  "name": "止水ファスナー 30cm",
+  "price": 748,
+  "productUrl": "https://clover.co.jp/products/26421"
+ },
+ {
+  "id": "clover-45-800",
+  "productNumber": "45-800",
+  "name": "「匠」輪針-S 80cm 0号",
+  "price": 1540,
+  "productUrl": "https://clover.co.jp/products/45800"
+ },
+ {
+  "id": "clover-45-905",
+  "productNumber": "45-905",
+  "name": "「匠」輪針-S 100cm 5号",
+  "price": 1430,
+  "productUrl": "https://clover.co.jp/products/45905"
+ },
+ {
+  "id": "clover-58-796",
+  "productNumber": "58-796",
+  "name": "ちくちくヨーヨープレート＜L＞",
+  "price": 638,
+  "productUrl": "https://clover.co.jp/products/58796"
+ },
+ {
+  "id": "clover-54-922",
+  "productNumber": "54-922",
+  "name": "「匠」ダブルフックアフガン針 ＜12号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/54922"
+ },
+ {
+  "id": "clover-26-425",
+  "productNumber": "26-425",
+  "name": "樹脂ファスナー 30cm〈黒〉",
+  "price": 462,
+  "productUrl": "https://clover.co.jp/products/26425"
+ },
+ {
+  "id": "clover-39-174",
+  "productNumber": "39-174",
+  "name": "らくらく取付！薄型プラスナップ13mm 〈スモーキーピンク〉",
+  "price": 462,
+  "productUrl": "https://clover.co.jp/products/39174"
+ },
+ {
+  "id": "clover-57-500",
+  "productNumber": "57-500",
+  "name": "クロバーロータリーカッター45mm",
+  "price": 1815,
+  "productUrl": "https://clover.co.jp/products/57500"
+ },
+ {
+  "id": "clover-57-036",
+  "productNumber": "57-036",
+  "name": "フランス刺しゅう針 No.3-6",
+  "price": 440,
+  "productUrl": "https://clover.co.jp/products/57036"
+ },
+ {
+  "id": "clover-45-712",
+  "productNumber": "45-712",
+  "name": "「匠」輪針-S 60cm 12号",
+  "price": 1430,
+  "productUrl": "https://clover.co.jp/products/45712"
+ },
+ {
+  "id": "clover-68-053",
+  "productNumber": "68-053",
+  "name": "ほつれストップ液",
+  "price": 638,
+  "productUrl": "https://clover.co.jp/products/68053"
+ },
+ {
+  "id": "clover-39-172",
+  "productNumber": "39-172",
+  "name": "らくらく取付！薄型プラスナップ13mm 〈グレージュ〉",
+  "price": 462,
+  "productUrl": "https://clover.co.jp/products/39172"
+ },
+ {
+  "id": "clover-57-410",
+  "productNumber": "57-410",
+  "name": "フリーステッチングスターターセット",
+  "price": 3520,
+  "productUrl": "https://clover.co.jp/products/57410"
+ },
+ {
+  "id": "clover-54-238",
+  "productNumber": "54-238",
+  "name": "「匠」2本針ジャンボ ＜8mm＞",
+  "price": 1320,
+  "productUrl": "https://clover.co.jp/products/54238"
+ },
+ {
+  "id": "clover-57-453",
+  "productNumber": "57-453",
+  "name": "つまみ細工プレート 剣つまみS",
+  "price": 605,
+  "productUrl": "https://clover.co.jp/products/57453"
+ },
+ {
+  "id": "clover-42-422",
+  "productNumber": "42-422",
+  "name": "ジャンボかぎ針｢アミュレ｣＜12ｍｍ＞",
+  "price": 990,
+  "productUrl": "https://clover.co.jp/products/42422"
+ },
+ {
+  "id": "clover-26-403",
+  "productNumber": "26-403",
+  "name": "ブロック型スナップテープ〈黒〉",
+  "price": 660,
+  "productUrl": "https://clover.co.jp/products/26403"
+ },
+ {
+  "id": "clover-58-783",
+  "productNumber": "58-783",
+  "name": "ハンディヤーンツイスター",
+  "price": 1485,
+  "productUrl": "https://clover.co.jp/products/58783"
+ },
+ {
+  "id": "clover-57-455",
+  "productNumber": "57-455",
+  "name": "つまみ細工プレート 菱つまみS",
+  "price": 605,
+  "productUrl": "https://clover.co.jp/products/57455"
+ },
+ {
+  "id": "clover-54-265",
+  "productNumber": "54-265",
+  "name": "「匠」ミニ棒針 ＜15号＞",
+  "price": 660,
+  "productUrl": "https://clover.co.jp/products/54265"
+ },
+ {
+  "id": "clover-46-028",
+  "productNumber": "46-028",
+  "name": "「匠」輪針-S 120cmジャンボ 8mm",
+  "price": 1815,
+  "productUrl": "https://clover.co.jp/products/46028"
+ },
+ {
+  "id": "clover-57-656",
+  "productNumber": "57-656",
+  "name": "ブレスレットメーカー",
+  "price": 2750,
+  "productUrl": "https://clover.co.jp/products/57656"
+ },
+ {
+  "id": "clover-42-420",
+  "productNumber": "42-420",
+  "name": "ジャンボかぎ針｢アミュレ｣＜10ｍｍ＞",
+  "price": 990,
+  "productUrl": "https://clover.co.jp/products/42420"
+ },
+ {
+  "id": "clover-58-773",
+  "productNumber": "58-773",
+  "name": "スーパーポンポンメーカー〈中セット〉",
+  "price": 748,
+  "productUrl": "https://clover.co.jp/products/58773"
+ },
+ {
+  "id": "clover-58-651",
+  "productNumber": "58-651",
+  "name": "くるみボタン・ブローチセット サークル 40・2個入",
+  "price": 440,
+  "productUrl": "https://clover.co.jp/products/58651"
+ },
+ {
+  "id": "clover-45-828",
+  "productNumber": "45-828",
+  "name": "「匠」輪針-S 80cmジャンボ 8mm",
+  "price": 1815,
+  "productUrl": "https://clover.co.jp/products/45828"
+ },
+ {
+  "id": "clover-58-798",
+  "productNumber": "58-798",
+  "name": "ちくちくヨーヨープレート＜SS＞",
+  "price": 638,
+  "productUrl": "https://clover.co.jp/products/58798"
+ },
+ {
+  "id": "clover-42-403",
+  "productNumber": "42-403",
+  "name": "かぎ針「アミュレ」＜3/0号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/42403"
+ },
+ {
+  "id": "clover-39-171",
+  "productNumber": "39-171",
+  "name": "らくらく取付！薄型プラスナップ13mm 〈ナチュラル〉",
+  "price": 462,
+  "productUrl": "https://clover.co.jp/products/39171"
+ },
+ {
+  "id": "clover-57-966",
+  "productNumber": "57-966",
+  "name": "花あみルーム ＜ミニ＞",
+  "price": 715,
+  "productUrl": "https://clover.co.jp/products/57966"
+ },
+ {
+  "id": "clover-57-930",
+  "productNumber": "57-930",
+  "name": "パッチワーク定規〈カラーライン 細幅15cm〉",
+  "price": 880,
+  "productUrl": "https://clover.co.jp/products/57930"
+ },
+ {
+  "id": "clover-54-920",
+  "productNumber": "54-920",
+  "name": "「匠」ダブルフックアフガン針 ＜10号＞",
+  "price": 825,
+  "productUrl": "https://clover.co.jp/products/54920"
+ }
+]
