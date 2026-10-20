@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { findPartner } from './partners';
 import CreatorFilter from './CreatorFilter';
-import { fetchRecipeIndex, publishedTime, RecipeSummary } from '../shared/recipesApi';
+import { fetchRecipeIndex, publishedTime, RecipeSummary, popularScore } from '../shared/recipesApi';
 import './GallerySearch.css';
 
 interface Recipe {
@@ -70,7 +70,7 @@ const sortRecipes = (list: Recipe[], order: SortOrder) =>
   [...list].sort((a, b) =>
     order === 'title' ? a.title.localeCompare(b.title, 'ja')
       : order === 'createdAt' ? publishedTime(b) - publishedTime(a)
-      : (b.likes - a.likes));
+      : (popularScore(b) - popularScore(a)));
 
 const GallerySearch: React.FC = () => {
   const navigate = useNavigate();

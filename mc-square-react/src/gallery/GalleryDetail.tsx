@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
+import { recordRecipeView, fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
 import { useCart } from '../ec/context/CartContext';
 import cloverProducts from '../shared/cloverProducts.json';
 
@@ -129,6 +129,11 @@ const GalleryDetail: React.FC = () => {
       .finally(() => alive && setLoading(false));
     return () => { alive = false; };
   }, [recipeId]);
+
+  // 閲覧数（1人・1レシピ・1日1回）
+  useEffect(() => {
+    if (recipe?.id) recordRecipeView(recipe.id);
+  }, [recipe?.id]);
 
   // タブのタイトル：表示中はレシピ名（SEO 用 HTML と同じ形）、ほかのページに移ったらサイトのタイトルに戻す
   useEffect(() => {

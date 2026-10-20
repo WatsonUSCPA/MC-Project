@@ -79,7 +79,35 @@ const time = (s: string | null | undefined) => (s ? new Date(s).getTime() || 0 :
 /** 新着順の基準日：YouTube の公開日（youtubePublishedAt）、なければ登録日（createdAt） */
 export const publishedTime = (r: { youtubePublishedAt?: string | null; createdAt?: string | null }) =>
   time(r.youtubePublishedAt) || time(r.createdAt);
-export const sortPopular = (list: RecipeSummary[]) => [...list].sort((a, b) => (b.likes - a.likes) || (b.views - a.views));
+// 人気スコア = 閲覧数 + いいね×3
+// 閲覧数（1人・1レシピ・1日1回）を主にし、まだ閲覧数が少ないあいだは「いいね」も3倍で加味する
+export const popularScore = (r: { likes?: number; views?: number }) => (r.views || 0) + (r.likes || 0) * 3;
+export const sortPopular = <T extends { likes?: number; views?: number }>(list: T[]) =>
+  [...list].sort((a, b) => (popularScore(b) - popularScore(a)) || ((b.views || 0) - (a.views || 0)));
+
+// 閲覧数カウント：同じブラウザからは 1レシピにつき1日1回だけ送る
+export function recordRecipeView(id: string) {
+  if (!id) return;
+  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }); // YYYY-MM-DD（日本時間）
+  const key = `ck:viewed:${id}:${today}`;
+  try {
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, '1');
+    // 古い日付のキーを掃除
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('ck:viewed:') && !k.endsWith(`:${today}`)) localStorage.removeItem(k);
+    }
+  } catch {
+    return; // localStorage が使えない環境では数えない（重複カウント防止）
+  }
+  fetch('/api/recipe-view', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
+    keepalive: true,
+  }).catch(() => { /* 失敗しても表示には影響させない */ });
+}
 export const sortNew = (list: RecipeSummary[]) => [...list].sort((a, b) => publishedTime(b) - publishedTime(a));
 
 // ===== レシピ ⇔ 商品のキーワードマッチング =====
