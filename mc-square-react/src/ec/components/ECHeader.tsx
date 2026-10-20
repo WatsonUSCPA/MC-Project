@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import CheckoutNotice from './CheckoutNotice';
 
 const navItems = [
   { to: '/all-products', icon: '🧵', label: '生地' },
@@ -45,6 +46,7 @@ const ECHeader: React.FC = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const cartRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false); // 利用規約・返品条件への同意
   const isMobile = useIsMobile();
   
   // 無限ループを防ぐためのフラグ
@@ -119,9 +121,11 @@ const ECHeader: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [cartOpen, isMobile]);
 
+  const canCheckout = canProceedToCheckout() && agreedToTerms;
+
   // Stripe Checkout
   const handleCheckout = async () => {
-    if (cart.length === 0) return;
+    if (cart.length === 0 || !agreedToTerms) return;
     setLoading(true);
     try {
       // 価格・送料はサーバー側で確定させるため、商品IDと数量だけを送る
@@ -417,27 +421,29 @@ const ECHeader: React.FC = () => {
       <div style={{ fontWeight: 600, fontSize: isMobile ? '1.05em' : '1.08em', color: '#1e88e5', textAlign: isMobile ? 'center' : 'right', letterSpacing: '0.01em', marginBottom: 6 }}>
         合計: {totalWithShipping.toLocaleString()}円
       </div>
+      <CheckoutNotice agreed={agreedToTerms} onAgreeChange={setAgreedToTerms} />
       <button
         onClick={handleCheckout}
-        disabled={loading || !canProceedToCheckout()}
+        disabled={loading || !canCheckout}
         style={{
           marginTop: 24,
-          background: canProceedToCheckout() ? 'var(--color-primary)' : '#ccc',
+          background: canCheckout ? 'var(--color-primary)' : '#ccc',
           color: '#fff',
           border: 'none',
           borderRadius: 12,
           padding: isMobile ? '0.9em 1.2em' : '1em 2em',
           fontWeight: 700,
           fontSize: isMobile ? '1em' : '1.08em',
-          cursor: (loading || !canProceedToCheckout()) ? 'not-allowed' : 'pointer',
+          cursor: (loading || !canCheckout) ? 'not-allowed' : 'pointer',
           width: '100%',
-          boxShadow: canProceedToCheckout() ? '0 2px 8px rgba(255,159,124,0.10)' : 'none',
-          opacity: (loading || !canProceedToCheckout()) ? 0.6 : 1,
+          boxShadow: canCheckout ? '0 2px 8px rgba(255,159,124,0.10)' : 'none',
+          opacity: (loading || !canCheckout) ? 0.6 : 1,
           transition: 'background 0.2s',
         }}
       >
         {loading ? '決済ページを生成中...' : 
-         !canProceedToCheckout() ? '商品を追加してください' : '購入へ進む'}
+         !canProceedToCheckout() ? '商品を追加してください' :
+         !agreedToTerms ? '上の同意にチェックしてください' : '購入へ進む'}
       </button>
     </div>
   );

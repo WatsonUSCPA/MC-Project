@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import RecipeStrip from '../../shared/components/RecipeStrip';
+import CheckoutNotice from '../components/CheckoutNotice';
 
 // 商品型定義
 interface Product {
@@ -19,6 +20,7 @@ const AllProducts: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false); // 利用規約・返品条件への同意
   const [filterName, setFilterName] = useState('');
   const [visibleCount, setVisibleCount] = useState(6);
   
@@ -104,9 +106,11 @@ const AllProducts: React.FC = () => {
   }, 0);
   const shipping = calcShipping(subtotal);
   const totalWithShipping = subtotal + shipping;
+  const canCheckout = canProceedToCheckout() && agreedToTerms;
+
   // 決済（Stripe連携）
   const handleCheckout = async () => {
-    if (cart.length === 0) return;
+    if (cart.length === 0 || !agreedToTerms) return;
     try {
       // 価格・送料はサーバー側で確定させるため、商品IDと数量だけを送る
       const items = cart.map(item => ({
@@ -211,26 +215,29 @@ const AllProducts: React.FC = () => {
         <div style={{ fontWeight: 600, fontSize: '1em', color: '#636E72', textAlign: 'right' }}>送料: {shipping === 0 ? '無料' : shipping.toLocaleString() + '円'}</div>
         <div style={{ marginTop: '0.5em', fontWeight: 700, fontSize: '1.15em', color: 'var(--color-primary)', textAlign: 'right' }}>合計: {totalWithShipping.toLocaleString()}円</div>
         {cart.length > 0 && (
+          <>
+          <CheckoutNotice agreed={agreedToTerms} onAgreeChange={setAgreedToTerms} />
           <button 
             onClick={handleCheckout} 
-            disabled={!canProceedToCheckout()}
+            disabled={!canCheckout}
             style={{ 
               marginTop: '1.5em', 
-              background: canProceedToCheckout() ? 'var(--color-primary)' : '#ccc', 
+              background: canCheckout ? 'var(--color-primary)' : '#ccc', 
               color: '#fff', 
               border: 'none', 
               borderRadius: 8, 
               padding: '0.9em 1.5em', 
               fontWeight: 700, 
               fontSize: '1.08em', 
-              cursor: canProceedToCheckout() ? 'pointer' : 'not-allowed', 
+              cursor: canCheckout ? 'pointer' : 'not-allowed', 
               display: 'block', 
               width: '100%',
-              opacity: canProceedToCheckout() ? 1 : 0.6
+              opacity: canCheckout ? 1 : 0.6
             }}
           >
-            {canProceedToCheckout() ? '決済へ進む' : '商品を追加してください'}
+            {canCheckout ? '決済へ進む' : !canProceedToCheckout() ? '商品を追加してください' : '上の同意にチェックしてください'}
           </button>
+          </>
         )}
         <button onClick={() => setCartModalOpen(false)} style={{ marginTop: '1em', background: '#ccc', color: '#333', border: 'none', borderRadius: 8, padding: '0.7em 1.5em', fontWeight: 700, fontSize: '1em', cursor: 'pointer', display: 'block', width: '100%' }}>閉じる</button>
       </div>

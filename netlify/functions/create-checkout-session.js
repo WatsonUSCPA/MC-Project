@@ -26,6 +26,17 @@ const ALLOWED_ORIGINS = [process.env.URL, process.env.DEPLOY_PRIME_URL, process.
   .filter(Boolean)
   .map((u) => u.replace(/\/$/, ''));
 
+// 決済画面（最終確認画面）に出す注意書き（特定商取引法 第12条の6）
+// CheckoutNotice.tsx / LegalNotice.tsx と内容をそろえる。Stripe の上限は1200文字
+const CHECKOUT_NOTICE = [
+  '【ご注文前にご確認ください】',
+  'お届け：ご注文（決済完了）後、通常3〜5営業日以内に発送します。',
+  'お支払い：クレジットカード（ご注文時に決済されます）。',
+  '返品・交換：商品到着後7日以内の未使用・未開封品に限ります。お客様都合の場合の送料はお客様負担、不良品・誤配送の場合は当店負担です。',
+  'キャンセル：商品発送前まで承ります。',
+  '詳しくは https://mcsquareofficials.com/legal をご覧ください。',
+].join('\n');
+
 // 送料（AllProducts.tsx / ECHeader.tsx と同じルール）
 const calcShipping = (subtotal) => {
   if (subtotal <= 0) return 0;
@@ -280,6 +291,7 @@ exports.handler = async (event) => {
       currency: 'jpy',
       locale: 'ja',
       shipping_address_collection: { allowed_countries: ['JP'] },
+      custom_text: { submit: { message: CHECKOUT_NOTICE } },
     });
 
     console.log('Stripe session created:', session.id);
