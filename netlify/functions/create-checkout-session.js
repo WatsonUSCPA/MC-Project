@@ -127,6 +127,8 @@ function normalizeRequestedItems(rawItems) {
 // サーバー側で価格・送料を確定させて Stripe の line_items を作る
 async function buildLineItems(requested, siteUrl) {
   const hasFabric = requested.some((it) => it.type === 'fabric');
+  // 生地またはクロバー商品を1点以上買うとレシピ2個まで無料
+  const qualifiesFreeKits = requested.some((it) => it.type === 'fabric' || it.type === 'clover');
   const kitIds = requested.filter((it) => it.type === 'kit').map((it) => it.id);
   // 生地データとレシピデータを並行して取得
   const [fabrics, kitList] = await Promise.all([
@@ -183,7 +185,7 @@ async function buildLineItems(requested, siteUrl) {
       if (!kit || !kit.name) return { error: `Recipe not available: ${it.id}` };
       const listPrice = parseYen(kit.price);
       if (!Number.isFinite(listPrice)) return { error: `Invalid price for: ${it.id}` };
-      const isFree = hasFabric && freeKitsUsed < FREE_KIT_LIMIT;
+      const isFree = qualifiesFreeKits && freeKitsUsed < FREE_KIT_LIMIT;
       if (isFree) freeKitsUsed += 1;
       const unit = isFree ? 0 : listPrice;
       subtotal += unit;

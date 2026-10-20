@@ -33,7 +33,7 @@ const KitsNew: React.FC = () => {
 
   // 布の購入数を計算
   const fabricCount = cart.reduce((sum, item) => {
-    if (item.name.includes('50cm') || item.productType === 'fabric') {
+    if (item.name.includes('50cm') || item.productType === 'fabric' || item.productType === 'clover') {
       return sum + item.quantity;
     }
     return sum;

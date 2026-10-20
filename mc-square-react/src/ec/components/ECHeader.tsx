@@ -80,7 +80,8 @@ const ECHeader: React.FC = () => {
     // 前回と同じ状態なら処理しない
     if (currentCartState === lastCartState) return;
     
-    const fabricItems = cart.filter(item => item.productType === 'fabric');
+    // クロバー商品も生地と同じく「レシピ2個無料」の対象
+    const fabricItems = cart.filter(item => item.productType === 'fabric' || item.productType === 'clover');
     const kitItems = cart.filter(item => item.productType === 'kit');
     
     // 生地が入っていれば自動的にキット2個を無料にする
