@@ -24,14 +24,15 @@ const InfluencerCollab: React.FC = () => {
   useEffect(() => {
     async function fetchFromBase(): Promise<LinkData[]> {
       const res = await fetch('/api/base-collab');
-      if (!res.ok) throw new Error(`base-collab ${res.status}`);
-      const body = await res.json();
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || body.source !== 'base') throw new Error(`base-collab ${res.status}: ${body.error || 'unknown'}`);
       return (body.items || []).map((i: any) => ({
         id: i.url,
         title: i.title,
         price: typeof i.price === 'number' ? `¥${i.price.toLocaleString('ja-JP')}（税込）` : '',
         applyUrl: i.url,
         imageUrl: i.imageUrl,
+        influencerUrl: i.influencerUrl || undefined,
       }));
     }
     async function fetchFromFirestore(): Promise<LinkData[]> {
