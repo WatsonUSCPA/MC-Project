@@ -16,13 +16,7 @@
   NODE_VERSION = "18"
   CI = "false"
 
-# React Router用のリダイレクト設定（SPA対応）
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# API用のリダイレクト設定
+# API用のリダイレクト設定（SPAの /* より先に書く。Netlifyは上から順に最初に一致したものを使う）
 [[redirects]]
   # /api/ へのアクセスを、
   from = "/api/*"
@@ -30,6 +24,13 @@
   to = "/.netlify/functions/:splat"
   # ステータスコード200は「成功」を意味します
   status = 200 
+
+# React Router用のリダイレクト設定（SPA対応）
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 
 # 管理者リンクページを検索エンジンに載せない
 [[headers]]
