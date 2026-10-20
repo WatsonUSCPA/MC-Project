@@ -1264,3 +1264,32 @@
   .rsb-arrow { display: none; }
 }
 .recipe-detail .recipe-strip { margin-top: 32px; }
+
+/* ===== あると便利な道具（Amazon アソシエイト） ===== */
+.recipe-tools-block {
+  margin: 24px 0;
+  padding: 20px;
+  background: #f8fbff;
+  border: 1px solid #dde8f3;
+  border-radius: 16px;
+}
+.recipe-tools-block h3 { margin: 0 0 14px; font-size: 1.15rem; color: #2d3436; display: flex; align-items: center; gap: 8px; }
+.rtb-pr {
+  font-size: .7rem; font-weight: bold; color: #636e72;
+  border: 1px solid #b2bec3; border-radius: 4px; padding: 0 6px;
+}
+.rtb-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.rtb-item {
+  display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+  background: #fff; border: 1px solid #dde8f3; border-radius: 12px;
+  text-decoration: none; color: inherit; transition: box-shadow .2s ease, transform .2s ease;
+}
+.rtb-item:hover { box-shadow: 0 4px 12px rgba(116, 160, 210, .25); transform: translateY(-1px); }
+.rtb-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.rtb-text strong { font-size: .95rem; color: #2d3436; }
+.rtb-note { font-size: .8rem; color: #636e72; }
+.rtb-arrow { font-size: .8rem; color: #e47911; font-weight: bold; white-space: nowrap; }
+.rtb-disclosure { margin: 12px 0 0; font-size: .75rem; color: #8a959a; }
+@media (max-width: 700px) {
+  .rtb-list { grid-template-columns: 1fr; }
+}

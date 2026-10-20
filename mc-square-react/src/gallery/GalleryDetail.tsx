@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
 import { useCart } from '../ec/context/CartContext';
 import RecipeStrip from '../shared/components/RecipeStrip';
+import { amazonToolsForRecipe } from '../shared/amazonTools';
 import './GalleryDetail.css';
 
 interface DetailSource { partnerId: string; name: string; url: string | null; linkLabel: string; }
@@ -213,6 +214,8 @@ const GalleryDetail: React.FC = () => {
 
   // うさんこのレシピの affiliateProducts は「うさんこクラブ」（当店BASEショップの材料セット）
   const kitLinks = (recipe?.affiliateProducts || []).filter((p) => p.productUrl && /mcsquare\.thebase\.in/.test(p.productUrl));
+  // Amazon の道具リンク（クロバーのレシピはクロバーの道具を出しているので対象外）
+  const amazonTools = recipe && source && source.partnerId !== 'clover' ? amazonToolsForRecipe(recipe) : [];
 
   if (loading) {
     return (
@@ -390,6 +393,25 @@ const GalleryDetail: React.FC = () => {
                 <button type="button" className="rsb-more" onClick={() => navigate('/all-products')}>
                   🛒 生地をもっと見る →
                 </button>
+              </section>
+            )}
+
+            {/* あると便利な道具（Amazon アソシエイト） */}
+            {amazonTools.length > 0 && (
+              <section className="recipe-tools-block" aria-label="あると便利な道具（広告）">
+                <h3>🛠 あると便利な道具 <span className="rtb-pr">PR</span></h3>
+                <div className="rtb-list">
+                  {amazonTools.map((t) => (
+                    <a key={t.name} href={t.url} target="_blank" rel="sponsored noopener noreferrer" className="rtb-item">
+                      <span className="rtb-text">
+                        <strong>{t.name}</strong>
+                        <span className="rtb-note">{t.note}</span>
+                      </span>
+                      <span className="rtb-arrow">Amazonで見る ↗</span>
+                    </a>
+                  ))}
+                </div>
+                <p className="rtb-disclosure">※Amazonのアソシエイトとして、エムシースクエアは適格販売により収入を得ています。</p>
               </section>
             )}
 
