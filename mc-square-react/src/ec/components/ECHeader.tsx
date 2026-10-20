@@ -17,6 +17,7 @@ const sectionTabs = [
 
 const getImageSrc = (url?: string) => {
   if (!url) return '/Image/MC square Logo.png';
+    if (url.startsWith('data:image/')) return url;
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   if (url.startsWith('/Image/')) return url;
   if (url.startsWith('Image/')) return '/' + url;
@@ -79,7 +80,8 @@ const ECHeader: React.FC = () => {
     // 前回と同じ状態なら処理しない
     if (currentCartState === lastCartState) return;
     
-    const fabricItems = cart.filter(item => item.productType === 'fabric');
+    // クロバー商品も生地と同じく「レシピ2個無料」の対象
+    const fabricItems = cart.filter(item => item.productType === 'fabric' || item.productType === 'clover');
     const kitItems = cart.filter(item => item.productType === 'kit');
     
     // 生地が入っていれば自動的にキット2個を無料にする
@@ -125,7 +127,7 @@ const ECHeader: React.FC = () => {
       // 価格・送料はサーバー側で確定させるため、商品IDと数量だけを送る
       const items = cart.map(item => ({
         id: item.managementNumber,
-        type: item.productType === 'kit' ? 'kit' : 'fabric',
+        type: item.productType === 'kit' ? 'kit' : item.productType === 'clover' ? 'clover' : 'fabric',
         quantity: item.quantity,
       }));
 

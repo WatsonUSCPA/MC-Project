@@ -8,7 +8,7 @@ interface CartItem {
   imageUrl?: string;
   description?: string;
   quantity: number;
-  productType?: 'fabric' | 'kit';
+  productType?: 'fabric' | 'kit' | 'clover';
 }
 
 // カートの状態型定義
