@@ -19,27 +19,39 @@ const InfluencerCollab: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Firestoreからコラボ商品リンク取得
+  // BASE「インフルエンサーコラボ」カテゴリの販売中商品を取得（SOLD OUT は関数側で除外）
+  // 取得に失敗したときは従来の Firestore links を表示する
   useEffect(() => {
+    async function fetchFromBase(): Promise<LinkData[]> {
+      const res = await fetch('/api/base-collab');
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || body.source !== 'base') throw new Error(`base-collab ${res.status}: ${body.error || 'unknown'}`);
+      return (body.items || []).map((i: any) => ({
+        id: i.url,
+        title: i.title,
+        price: typeof i.price === 'number' ? `¥${i.price.toLocaleString('ja-JP')}（税込）` : '',
+        applyUrl: i.url,
+        imageUrl: i.imageUrl,
+        influencerUrl: i.influencerUrl || undefined,
+      }));
+    }
+    async function fetchFromFirestore(): Promise<LinkData[]> {
+      const snapshot = await getDocs(collection(db, 'links'));
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LinkData));
+    }
     async function fetchLinks() {
       setLoading(true);
       setError(null);
       try {
-        console.log('Firebase接続を試行中...');
-        const linksCol = collection(db, 'links');
-        const snapshot = await getDocs(linksCol);
-        const linksList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as LinkData));
-        console.log('取得したリンク数:', linksList.length);
-        setLinks(linksList);
-      } catch (e: any) {
-        console.error('Firebase接続エラー:', e);
-        if (e.code === 'permission-denied') {
-          setError('Firebaseの権限設定を確認してください');
-        } else if (e.code === 'unavailable') {
-          setError('Firebaseサービスが利用できません。しばらく待ってから再試行してください');
-        } else {
-          setError(`リンクの取得に失敗しました: ${e.message || '不明なエラー'}`);
+        try {
+          setLinks(await fetchFromBase());
+        } catch (baseErr) {
+          console.warn('BASE取得に失敗、Firestoreにフォールバック:', baseErr);
+          setLinks(await fetchFromFirestore());
         }
+      } catch (e: any) {
+        console.error('コラボ商品取得エラー:', e);
+        setError('商品の取得に失敗しました。しばらく待ってから再度お試しください');
       } finally {
         setLoading(false);
       }
