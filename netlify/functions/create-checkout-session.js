@@ -8,6 +8,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // 生地の商品データ（AllProducts.tsx と同じ Google Apps Script。取得とキャッシュは ../lib/products.js）
 const { fetchPublicProducts } = require('../lib/products');
 // レシピ（キット）データ（KitsNew.tsx と同じ Firestore の kits コレクション）
+// クロバー商品の価格表（clover.co.jp の希望小売価格・税込。リポジトリに同梱した公開データ）
+const CLOVER_PRODUCTS = new Map(require('../lib/clover-products.json').map((p) => [p.id, p]));
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'link-manager-f4ea8';
 
 const MAX_LINE_ITEMS = 50;      // 1回の注文で扱う商品の種類の上限
@@ -105,7 +107,7 @@ function normalizeRequestedItems(rawItems) {
   for (const raw of rawItems) {
     if (!raw || typeof raw !== 'object') return { error: 'Invalid item.' };
     const id = String(raw.id ?? '').trim();
-    const type = raw.type === 'kit' ? 'kit' : raw.type === 'fabric' ? 'fabric' : null;
+    const type = raw.type === 'kit' ? 'kit' : raw.type === 'fabric' ? 'fabric' : raw.type === 'clover' ? 'clover' : null;
     const quantity = Number(raw.quantity);
     if (!id || id.length > 128 || !type) return { error: 'Invalid item.' };
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > MAX_FABRIC_QUANTITY) {
@@ -138,7 +140,26 @@ async function buildLineItems(requested, siteUrl) {
   let freeKitsUsed = 0;
 
   for (const it of requested) {
-    if (it.type === 'fabric') {
+    if (it.type === 'clover') {
+      // クロバー商品: 価格はサーバー同梱の価格表のみから決める（送料は生地と同じルール）
+      const p = CLOVER_PRODUCTS.get(it.id);
+      if (!p) return { error: `Product not available: ${it.id}` };
+      const unit = parseYen(p.price);
+      if (!Number.isFinite(unit) || unit <= 0) return { error: `Invalid price for: ${it.id}` };
+      subtotal += unit * it.quantity;
+      lineItems.push({
+        price_data: {
+          currency: 'jpy',
+          product_data: {
+            name: String(p.name).slice(0, 250),
+            description: `クロバー 品番: ${p.productNumber}`,
+            metadata: { managementNumber: it.id, productType: 'clover' },
+          },
+          unit_amount: unit,
+        },
+        quantity: it.quantity,
+      });
+    } else if (it.type === 'fabric') {
       const p = fabrics.get(it.id);
       if (!p) return { error: `Product not available: ${it.id}` };
       const unit = parseYen(p.price);
@@ -272,4 +293,4 @@ exports.handler = async (event) => {
 };
 
 // テスト用に内部関数を公開
-exports._internal = { normalizeRequestedItems, buildLineItems, calcShipping, parseYen };
+exports._internal = { normalizeRequestedItems, buildLineItems, calcShipping, parseYen, CLOVER_PRODUCTS };

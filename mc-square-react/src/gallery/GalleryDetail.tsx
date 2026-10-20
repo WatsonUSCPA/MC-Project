@@ -2,8 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
 import { useCart } from '../ec/context/CartContext';
+import cloverProducts from '../shared/cloverProducts.json';
+
 import RecipeStrip from '../shared/components/RecipeStrip';
 import './GalleryDetail.css';
+
+// クロバー商品ページURL（clover.co.jp/products/36191 など）→ 価格表の商品
+const cloverByUrl = new Map(
+  (cloverProducts as { id: string; name: string; price: number; productUrl: string }[]).map((p) => [p.productUrl.replace(/\/$/, ''), p])
+);
+const findCloverProduct = (url?: string) => (url ? cloverByUrl.get(url.trim().replace(/\/$/, '').replace('://www.', '://')) : undefined);
 
 interface DetailSource { partnerId: string; name: string; url: string | null; linkLabel: string; }
 
@@ -153,6 +161,21 @@ const GalleryDetail: React.FC = () => {
     });
     setAddedId(p.managementNumber);
     setTimeout(() => setAddedId((cur) => (cur === p.managementNumber ? null : cur)), 2000);
+  };
+
+  const handleAddClover = (productUrl: string, imageUrl?: string) => {
+    const p = findCloverProduct(productUrl);
+    if (!p) return;
+    addToCart({
+      managementNumber: p.id,
+      name: p.name,
+      price: String(p.price),
+      imageUrl,
+      quantity: 1,
+      productType: 'clover',
+    });
+    setAddedId(p.id);
+    setTimeout(() => setAddedId((cur) => (cur === p.id ? null : cur)), 2000);
   };
 
   const handleBackToGallery = () => {
@@ -478,16 +501,31 @@ const GalleryDetail: React.FC = () => {
                           {product.description && (
                             <p className="product-description">{product.description}</p>
                           )}
-                          {product.productUrl && (
-                            <a 
-                              href={product.productUrl} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="product-link"
-                            >
-                              クロバーの商品ページを見る ↗
-                            </a>
-                          )}
+                          <div className="product-actions">
+                            {product.productUrl && (
+                              <a 
+                                href={product.productUrl} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="product-link"
+                              >
+                                クロバーの商品ページを見る ↗
+                              </a>
+                            )}
+                            {(() => {
+                              const cp = findCloverProduct(product.productUrl);
+                              if (!cp) return null;
+                              return (
+                                <button
+                                  type="button"
+                                  className="product-add-cart"
+                                  onClick={() => handleAddClover(product.productUrl, product.imageUrl)}
+                                >
+                                  {addedId === cp.id ? 'カートに追加しました ✓' : 'カートに入れる'}
+                                </button>
+                              );
+                            })()}
+                          </div>
                         </div>
                       </div>
                     ))}

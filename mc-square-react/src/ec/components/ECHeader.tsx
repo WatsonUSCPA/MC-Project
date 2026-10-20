@@ -17,6 +17,7 @@ const sectionTabs = [
 
 const getImageSrc = (url?: string) => {
   if (!url) return '/Image/MC square Logo.png';
+    if (url.startsWith('data:image/')) return url;
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   if (url.startsWith('/Image/')) return url;
   if (url.startsWith('Image/')) return '/' + url;
@@ -125,7 +126,7 @@ const ECHeader: React.FC = () => {
       // 価格・送料はサーバー側で確定させるため、商品IDと数量だけを送る
       const items = cart.map(item => ({
         id: item.managementNumber,
-        type: item.productType === 'kit' ? 'kit' : 'fabric',
+        type: item.productType === 'kit' ? 'kit' : item.productType === 'clover' ? 'clover' : 'fabric',
         quantity: item.quantity,
       }));
 
