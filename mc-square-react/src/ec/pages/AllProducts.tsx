@@ -169,7 +169,7 @@ const AllProducts: React.FC = () => {
   // カートモーダルUI
   const CartModal = () => (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setCartModalOpen(false)}>
-      <div style={{ background: '#fff', borderRadius: 16, padding: '2em', minWidth: 320, maxWidth: 400, boxShadow: '0 8px 32px rgba(0,0,0,0.15)', position: 'relative' }} onClick={e => e.stopPropagation()}>
+      <div style={{ background: '#fff', borderRadius: 16, padding: '2em', minWidth: 320, maxWidth: 400, maxHeight: '90vh', overflowY: 'auto', boxSizing: 'border-box', boxShadow: '0 8px 32px rgba(0,0,0,0.15)', position: 'relative' }} onClick={e => e.stopPropagation()}>
         <h2 style={{ fontSize: '1.2em', color: 'var(--color-primary)', marginBottom: '1em' }}>カートの中身</h2>
         {cart.length === 0 ? (
           <div style={{ color: '#888', textAlign: 'center', margin: '2em 0' }}>カートに商品がありません</div>

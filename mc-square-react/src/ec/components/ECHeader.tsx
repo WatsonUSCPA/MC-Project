@@ -237,7 +237,9 @@ const ECHeader: React.FC = () => {
         left: 0, right: 0, margin: 0,
         animation: 'slideUpCart 0.25s',
       } : {
-        position: 'absolute', top: 56, right: 0, background: '#fff', border: '2px solid #FFD4C4', borderRadius: 18, boxShadow: '0 8px 32px rgba(255,159,124,0.18)', padding: '2em 2em 1.5em 2em', zIndex: 4100, minWidth: 370, maxWidth: 440
+        position: 'absolute', top: 56, right: 0, background: '#fff', border: '2px solid #FFD4C4', borderRadius: 18, boxShadow: '0 8px 32px rgba(255,159,124,0.18)', padding: '2em 2em 1.5em 2em', zIndex: 4100, minWidth: 370, maxWidth: 440,
+        // 画面の高さを超えたらカートの中でスクロール（購入ボタンまで届くように）
+        maxHeight: 'calc(100vh - 90px)', overflowY: 'auto', boxSizing: 'border-box'
       }}
     >
       {isMobile && (
