@@ -34,7 +34,7 @@ function detectUsankoFabric(text) {
     suspicious: match && others.length > 0,
     otherFabrics: [...new Set(others)],
     // Firestore に書くフィールド（一致したときだけ付ける）
-    fields: match ? { usankoFabric: true, fabric: 'usanko-club' } : null,
+    fields: match ? { series: ['usanko-club'] } : null, // arrayUnion で追加する
   };
 }
 

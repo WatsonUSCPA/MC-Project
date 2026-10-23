@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { findPartner } from './partners';
 import CreatorFilter from './CreatorFilter';
+import SeriesFilter, { findSeries } from './SeriesFilter';
 import { fetchRecipeIndex, publishedTime, RecipeSummary, popularScore } from '../shared/recipesApi';
 import './GallerySearch.css';
 
@@ -35,7 +36,7 @@ interface Recipe {
   youtubePublishedAt?: string | null;
   updatedAt?: any;
   views?: number;
-  usankoFabric?: boolean;
+  series?: string[];
 }
 
 type SortOrder = 'likes' | 'createdAt' | 'title';
@@ -63,7 +64,7 @@ const loadRecipes = async (): Promise<Recipe[]> => {
     createdAt: r.createdAt,
     youtubePublishedAt: r.youtubePublishedAt,
     views: r.views,
-    usankoFabric: r.usankoFabric === true,
+    series: r.series || [],
   }));
 };
 
@@ -139,16 +140,20 @@ const GallerySearch: React.FC = () => {
     return counts;
   }, [baseResults]);
 
-  // ?fabric=usanko-club で「うさんこクラブの布を使った作品」だけに絞り込む
-  const usankoFabricOnly = searchParams.get('fabric') === 'usanko-club';
-  const usankoFabricCount = useMemo(() => baseResults.filter((r) => r.usankoFabric).length, [baseResults]);
+  // ?series=<seriesId> でシリーズ（例: うさんこクラブ）に絞り込む。つくり手の絞り込みとは別
+  const series = findSeries(searchParams.get('series'));
+  const seriesCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    baseResults.forEach((r) => (r.series || []).forEach((s) => { counts[s] = (counts[s] || 0) + 1; }));
+    return counts;
+  }, [baseResults]);
 
   const searchResults = useMemo(() => sortRecipes(
     baseResults
       .filter((r) => !creator || r.partnerId === creator.id)
-      .filter((r) => !usankoFabricOnly || r.usankoFabric),
+      .filter((r) => !series || (r.series || []).includes(series.id)),
     sortOrder,
-  ), [baseResults, creator, usankoFabricOnly, sortOrder]);
+  ), [baseResults, creator, series, sortOrder]);
 
   const displayedResults = searchResults.slice(0, currentPage * ITEMS_PER_PAGE);
   const hasMore = displayedResults.length < searchResults.length;
@@ -180,7 +185,7 @@ const GallerySearch: React.FC = () => {
     : categoryParam ? `${categoryParam}のレシピ`
     : sortParam === 'popular' ? '人気レシピ'
     : sortParam === 'new' ? '新着レシピ'
-    : usankoFabricOnly ? 'うさんこクラブの布を使った作品'
+    : series ? `${series.name}シリーズのレシピ`
     : creator ? `${creator.name}のレシピ`
     : 'すべてのレシピ';
 
@@ -230,19 +235,11 @@ const GallerySearch: React.FC = () => {
             total={baseResults.length}
           />
 
-          {usankoFabricCount > 0 && (
-            <div className="fabric-filter">
-              <button
-                type="button"
-                className={`creator-chip creator-chip-usanko${usankoFabricOnly ? ' is-active' : ''}`}
-                aria-pressed={usankoFabricOnly}
-                onClick={() => updateParams({ fabric: usankoFabricOnly ? null : 'usanko-club' })}
-              >
-                <span className="creator-chip-name">🐰 うさんこクラブの布を使った作品</span>
-                <span className="creator-chip-count">{usankoFabricCount}</span>
-              </button>
-            </div>
-          )}
+          <SeriesFilter
+            value={series ? series.id : ''}
+            onChange={(id) => updateParams({ series: id || null })}
+            counts={seriesCounts}
+          />
 
           {hasSearched && (
             <div className="search-controls">

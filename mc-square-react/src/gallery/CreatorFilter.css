@@ -87,5 +87,5 @@
   }
 }
 
-/* うさんこクラブの布を使った作品の絞り込み（検索ページ） */
-.fabric-filter { margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 8px; }
+/* シリーズで探す（検索ページ・つくり手とは別の段） */
+.series-filter { margin-top: 8px; }

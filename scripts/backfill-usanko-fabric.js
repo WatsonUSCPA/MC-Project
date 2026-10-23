@@ -1,4 +1,4 @@
-// 投稿済みのうさんこレシピに usankoFabric / fabric を付ける一回限りのスクリプト。
+// 投稿済みのうさんこレシピに series に 'usanko-club'（うさんこクラブ）を追加する一回限りのスクリプト。
 // ※ 本番の Firestore を書き換えます。Wataru さんの確認後に実行してください。
 //
 // 入力: 判定済みリスト（JSON配列。各要素に docId, match, 必要なら exclude:true）
@@ -32,7 +32,7 @@ async function main() {
     const src = (snap.data().source || {}).partner;
     if (src !== 'usanko') { console.log('skip (not usanko)', r.docId); continue; }
     console.log(WRITE ? 'update' : 'would update', r.docId, r.title);
-    if (WRITE) await ref.update({ usankoFabric: true, fabric: 'usanko-club' });
+    if (WRITE) await ref.update({ series: admin.firestore.FieldValue.arrayUnion('usanko-club') });
     n++;
   }
   console.log(`\n${WRITE ? 'updated' : 'would update'} ${n}${WRITE ? '' : '  (dry run: add --write to apply)'}`);
