@@ -3,13 +3,14 @@
 //
 // 入力: 判定済みリスト（JSON配列。各要素に docId, match, 必要なら exclude:true）
 //   [{ "docId": "...", "title": "...", "videoId": "...", "match": true, "reasons": [...], "suspicious": false }]
-//   suspicious なものを外したい場合は "exclude": true を付ける。
+//   verdict（使用/一部使用/不使用/不明）がある場合は 使用・一部使用 だけを対象にする。
+//   個別に外したい場合は "exclude": true を付ける。
 //
 // 使い方:
 //   cd scripts && npm install firebase-admin
 //   確認だけ: GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json node backfill-usanko-fabric.js list.json
 //   書き込み: GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json node backfill-usanko-fabric.js list.json --write
-//   （--skip-suspicious で suspicious を一括で外す）
+//   （--skip-suspicious で suspicious・一部使用 を一括で外す）
 
 const fs = require('fs');
 const admin = require('firebase-admin');
@@ -21,7 +22,7 @@ if (!file) { console.error('usage: backfill-usanko-fabric.js <list.json> [--writ
 
 async function main() {
   const list = JSON.parse(fs.readFileSync(file, 'utf8'))
-    .filter((r) => r.match && !r.exclude && !(SKIP_SUS && r.suspicious));
+    .filter((r) => (r.verdict ? ['使用', '一部使用'].includes(r.verdict) : r.match) && !r.exclude && !(SKIP_SUS && (r.suspicious || r.verdict === '一部使用')));
   admin.initializeApp({ projectId: process.env.FIREBASE_PROJECT_ID || 'link-manager-f4ea8' });
   const db = admin.firestore();
   let n = 0;
