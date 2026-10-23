@@ -19,6 +19,8 @@ export interface RecipeSummary {
   description: string;
   tags: string[];
   ingredients: string[];
+  /** シリーズid（gallery/series.ts）例: ['usanko-club'] */
+  series?: string[];
   authorSNS?: Record<string, string>;
   thumb: string;
   image: string;
