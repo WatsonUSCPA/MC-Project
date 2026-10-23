@@ -18,7 +18,7 @@ const FREE_KIT_LIMIT = 2;       // 生地を1点以上購入でレシピ2個ま�
 
 // キャンセル時に戻れるページ（これ以外はすべて /all-products）
 const ALLOWED_RETURN_PATHS = [
-  '/', '/all-products', '/kits', '/influencer_subscription', '/subscription',
+  '/', '/all-products', '/kits', '/tools', '/influencer_subscription', '/subscription',
   '/contact', '/terms', '/privacy', '/legal',
 ];
 
