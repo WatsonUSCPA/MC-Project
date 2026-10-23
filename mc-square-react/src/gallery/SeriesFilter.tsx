@@ -9,6 +9,7 @@ export interface SeriesDef { id: string; name: string; description: string; }
 
 export const SERIES: SeriesDef[] = [
   { id: 'usanko-club', name: 'うさんこクラブ', description: 'うさんこクラブの布を使った作品' },
+  { id: 'hagire', name: 'はぎれ活用', description: 'はぎれ・余り布を活用した作品' },
 ];
 
 export const findSeries = (id?: string | null) => SERIES.find((s) => s.id === id);
