@@ -14,6 +14,7 @@ import InstallPrompt from './pwa/InstallPrompt';
 // 各ページは開いたときだけ読み込む（トップページの初回表示を軽くする）
 const AllProducts = lazy(() => import('./ec/pages/AllProducts'));
 const Kits = lazy(() => import('./ec/pages/KitsNew'));
+const CloverTools = lazy(() => import('./ec/pages/CloverTools'));
 const InfluencerCollab = lazy(() => import('./ec/pages/InfluencerCollab'));
 const Subscription = lazy(() => import('./ec/pages/Subscription'));
 const Success = lazy(() => import('./ec/pages/Success'));
@@ -53,6 +54,7 @@ const AppLayout: React.FC = () => {
       <Routes>
         <Route path="/all-products" element={<AllProducts />} />
         <Route path="/kits" element={<Kits />} />
+        <Route path="/tools" element={<CloverTools />} />
         <Route path="/influencer_subscription" element={<InfluencerCollab />} />
         <Route path="/subscription" element={<Subscription />} />
         <Route path="/gallery/*" element={<GalleryApp />} />
@@ -75,6 +77,10 @@ const AppLayout: React.FC = () => {
                 <Link to="/all-products" className="hero-btn">
                   <span role="img" aria-label="生地">🧵</span>
                   生地の販売
+                </Link>
+                <Link to="/tools" className="hero-btn">
+                  <span role="img" aria-label="道具">✂️</span>
+                  クロバーの道具
                 </Link>
                 <Link to="/subscription" className="hero-btn">
                   <span role="img" aria-label="サブスク">📦</span>

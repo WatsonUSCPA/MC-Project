@@ -156,6 +156,7 @@ const AllProducts: React.FC = () => {
     if (url.startsWith('data:image/')) return url;
     if (url.startsWith('http://') || url.startsWith('https://')) return url;
     if (url.startsWith('/Image/')) return url;
+    if (url.startsWith('/.netlify/functions/recipe-image?')) return url; // レシピ画像（クロバーの道具など）
     if (url.startsWith('Image/')) return '/' + url;
     return '/Image/MC square Logo.png';
   };

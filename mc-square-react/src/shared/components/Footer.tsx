@@ -101,6 +101,15 @@ const Footer: React.FC = () => {
                 </Link>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
+                <Link to="/tools" style={{
+                  color: 'var(--color-text-light)',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease'
+                }}>
+                  クロバーの道具
+                </Link>
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
                 <Link to="/subscription" style={{
                   color: 'var(--color-text-light)',
                   textDecoration: 'none',
