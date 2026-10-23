@@ -15,6 +15,7 @@ const PARTNERS = [
   { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch', allowInstructions: false },
   { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/', allowInstructions: true },
   { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon', allowInstructions: false },
+  { id: 'yasumin', name: 'Handmade creator（yasumin）', authorIds: ['partner-yasumin'], website: 'https://www.youtube.com/@yasumin', allowInstructions: false },
 ];
 
 export const isValidId = (id) => /^[A-Za-z0-9_-]{1,128}$/.test(String(id || ''));
