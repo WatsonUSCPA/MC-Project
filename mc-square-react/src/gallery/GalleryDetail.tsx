@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import { recordRecipeView, fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
 import { useCart } from '../ec/context/CartContext';
@@ -75,6 +76,7 @@ const GalleryDetail: React.FC = () => {
   const [matchedKits, setMatchedKits] = useState<CatalogKit[]>([]);
   const [fabricPicks, setFabricPicks] = useState<CatalogProduct[]>([]);
   const [addedId, setAddedId] = useState<string | null>(null);
+  const [zoomImage, setZoomImage] = useState<{ src: string; alt: string } | null>(null);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -140,6 +142,19 @@ const GalleryDetail: React.FC = () => {
     if (recipe && source) document.title = `${recipe.title}｜${source.name}のレシピ｜エムシースクエア クラフトキッチン`;
   }, [recipe, source]);
   useEffect(() => () => { document.title = DEFAULT_TITLE; }, []);
+
+  // 商品画像の拡大表示：Esc で閉じる・背面のスクロールを止める
+  useEffect(() => {
+    if (!zoomImage) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setZoomImage(null); };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [zoomImage]);
 
   // このレシピに使えるショップ商品（キット・生地）
   useEffect(() => {
@@ -494,9 +509,15 @@ const GalleryDetail: React.FC = () => {
                     .map((product, i) => (
                       <div key={i} className="affiliate-product-card">
                         {product.imageUrl && (
-                          <div className="product-image">
+                          <button
+                            type="button"
+                            className="product-image"
+                            onClick={() => setZoomImage({ src: product.imageUrl!, alt: product.name })}
+                            aria-label={`${product.name}の画像を拡大`}
+                          >
                             <img src={product.imageUrl} alt={product.name} loading="lazy" decoding="async" />
-                          </div>
+                            <span className="product-image-zoom" aria-hidden="true">🔍 拡大</span>
+                          </button>
                         )}
                         <div className="product-info">
                           <h4 className="product-name">{product.name}</h4>
@@ -536,6 +557,21 @@ const GalleryDetail: React.FC = () => {
                     ))}
                 </div>
               </div>
+            )}
+
+            {zoomImage && createPortal(
+              <div
+                className="image-lightbox"
+                role="dialog"
+                aria-modal="true"
+                aria-label={zoomImage.alt}
+                onClick={() => setZoomImage(null)}
+              >
+                <button type="button" className="image-lightbox-close" aria-label="閉じる">×</button>
+                <img src={zoomImage.src} alt={zoomImage.alt} onClick={(e) => e.stopPropagation()} />
+                <p className="image-lightbox-caption">{zoomImage.alt}</p>
+              </div>,
+              document.body
             )}
 
             <RecipeStrip

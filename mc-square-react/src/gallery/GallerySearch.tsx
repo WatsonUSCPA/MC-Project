@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { findPartner } from './partners';
 import CreatorFilter from './CreatorFilter';
+import SeriesFilter, { findSeries } from './SeriesFilter';
 import { fetchRecipeIndex, publishedTime, RecipeSummary, popularScore } from '../shared/recipesApi';
 import './GallerySearch.css';
 
@@ -35,6 +36,7 @@ interface Recipe {
   youtubePublishedAt?: string | null;
   updatedAt?: any;
   views?: number;
+  series?: string[];
 }
 
 type SortOrder = 'likes' | 'createdAt' | 'title';
@@ -62,6 +64,7 @@ const loadRecipes = async (): Promise<Recipe[]> => {
     createdAt: r.createdAt,
     youtubePublishedAt: r.youtubePublishedAt,
     views: r.views,
+    series: r.series || [],
   }));
 };
 
@@ -137,9 +140,20 @@ const GallerySearch: React.FC = () => {
     return counts;
   }, [baseResults]);
 
+  // ?series=<seriesId> でシリーズ（例: うさんこクラブ）に絞り込む。つくり手の絞り込みとは別
+  const series = findSeries(searchParams.get('series'));
+  const seriesCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    baseResults.forEach((r) => (r.series || []).forEach((s) => { counts[s] = (counts[s] || 0) + 1; }));
+    return counts;
+  }, [baseResults]);
+
   const searchResults = useMemo(() => sortRecipes(
-    creator ? baseResults.filter((r) => r.partnerId === creator.id) : baseResults, sortOrder,
-  ), [baseResults, creator, sortOrder]);
+    baseResults
+      .filter((r) => !creator || r.partnerId === creator.id)
+      .filter((r) => !series || (r.series || []).includes(series.id)),
+    sortOrder,
+  ), [baseResults, creator, series, sortOrder]);
 
   const displayedResults = searchResults.slice(0, currentPage * ITEMS_PER_PAGE);
   const hasMore = displayedResults.length < searchResults.length;
@@ -171,6 +185,7 @@ const GallerySearch: React.FC = () => {
     : categoryParam ? `${categoryParam}のレシピ`
     : sortParam === 'popular' ? '人気レシピ'
     : sortParam === 'new' ? '新着レシピ'
+    : series ? `${series.name}シリーズのレシピ`
     : creator ? `${creator.name}のレシピ`
     : 'すべてのレシピ';
 
@@ -218,6 +233,12 @@ const GallerySearch: React.FC = () => {
             onChange={handleCreatorChange}
             counts={creatorCounts}
             total={baseResults.length}
+          />
+
+          <SeriesFilter
+            value={series ? series.id : ''}
+            onChange={(id) => updateParams({ series: id || null })}
+            counts={seriesCounts}
           />
 
           {hasSearched && (

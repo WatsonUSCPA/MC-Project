@@ -19,6 +19,8 @@ export interface RecipeSummary {
   description: string;
   tags: string[];
   ingredients: string[];
+  /** シリーズid（gallery/series.ts）例: ['usanko-club'] */
+  series?: string[];
   authorSNS?: Record<string, string>;
   thumb: string;
   image: string;
@@ -157,3 +159,11 @@ export const thumbUrl = (url: string, width = 400) =>
   /^https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\//.test(url)
     ? url.replace('/image/upload/', `/image/upload/w_${width},c_limit,f_auto,q_auto/`)
     : url;
+
+// ===== 取り扱い中のクロバー商品（ショップの「道具」ページ） =====
+export interface CloverCatalogProduct {
+  id: string; productNumber: string; name: string; price: number; productUrl: string;
+  image: string; recipes: { id: string; title: string }[]; recipeCount: number;
+}
+export const fetchCloverCatalog = () =>
+  cachedFetch<{ products: CloverCatalogProduct[] }>('ck:clover-catalog:v1', `${API}/clover-catalog`);

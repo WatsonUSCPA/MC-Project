@@ -86,3 +86,6 @@
     padding: 0.4rem 0.85rem;
   }
 }
+
+/* シリーズで探す（検索ページ・つくり手とは別の段） */
+.series-filter { margin-top: 8px; }

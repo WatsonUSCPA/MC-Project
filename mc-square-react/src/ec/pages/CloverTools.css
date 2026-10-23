@@ -1,0 +1,32 @@
+.clover-tools { padding: 1rem 16px 2rem; box-sizing: border-box; }
+.clover-tools h1 { color: var(--color-primary); font-size: 1.6rem; margin-bottom: 0.4rem; }
+.ct-lead { color: #636e72; margin: 0 0 1rem; line-height: 1.7; }
+.ct-search {
+  width: 100%; max-width: 420px; box-sizing: border-box; padding: 0.7em 1em; margin-bottom: 1.2rem;
+  border: 1px solid #ddd; border-radius: 22px; font-size: 1rem;
+}
+.ct-status { color: #636e72; }
+.ct-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.ct-card {
+  display: flex; flex-direction: column; gap: 4px; background: #fff;
+  border: 1px solid #f0e6e0; border-radius: 12px; padding: 10px; min-width: 0;
+}
+.ct-card img, .ct-noimage {
+  width: 100%; aspect-ratio: 1 / 1; height: auto; object-fit: contain; border-radius: 8px; background: #fafafa;
+}
+.ct-noimage { display: flex; align-items: center; justify-content: center; color: #bbb; font-size: .85rem; }
+.ct-number { font-size: .75rem; color: #8a959a; margin-top: 4px; }
+.ct-name { font-size: .92rem; color: #2d3436; line-height: 1.4; }
+.ct-price { font-size: .95rem; font-weight: bold; color: #ff6b6b; }
+.ct-add {
+  margin-top: 4px; padding: 8px; border: none; border-radius: 18px;
+  background: #ff9f7c; color: #fff; font-weight: bold; font-size: .9rem; cursor: pointer;
+}
+.ct-add:hover { background: #ff8a65; }
+.ct-recipes { display: flex; flex-direction: column; gap: 2px; margin-top: 6px; font-size: .78rem; }
+.ct-recipes span { color: #8a959a; }
+.ct-recipes a { color: #e17055; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ct-recipes a:hover { text-decoration: underline; }
+@media (max-width: 600px) {
+  .ct-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
