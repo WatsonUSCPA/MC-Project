@@ -35,6 +35,7 @@ interface Recipe {
   youtubePublishedAt?: string | null;
   updatedAt?: any;
   views?: number;
+  usankoFabric?: boolean;
 }
 
 type SortOrder = 'likes' | 'createdAt' | 'title';
@@ -62,6 +63,7 @@ const loadRecipes = async (): Promise<Recipe[]> => {
     createdAt: r.createdAt,
     youtubePublishedAt: r.youtubePublishedAt,
     views: r.views,
+    usankoFabric: r.usankoFabric === true,
   }));
 };
 
@@ -137,9 +139,16 @@ const GallerySearch: React.FC = () => {
     return counts;
   }, [baseResults]);
 
+  // ?fabric=usanko-club で「うさんこクラブの布を使った作品」だけに絞り込む
+  const usankoFabricOnly = searchParams.get('fabric') === 'usanko-club';
+  const usankoFabricCount = useMemo(() => baseResults.filter((r) => r.usankoFabric).length, [baseResults]);
+
   const searchResults = useMemo(() => sortRecipes(
-    creator ? baseResults.filter((r) => r.partnerId === creator.id) : baseResults, sortOrder,
-  ), [baseResults, creator, sortOrder]);
+    baseResults
+      .filter((r) => !creator || r.partnerId === creator.id)
+      .filter((r) => !usankoFabricOnly || r.usankoFabric),
+    sortOrder,
+  ), [baseResults, creator, usankoFabricOnly, sortOrder]);
 
   const displayedResults = searchResults.slice(0, currentPage * ITEMS_PER_PAGE);
   const hasMore = displayedResults.length < searchResults.length;
@@ -171,6 +180,7 @@ const GallerySearch: React.FC = () => {
     : categoryParam ? `${categoryParam}のレシピ`
     : sortParam === 'popular' ? '人気レシピ'
     : sortParam === 'new' ? '新着レシピ'
+    : usankoFabricOnly ? 'うさんこクラブの布を使った作品'
     : creator ? `${creator.name}のレシピ`
     : 'すべてのレシピ';
 
@@ -219,6 +229,20 @@ const GallerySearch: React.FC = () => {
             counts={creatorCounts}
             total={baseResults.length}
           />
+
+          {usankoFabricCount > 0 && (
+            <div className="fabric-filter">
+              <button
+                type="button"
+                className={`creator-chip creator-chip-usanko${usankoFabricOnly ? ' is-active' : ''}`}
+                aria-pressed={usankoFabricOnly}
+                onClick={() => updateParams({ fabric: usankoFabricOnly ? null : 'usanko-club' })}
+              >
+                <span className="creator-chip-name">🐰 うさんこクラブの布を使った作品</span>
+                <span className="creator-chip-count">{usankoFabricCount}</span>
+              </button>
+            </div>
+          )}
 
           {hasSearched && (
             <div className="search-controls">

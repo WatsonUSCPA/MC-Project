@@ -19,6 +19,8 @@ export interface RecipeSummary {
   description: string;
   tags: string[];
   ingredients: string[];
+  /** うさんこクラブの布を使った作品 */
+  usankoFabric?: boolean;
   authorSNS?: Record<string, string>;
   thumb: string;
   image: string;

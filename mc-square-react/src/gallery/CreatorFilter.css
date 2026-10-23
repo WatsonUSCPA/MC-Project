@@ -86,3 +86,6 @@
     padding: 0.4rem 0.85rem;
   }
 }
+
+/* うさんこクラブの布を使った作品の絞り込み（検索ページ） */
+.fabric-filter { margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 8px; }
