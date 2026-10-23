@@ -7,34 +7,48 @@
 //   echo "説明欄" | node scripts/detect-usanko-fabric.js -            … 標準入力から
 //   require('./detect-usanko-fabric').detectUsankoFabric(text)        … 他のスクリプトから
 //
-// 判定（いずれか1つで一致）:
-//   - 「うさんこクラブの布」という文言
-//   - 「うさんこクラブ」の布（かぎかっこ付き）
-//   - MC Square BASE の うさんこクラブ商品 items/82602384 へのリンク
-// suspicious: 他の生地名（フレンチジェネラル等）も書かれている → 定型文が残っているだけの可能性あり。人の目で確認する。
+// 判定:
+//   match   … 「今回使用している布は、うさんこクラブの布です」のように、今回使った布を述べる行に
+//              「うさんこクラブ」がある（「🌟今回使用している布🌟」見出しの次の行も含む）
+//   weak    … 「うさんこクラブの布」「『うさんこクラブ』の布」や items/82602384 リンクはあるが、
+//              バックナンバー・入会案内などの定型文だけ（今回使ったとは書いていない）→ タグは付けない
+//   suspicious … match だが、今回使った布の行に他の生地名（フレンチジェネラル等）もある → 人が確認
 
-const RULES = [
-  { reason: 'text:うさんこクラブの布', re: /うさんこクラブの布/ },
-  { reason: 'text:「うさんこクラブ」の布', re: /[「『]うさんこクラブ[」』]\s*の布/ },
-  { reason: 'link:items/82602384', re: /thebase\.in\/items\/82602384/ },
-];
+// 説明欄の下の方には「うさんこクラブの布のバックナンバーは…」「ご入会はこちら」や
+// 他の布（フレンチジェネラル・リバティ等）の商品リンクが定型文で毎回入っているため、
+// 「今回使った布」を述べている行だけを見る。
+const USE_LINE = /(今回|使用|使った|使って|使いました|布は|で仕立て)/;
+const BOILERPLATE = /(バックナンバー|入会|募集|はじめた|作りました$)/;
+const USANKO = /うさんこクラブ/;
 const OTHER_FABRICS = [
-  /フレンチ\s*ジェネラル/i, /french\s*general/i, /リバティ/, /liberty/i, /moda\b/i, /ムーンライト/,
-  /おうちにある布/, /手持ちの布/, /はぎれ/,
+  /フレンチ\s*ジェネラル/i, /french\s*general/i, /リバティ/, /liberty/i, /moda\b/i,
+  /おうちにある布/, /手持ちの布/, /100均の布|１００均の布|ダイソーの布/,
 ];
 
 function detectUsankoFabric(text) {
-  const t = String(text || '');
-  const reasons = RULES.filter((r) => r.re.test(t)).map((r) => r.reason);
-  const others = OTHER_FABRICS.map((re) => (t.match(re) || [])[0]).filter(Boolean);
+  const lines = String(text || '').split(/\r?\n/);
+  const useLines = lines.filter((l) => USE_LINE.test(l) && !BOILERPLATE.test(l));
+  const reasons = [];
+  const strong = useLines.filter((l) => USANKO.test(l));
+  if (strong.length) reasons.push('use-line:' + strong[0].trim().slice(0, 60));
+  // 「🌟今回使用している布🌟」の見出しの直後の行
+  lines.forEach((l, i) => {
+    if (/使用している布|使った布|使用した布/.test(l) && USANKO.test(lines[i + 1] || '') && !strong.length) {
+      reasons.push('heading-next:' + lines[i + 1].trim().slice(0, 60));
+    }
+  });
   const match = reasons.length > 0;
+  // 定型文・リンクだけ（今回使った、とは書いていない）は weak として別に返す
+  const weak = !match && (USANKO.test(text || '') && /うさんこクラブの布|[「『]うさんこクラブ[」』]\s*の布|thebase\.in\/items\/82602384/.test(text || ''));
+  const others = useLines.flatMap((l) => OTHER_FABRICS.map((re) => (l.match(re) || [])[0]).filter(Boolean));
   return {
     match,
+    weak,
     reasons,
     suspicious: match && others.length > 0,
     otherFabrics: [...new Set(others)],
-    // Firestore に書くフィールド（一致したときだけ付ける）
-    fields: match ? { series: ['usanko-club'] } : null, // arrayUnion で追加する
+    // Firestore に書くフィールド（一致したときだけ。arrayUnion で追加する）
+    fields: match ? { series: ['usanko-club'] } : null,
   };
 }
 
