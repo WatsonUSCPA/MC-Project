@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import './GalleryHome.css';
 import { findPartner } from './partners';
 import CreatorFilter from './CreatorFilter';
+import SeriesFilter from './SeriesFilter';
 import { fetchRecipeIndex, sortNew, sortPopular } from '../shared/recipesApi';
 
 interface Recipe {
@@ -31,6 +32,7 @@ interface Recipe {
   authorId?: string;
   authorName?: string;
   partnerId?: string;
+  series?: string[];
   sourceUrl?: string;
   createdAt?: any;
   youtubePublishedAt?: string | null;
@@ -120,6 +122,7 @@ const GalleryHome: React.FC = () => {
             createdAt: r.createdAt,
             youtubePublishedAt: r.youtubePublishedAt,
             views: r.views,
+            series: r.series || [],
           })));
           setImagesLoaded(true);
           setRetryCount(0);
@@ -206,6 +209,12 @@ const GalleryHome: React.FC = () => {
   const creatorCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     recipes.forEach((r) => { if (r.partnerId) counts[r.partnerId] = (counts[r.partnerId] || 0) + 1; });
+    return counts;
+  }, [recipes]);
+
+  const seriesCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    recipes.forEach((r) => (r.series || []).forEach((id) => { counts[id] = (counts[id] || 0) + 1; }));
     return counts;
   }, [recipes]);
 
@@ -349,6 +358,17 @@ const GalleryHome: React.FC = () => {
             </button>
           )}
         </section>
+
+        {/* シリーズ（例: うさんこクラブ）で探す。つくり手とは別の行 */}
+        {Object.keys(seriesCounts).length > 0 && (
+          <section className="creator-section series-section" id="series">
+            <SeriesFilter
+              value=""
+              onChange={(id) => { if (id) navigate(`/gallery/search?series=${encodeURIComponent(id)}`); }}
+              counts={seriesCounts}
+            />
+          </section>
+        )}
 
         {/* 人気レシピ */}
         <section className="popular-recipes">
