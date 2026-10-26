@@ -291,6 +291,7 @@ exports.handler = async (event) => {
       currency: 'jpy',
       locale: 'ja',
       shipping_address_collection: { allowed_countries: ['JP'] },
+      phone_number_collection: { enabled: true }, // 配送業者への連絡用
       custom_text: { submit: { message: CHECKOUT_NOTICE } },
     });
 
