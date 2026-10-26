@@ -6,6 +6,7 @@ const PARTNERS = [
   // Firebase アカウントを持たないパートナー。authorId には固定の識別子を入れ、判定は source.partner を優先する
   { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon', allowInstructions: false },
   { id: 'yasumin', name: 'Handmade creator（yasumin）', authorIds: ['partner-yasumin'], website: 'https://www.youtube.com/@yasumin', allowInstructions: false },
+  { id: 'mocopanel', name: 'もこぱねるSTORE', authorIds: ['partner-mocopanel'], website: 'https://www.youtube.com/@moco_panel', allowInstructions: false },
 ];
 
 const isHttpsUrl = (u) => {

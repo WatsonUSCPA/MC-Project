@@ -2,7 +2,7 @@
 //
 // レシピの出典は Firestore の recipes/{id} に任意の `source` フィールドで指定できます:
 //   source: {
-//     partner: 'usanko' | 'clover' | 'quiltkon' | 'yasumin',   // 下の PARTNERS の id
+//     partner: 'usanko' | 'clover' | 'quiltkon' | 'yasumin' | 'mocopanel',   // 下の PARTNERS の id
 //     name?: string,                  // 表示名（省略時はパートナー名）
 //     url?: string,                   // 元の動画・ページのURL（https のみ）
 //   }
@@ -60,6 +60,16 @@ export const PARTNERS: Partner[] = [
     shortName: 'yasumin',
     authorIds: ['partner-yasumin'],
     website: 'https://www.youtube.com/@yasumin',
+    allowInstructions: false,
+  },
+  {
+    // もこぱねるSTORE：フリーステッチング（パンチニードル）で、100円ショップの巾着や缶ケースを
+    // もこもこ刺繍でアレンジする作品を紹介している刺繍作家さん。
+    id: 'mocopanel',
+    name: 'もこぱねるSTORE',
+    shortName: 'もこぱねる',
+    authorIds: ['partner-mocopanel'],
+    website: 'https://www.youtube.com/@moco_panel',
     allowInstructions: false,
   },
 ];
