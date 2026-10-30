@@ -28,12 +28,14 @@ const decode = (s) => s
 // 全商品（SOLD OUT 含む）を返す
 function parseItems(html) {
   const items = [];
-  for (const b of html.split('items-list_itemListLI_').slice(1)) {
+  for (const raw of html.split('items-list_itemListLI_').slice(1)) {
+    // 最後の商品はページ末尾まで続くので、その商品の </li> で切る（CSS クラス表の "soldOut" 誤検知防止）
+    const b = raw.split('</li>')[0];
     const url = (b.match(/href="(https:\/\/mcsquare\.thebase\.in\/items\/\d+)"/) || [])[1];
     const title = (b.match(/items-list_title_[^"]*">([\s\S]*?)<\/p>/) || [])[1];
     if (!url || !title || !ITEM_URL_RE.test(url)) continue;
     const priceText = (b.match(/items-list_price_[^"]*">([^<]*)</) || [])[1] || '';
-    const yen = (priceText.match(/¥\s*([\d,]+)/) || [])[1];
+    const yen = (priceText.match(/(?:¥|JPY)\s*([\d,]+)/) || [])[1];
     const img = (b.match(/<img[^>]*src="([^"]+)"/) || [])[1] || '';
     const t = decode(title);
     items.push({
@@ -42,7 +44,7 @@ function parseItems(html) {
       imageUrl: img.startsWith('https://') ? decode(img) : '',
       url,
       influencerUrl: influencerUrlFor(t),
-      soldOut: /items-list_soldOut_|SOLD OUT/.test(b),
+      soldOut: /items-list_soldOut_[^"]*">\s*SOLD OUT/.test(b),
     });
   }
   return items;
