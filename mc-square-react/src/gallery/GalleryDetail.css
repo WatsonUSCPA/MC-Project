@@ -1357,3 +1357,23 @@
 /* クロバーの道具 → 商品詳細ページ（/clover/<品番>） */
 .product-name a { color: inherit; text-decoration: none; }
 .product-name a:hover { color: #e17055; text-decoration: underline; }
+
+/* 作り方・説明内のリンク */
+.recipe-explanation-link {
+  color: #FF6B6B;
+  font-weight: bold;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+/* クロバー公式の作り方への控えめな補助リンク */
+.recipe-howto-secondary {
+  margin: 4px 0 16px;
+  font-size: 0.85rem;
+  color: #636E72;
+}
+.recipe-howto-secondary a {
+  color: #636E72;
+  text-decoration: underline;
+  word-break: break-all;
+}
