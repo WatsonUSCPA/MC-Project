@@ -14,6 +14,23 @@ const cloverByUrl = new Map(
 );
 const findCloverProduct = (url?: string) => (url ? cloverByUrl.get(url.trim().replace(/\/$/, '').replace('://www.', '://')) : undefined);
 
+// テキスト中の URL をクリックできるリンクにする
+const URL_RE = /(https?:\/\/[^\s<>"'）」』]+)/g;
+const linkify = (text: string): React.ReactNode[] =>
+  text.split(URL_RE).map((part, i) =>
+    i % 2 === 1
+      ? <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="recipe-explanation-link">{part}</a>
+      : <React.Fragment key={i}>{part}</React.Fragment>
+  );
+
+// URL だけのときに出すラベル（例: 「クロバー株式会社の作り方ページを見る」）
+const linkLabelFor = (url: string, src: { name: string } | null | undefined) => {
+  let host = '';
+  try { host = new URL(url).hostname.replace(/^www\./, ''); } catch { /* noop */ }
+  if (/youtube\.com|youtu\.be/.test(host)) return `${src?.name || 'YouTube'}の動画を見る`;
+  return `${src?.name || host || '元ページ'}の作り方ページを見る`;
+};
+
 interface DetailSource { partnerId: string; name: string; url: string | null; linkLabel: string; }
 
 // public/index.html の <title> と同じ
@@ -472,12 +489,28 @@ const GalleryDetail: React.FC = () => {
               </div>
             )}
 
-            {recipe.websiteExplanation && (
-              <div className="recipe-explanation">
-                <h3>詳細な説明</h3>
-                <p>{recipe.websiteExplanation}</p>
-              </div>
-            )}
+            {recipe.websiteExplanation && (() => {
+              const text = recipe.websiteExplanation.trim();
+              // URL だけが入っている場合（パートナーの作り方ページ等）は、読みやすいラベル付きリンクにする
+              if (/^https?:\/\/\S+$/.test(text)) {
+                return (
+                  <div className="recipe-explanation">
+                    <h3>📖 作り方の詳細</h3>
+                    <p>
+                      <a href={text} target="_blank" rel="noopener noreferrer" className="recipe-explanation-link">
+                        {linkLabelFor(text, source)} ↗
+                      </a>
+                    </p>
+                  </div>
+                );
+              }
+              return (
+                <div className="recipe-explanation">
+                  <h3>詳細な説明</h3>
+                  <p>{linkify(recipe.websiteExplanation)}</p>
+                </div>
+              );
+            })()}
 
             {recipe.tags && recipe.tags.length > 0 && (
               <div className="recipe-tags">
@@ -533,23 +566,25 @@ const GalleryDetail: React.FC = () => {
                             <p className="product-description">{product.description}</p>
                           )}
                           <div className="product-actions">
-                            {product.productUrl && (
-                              <a 
-                                href={product.productUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="product-link"
-                              >
-                                クロバーの商品ページを見る ↗
-                              </a>
-                            )}
                             {(() => {
                               const cp = findCloverProduct(product.productUrl);
-                              if (!cp) return null;
+                              // うちの価格表に無い商品だけ、従来どおりクロバーの商品ページへ
+                              if (!cp) {
+                                return product.productUrl ? (
+                                  <a
+                                    href={product.productUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="product-link"
+                                  >
+                                    クロバーの商品ページを見る ↗
+                                  </a>
+                                ) : null;
+                              }
                               return (
                                 <>
                                 <Link to={`/clover/${cp.productNumber}`} className="product-link product-detail-link">
-                                  詳しく見る ›
+                                  商品の詳細を見る ›
                                 </Link>
                                 <button
                                   type="button"
