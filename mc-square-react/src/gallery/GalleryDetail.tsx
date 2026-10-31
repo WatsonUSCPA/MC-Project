@@ -492,6 +492,14 @@ const GalleryDetail: React.FC = () => {
             {recipe.websiteExplanation && (() => {
               const text = recipe.websiteExplanation.trim();
               // URL だけが入っている場合（パートナーの作り方ページ等）は、読みやすいラベル付きリンクにする
+              if (/^https?:\/\/\S+$/.test(text) && source?.partnerId === 'clover') {
+                // クロバーのレシピ：手順は転載せず、控えめな補助リンクだけ出す（メインの導線はうちの商品）
+                return (
+                  <p className="recipe-howto-secondary">
+                    <a href={text} target="_blank" rel="noopener noreferrer">作り方はクロバー公式で見る ↗</a>
+                  </p>
+                );
+              }
               if (/^https?:\/\/\S+$/.test(text)) {
                 return (
                   <div className="recipe-explanation">
