@@ -167,3 +167,9 @@ export interface CloverCatalogProduct {
 }
 export const fetchCloverCatalog = () =>
   cachedFetch<{ products: CloverCatalogProduct[] }>('ck:clover-catalog:v1', `${API}/clover-catalog`);
+/** 1商品と、その商品を使う全レシピ（商品詳細ページ /clover/<品番> 用） */
+export const fetchCloverProduct = (productNumber: string) =>
+  cachedFetch<{ product: CloverCatalogProduct }>(
+    `ck:clover-product:v1:${productNumber}`,
+    `${API}/clover-catalog?product=${encodeURIComponent(productNumber)}`,
+  );

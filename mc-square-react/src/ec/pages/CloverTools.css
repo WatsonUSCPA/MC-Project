@@ -30,3 +30,52 @@
 @media (max-width: 600px) {
   .ct-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
+
+/* 一覧カード → 詳細ページへのリンク */
+.ct-card-link { display: flex; flex-direction: column; gap: 4px; color: inherit; text-decoration: none; }
+.ct-card-link:hover .ct-name { color: #e17055; text-decoration: underline; }
+.ct-more { font-size: .78rem; color: #e17055; }
+
+/* 商品詳細ページ /clover/<品番> */
+.cd-back { display: inline-block; margin-bottom: 1rem; color: #e17055; text-decoration: none; font-size: .9rem; }
+.cd-back:hover { text-decoration: underline; }
+.cd-main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.cd-photo {
+  width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 12px;
+  background: #fafafa; border: 1px solid #f0e6e0; box-sizing: border-box;
+}
+.cd-thumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.cd-thumbs button {
+  width: 64px; height: 64px; padding: 0; border: 2px solid #f0e6e0; border-radius: 8px;
+  background: #fafafa; cursor: pointer; overflow: hidden;
+}
+.cd-thumbs button.active { border-color: #ff9f7c; }
+.cd-thumbs img { width: 100%; height: 100%; object-fit: contain; }
+.cd-info { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.cd-category { font-size: .78rem; color: #8a959a; }
+.clover-tools h1.cd-name { color: #2d3436; font-size: 1.4rem; margin: 0; line-height: 1.4; }
+.cd-price { font-size: 1.4rem; font-weight: bold; color: #ff6b6b; }
+.cd-price small { font-size: .8rem; font-weight: normal; color: #636e72; margin-left: 2px; }
+.cd-add { max-width: 320px; padding: 12px; font-size: 1rem; }
+.cd-catch { font-weight: bold; color: #2d3436; margin: 12px 0 0; line-height: 1.6; }
+.cd-desc { color: #4a5559; margin: 4px 0 0; line-height: 1.8; white-space: pre-line; font-size: .92rem; }
+.cd-specs {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr); margin: 12px 0 0;
+  border-top: 1px solid #f0e6e0; font-size: .88rem;
+}
+.cd-specs dt, .cd-specs dd { padding: 8px 10px; border-bottom: 1px solid #f0e6e0; margin: 0; }
+.cd-specs dt { color: #8a959a; background: #fffaf7; white-space: nowrap; }
+.cd-specs dd { color: #2d3436; white-space: pre-line; overflow-wrap: anywhere; }
+.cd-notes { margin: 8px 0 0; padding: 0; list-style: none; font-size: .8rem; color: #8a959a; line-height: 1.6; }
+.cd-source { margin-top: 12px; font-size: .82rem; color: #8a959a; }
+.cd-recipes { margin-top: 2.2rem; }
+.cd-recipes h2 { font-size: 1.15rem; color: #2d3436; margin: 0 0 .8rem; }
+.cd-recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+.cd-recipe { display: flex; flex-direction: column; gap: 6px; color: #2d3436; text-decoration: none; font-size: .85rem; line-height: 1.4; }
+.cd-recipe img, .cd-recipe .ct-noimage { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 8px; background: #fafafa; }
+.cd-recipe:hover span { color: #e17055; text-decoration: underline; }
+@media (max-width: 700px) {
+  .cd-main { grid-template-columns: 1fr; gap: 16px; }
+  .cd-add { max-width: none; }
+  .cd-recipe-grid { grid-template-columns: repeat(2, 1fr); }
+}

@@ -57,12 +57,15 @@ const CloverTools: React.FC = () => {
       <div className="ct-grid">
         {shown.map((p) => (
           <div key={p.id} className="ct-card">
-            {p.image
-              ? <img src={p.image} alt={p.name} loading="lazy" decoding="async" width={240} height={240} />
-              : <div className="ct-noimage">No Image</div>}
-            <span className="ct-number">品番 {p.productNumber}</span>
-            <strong className="ct-name">{p.name}</strong>
-            <span className="ct-price">{p.price.toLocaleString()}円（税込）</span>
+            <Link to={`/clover/${p.productNumber}`} className="ct-card-link" aria-label={`${p.name}の詳細を見る`}>
+              {p.image
+                ? <img src={p.image} alt={p.name} loading="lazy" decoding="async" width={240} height={240} />
+                : <div className="ct-noimage">No Image</div>}
+              <span className="ct-number">品番 {p.productNumber}</span>
+              <strong className="ct-name">{p.name}</strong>
+              <span className="ct-price">{p.price.toLocaleString()}円（税込）</span>
+              <span className="ct-more">詳しく見る ›</span>
+            </Link>
             <button type="button" className="ct-add" onClick={() => handleAdd(p)}>
               {addedId === p.id ? '✓ 追加しました' : 'カートに入れる'}
             </button>

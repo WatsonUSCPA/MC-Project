@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import CheckoutNotice from './CheckoutNotice';
+import { buildMailOrderHref } from '../utils/mailOrder';
 
 const navItems = [
   { to: '/all-products', icon: '🧵', label: '生地' },
@@ -449,6 +450,34 @@ const ECHeader: React.FC = () => {
          !canProceedToCheckout() ? '商品を追加してください' :
          !agreedToTerms ? '上の同意にチェックしてください' : '購入へ進む'}
       </button>
+      {/* メールで注文（メールアプリが開き、注文内容が入った下書きができる。カートはそのまま） */}
+      {cart.length > 0 && (
+        <>
+          <a
+            href={buildMailOrderHref(cart, { subtotal, shipping, total: totalWithShipping })}
+            style={{
+              display: 'block',
+              boxSizing: 'border-box',
+              marginTop: 10,
+              border: '2px solid var(--color-primary)',
+              color: 'var(--color-primary)',
+              background: '#fff',
+              borderRadius: 12,
+              padding: isMobile ? '0.75em 1.2em' : '0.85em 2em',
+              fontWeight: 700,
+              fontSize: isMobile ? '1em' : '1.08em',
+              textAlign: 'center',
+              textDecoration: 'none',
+              width: '100%',
+            }}
+          >
+            ✉️ メールで注文する
+          </a>
+          <div style={{ marginTop: 6, fontSize: '0.82em', color: '#8a959a', textAlign: 'center', lineHeight: 1.5 }}>
+            メールアプリが開きます。お名前・ご住所・電話番号を書き足して送信してください。
+          </div>
+        </>
+      )}
     </div>
   );
 

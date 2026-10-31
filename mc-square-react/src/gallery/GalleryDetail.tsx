@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { recordRecipeView, fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
 import { useCart } from '../ec/context/CartContext';
 import cloverProducts from '../shared/cloverProducts.json';
@@ -10,7 +10,7 @@ import './GalleryDetail.css';
 
 // クロバー商品ページURL（clover.co.jp/products/36191 など）→ 価格表の商品
 const cloverByUrl = new Map(
-  (cloverProducts as { id: string; name: string; price: number; productUrl: string }[]).map((p) => [p.productUrl.replace(/\/$/, ''), p])
+  (cloverProducts as { id: string; productNumber: string; name: string; price: number; productUrl: string }[]).map((p) => [p.productUrl.replace(/\/$/, ''), p])
 );
 const findCloverProduct = (url?: string) => (url ? cloverByUrl.get(url.trim().replace(/\/$/, '').replace('://www.', '://')) : undefined);
 
@@ -520,7 +520,12 @@ const GalleryDetail: React.FC = () => {
                           </button>
                         )}
                         <div className="product-info">
-                          <h4 className="product-name">{product.name}</h4>
+                          {(() => {
+                            const cp = findCloverProduct(product.productUrl);
+                            return cp
+                              ? <h4 className="product-name"><Link to={`/clover/${cp.productNumber}`}>{product.name}</Link></h4>
+                              : <h4 className="product-name">{product.name}</h4>;
+                          })()}
                           {product.price && (
                             <p className="product-price">{product.price}</p>
                           )}
@@ -542,6 +547,10 @@ const GalleryDetail: React.FC = () => {
                               const cp = findCloverProduct(product.productUrl);
                               if (!cp) return null;
                               return (
+                                <>
+                                <Link to={`/clover/${cp.productNumber}`} className="product-link product-detail-link">
+                                  詳しく見る ›
+                                </Link>
                                 <button
                                   type="button"
                                   className="product-add-cart"
@@ -549,6 +558,7 @@ const GalleryDetail: React.FC = () => {
                                 >
                                   {addedId === cp.id ? 'カートに追加しました ✓' : 'カートに入れる'}
                                 </button>
+                                </>
                               );
                             })()}
                           </div>
