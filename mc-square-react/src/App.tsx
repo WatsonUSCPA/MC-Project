@@ -15,6 +15,7 @@ import InstallPrompt from './pwa/InstallPrompt';
 const AllProducts = lazy(() => import('./ec/pages/AllProducts'));
 const Kits = lazy(() => import('./ec/pages/KitsNew'));
 const CloverTools = lazy(() => import('./ec/pages/CloverTools'));
+const CloverProductDetail = lazy(() => import('./ec/pages/CloverProductDetail'));
 const InfluencerCollab = lazy(() => import('./ec/pages/InfluencerCollab'));
 const Subscription = lazy(() => import('./ec/pages/Subscription'));
 const Success = lazy(() => import('./ec/pages/Success'));
@@ -55,6 +56,7 @@ const AppLayout: React.FC = () => {
         <Route path="/all-products" element={<AllProducts />} />
         <Route path="/kits" element={<Kits />} />
         <Route path="/tools" element={<CloverTools />} />
+        <Route path="/clover/:productNumber" element={<CloverProductDetail />} />
         <Route path="/influencer_subscription" element={<InfluencerCollab />} />
         <Route path="/subscription" element={<Subscription />} />
         <Route path="/gallery/*" element={<GalleryApp />} />

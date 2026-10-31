@@ -1353,3 +1353,7 @@
 .product-add-cart:hover {
   opacity: 0.9;
 }
+
+/* クロバーの道具 → 商品詳細ページ（/clover/<品番>） */
+.product-name a { color: inherit; text-decoration: none; }
+.product-name a:hover { color: #e17055; text-decoration: underline; }

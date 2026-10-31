@@ -42,7 +42,14 @@ async function fetchCloverRecipes() {
   }
 }
 
-exports.handler = async () => {
+// ?product=<品番> のときは、その商品だけを全レシピ付きで返す（商品詳細ページ /clover/<品番> 用）
+const PRODUCT_NUMBER = /^[0-9A-Za-z-]{1,20}$/;
+
+exports.handler = async (event) => {
+  const productNumber = event && event.queryStringParameters && event.queryStringParameters.product;
+  if (productNumber !== undefined && !PRODUCT_NUMBER.test(productNumber)) {
+    return json(400, { error: '品番が正しくありません' }, { 'Cache-Control': 'no-store' });
+  }
   try {
     const recipes = await fetchCloverRecipes();
     const byUrl = new Map(CLOVER_PRODUCTS.map((p) => [normalizeUrl(p.productUrl), { ...p, image: '', recipes: [] }]));
@@ -58,6 +65,11 @@ exports.handler = async () => {
         }
         if (!p.recipes.some((r) => r.id === id)) p.recipes.push({ id, title: String(data.title || '').slice(0, 80) });
       });
+    }
+    if (productNumber) {
+      const p = [...byUrl.values()].find((x) => x.productNumber === productNumber);
+      if (!p) return json(404, { error: '取り扱いのない商品です' }, cacheHeaders({ browser: 300, cdn: 3600 }));
+      return json(200, { product: { ...p, recipeCount: p.recipes.length }, generatedAt: new Date().toISOString() }, cacheHeaders({ browser: 300, cdn: 21600 }));
     }
     // 多くのレシピで使われている順
     const products = [...byUrl.values()]
