@@ -576,16 +576,11 @@ const GalleryDetail: React.FC = () => {
                           <div className="product-actions">
                             {(() => {
                               const cp = findCloverProduct(product.productUrl);
-                              // うちの価格表に無い商品だけ、従来どおりクロバーの商品ページへ
+                              // うちの価格表に無い商品: クロバー公式への外部リンクは出さない（他サイトの商品のみリンク）
                               if (!cp) {
-                                return product.productUrl ? (
-                                  <a
-                                    href={product.productUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="product-link"
-                                  >
-                                    クロバーの商品ページを見る ↗
+                                return product.productUrl && !/clover\.co\.jp/.test(product.productUrl) ? (
+                                  <a href={product.productUrl} target="_blank" rel="noopener noreferrer" className="product-link">
+                                    商品ページを見る ↗
                                   </a>
                                 ) : null;
                               }

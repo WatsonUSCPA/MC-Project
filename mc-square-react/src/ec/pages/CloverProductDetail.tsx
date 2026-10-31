@@ -130,9 +130,6 @@ const CloverProductDetail: React.FC = () => {
           {detail?.notes?.length ? (
             <ul className="cd-notes">{detail.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
           ) : null}
-          <a className="cd-source" href={product.productUrl} target="_blank" rel="noopener noreferrer">
-            クロバーの商品ページを見る ↗
-          </a>
         </div>
       </div>
 
