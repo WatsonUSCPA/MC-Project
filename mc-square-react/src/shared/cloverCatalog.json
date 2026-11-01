@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-01T03:59:25.336Z",
- "source": "local",
- "recipeCount": 424,
+ "generatedAt": "2026-11-01T07:23:53.040Z",
+ "source": "firestore",
+ "recipeCount": 444,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -15,8 +15,16 @@
      "title": "型紙なしで作れる！チュニック（子ども）"
     },
     {
+     "id": "ARjpxjJYLyYWHC7g1CTz",
+     "title": "かぼちゃの衣装（子ども用）"
+    },
+    {
      "id": "bIipeEad8EIJMHDe0s9u",
      "title": "みんなの帽子 〜キャップ・クロッシェ・カンカン帽〜 サイズ54・58・62cm"
+    },
+    {
+     "id": "CUy9zdtHpJR8FdUJU94t",
+     "title": "上ばき袋（シューズケース）入園入学"
     },
     {
      "id": "dNVUSq9mPnFcKjb26kUg",
@@ -51,8 +59,16 @@
      "title": "型紙なしで作れる！パンツ（子ども）"
     },
     {
+     "id": "VPhQmdeiHclSNJld1ZZQ",
+     "title": "体操着袋（ナップサック）入園入学"
+    },
+    {
      "id": "WYBASjnUsButowGykWSh",
      "title": "型紙なしで作れる！タックスカート（大人）"
+    },
+    {
+     "id": "XjtPbHgVFltIUBj0CesI",
+     "title": "お弁当袋（入園入学）"
     },
     {
      "id": "zGS6x91Nmsg6dnN0aVCD",
@@ -516,6 +532,10 @@
      "title": "手縫いの小物 フリル巾着"
     },
     {
+     "id": "KgPiwvmQWWzfKRKYeBI3",
+     "title": "手縫いで手ぬぐいリメイク　あずま袋"
+    },
+    {
      "id": "OkBFHLZorcdrcRVKdkwy",
      "title": "手縫いで手ぬぐいリメイク 2枚仕立ての巾着袋"
     },
@@ -753,6 +773,10 @@
      "title": "フリーステッチングニードルで作る オーバルフラワーブローチ"
     },
     {
+     "id": "qlOkadSnFW13PecXyTwz",
+     "title": "フリーステッチングニードルで作る　ハロウィンの刺しゅうフレーム／ブローチ"
+    },
+    {
      "id": "vROulIqYv0J3ZNrkmb3E",
      "title": "フリーステッチングニードルで作る 刺しゅうフレームの壁飾り＜フラワー＞"
     },
@@ -957,6 +981,10 @@
     {
      "id": "otXbOlfyTZQVEwOXpqD8",
      "title": "型紙なしソーイング キモノスリーブワンピース"
+    },
+    {
+     "id": "qnLrcRzqz7Mvh1naHAve",
+     "title": "ラティススモッキングで作るリボンのペンケース"
     }
    ]
   },
@@ -1162,6 +1190,10 @@
      "title": "はじめてのパッチワーク シューフライのクッション"
     },
     {
+     "id": "Eev27E1z2BiI5MT7DnhK",
+     "title": "はじめてのパッチワーク　ヤンキーパズルのクッション"
+    },
+    {
      "id": "fMkptJOfNTC3GcaLPf7p",
      "title": "はじめてのパッチワーク ワイルドギースのクッション"
     },
@@ -1364,6 +1396,10 @@
     {
      "id": "dgfv5AcfGZvvKYsLxjL8",
      "title": "スーパーポンポンメーカーとつまみ細工プレートで作る 花飾りのリース・S"
+    },
+    {
+     "id": "faJMafnYyZBzDsyFsDXU",
+     "title": "かぼちゃのバッグ【ハロウィン】"
     },
     {
      "id": "faVsFVz2tk8PaNsXhRcz",
@@ -1774,6 +1810,14 @@
      "title": "かんたんマスクケース"
     },
     {
+     "id": "QS9CE5sp7shyLhjzSxiB",
+     "title": "型紙なしで作れる！タックワンピース(大人)"
+    },
+    {
+     "id": "ucZvLr9D9il46aaNubGp",
+     "title": "巾着バッグ"
+    },
+    {
      "id": "uDl5ZTOFJyIAHnoOJcn1",
      "title": "猫のコスチューム フード付きマント"
     },
@@ -1900,7 +1944,12 @@
   },
   "36-395": {
    "image": "https://clover.co.jp/wp-content/uploads/2023/02/36395_01.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "Tulbno101iy0xtZ9wKLs",
+     "title": "はじめてのミシン　ファブリック コースター"
+    }
+   ]
   },
   "36-616": {
    "image": "https://clover.co.jp/wp-content/uploads/2026/06/36616_3_2026.jpg",
@@ -1936,6 +1985,10 @@
     {
      "id": "X3MZ6vzSUuZHh8l9oGzv",
      "title": "ミシンで作る浴衣に合うバッグ 巾着タイプ（大人・子ども）"
+    },
+    {
+     "id": "Y4XqAmPoJCD3dGuIvxbY",
+     "title": "肩にかけられる　マチ付き大人のお稽古バッグ(A3Wサイズ)"
     }
    ]
   },
@@ -1943,12 +1996,24 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/39321_01.jpg",
    "recipes": [
     {
+     "id": "jfnHSezY4qFR4NuIydsM",
+     "title": "ハロウィンを楽しむ　フード付きギザギザマント"
+    },
+    {
      "id": "Mo7EgSw4xpvs8l3ysFaU",
      "title": "かんたん型紙で作る ロールカラーのAラインジャンパースカート"
     },
     {
      "id": "my1HNSXzUMuR4K2nwkm8",
      "title": "かんたん型紙で作る Vネックタックスカートのジャンパースカート"
+    },
+    {
+     "id": "s1g3hDhTO0oAmev5pQjQ",
+     "title": "ハロウィンを楽しむ　魔法使いの帽子"
+    },
+    {
+     "id": "SU1eEx0D2PhCdXGMCDNH",
+     "title": "らくちんパンツ ストレートパンツ"
     }
    ]
   },
@@ -2582,6 +2647,10 @@
     {
      "id": "X9bpptuwV2Fhz4HbcDzD",
      "title": "オーバルニットルームで作る ニワトリとヒヨコのあみぐるみ"
+    },
+    {
+     "id": "xr5AAFoLGDuzlLTD5zzu",
+     "title": "オーバルニットルームで作る　ハロウィンのあみぐるみ"
     }
    ]
   },
@@ -2630,7 +2699,12 @@
   },
   "58-444": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/58444.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "D8J1xn2t5ef2k2T8p8zW",
+     "title": "ワンちゃんゆかたMサイズ 作り方（小型犬用）"
+    }
+   ]
   },
   "58-460": {
    "image": "https://clover.co.jp/wp-content/uploads/2026/06/58460_01_2026.jpg",
