@@ -6402,6 +6402,35 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "57-818": {
+  "productNumber": "57-818",
+  "sourceUrl": "https://clover.co.jp/products/57818",
+  "title": "ヘアピンレース編み器(クリップ式)",
+  "category": [
+   "あみもの",
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57818.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57818_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57818_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57818_03.jpg"
+  ],
+  "catchCopy": "こま編みだけでレースの長い編み地(ブレード)が作れます。",
+  "description": "マフラー・チョーカー・ストールなどが簡単に編めます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "クリップ2個・ピン3本入"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "150×220×15mm"
+   }
+  ],
+  "fetchedAt": "2026-11-01"
+ },
  "57-820": {
   "productNumber": "57-820",
   "sourceUrl": "https://clover.co.jp/products/57820",
