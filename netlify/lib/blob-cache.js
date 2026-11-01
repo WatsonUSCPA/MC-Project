@@ -2,16 +2,19 @@
 // - CDN キャッシュはデプロイのたびに消えるが、Blobs（サイト共通のストア）はデプロイをまたいで残る
 // - Firestore が上限（429）などで読めないときも、保存済みのデータを返してサイトを止めない
 // - Blobs が使えない環境（ローカル等）では null を返し、呼び出し側はそのまま Firestore を読む
+// 注意: @netlify/blobs は netlify/functions/package.json にしか無く、このファイル（netlify/lib）からは解決できない。
+// そのため各関数側で require したモジュールを openStore(event, blobsModule) に渡す。
 let blobs = null;
-try { blobs = require('@netlify/blobs'); } catch (e) { console.warn('@netlify/blobs not available; no persistent cache'); }
+try { blobs = require('@netlify/blobs'); } catch (e) { /* 関数側から渡される */ }
 
 const STORE_NAME = 'ck-firestore-cache';
 
-function openStore(event) {
-  if (!blobs) return null;
+function openStore(event, blobsModule) {
+  const mod = blobsModule || blobs;
+  if (!mod) { console.warn('@netlify/blobs not available; no persistent cache'); return null; }
   try {
-    if (event && event.blobs) blobs.connectLambda(event); // Lambda 互換（exports.handler）関数での接続
-    return blobs.getStore(STORE_NAME);
+    if (event && event.blobs) mod.connectLambda(event); // Lambda 互換（exports.handler）関数での接続
+    return mod.getStore(STORE_NAME);
   } catch (e) {
     console.warn('blob store unavailable:', e.message);
     return null;

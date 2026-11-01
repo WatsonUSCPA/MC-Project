@@ -3,6 +3,8 @@ const { getWithFields } = require('../lib/firestore-rest');
 const { getRecipeSource } = require('../lib/partners');
 const { cacheHeaders, json } = require('../lib/http');
 const { openStore, getJSON, setJSON } = require('../lib/blob-cache');
+let netlifyBlobs = null;
+try { netlifyBlobs = require('@netlify/blobs'); } catch (e) { console.warn('@netlify/blobs not available'); }
 
 // レシピは作成のみで中身はほぼ変わらないので、Netlify Blobs に2日保存（デプロイをまたいで残る）。
 // その間は Firestore を読まない。Firestore が読めない（429 など）ときは古い保存分を返す
@@ -51,7 +53,7 @@ async function load(id) {
 exports.handler = async (event) => {
   const id = String((event.queryStringParameters || {}).id || '');
   if (!/^[A-Za-z0-9_-]{1,128}$/.test(id)) return json(404, { error: 'not found' }, cacheHeaders({ browser: 300, cdn: 3600 }));
-  const store = openStore(event);
+  const store = openStore(event, netlifyBlobs);
   const cached = await getJSON(store, blobKey(id));
   const ok = (body, mode) => json(200, body, { ...cacheHeaders({ browser: 300, cdn: 86400, swr: 7 * 86400 }), 'X-CK-Cache': mode });
   if (cached && cached.body && Date.now() - (cached.savedAt || 0) < BLOB_TTL_MS) return ok(cached.body, 'blob');

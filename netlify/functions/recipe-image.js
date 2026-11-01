@@ -3,6 +3,8 @@
 const { getWithFields } = require('../lib/firestore-rest');
 const { cacheHeaders } = require('../lib/http');
 const { openStore, getBinary, setBinary, getText, setText } = require('../lib/blob-cache');
+let netlifyBlobs = null;
+try { netlifyBlobs = require('@netlify/blobs'); } catch (e) { console.warn('@netlify/blobs not available'); }
 
 // Firestore の読み取りを減らすため、Netlify Blobs に保存（デプロイでCDNキャッシュが消えても残る）
 // - 縮小済み画像（幅ごと）と、元画像（base64 / https のURL）の両方を保存
@@ -35,7 +37,7 @@ exports.handler = async (event) => {
   if (!COLLECTIONS[c]) return { statusCode: 400, body: 'bad collection' };
   if (!/^[A-Za-z0-9_-]{1,128}$/.test(String(q.id || ''))) return { statusCode: 404, body: 'not found' };
   const longCache = q.v ? cacheHeaders({ immutable: true }) : cacheHeaders({ browser: 86400, cdn: 86400 });
-  const store = openStore(event);
+  const store = openStore(event, netlifyBlobs);
   try {
     const hit = await getBinary(store, outKey(c, q.id, f, q.v, w));
     if (hit && hit.buf.length) {
