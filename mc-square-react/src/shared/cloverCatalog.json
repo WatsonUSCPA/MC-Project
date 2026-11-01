@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-01T07:23:53.040Z",
+ "generatedAt": "2026-11-01T17:01:22.897Z",
  "source": "firestore",
- "recipeCount": 444,
+ "recipeCount": 454,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -61,6 +61,10 @@
     {
      "id": "VPhQmdeiHclSNJld1ZZQ",
      "title": "体操着袋（ナップサック）入園入学"
+    },
+    {
+     "id": "wdoelzeUHljxjDBSJfm9",
+     "title": "かんたん、ミシンソーイング あずま袋風エコバッグ"
     },
     {
      "id": "WYBASjnUsButowGykWSh",
@@ -151,6 +155,10 @@
     {
      "id": "nPDBh0VNYrqf488SR8mH",
      "title": "かぎ針編みのフラワー＜ガーベラ＞"
+    },
+    {
+     "id": "PRpk4uja7bCqhkNsG56n",
+     "title": "クロバーかぎ針で編む あみぐるみの天使"
     },
     {
      "id": "Yb58pn0TA9Le7lRKm7Va",
@@ -509,6 +517,10 @@
     {
      "id": "CAuP76nOZ32OrJrjFMTy",
      "title": "つまみ細工プレートで作る ハレの日のヘアアクセサリー＜桃色＞"
+    },
+    {
+     "id": "IQbfoaOTJhB5FnjCU5qF",
+     "title": "つまみ細工プレートで作る リネンのコサージュとイヤリング"
     }
    ]
   },
@@ -844,6 +856,10 @@
   "58-601": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/58601.jpg",
    "recipes": [
+    {
+     "id": "eCrR9NmZWppS9xpPcIpZ",
+     "title": "フェルトパンチャーで作る アリスの指人形"
+    },
     {
      "id": "Kk5GQCZZ5tbr9FbVxTrQ",
      "title": "フェルトパンチャーで作る 羊毛刺しゅうのお花ブローチ"
@@ -1831,6 +1847,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/24413_02.jpg",
    "recipes": [
     {
+     "id": "4rod8NuKAka8uM3H5h3z",
+     "title": "猫の首飾り セーラーカラー"
+    },
+    {
      "id": "RyXzgvuy2uzDGElu3ETQ",
      "title": "猫用ベスト チョッキタイプ・チュチュタイプ"
     }
@@ -1851,6 +1871,10 @@
   "24-429": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/24429_01.jpg",
    "recipes": [
+    {
+     "id": "L33dJUzygfatCUvvnerH",
+     "title": "手縫いでちくちく まっすぐ縫いのネッククーラー"
+    },
     {
      "id": "XBzNyvndGGgb7c14hv5L",
      "title": "手ぬいでちくちく つけ衿風ネッククーラー"
@@ -2289,7 +2313,12 @@
   },
   "57-228": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57228_01.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "MSD3Crqnfh8RZf8xUsCY",
+     "title": "くるみボタンでつくる ビーズ刺しゅうのブローチ"
+    }
+   ]
   },
   "57-238": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57238_01.jpg",
@@ -2406,7 +2435,12 @@
   },
   "57-567": {
    "image": "https://clover.co.jp/wp-content/uploads/2026/06/57567_01_2026.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "zRABepyj4IWMP366MbZo",
+     "title": "リュネビル刺しゅうのアクセサリー（ピアス・ブローチ）"
+    }
+   ]
   },
   "57-568": {
    "image": "https://clover.co.jp/wp-content/uploads/2026/06/57568_01_2026.jpg",
@@ -2791,6 +2825,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2020/10/68039_01.jpg",
    "recipes": [
     {
+     "id": "n3y5FF3L4vVx4MWIDeYJ",
+     "title": "手縫いでつくれるペットボトルケース"
+    },
+    {
      "id": "ywzXfcyDrwgL4p5Vb8H9",
      "title": "猫のコスチューム 法被"
     }
@@ -2819,6 +2857,15 @@
     {
      "id": "x9gtzARZraBLDGWpie4j",
      "title": "ダーニングマッシュルームを使って作るブローチ／ヘアゴム"
+    }
+   ]
+  },
+  "57-818": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/05/57818.jpg",
+   "recipes": [
+    {
+     "id": "CtNm3hrc8GtA4BZhUYbE",
+     "title": "ヘアピンレースのブレスレット"
     }
    ]
   }
