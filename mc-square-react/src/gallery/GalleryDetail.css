@@ -1366,14 +1366,3 @@
   word-break: break-all;
 }
 
-/* クロバー公式の作り方への控えめな補助リンク */
-.recipe-howto-secondary {
-  margin: 4px 0 16px;
-  font-size: 0.85rem;
-  color: #636E72;
-}
-.recipe-howto-secondary a {
-  color: #636E72;
-  text-decoration: underline;
-  word-break: break-all;
-}

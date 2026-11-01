@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { recordRecipeView, fetchRecipeDetail, fetchCatalog, kitsForRecipe, fabricPicksForRecipe, thumbUrl, CatalogKit, CatalogProduct } from '../shared/recipesApi';
 import { useCart } from '../ec/context/CartContext';
 import cloverProducts from '../shared/cloverProducts.json';
+import cloverRecipePdfs from '../shared/cloverRecipePdfs.json';
 
 import RecipeStrip from '../shared/components/RecipeStrip';
 import './GalleryDetail.css';
@@ -13,6 +14,12 @@ const cloverByUrl = new Map(
   (cloverProducts as { id: string; productNumber: string; name: string; price: number; productUrl: string }[]).map((p) => [p.productUrl.replace(/\/$/, ''), p])
 );
 const findCloverProduct = (url?: string) => (url ? cloverByUrl.get(url.trim().replace(/\/$/, '').replace('://www.', '://')) : undefined);
+
+// クロバーのレシピ slug（clover.co.jp/recipe/<slug>）→ 作り方PDF（scripts/fetch-clover-pdfs.js で更新）
+const cloverPdfsFor = (url?: string | null): { label: string; url: string }[] => {
+  const m = String(url || '').match(/clover\.co\.jp\/recipe\/([^/?#\s]+)/);
+  return (m && (cloverRecipePdfs as Record<string, { label: string; url: string }[]>)[decodeURIComponent(m[1])]) || [];
+};
 
 // テキスト中の URL をクリックできるリンクにする
 const URL_RE = /(https?:\/\/[^\s<>"'）」』]+)/g;
@@ -493,11 +500,25 @@ const GalleryDetail: React.FC = () => {
               const text = recipe.websiteExplanation.trim();
               // URL だけが入っている場合（パートナーの作り方ページ等）は、読みやすいラベル付きリンクにする
               if (/^https?:\/\/\S+$/.test(text) && source?.partnerId === 'clover') {
-                // クロバーのレシピ：手順は転載せず、控えめな補助リンクだけ出す（メインの導線はうちの商品）
+                // クロバーのレシピ：作り方PDFがあれば PDF へ直接リンク（なければレシピページへ）
+                const pdfs = cloverPdfsFor(text).length ? cloverPdfsFor(text) : cloverPdfsFor(source?.url);
                 return (
-                  <p className="recipe-howto-secondary">
-                    <a href={text} target="_blank" rel="noopener noreferrer">作り方はクロバー公式で見る ↗</a>
-                  </p>
+                  <div className="recipe-explanation">
+                    <h3>📖 作り方の詳細</h3>
+                    {pdfs.length ? pdfs.map((p) => (
+                      <p key={p.url}>
+                        <a href={p.url} target="_blank" rel="noopener noreferrer" className="recipe-explanation-link">
+                          作り方PDFを見る{pdfs.length > 1 && p.label ? `（${p.label}）` : ''} ↗
+                        </a>
+                      </p>
+                    )) : (
+                      <p>
+                        <a href={text} target="_blank" rel="noopener noreferrer" className="recipe-explanation-link">
+                          {linkLabelFor(text, source)} ↗
+                        </a>
+                      </p>
+                    )}
+                  </div>
                 );
               }
               if (/^https?:\/\/\S+$/.test(text)) {
