@@ -10,7 +10,7 @@ import './CloverTools.css';
 // - 品番・商品名・税込価格: 価格表（cloverProducts.json）
 // - 写真・説明・仕様: clover.co.jp から取得した cloverProductDetails.json（scripts/fetch-clover-details.js で更新）
 //   詳細がまだない商品は、価格表の情報だけで表示する
-// - この道具を使うレシピ: /api/clover-catalog?product=<品番>（Firestore のレシピの affiliateProducts.productUrl で照合）
+// - この道具を使うレシピ: cloverCatalog.json（scripts/build-clover-catalog.js で事前生成。表示時に Firestore は読まない）
 
 interface PriceListItem { id: string; productNumber: string; name: string; price: number; productUrl: string; }
 interface CloverDetail {

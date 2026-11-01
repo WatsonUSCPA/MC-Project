@@ -165,11 +165,37 @@ export interface CloverCatalogProduct {
   id: string; productNumber: string; name: string; price: number; productUrl: string;
   image: string; recipes: { id: string; title: string }[]; recipeCount: number;
 }
-export const fetchCloverCatalog = () =>
-  cachedFetch<{ products: CloverCatalogProduct[] }>('ck:clover-catalog:v1', `${API}/clover-catalog`);
+// 商品名・価格は価格表（cloverProducts.json）、写真と「使われているレシピ」は
+// scripts/build-clover-catalog.js で事前に作った cloverCatalog.json から読む（ページ表示で Firestore を読まない）
+const MAX_RECIPES_PER_PRODUCT = 3;
+interface CloverCatalogFile { products: Record<string, { image: string; recipes: { id: string; title: string }[] }> }
+let cloverAll: Promise<CloverCatalogProduct[]> | null = null;
+function loadCloverProducts(): Promise<CloverCatalogProduct[]> {
+  if (!cloverAll) {
+    cloverAll = Promise.all([import('./cloverProducts.json'), import('./cloverCatalog.json')]).then(([pl, cat]) => {
+      const list = ((pl as any).default ?? pl) as Omit<CloverCatalogProduct, 'image' | 'recipes' | 'recipeCount'>[];
+      const extra = (((cat as any).default ?? cat) as CloverCatalogFile).products || {};
+      return list.map((p) => {
+        const e = extra[p.productNumber];
+        const recipes = e?.recipes || [];
+        return { ...p, image: e?.image || '', recipes, recipeCount: recipes.length };
+      });
+    });
+    cloverAll.catch(() => { cloverAll = null; });
+  }
+  return cloverAll;
+}
+/** 道具ページ用：よく使われている順。レシピは各商品3件まで */
+export const fetchCloverCatalog = (): Promise<{ products: CloverCatalogProduct[] }> =>
+  loadCloverProducts().then((all) => ({
+    products: all
+      .map((p) => ({ ...p, recipes: p.recipes.slice(0, MAX_RECIPES_PER_PRODUCT) }))
+      .sort((a, b) => b.recipeCount - a.recipeCount || a.productNumber.localeCompare(b.productNumber)),
+  }));
 /** 1商品と、その商品を使う全レシピ（商品詳細ページ /clover/<品番> 用） */
-export const fetchCloverProduct = (productNumber: string) =>
-  cachedFetch<{ product: CloverCatalogProduct }>(
-    `ck:clover-product:v1:${productNumber}`,
-    `${API}/clover-catalog?product=${encodeURIComponent(productNumber)}`,
-  );
+export const fetchCloverProduct = (productNumber: string): Promise<{ product: CloverCatalogProduct }> =>
+  loadCloverProducts().then((all) => {
+    const product = all.find((p) => p.productNumber === productNumber);
+    if (!product) throw new Error('取り扱いのない商品です');
+    return { product };
+  });
