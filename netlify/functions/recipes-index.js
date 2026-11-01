@@ -58,7 +58,7 @@ exports.handler = async () => {
         image: imageUrl('recipes', id, 'main', updateTime, 960),
       });
     }
-    return json(200, { recipes, keywords, situations, generatedAt: new Date().toISOString() }, cacheHeaders({ browser: 60, cdn: 600 }));
+    return json(200, { recipes, keywords, situations, generatedAt: new Date().toISOString() }, cacheHeaders({ browser: 60, cdn: 3600 }));
   } catch (e) {
     console.error('recipes-index error:', e.message);
     return json(502, { error: 'レシピ一覧の取得に失敗しました' }, { 'Cache-Control': 'no-store' });
