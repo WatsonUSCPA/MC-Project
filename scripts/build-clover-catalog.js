@@ -42,7 +42,7 @@ async function fromFirestore() {
   if (!res.ok) throw new Error(`Firestore ${res.status}（429 なら無料枠の上限。太平洋時間0時のリセット後に再実行するか --local を使う）`);
   return (await res.json())
     .filter((r) => r.document)
-    .map((r) => ({ id: r.document.name.split('/').pop(), version: r.document.updateTime, data: decodeFields(r.document.fields) }))
+    .map((r) => ({ id: r.document.name.split('/').pop(), version: r.document.createTime || r.document.updateTime, data: decodeFields(r.document.fields) }))
     .filter((r) => { const s = getRecipeSource(r.data); return s && s.partnerId === 'clover'; });
 }
 

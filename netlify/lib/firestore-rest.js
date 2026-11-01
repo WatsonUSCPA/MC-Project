@@ -10,7 +10,11 @@ async function fetchJson(url, options = {}) {
   try {
     const res = await fetch(url, { ...options, signal: controller.signal });
     if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Firestore ${res.status}`);
+    if (!res.ok) {
+      const err = new Error(`Firestore ${res.status}`);
+      err.status = res.status; // 429 = 無料枠（1日5万回の読み取り）の上限
+      throw err;
+    }
     return await res.json();
   } finally {
     clearTimeout(timer);
@@ -38,11 +42,13 @@ function decodeFields(fields) {
 const docId = (name) => String(name || '').split('/').pop();
 
 // コレクション全体を、指定フィールドだけで取得
-async function listWithFields(collection, fields) {
+// where を渡すと条件付き（例: { fieldFilter: {...} }）。読み取り回数 = 返ってきたドキュメント数（0件でも1回）
+async function listWithFields(collection, fields, where) {
   const body = {
     structuredQuery: {
       from: [{ collectionId: collection }],
       select: { fields: fields.map((f) => ({ fieldPath: f })) },
+      ...(where ? { where } : {}),
     },
   };
   const rows = await fetchJson(`${BASE}:runQuery`, {
@@ -52,7 +58,12 @@ async function listWithFields(collection, fields) {
   });
   return (rows || [])
     .filter((r) => r.document)
-    .map((r) => ({ id: docId(r.document.name), updateTime: r.document.updateTime, data: decodeFields(r.document.fields) }));
+    .map((r) => ({
+      id: docId(r.document.name),
+      createTime: r.document.createTime,
+      updateTime: r.document.updateTime,
+      data: decodeFields(r.document.fields),
+    }));
 }
 
 // 1件を指定フィールドだけで取得（fields を省略すると全フィールド）
@@ -61,7 +72,7 @@ async function getWithFields(collection, id, fields) {
   const qs = (fields || []).map((f) => `mask.fieldPaths=${encodeURIComponent(f)}`).join('&');
   const doc = await fetchJson(`${BASE}/${collection}/${encodeURIComponent(id)}${qs ? `?${qs}` : ''}`);
   if (!doc) return null;
-  return { id: docId(doc.name), updateTime: doc.updateTime, data: decodeFields(doc.fields) };
+  return { id: docId(doc.name), createTime: doc.createTime, updateTime: doc.updateTime, data: decodeFields(doc.fields) };
 }
 
 module.exports = { listWithFields, getWithFields, decodeFields };
