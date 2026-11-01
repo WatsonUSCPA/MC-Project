@@ -10,6 +10,8 @@ const { listWithFields } = require('../lib/firestore-rest');
 const { getRecipeSource } = require('../lib/partners');
 const { cacheHeaders, json } = require('../lib/http');
 const { openStore, getJSON, setJSON } = require('../lib/blob-cache');
+let netlifyBlobs = null;
+try { netlifyBlobs = require('@netlify/blobs'); } catch (e) { console.warn('@netlify/blobs not available'); }
 
 const RECIPE_FIELDS = ['title', 'authorId', 'authorSNS', 'source', 'difficulty', 'cookingTime', 'likes', 'views',
   'createdAt', 'youtubePublishedAt', 'description', 'tags', 'youtubeUrl', 'pdfUrl', 'ingredients',
@@ -94,7 +96,7 @@ const publicBody = ({ recipes, keywords, situations, generatedAt }) => ({ recipe
 
 exports.handler = async (event) => {
   const now = Date.now();
-  const store = openStore(event);
+  const store = openStore(event, netlifyBlobs);
   const snap = await getJSON(store, BLOB_KEY);
   const hasSnap = !!(snap && Array.isArray(snap.recipes));
   let mode = 'blob';
