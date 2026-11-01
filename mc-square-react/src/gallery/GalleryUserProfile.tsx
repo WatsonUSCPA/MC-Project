@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, getDoc, collection, query, where, getDocs, limit, startAfter } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, limit, startAfter, getCountFromServer } from 'firebase/firestore';
 import { db } from '../firebase';
 import './GalleryUserProfile.css';
 
@@ -89,8 +89,9 @@ const GalleryUserProfile: React.FC = () => {
             collection(db, 'recipes'),
             where('authorId', '==', userId)
           );
-          const totalRecipesSnap = await getDocs(totalRecipesQuery);
-          const actualTotalRecipes = totalRecipesSnap.size;
+          // 件数だけ数える（全件を読まない。集計クエリは1,000件ごとに読み取り1回）
+          const totalRecipesSnap = await getCountFromServer(totalRecipesQuery);
+          const actualTotalRecipes = totalRecipesSnap.data().count;
           console.log('Total recipes count:', actualTotalRecipes);
           
           // ユーザーの投稿レシピの総いいね数を計算
@@ -162,8 +163,9 @@ const GalleryUserProfile: React.FC = () => {
             collection(db, 'recipes'),
             where('authorId', '==', userId)
           );
-          const totalRecipesSnap = await getDocs(totalRecipesQuery);
-          const actualTotalRecipes = totalRecipesSnap.size;
+          // 件数だけ数える（全件を読まない。集計クエリは1,000件ごとに読み取り1回）
+          const totalRecipesSnap = await getCountFromServer(totalRecipesQuery);
+          const actualTotalRecipes = totalRecipesSnap.data().count;
           console.log('Total recipes count from recipes collection:', actualTotalRecipes);
           
           let totalLikes = 0;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getAuth, User } from 'firebase/auth';
-import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, addDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { app } from '../firebase';
 import './CommentSection.css';
 
@@ -34,35 +34,36 @@ const CommentSection: React.FC<CommentSectionProps> = ({ recipeId }) => {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
+  // このレシピのコメントだけを1回読む（旧実装は comments コレクション全体をリアルタイム購読して
+  // 画面側で絞り込んでいたため、開くたびに全コメント数ぶんの読み取りが発生していた）
+  // orderBy を付けると複合インデックスが必要になるので、並べ替えは画面側で行う
+  const toMillis = (t: any) => (t?.toMillis ? t.toMillis() : t ? new Date(t).getTime() || 0 : 0);
+  const loadComments = useCallback(async () => {
     if (!recipeId) return;
-
-    const db = getFirestore(app);
-    const commentsQuery = query(
-      collection(db, 'comments'),
-      orderBy('createdAt', 'desc')
-    );
-
-    const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
-      const commentsData: Comment[] = [];
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        if (data.recipeId === recipeId) {
-          commentsData.push({
-            id: doc.id,
-            text: data.text,
-            userName: data.userName,
-            userId: data.userId,
-            createdAt: data.createdAt,
-            userPhotoURL: data.userPhotoURL
-          });
-        }
+    try {
+      const db = getFirestore(app);
+      const snapshot = await getDocs(query(collection(db, 'comments'), where('recipeId', '==', recipeId)));
+      const commentsData: Comment[] = snapshot.docs.map((d) => {
+        const data = d.data();
+        return {
+          id: d.id,
+          text: data.text,
+          userName: data.userName,
+          userId: data.userId,
+          createdAt: data.createdAt,
+          userPhotoURL: data.userPhotoURL
+        };
       });
+      commentsData.sort((x, y) => toMillis(y.createdAt) - toMillis(x.createdAt));
       setComments(commentsData);
-    });
-
-    return () => unsubscribe();
+    } catch (error) {
+      console.error('コメントの読み込みに失敗しました:', error);
+    }
   }, [recipeId]);
+
+  useEffect(() => {
+    loadComments();
+  }, [loadComments]);
 
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,6 +97,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ recipeId }) => {
       });
 
       setNewComment('');
+      await loadComments();
     } catch (error) {
       console.error('コメントの投稿に失敗しました:', error);
       alert('コメントの投稿に失敗しました');
@@ -112,6 +114,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ recipeId }) => {
     try {
       const db = getFirestore(app);
       await deleteDoc(doc(db, 'comments', commentId));
+      setComments((prev) => prev.filter((c) => c.id !== commentId));
     } catch (error) {
       console.error('コメントの削除に失敗しました:', error);
       alert('コメントの削除に失敗しました');

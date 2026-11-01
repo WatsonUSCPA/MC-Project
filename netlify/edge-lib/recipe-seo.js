@@ -86,6 +86,30 @@ export function toRecipe(doc) {
   };
 }
 
+// recipe-detail 関数（Netlify Blobs＋CDNでキャッシュ済み）の JSON → ページに出す情報。
+// Edge Function から Firestore を直接読まないようにするため（読み取り回数の削減）
+export function toRecipeFromDetail(d) {
+  if (!d || !d.id || !d.title) return null;
+  const partner = PARTNERS.find((p) => p.id === d.partnerId);
+  if (!partner) return null;
+  const allow = partner.allowInstructions === true;
+  let v = '';
+  try { v = new URL(d.mainImageUrl || '', SITE_ORIGIN).searchParams.get('v') || ''; } catch { v = ''; }
+  const sourceUrl = isHttpsUrl(d.sourceUrl) ? d.sourceUrl : null;
+  return {
+    id: String(d.id),
+    title: String(d.title).trim(),
+    description: allow ? String(d.description || '').trim() : '',
+    ingredients: (Array.isArray(d.ingredients) ? d.ingredients : []).map((s) => String(s).trim()).filter(Boolean).slice(0, 40),
+    youtubeId: youtubeId(d.youtubeUrl) || youtubeId(sourceUrl),
+    sourceUrl,
+    partnerName: String(d.partnerName || partner.name),
+    createdAt: d.createdAt || null,
+    youtubePublishedAt: typeof d.youtubePublishedAt === 'string' ? d.youtubePublishedAt : null,
+    updateTime: v,
+  };
+}
+
 export function youtubeId(url) {
   if (!isHttpsUrl(url)) return null;
   try {
