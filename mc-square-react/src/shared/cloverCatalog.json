@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-01T17:01:22.897Z",
- "source": "firestore",
- "recipeCount": 454,
+ "generatedAt": "2026-11-02T17:03:50.258Z",
+ "source": "local",
+ "recipeCount": 464,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -41,6 +41,10 @@
     {
      "id": "FlIhK4YrExAn4UpSvYNv",
      "title": "型紙なしで作れる！キャミワンピ（子ども）"
+    },
+    {
+     "id": "IltABLAb3p06XlNsp1KP",
+     "title": "手作りワンちゃん服 フードベスト"
     },
     {
      "id": "liOO2gjumIfrrhecRqau",
@@ -598,6 +602,10 @@
      "title": "季節の刺し子 秋の図案／刺し子のポケットティッシュケース"
     },
     {
+     "id": "9uJzYo55c6oMQp2qBRWp",
+     "title": "柄布を使って作る刺し子 一目刺し「麻の葉」"
+    },
+    {
      "id": "AAKX44i8J6Ln1sE284cS",
      "title": "干支の刺し子ふきん 龍の雲"
     },
@@ -624,6 +632,10 @@
     {
      "id": "iPIRRlh2CiMRkjsPVLMd",
      "title": "ちくちく手縫い 少し大きめの刺し子のコースター"
+    },
+    {
+     "id": "iQ9Bt0OrcWY7IaOoM2HE",
+     "title": "季節の刺し子ふきん 七夕・朝顔・立涌"
     },
     {
      "id": "JtdNUF1lOZL6kOWOlLYS",
@@ -698,6 +710,10 @@
     {
      "id": "scVdkzwXcSb5VXXVe3Ud",
      "title": "タッセルメーカー＜スモール＞で作る サマーカラーのタッセルピアス・イヤリング"
+    },
+    {
+     "id": "v9BAIUWGXpFCPK947WGt",
+     "title": "タッセルメーカーで作るデコかご いろんなブルーのタッセルバッグ"
     }
    ]
   },
@@ -777,6 +793,10 @@
      "title": "フリーステッチングニードルで作る ふわふわお花ブローチ"
     },
     {
+     "id": "Ety2NFJXLaNhepzMsHzs",
+     "title": "フリーステッチングニードルで作る シロツメクサとクローバーのブローチ"
+    },
+    {
      "id": "FQQbycKjthNuXm9WcSYu",
      "title": "フリーステッチングで作るサマーカラーの刺しゅうフレーム"
     },
@@ -787,6 +807,10 @@
     {
      "id": "qlOkadSnFW13PecXyTwz",
      "title": "フリーステッチングニードルで作る　ハロウィンの刺しゅうフレーム／ブローチ"
+    },
+    {
+     "id": "qvNoLpD0NjW4IZp2gyEd",
+     "title": "フリーステッチングニードルで作る フラワーブローチ"
     },
     {
      "id": "vROulIqYv0J3ZNrkmb3E",
@@ -1372,6 +1396,10 @@
      "title": "ブレスレットメーカーで作る ビジューブレスレット2種"
     },
     {
+     "id": "jdb88rlfzw8tX03TlbB1",
+     "title": "ブレスレットメーカーで作る 左右タッチング結びのブレスレット"
+    },
+    {
      "id": "P1N7dy8c8nPQr7drFRX0",
      "title": "ブレスレットメーカーで作る かんたん子供ブレスレット"
     },
@@ -1511,6 +1539,10 @@
   "57-966": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57966.jpg",
    "recipes": [
+    {
+     "id": "GbqoECfdLla0Ca4Dj6Lz",
+     "title": "花あみルーム<ミニ>とタッセルメーカー<スモール>で作る 華やかイヤリング"
+    },
     {
      "id": "rPEAb6zvQerl87e2y4Vg",
      "title": "ひな祭りの手作り ちいさな、ちいさな、ひな人形"
@@ -2089,6 +2121,10 @@
     {
      "id": "cSlAffGB4qcegUwUWBp1",
      "title": "ハンドメイドでSDGs／古着リメイクの小物入れ"
+    },
+    {
+     "id": "RjdPotzNZpAqubushEmU",
+     "title": "かぎ針「アミュレ」で編む ネット編みのエコバッグ"
     }
    ]
   },
@@ -2819,7 +2855,12 @@
   },
   "58-797": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/58797.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "dfPq2smyoxn9bfG4FuoU",
+     "title": "ちくちくヨーヨープレートでデコするバッグ"
+    }
+   ]
   },
   "68-039": {
    "image": "https://clover.co.jp/wp-content/uploads/2020/10/68039_01.jpg",
