@@ -5,6 +5,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2019/04/nekopompom2019.pdf"
   }
  ],
+ "813": [
+  {
+   "label": "いろんなブルーのタッセルバッグ（200KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/05/decokago2019_07_tasselblue.pdf"
+  }
+ ],
  "815": [
   {
    "label": "ラフィアの花モチーフバッグ・丸（200KB）",
@@ -1399,6 +1405,18 @@
    "url": "https://clover.co.jp/wp-content/uploads/2023/03/FS_kakomiseizu.pdf"
   }
  ],
+ "fs_clover2021": [
+  {
+   "label": "シロツメクサとクローバーのブローチ（975KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/04/2021hobby_fs_clover.pdf"
+  }
+ ],
+ "fs_flower2021": [
+  {
+   "label": "フラワーブローチ（1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/04/2021hobby_fs_flower.pdf"
+  }
+ ],
  "fs_penguin": [
   {
    "label": "フリーステッチングニードルで作る あかちゃんペンギンのブローチ",
@@ -1514,6 +1532,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2025/05/hanaami_oshikatsu_rosette.pdf"
   }
  ],
+ "hanaami_tassel_earring": [
+  {
+   "label": "華やかイヤリング(1.5MB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/04/hanaami_tassel_earring.pdf"
+  }
+ ],
  "hexagon_glannypul": [
   {
    "label": "六角形に編む グラニー模様のVネックプルオーバー",
@@ -1530,6 +1554,16 @@
   {
    "label": "紙刺しゅうで作る おひなさまのポストカード(1MB)",
    "url": "https://clover.co.jp/wp-content/uploads/2024/01/recipe_hinafes_card.pdf"
+  }
+ ],
+ "hitomezashi_asanoha": [
+  {
+   "label": "一目刺しのコースター（麻の葉）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/hitomezashi_asanoha.pdf"
+  },
+  {
+   "label": "一目刺しのミニ巾着",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/hitomezashi_kintyaku.pdf"
   }
  ],
  "hitomezasi_kintyaku": [
@@ -1711,6 +1745,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2022/09/lace_ookiieri.pdf"
   }
  ],
+ "lesson_bracelet_b": [
+  {
+   "label": "左右タッチング結びのブレスレット（1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/04/lesson_bracelet_b.pdf"
+  }
+ ],
  "lilian_bear": [
   {
    "label": "ワンダーリリアンで作るテディベア風マスコット(619KB)",
@@ -1853,6 +1893,12 @@
   {
    "label": "ネコのマット(２MB)",
    "url": "https://clover.co.jp/wp-content/uploads/2020/11/punchneedle_cat.pdf"
+  }
+ ],
+ "net_ecobag": [
+  {
+   "label": "かぎ針「アミュレ」で編む ネット編みのエコバッグ",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/07/net_ecobag.pdf"
   }
  ],
  "nordicflowercoaster": [
@@ -2173,6 +2219,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_beads_acce_el.pdf"
   }
  ],
+ "post_438": [
+  {
+   "label": "ちくちくヨーヨープレートでデコするバッグ（2.2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2015mamayoyodekoecobag.pdf"
+  }
+ ],
  "post_471": [
   {
    "label": "ジャンボかぎ針「アミュレ」で編む スクエアバスケット（223KB）",
@@ -2183,6 +2235,24 @@
   {
    "label": "「咲きおり」で織る 透かし織りの夏ストール（403KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_sukashiori_sakiori.pdf"
+  }
+ ],
+ "post_573": [
+  {
+   "label": "お洋服を作る前にお読みください（253KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/foodbest_hajimeni_2020.pdf"
+  },
+  {
+   "label": "フードベスト作り方（167KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/foodbest_tukurikata_2020.pdf"
+  },
+  {
+   "label": "フードベスト型紙（71KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/foodbest_kata_2020.pdf"
+  },
+  {
+   "label": "手作りワンちゃん服づくりに必要な用具（205KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/foodbest_tool_2020.pdf"
   }
  ],
  "post_584": [
@@ -2557,6 +2627,20 @@
   {
    "label": "季節の刺し子ふきん カミナリ",
    "url": "https://clover.co.jp/wp-content/uploads/2021/07/sashiko_kaminari.pdf"
+  }
+ ],
+ "sashiko_tanabata_asagao_tatewaku": [
+  {
+   "label": "季節の刺し子ふきん 七夕",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/05/sashiko_tanabata.pdf"
+  },
+  {
+   "label": "季節の刺し子ふきん 朝顔",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/05/sashiko_asagao.pdf"
+  },
+  {
+   "label": "季節の刺し子ふきん 立涌",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/05/sashiko_tatewaku.pdf"
   }
  ],
  "sdgs_c_beret": [
