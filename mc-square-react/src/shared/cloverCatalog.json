@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-02T17:03:50.258Z",
+ "generatedAt": "2026-11-03T17:01:39.018Z",
  "source": "local",
- "recipeCount": 464,
+ "recipeCount": 474,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -384,6 +384,10 @@
      "title": "カード型ビーズ織り機で楽しむ推し活 ストラップ"
     },
     {
+     "id": "AAb7wyBVDcFMBfWWH5yM",
+     "title": "カード型ビーズ織り機で作る スクエアブローチ"
+    },
+    {
      "id": "feUdKmh1cfVdoOdKkEfg",
      "title": "カード型ビーズ織り機で楽しむ推し活 缶バッジチャーム"
     },
@@ -579,6 +583,10 @@
     {
      "id": "ExHckq7d9FRBnJ1HvJCx",
      "title": "フェルトで簡単！手縫いで作る 合格だるま・無事カエル・招き猫 のお守り マスコットにも！"
+    },
+    {
+     "id": "yALdwLKAGS8ADbcWDE8l",
+     "title": "猫刺繍図案"
     }
    ]
   },
@@ -811,6 +819,10 @@
     {
      "id": "qvNoLpD0NjW4IZp2gyEd",
      "title": "フリーステッチングニードルで作る フラワーブローチ"
+    },
+    {
+     "id": "TXd03OYBfb1xAwi3sMTt",
+     "title": "フリーステッチングでつくるイースターの刺しゅうフレーム"
     },
     {
      "id": "vROulIqYv0J3ZNrkmb3E",
@@ -1396,6 +1408,10 @@
      "title": "ブレスレットメーカーで作る ビジューブレスレット2種"
     },
     {
+     "id": "IbXL8Qk6XNskxUwadFx7",
+     "title": "ブレスレットメーカーで作る ねじり結びのブレスレット"
+    },
+    {
      "id": "jdb88rlfzw8tX03TlbB1",
      "title": "ブレスレットメーカーで作る 左右タッチング結びのブレスレット"
     },
@@ -1410,6 +1426,10 @@
     {
      "id": "vuhgxPlbh14f2zmSHMxT",
      "title": "ブレスレットメーカーで作る ねじり結びのシアーブレスレット"
+    },
+    {
+     "id": "Wo6MKISyTZDuA7Q0kRAS",
+     "title": "ブレスレットメーカーで作る おしゃれブレス6種"
     },
     {
      "id": "XL7OjGpfZRRhTZYf4zif",
@@ -1524,6 +1544,10 @@
     {
      "id": "s5XspagBjB3wDlgHVd9v",
      "title": "かぎ針編みのフラワー＜ダリア＞"
+    },
+    {
+     "id": "XmAgqYnMR2ZKaH7WxYv7",
+     "title": "かぎ針で編む パールボタンのつけ襟"
     }
    ]
   },
@@ -2318,6 +2342,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57007_01.jpg",
    "recipes": [
     {
+     "id": "KAP87qycZpMI0NaLzTXX",
+     "title": "紙刺しゅうで彩る メッセージカードの装飾図案"
+    },
+    {
      "id": "m8RejTAOqKSMODkHRDbT",
      "title": "手縫いで作ろう 応援のお守り"
     }
@@ -2622,7 +2650,12 @@
   },
   "57-820": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57820.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "YzVPXp19Y1zD2qDeX17l",
+     "title": "ビーズタティングのネックレス3種"
+    }
+   ]
   },
   "57-899": {
    "image": "https://clover.co.jp/wp-content/uploads/2023/03/57899_03.jpg",
@@ -2907,6 +2940,32 @@
     {
      "id": "CtNm3hrc8GtA4BZhUYbE",
      "title": "ヘアピンレースのブレスレット"
+    }
+   ]
+  },
+  "58-631": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/06/58631_01.jpg",
+   "recipes": [
+    {
+     "id": "8OJx5aygHbj9GUc1zIZ0",
+     "title": "クロバー ビーズ織り機で作る エレガントアクセサリー"
+    },
+    {
+     "id": "8z1sBoIjlzQHfetIouVB",
+     "title": "クロバー ビーズ織り機で作る ビーズのお針子セット"
+    },
+    {
+     "id": "nICNNUfhLMlZo0sbMIK3",
+     "title": "クロバー ビーズ織り機で作る ウォーターカラーのブレスレット"
+    }
+   ]
+  },
+  "22-734": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/04/22734_01.jpg",
+   "recipes": [
+    {
+     "id": "yWkcZWg1hXG6s4dt6XE8",
+     "title": "ぬい針「絆（きずな）」で縫う くつしたぬいぐるみ"
     }
    ]
   }

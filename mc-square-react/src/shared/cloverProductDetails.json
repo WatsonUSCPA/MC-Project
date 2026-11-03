@@ -454,6 +454,41 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "22-734": {
+  "productNumber": "22-734",
+  "sourceUrl": "https://clover.co.jp/products/22734",
+  "title": "シルク待針＜耐熱 細＞",
+  "category": [
+   "ソーイング"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/04/22734_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/22734_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/22734_03.jpg"
+  ],
+  "catchCopy": "0.4mmの極細タイプ。",
+  "description": "布通りがよく繊細な生地も傷めにくい待針です。針先が鋭く丈夫な鋼製です。\n耐熱ガラスの小さい頭はアイロンを使用するシーンでも安心です。ミシンでの作業にも邪魔になりません。薄地用。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "約80本入 太さ0.4mm×長さ35mm プラスチックケース入"
+   },
+   {
+    "label": "材質",
+    "value": "待針:[針]鋼(ニッケルメッキ)[頭部]ガラス ケース:ポリプロピレン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "55×105×16mm"
+   }
+  ],
+  "fetchedAt": "2026-11-03"
+ },
  "22-735": {
   "productNumber": "22-735",
   "sourceUrl": "https://clover.co.jp/products/22735",
@@ -7519,6 +7554,48 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "58-631": {
+  "productNumber": "58-631",
+  "sourceUrl": "https://clover.co.jp/products/58631",
+  "title": "クロバー ビーズ織り機",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_06.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_07.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_10.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_08.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58631_09.jpg"
+  ],
+  "catchCopy": "とっても使いやすいからスイスイ織れます。",
+  "description": "使いやすさにこだわりました。ゆがみがなく、精巧なつくりのビーズ織り機です。たて糸が正確に張れるよう工夫されているので、はじめての方でもきれいに織ることができます。\nシリンダービーズ（11/0）と丸小ビーズが使えます。シリンダービーズ(11/0)用の最大織り幅は約6.5cm（ビーズ 43個）、丸小ビーズ用 最大織り幅は約6.3cm（ビーズ 39個）です。作品を巻きとれば最長1.3mまで織ることができます。それぞれのビーズの大きさに合った間隔でたて糸を張ることができます。\n作品の大きさに合わせて、1cm単位で長さ調節が簡単・正確にできます。\nたて糸はホルダーで固定するのでゆるみを気にせず織ることができます。\n小さいものから長いものまで、様々な作品づくりが楽しめます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ビーズ織り機、ストッパー（２本）、ホルダー（４個）、ピン（１２本）、すべり止めテープ（４枚）、スレダー（１枚）、針（１本）※針はビーズ織り針＜中＞です\nP.サイズ 本体サイズ約116×220×75mm(最長時：奥行き300mm)"
+   },
+   {
+    "label": "材質",
+    "value": "ビーズ織り機 フレーム・ピン：ABS樹脂 糸かけ棒・巻き取り棒：ポリアセタール ノブ・レール：ポリカーボネート ボルト・ナット：鉄 ネジ：（持ち手）ポリアミド、（ネジ部）鉄 ホルダー：ポリアセタール ストッパー：ステンレス鋼 針：鋼（ニッケルメッキ） 針ケース：オレフィン系樹脂 スレダー：（持ち手）アルミニウム、（線材）ステンレス鋼"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "120×300×80mm"
+   }
+  ],
+  "fetchedAt": "2026-11-03"
  },
  "58-641": {
   "productNumber": "58-641",
