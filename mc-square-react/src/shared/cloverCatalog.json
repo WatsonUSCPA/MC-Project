@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-03T17:01:39.018Z",
+ "generatedAt": "2026-11-04T16:54:18.377Z",
  "source": "local",
- "recipeCount": 474,
+ "recipeCount": 484,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -402,6 +402,10 @@
     {
      "id": "s6CEmzLmXy6Nmp0ULWc1",
      "title": "カード型ビーズ織り機で作る レトロかわいい「チャックル」"
+    },
+    {
+     "id": "SjdVwZgmE7H9EBD5yxG0",
+     "title": "クロバー手芸用品で作る ひなまつりモチーフのアクセサリー"
     }
    ]
   },
@@ -807,6 +811,10 @@
     {
      "id": "FQQbycKjthNuXm9WcSYu",
      "title": "フリーステッチングで作るサマーカラーの刺しゅうフレーム"
+    },
+    {
+     "id": "ktk6alXHemUEMSIqgH56",
+     "title": "フリーステッチングニードルで作るふかふか刺しゅうブローチ"
     },
     {
      "id": "Lhsdhe5oU38JmSWeW1Ks",
@@ -1424,6 +1432,10 @@
      "title": "ブレスレットメーカーで作る ミモザのブレスレット"
     },
     {
+     "id": "SVzVhDO74KDXQJXJ9e2O",
+     "title": "ブレスレットメーカーで作る 早春カラーのブレスレット3種"
+    },
+    {
      "id": "vuhgxPlbh14f2zmSHMxT",
      "title": "ブレスレットメーカーで作る ねじり結びのシアーブレスレット"
     },
@@ -1746,6 +1758,10 @@
     {
      "id": "FckWz6SfhBqEd6mh9GzG",
      "title": "22cmドール服 羊毛刺しゅうのハロウィンワンピ"
+    },
+    {
+     "id": "Ya00dSfat2nTj5d4pY5m",
+     "title": "フェルトパンチャー〈3本針〉でつくる こいのぼりストラップ"
     }
    ]
   },
@@ -2061,6 +2077,10 @@
     {
      "id": "NKdyynmwF72HVgZvRrkf",
      "title": "ミシンで作る浴衣に合うバッグ ノットバッグ"
+    },
+    {
+     "id": "Vk0g6OYZeST4fS32SLbl",
+     "title": "ミシンで作るエコバッグ（トートバッグ）"
     },
     {
      "id": "X3MZ6vzSUuZHh8l9oGzv",
@@ -2754,6 +2774,10 @@
     {
      "id": "xr5AAFoLGDuzlLTD5zzu",
      "title": "オーバルニットルームで作る　ハロウィンのあみぐるみ"
+    },
+    {
+     "id": "Ykk80kKZgy3cfNn6sYsR",
+     "title": "オーバルニットルームで作る 小鳥のひな人形"
     }
    ]
   },
@@ -2966,6 +2990,42 @@
     {
      "id": "yWkcZWg1hXG6s4dt6XE8",
      "title": "ぬい針「絆（きずな）」で縫う くつしたぬいぐるみ"
+    }
+   ]
+  },
+  "57-655": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/57655_01.jpg",
+   "recipes": [
+    {
+     "id": "fMungGbkj92WgcOOQ7AW",
+     "title": "ミシンで縫うレジ袋型エコバッグ"
+    }
+   ]
+  },
+  "57-895": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/57895_02.jpg",
+   "recipes": [
+    {
+     "id": "FPKnBl6Rp2TgcXJzeBZE",
+     "title": "手縫いでちくちくフェルトのおひなさま"
+    }
+   ]
+  },
+  "57-905": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/06/57905_01.jpg",
+   "recipes": [
+    {
+     "id": "me7aIH0iG5mPWO5TeOa2",
+     "title": "ロゼットメーカーでつくる ひな祭りロゼット"
+    }
+   ]
+  },
+  "58-774": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/04/58774_01.jpg",
+   "recipes": [
+    {
+     "id": "UUnM6tlhFFibanziE50H",
+     "title": "スーパーポンポンメーカーでつくるポンポンスティック&にゃんこスティック"
     }
    ]
   }
