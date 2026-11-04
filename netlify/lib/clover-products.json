@@ -1636,5 +1636,33 @@
   "name": "シルク待針＜耐熱 細＞",
   "price": 715,
   "productUrl": "https://clover.co.jp/products/22734"
+ },
+ {
+  "id": "clover-57-655",
+  "productNumber": "57-655",
+  "name": "コロコロオープナー",
+  "price": 1045,
+  "productUrl": "https://clover.co.jp/products/57655"
+ },
+ {
+  "id": "clover-57-895",
+  "productNumber": "57-895",
+  "name": "ピーシングペーパー",
+  "price": 770,
+  "productUrl": "https://clover.co.jp/products/57895"
+ },
+ {
+  "id": "clover-57-905",
+  "productNumber": "57-905",
+  "name": "ロゼットメーカー〈スモール〉",
+  "price": 935,
+  "productUrl": "https://clover.co.jp/products/57905"
+ },
+ {
+  "id": "clover-58-774",
+  "productNumber": "58-774",
+  "name": "スーパーポンポンメーカー〈大セット〉",
+  "price": 803,
+  "productUrl": "https://clover.co.jp/products/58774"
  }
 ]
