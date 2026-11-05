@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-04T16:54:18.377Z",
+ "generatedAt": "2026-11-05T17:06:10.634Z",
  "source": "local",
- "recipeCount": 484,
+ "recipeCount": 494,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -692,12 +692,20 @@
     {
      "id": "yLv4CkZzGqoYofkUKHj6",
      "title": "季節の刺し子ふきん たけのこ・ちょうちょ"
+    },
+    {
+     "id": "zOsldE13FhRxHuzZFkNO",
+     "title": "手縫いでちくちく 刺し子ふきん"
     }
    ]
   },
   "57-460": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/57460.jpg",
    "recipes": [
+    {
+     "id": "2RRUTE0FdrqWHTYSKAa8",
+     "title": "つまみ細工プレートで作る ひな祭りのつるし飾り"
+    },
     {
      "id": "9L7jVedDCQS1sgMTLFte",
      "title": "つまみ細工プレートで作る リボンバレッタ"
@@ -796,6 +804,10 @@
   "57-413": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57413_01.jpg",
    "recipes": [
+    {
+     "id": "3RmX1ylPlFt2BkLdiSMs",
+     "title": "フリーステッチングニードルで刺す お花の図案とくるみボタンブローチ"
+    },
     {
      "id": "ai4PjT0twKQtoxDSjmOj",
      "title": "フリーステッチングニードルで作る シマエナガのブローチ"
@@ -1196,6 +1208,10 @@
     {
      "id": "O5YajmwwoAljYO9VSWKV",
      "title": "ちくちくヨーヨープレートと花あみルーム＜ミニ＞で作る スノーマンのリース"
+    },
+    {
+     "id": "PeO6BIkm6CeUgkwTllUt",
+     "title": "ちくちくヨーヨープレートでつくる ミニタペストリー"
     }
    ]
   },
@@ -2634,6 +2650,10 @@
      "title": "パンチニードルで作る フラワーのスクエアマット"
     },
     {
+     "id": "mGiaXArbEZUFM8YfDtGS",
+     "title": "パンチニードル＜5.0mm＞で作る 丸いコースター"
+    },
+    {
      "id": "mzGNfyXA9ya90nP5hsW4",
      "title": "パンチニードルで作る リボンとくつ下のブローチ"
     },
@@ -3026,6 +3046,51 @@
     {
      "id": "UUnM6tlhFFibanziE50H",
      "title": "スーパーポンポンメーカーでつくるポンポンスティック&にゃんこスティック"
+    }
+   ]
+  },
+  "41-606": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/06/41606_02_2026.jpg",
+   "recipes": [
+    {
+     "id": "iIzLFeQiLS5Hwd4wE2Sr",
+     "title": "幸せを呼ぶ クローバーのレースモチーフ"
+    }
+   ]
+  },
+  "45-610": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45610_01.jpg",
+   "recipes": [
+    {
+     "id": "c8h7TwNUFJ3SFYROQdRe",
+     "title": "「匠」輪針-Sで編む アラン帽子"
+    }
+   ]
+  },
+  "45-615": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45615_01.jpg",
+   "recipes": [
+    {
+     "id": "EE2PIRMDBPRNtM1lCrOW",
+     "title": "耳あてキャップ＆アームウォーマー"
+    }
+   ]
+  },
+  "42-604": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/06/42604_02_2026.jpg",
+   "recipes": [
+    {
+     "id": "M3NQfdSeKGY2bewod1Kg",
+     "title": "ミニ襟"
+    }
+   ]
+  },
+  "57-999": {
+   "image": "https://clover.co.jp/wp-content/uploads/2024/02/57999_01_2023.jpg",
+   "recipes": [
+    {
+     "id": "lgBYYFjF9XglNQlEOq6x",
+     "title": "ピーステンプレートでつくるバッグ、ポーチ、ペンケース"
     }
    ]
   }

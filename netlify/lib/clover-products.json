@@ -1664,5 +1664,40 @@
   "name": "スーパーポンポンメーカー〈大セット〉",
   "price": 803,
   "productUrl": "https://clover.co.jp/products/58774"
+ },
+ {
+  "id": "clover-41-606",
+  "productNumber": "41-606",
+  "name": "レース針「ペン-E」No.6",
+  "price": 880,
+  "productUrl": "https://clover.co.jp/products/41606"
+ },
+ {
+  "id": "clover-45-610",
+  "productNumber": "45-610",
+  "name": "「匠」輪針-S 40cm 10号",
+  "price": 1430,
+  "productUrl": "https://clover.co.jp/products/45610"
+ },
+ {
+  "id": "clover-45-615",
+  "productNumber": "45-615",
+  "name": "「匠」輪針-S 40cm 15号",
+  "price": 1430,
+  "productUrl": "https://clover.co.jp/products/45615"
+ },
+ {
+  "id": "clover-42-604",
+  "productNumber": "42-604",
+  "name": "かぎ針「ペン-E」4/0号",
+  "price": 935,
+  "productUrl": "https://clover.co.jp/products/42604"
+ },
+ {
+  "id": "clover-57-999",
+  "productNumber": "57-999",
+  "name": "ピーステンプレート＜正方形>",
+  "price": 1210,
+  "productUrl": "https://clover.co.jp/products/57999"
  }
 ]

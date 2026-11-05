@@ -2335,6 +2335,40 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "41-606": {
+  "productNumber": "41-606",
+  "sourceUrl": "https://clover.co.jp/products/41606",
+  "title": "レース針「ペン-E」No.6",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/06/41606_02_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/06/41606_01_2026.jpg"
+  ],
+  "catchCopy": "編みやすく指にやさしいレース針。",
+  "description": "編みやすい理想的な針先形状。指に優しいソフトな感触。大きく選びやすい号数表示。軽く、持ちやすい安定感のある形状の柄。シックでおしゃれなべっ甲調のデザイン。20から30番のレース糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ12.8cm"
+   },
+   {
+    "label": "材質",
+    "value": "針:鋼（ニッケルメッキ）／柄:ABS樹脂／指当て:スチレン系エラストマー／キャップ:真鍮（ニッケルメッキ）"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "25×185×8mm"
+   }
+  ],
+  "fetchedAt": "2026-11-05"
+ },
  "42-402": {
   "productNumber": "42-402",
   "sourceUrl": "https://clover.co.jp/products/42402",
@@ -2764,6 +2798,69 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "42-604": {
+  "productNumber": "42-604",
+  "sourceUrl": "https://clover.co.jp/products/42604",
+  "title": "かぎ針「ペン-E」4/0号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/06/42604_02_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/06/42604_01_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u42606.jpg"
+  ],
+  "catchCopy": "編みやすく指にやさしいかぎ針。",
+  "description": "軽く持ちやすい柄が、指にやさしい「ペン-E」シリーズ。編みやすさを追求し、洗練されたデザインです。持ちやすく手にやさしいデザインの柄で、長く編んでも疲れません。並太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ13.2cm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "25×185×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-05"
+ },
+ "45-610": {
+  "productNumber": "45-610",
+  "sourceUrl": "https://clover.co.jp/products/45610",
+  "title": "「匠」輪針-S 40cm 10号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45610_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2024/09/45600_04.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "輪針\n針軸の太さ(直径)：5.1mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス チップ:ABS樹脂"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×185×7mm"
+   }
+  ],
+  "fetchedAt": "2026-11-05"
+ },
  "45-612": {
   "productNumber": "45-612",
   "sourceUrl": "https://clover.co.jp/products/45612",
@@ -2800,6 +2897,42 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "45-615": {
+  "productNumber": "45-615",
+  "sourceUrl": "https://clover.co.jp/products/45615",
+  "title": "「匠」輪針-S 40cm 15号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45615_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2024/09/45600_04.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "輪針\n針軸の太さ(直径)：6.6mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス チップ:ABS樹脂"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×185×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-05"
  },
  "45-712": {
   "productNumber": "45-712",
@@ -7146,6 +7279,45 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-999": {
+  "productNumber": "57-999",
+  "sourceUrl": "https://clover.co.jp/products/57999",
+  "title": "ピーステンプレート＜正方形>",
+  "category": [
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2024/02/57999_01_2023.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57999_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57999_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57995_04all.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57995_05all.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57995_06all.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57995_07all.jpg"
+  ],
+  "catchCopy": "パターンとぬいしろが同時に描けるテンプレートです。",
+  "description": "サイズ数は１５種です。\nピースドキルトのお手伝い。お好きなサイズのパターン作れます。\n布や紙などの作図をしたいところにピーステンプレートを置いて、必要なパターンサイズをなぞります。ワンパッチなどの作品作りに便利です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "180×125×0.7mm"
+   },
+   {
+    "label": "材質",
+    "value": "PET"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "155×230×2mm"
+   }
+  ],
+  "fetchedAt": "2026-11-05"
  },
  "58-101": {
   "productNumber": "58-101",
