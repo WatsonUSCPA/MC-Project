@@ -2934,6 +2934,36 @@
   ],
   "fetchedAt": "2026-11-05"
  },
+ "45-628": {
+  "productNumber": "45-628",
+  "sourceUrl": "https://clover.co.jp/products/45628",
+  "title": "「匠」輪針-S 40cmジャンボ 8mm",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45628_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス チップ:ABS樹脂"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×185×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
+ },
  "45-712": {
   "productNumber": "45-712",
   "sourceUrl": "https://clover.co.jp/products/45712",
@@ -3482,6 +3512,41 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "54-206": {
+  "productNumber": "54-206",
+  "sourceUrl": "https://clover.co.jp/products/54206",
+  "title": "「匠」2本針 ＜6号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54206_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54201.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。天然素材の持ち味を生かし、1本1本ていねいに仕上げた高品質の竹編み針です。並太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組\n針軸の太さ(直径)：3.9mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹／頭:天然木"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×382×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
+ },
  "54-237": {
   "productNumber": "54-237",
   "sourceUrl": "https://clover.co.jp/products/54237",
@@ -3534,6 +3599,94 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "54-242": {
+  "productNumber": "54-242",
+  "sourceUrl": "https://clover.co.jp/products/54242",
+  "title": "「匠」2本針ジャンボ ＜12mm＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/01/54242_11.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54242.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。天然素材の持ち味を生かし、1本1本ていねいに仕上げた高品質の竹編み針です。超極太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組"
+   },
+   {
+    "label": "材質",
+    "value": "針：竹／頭：天然木"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "65×455×23mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
+ },
+ "54-253": {
+  "productNumber": "54-253",
+  "sourceUrl": "https://clover.co.jp/products/54253",
+  "title": "「匠」ミニ棒針 ＜3号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54253_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54201.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。マフラー・帽子・バッグなどの小物作りに使いやすいサイズです。中細毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組\n針軸の太さ(直径)：3.0mm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×280×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
+ },
+ "54-255": {
+  "productNumber": "54-255",
+  "sourceUrl": "https://clover.co.jp/products/54255",
+  "title": "「匠」ミニ棒針 ＜5号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54255_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54201.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。マフラー・帽子・バッグなどの小物作りに使いやすいサイズです。合太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組\n針軸の太さ(直径)：3.6mm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×280×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
  },
  "54-256": {
   "productNumber": "54-256",
@@ -4179,6 +4332,32 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "55-750": {
+  "productNumber": "55-750",
+  "sourceUrl": "https://clover.co.jp/products/55750",
+  "title": "段数マーカー",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/10/55750_01n.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/55750_s01.jpg"
+  ],
+  "catchCopy": "編み目からはずれにくく、安心して使えるロック式のマーカー。",
+  "description": "10～20段ごとや増減目の位置に段数リングをつけると、編みながら確認できスムーズに編み進められます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "20個入"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "70×120×8mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
+ },
  "55-755": {
   "productNumber": "55-755",
   "sourceUrl": "https://clover.co.jp/products/55755",
@@ -4507,6 +4686,39 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-200": {
+  "productNumber": "57-200",
+  "sourceUrl": "https://clover.co.jp/products/57200",
+  "title": "クロスステッチ針 No.20",
+  "category": [
+   "刺しゅう"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/06/57200_01_2026.jpg"
+  ],
+  "catchCopy": "布割れしない丸い針先です。",
+  "description": "布割れしない丸い針先、糸が通しやすい大きな針穴でクロスステッチに最適です。タペストリーポイント。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "No.20 【タペストリーポイント 太さ0．89mm 長さ40．0mm】"
+   },
+   {
+    "label": "材質",
+    "value": "鋼"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "33×75×3mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
  },
  "57-201": {
   "productNumber": "57-201",
@@ -5096,6 +5308,43 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-407": {
+  "productNumber": "57-407",
+  "sourceUrl": "https://clover.co.jp/products/57407",
+  "title": "フリーステッチングフープ＜18cm＞",
+  "category": [
+   "刺しゅう"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57407_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57407_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57406_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57413_06.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57413_05.jpg"
+  ],
+  "catchCopy": "フリーステッチングや刺しゅうに。",
+  "description": "内枠についているエッジが生地をしっかりはさみ、張りを保ちます。ネジに糸がからまないカバー付です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "直径約19cm"
+   },
+   {
+    "label": "材質",
+    "value": "内・外枠：ポリプロピレンカバー：ABS樹脂ネジ：真鍮"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "215×230×18mm"
+   }
+  ],
+  "fetchedAt": "2026-11-06"
  },
  "57-408": {
   "productNumber": "57-408",

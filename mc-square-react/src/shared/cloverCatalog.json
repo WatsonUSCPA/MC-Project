@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-05T17:06:10.634Z",
+ "generatedAt": "2026-11-06T17:02:34.324Z",
  "source": "local",
- "recipeCount": 494,
+ "recipeCount": 504,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -163,6 +163,10 @@
     {
      "id": "PRpk4uja7bCqhkNsG56n",
      "title": "クロバーかぎ針で編む あみぐるみの天使"
+    },
+    {
+     "id": "v5t0cbM4BqbAj7KddpEF",
+     "title": "2021年干支 令和三年スタイル 赤べこの編みぐるみ"
     },
     {
      "id": "Yb58pn0TA9Le7lRKm7Va",
@@ -833,6 +837,10 @@
      "title": "フリーステッチングニードルで作る オーバルフラワーブローチ"
     },
     {
+     "id": "pOim7km9w7VjgnxHn2lM",
+     "title": "フリーステッチングニードルで作る ふかふか刺しゅうのポーチ"
+    },
+    {
      "id": "qlOkadSnFW13PecXyTwz",
      "title": "フリーステッチングニードルで作る　ハロウィンの刺しゅうフレーム／ブローチ"
     },
@@ -1212,6 +1220,10 @@
     {
      "id": "PeO6BIkm6CeUgkwTllUt",
      "title": "ちくちくヨーヨープレートでつくる ミニタペストリー"
+    },
+    {
+     "id": "W00gcec8o9Bbzor4hHqi",
+     "title": "ちくちくヨーヨープレート＜L＞で作るヨーヨーキルト"
     }
    ]
   },
@@ -2206,6 +2218,10 @@
     {
      "id": "PdcrhSqNshmdI4nuXgHl",
      "title": "ハンドメイドでSDGs／古着リメイクのミニバッグ"
+    },
+    {
+     "id": "sWszqEOfDRY78LvXT6Lu",
+     "title": "帽子・リストウォーマー・バッグチャーム"
     }
    ]
   },
@@ -3071,6 +3087,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45615_01.jpg",
    "recipes": [
     {
+     "id": "AD9KXIR8Mn1xI3eoXKMV",
+     "title": "なわあみベレー帽＆マフラー"
+    },
+    {
      "id": "EE2PIRMDBPRNtM1lCrOW",
      "title": "耳あてキャップ＆アームウォーマー"
     }
@@ -3093,6 +3113,63 @@
      "title": "ピーステンプレートでつくるバッグ、ポーチ、ペンケース"
     }
    ]
+  },
+  "54-206": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54206_01nn.jpg",
+   "recipes": [
+    {
+     "id": "x7oiMIxqcrPK4u65yiwQ",
+     "title": "2021年干支 丑 ホルスタイン模様のキッズ帽子"
+    }
+   ]
+  },
+  "45-628": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45628_01.jpg",
+   "recipes": [
+    {
+     "id": "AHWTOdQeUWEz5MyqysN3",
+     "title": "初心者さんおすすめ！ ねこ耳ニット帽<大人サイズ>・<キッズサイズ>"
+    }
+   ]
+  },
+  "54-255": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54255_01nn.jpg",
+   "recipes": [
+    {
+     "id": "USCcF3v3APZ1flRtj11F",
+     "title": "「匠」棒針で編むあみぐるみ おすわりねこ"
+    }
+   ]
+  },
+  "54-253": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54253_01nn.jpg",
+   "recipes": []
+  },
+  "55-750": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/10/55750_01n.jpg",
+   "recipes": []
+  },
+  "54-242": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/01/54242_11.jpg",
+   "recipes": [
+    {
+     "id": "R4HRHmc9Vzm2PURLch4I",
+     "title": "棒針「匠」で編む マーガレットにもなるローゲージショール"
+    }
+   ]
+  },
+  "57-200": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/06/57200_01_2026.jpg",
+   "recipes": [
+    {
+     "id": "iG5z7FixusPbewVzIINH",
+     "title": "クロスステッチ針で刺す こぎん刺し風刺しゅう図案"
+    }
+   ]
+  },
+  "57-407": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/05/57407_01.jpg",
+   "recipes": []
   }
  }
 }

@@ -1,4 +1,10 @@
 {
+ "806": [
+  {
+   "label": "ヨーヨーキルト（1.1 MB ）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/02/yoyo_quilt2019.pdf"
+  }
+ ],
  "808": [
   {
    "label": "ねこ（1.1MB）",
@@ -27,6 +33,12 @@
   {
    "label": "耳あてキャップ＆アームウォーマー（1.37MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2019/10/2019_ls_10_mimicaparmwarmer.pdf"
+  }
+ ],
+ "854": [
+  {
+   "label": "なわあみベレー帽＆マフラー（1.3MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/10/2019_ls_05_nawacapmafu.pdf"
   }
  ],
  "863": [
@@ -87,6 +99,16 @@
    "url": "https://clover.co.jp/wp-content/uploads/2023/01/1-tama_balaclava.pdf"
   }
  ],
+ "1_1": [
+  {
+   "label": "ねこ耳ニット帽（175KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/nekomimibousi_mama_n.pdf"
+  },
+  {
+   "label": "ねこ耳ニット帽（173KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/nekomimibousi_kids_n.pdf"
+  }
+ ],
  "20200303p_ecobag": [
   {
    "label": "手縫いで作るパイピングが可愛いエコバッグ",
@@ -115,6 +137,12 @@
   {
    "label": "かぎ針「アミュレ」で編む モリーフラワーの付け襟風ネックレス",
    "url": "https://clover.co.jp/wp-content/uploads/2021/12/2021_mollieF_necklace.pdf"
+  }
+ ],
+ "2021etoakabeko": [
+  {
+   "label": "赤べこの編みぐるみ(245KB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/2021etoakabeko.pdf"
   }
  ],
  "2021snow_xmas": [
@@ -1493,6 +1521,16 @@
    "url": "https://clover.co.jp/wp-content/uploads/2021/02/FS_fukafuka_-brooch.pdf"
   }
  ],
+ "fs_fukafuka_pouch": [
+  {
+   "label": "ふかふか刺しゅうのポーチ作り方",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/FS_fukafuka_pouch.pdf"
+  },
+  {
+   "label": "実物大図案と刺し方",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/FS_fukafuka_pattern.pdf"
+  }
+ ],
  "fs_penguin": [
   {
    "label": "フリーステッチングニードルで作る あかちゃんペンギンのブローチ",
@@ -1658,6 +1696,12 @@
   {
    "label": "スーパーポンポンメーカーで作る かわいいヒヨコ",
    "url": "https://clover.co.jp/wp-content/uploads/2023/11/HIYOKO_ponpon-1.pdf"
+  }
+ ],
+ "holsteincap": [
+  {
+   "label": "ホルスタイン模様のキッズ帽子（151KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/2021holsteincap.pdf"
   }
  ],
  "hougan-ami_muffler": [
@@ -1831,6 +1875,20 @@
   {
    "label": "パッチワークレースの大きい襟",
    "url": "https://clover.co.jp/wp-content/uploads/2022/09/lace_ookiieri.pdf"
+  }
+ ],
+ "landscape3": [
+  {
+   "label": "帽子(269KB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscape3_beret.pdf"
+  },
+  {
+   "label": "リストウォーマー(158KB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscape3_wristawarmer.pdf"
+  },
+  {
+   "label": "バッグチャーム(207KB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscape3_bagcharm.pdf"
   }
  ],
  "lesson_bracelet_a": [
@@ -2321,6 +2379,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_no_73c.pdf"
   }
  ],
+ "post_147": [
+  {
+   "label": "マーガレットにもなるローゲージショール（2.1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/01/knit2012_681463.pdf"
+  }
+ ],
  "post_23": [
   {
    "label": "ミニ襟（604KB）",
@@ -2371,6 +2435,12 @@
   {
    "label": "クロバー ビーズ織り機で作る ウォーターカラーのブレスレット（286KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_b_t_brece_t.pdf"
+  }
+ ],
+ "post_410": [
+  {
+   "label": "クロスステッチ針で刺す こぎん刺し風刺しゅう図案（188KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_kogin.pdf"
   }
  ],
  "post_418": [
@@ -2523,6 +2593,12 @@
   {
    "label": "ブローチ／ヘアゴム（3.7MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2020/12/2020darning_l.pdf"
+  }
+ ],
+ "post_796": [
+  {
+   "label": "おすわりねこ（1.94MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2018kaigai_knit_cat.pdf"
   }
  ],
  "punchneedle_animals_keyring": [
