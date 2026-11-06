@@ -1699,5 +1699,61 @@
   "name": "ピーステンプレート＜正方形>",
   "price": 1210,
   "productUrl": "https://clover.co.jp/products/57999"
+ },
+ {
+  "id": "clover-54-206",
+  "productNumber": "54-206",
+  "name": "「匠」2本針 ＜6号＞",
+  "price": 880,
+  "productUrl": "https://clover.co.jp/products/54206"
+ },
+ {
+  "id": "clover-45-628",
+  "productNumber": "45-628",
+  "name": "「匠」輪針-S 40cmジャンボ 8mm",
+  "price": 1815,
+  "productUrl": "https://clover.co.jp/products/45628"
+ },
+ {
+  "id": "clover-54-255",
+  "productNumber": "54-255",
+  "name": "「匠」ミニ棒針 ＜5号＞",
+  "price": 605,
+  "productUrl": "https://clover.co.jp/products/54255"
+ },
+ {
+  "id": "clover-54-253",
+  "productNumber": "54-253",
+  "name": "「匠」ミニ棒針 ＜3号＞",
+  "price": 605,
+  "productUrl": "https://clover.co.jp/products/54253"
+ },
+ {
+  "id": "clover-55-750",
+  "productNumber": "55-750",
+  "name": "段数マーカー",
+  "price": 715,
+  "productUrl": "https://clover.co.jp/products/55750"
+ },
+ {
+  "id": "clover-54-242",
+  "productNumber": "54-242",
+  "name": "「匠」2本針ジャンボ ＜12mm＞",
+  "price": 1540,
+  "productUrl": "https://clover.co.jp/products/54242"
+ },
+ {
+  "id": "clover-57-200",
+  "productNumber": "57-200",
+  "name": "クロスステッチ針 No.20",
+  "price": 440,
+  "productUrl": "https://clover.co.jp/products/57200"
+ },
+ {
+  "id": "clover-57-407",
+  "productNumber": "57-407",
+  "name": "フリーステッチングフープ＜18cm＞",
+  "price": 1760,
+  "productUrl": "https://clover.co.jp/products/57407"
  }
 ]
