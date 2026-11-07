@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-06T17:02:34.324Z",
+ "generatedAt": "2026-11-07T16:57:10.048Z",
  "source": "local",
- "recipeCount": 504,
+ "recipeCount": 514,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -1222,6 +1222,10 @@
      "title": "ちくちくヨーヨープレートでつくる ミニタペストリー"
     },
     {
+     "id": "TnH8lACLpHoFzE1fpfF1",
+     "title": "ちくちくヨーヨープレートでつくる ハンドル付きポーチ"
+    },
+    {
      "id": "W00gcec8o9Bbzor4hHqi",
      "title": "ちくちくヨーヨープレート＜L＞で作るヨーヨーキルト"
     }
@@ -2016,6 +2020,10 @@
     {
      "id": "fi5yv8JY9Q5IzgDz2c3e",
      "title": "“直線縫いで作れる素敵なスカート” コードギャザースカート"
+    },
+    {
+     "id": "YTk3Bd53XyWnHkDNvXuJ",
+     "title": "ミシンで作る バッククロスエプロン (大人用)"
     }
    ]
   },
@@ -2184,6 +2192,10 @@
     {
      "id": "xbKJ4LeLQHC9m5gzlgrn",
      "title": "春のレースアクセサリー ビーズクロッシェのネックレス①"
+    },
+    {
+     "id": "z4ZDpQqtekqhJ60uXyIb",
+     "title": "レース針で編む方眼編みのアルファベットマット"
     }
    ]
   },
@@ -3071,6 +3083,10 @@
     {
      "id": "iIzLFeQiLS5Hwd4wE2Sr",
      "title": "幸せを呼ぶ クローバーのレースモチーフ"
+    },
+    {
+     "id": "JyZFZO3BXzcHx1Vr2ary",
+     "title": "レース針「ペン-E」で編む アイリッシュクロッシェ お花のネックレス"
     }
    ]
   },
@@ -3169,6 +3185,71 @@
   },
   "57-407": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57407_01.jpg",
+   "recipes": []
+  },
+  "54-213": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54213_01nn.jpg",
+   "recipes": [
+    {
+     "id": "PBGs4gAAjdoJ3hqtd7CD",
+     "title": "マフラー"
+    },
+    {
+     "id": "SuP4LEAEKJ8gedXYbj7E",
+     "title": "セーター＆帽子A"
+    }
+   ]
+  },
+  "56-963": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/08/56963_01.jpg",
+   "recipes": []
+  },
+  "56-962": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/08/56962_01.jpg",
+   "recipes": [
+    {
+     "id": "dOKaUeH3ToCYSdpjABFj",
+     "title": "ふわふわアームウォーマー"
+    }
+   ]
+  },
+  "45-608": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45608_01.jpg",
+   "recipes": [
+    {
+     "id": "NeEpCvufiJEniC6jzbPj",
+     "title": "ふんわりあたたかい イギリスゴム編みの帽子"
+    }
+   ]
+  },
+  "56-958": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/08/56958_01.jpg",
+   "recipes": []
+  },
+  "45-815": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45815_01.jpg",
+   "recipes": [
+    {
+     "id": "xpAlSERLld6Arr9OIGoj",
+     "title": "透かし編みの三角ショール"
+    }
+   ]
+  },
+  "41-608": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/03/41608_02_2026.jpg",
+   "recipes": []
+  },
+  "22-114": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/221140_o.jpg",
+   "recipes": [
+    {
+     "id": "TaOk062OqsvaCSnsBkYT",
+     "title": "メッシュワーク おでかけバッグA ブラウン"
+    }
+   ]
+  },
+  "22-132": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/22132_02.jpg",
    "recipes": []
   }
  }
