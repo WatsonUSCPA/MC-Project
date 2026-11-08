@@ -2933,6 +2933,60 @@
   ],
   "fetchedAt": "2026-11-05"
  },
+ "42-605": {
+  "productNumber": "42-605",
+  "sourceUrl": "https://clover.co.jp/products/42605",
+  "title": "かぎ針「ペン-E」5/0号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/03/42605_02_29ca.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/06/42605_01_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u42606.jpg"
+  ],
+  "catchCopy": "編みやすく指にやさしいかぎ針。",
+  "description": "軽く持ちやすい柄が、指にやさしい「ペン-E」シリーズ。編みやすさを追求し、洗練されたデザインです。持ちやすく手にやさしいデザインの柄で、長く編んでも疲れません。並太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ13.2cm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "25×185×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-08"
+ },
+ "42-606": {
+  "productNumber": "42-606",
+  "sourceUrl": "https://clover.co.jp/products/42606",
+  "title": "かぎ針「ペン-E」6/0号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/03/42606_02_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/03/42606_01_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u42606.jpg"
+  ],
+  "catchCopy": "編みやすく指にやさしいかぎ針。",
+  "description": "軽く持ちやすい柄が、指にやさしい「ペン-E」シリーズ。編みやすさを追求し、洗練されたデザインです。持ちやすく手にやさしいデザインの柄で、長く編んでも疲れません。並太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ13.2cm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "25×185×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-08"
+ },
  "45-608": {
   "productNumber": "45-608",
   "sourceUrl": "https://clover.co.jp/products/45608",
@@ -3143,6 +3197,73 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "45-715": {
+  "productNumber": "45-715",
+  "sourceUrl": "https://clover.co.jp/products/45715",
+  "title": "「匠」輪針-S 60cm 15号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45715_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2024/09/45600_04.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "輪針\n針軸の太さ(直径)：6.6mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス鋼 チップ:ナイロン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×218×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-08"
+ },
+ "45-727": {
+  "productNumber": "45-727",
+  "sourceUrl": "https://clover.co.jp/products/45727",
+  "title": "「匠」輪針-S 60cmジャンボ 7mm",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45727_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス鋼 チップ:ナイロン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×218×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-08"
  },
  "45-800": {
   "productNumber": "45-800",
@@ -3762,6 +3883,41 @@
    }
   ],
   "fetchedAt": "2026-11-07"
+ },
+ "54-215": {
+  "productNumber": "54-215",
+  "sourceUrl": "https://clover.co.jp/products/54215",
+  "title": "「匠」2本針 ＜15号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54215_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54201.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。天然素材の持ち味を生かし、1本1本ていねいに仕上げた高品質の竹編み針です。超極太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組\n針軸の太さ(直径)：6.6mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹／頭:天然木"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×382×12mm"
+   }
+  ],
+  "fetchedAt": "2026-11-08"
  },
  "54-237": {
   "productNumber": "54-237",
@@ -5999,6 +6155,38 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-461": {
+  "productNumber": "57-461",
+  "sourceUrl": "https://clover.co.jp/products/57461",
+  "title": "つまみ細工プレート 丸ひだつまみS",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/06/57461.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57461_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57461_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57451_00.jpg"
+  ],
+  "catchCopy": "プレートの順番どおりに縫うだけ!",
+  "description": "できあがりサイズ〈S〉(直径)約5ｃｍ\n6作品のレシピブック付！\n「つまみ細工プレート」は、順番どおりに縫って糸を引きしめるだけで、かんたんにつまみ細工風の花びらが作れるプレートです。大きめサイズなので作りやすく、短時間で華やかなモチーフが完成します。花びらを1枚ずつ作るので、枚数や色を変えて楽しめます！\nつまみ細工とは？\n日本の伝統工芸のひとつで、かんざしなどに使われています。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "ポリプロピレン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "105×210×5mm"
+   }
+  ],
+  "fetchedAt": "2026-11-08"
  },
  "57-462": {
   "productNumber": "57-462",
