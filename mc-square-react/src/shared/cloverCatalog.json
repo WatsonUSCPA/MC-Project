@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-07T16:57:10.048Z",
+ "generatedAt": "2026-11-08T17:02:19.478Z",
  "source": "local",
- "recipeCount": 514,
+ "recipeCount": 524,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -2410,6 +2410,10 @@
      "title": "紙刺しゅうで彩る メッセージカードの装飾図案"
     },
     {
+     "id": "KhoIlF0hDD103pEQeBwY",
+     "title": "紙刺しゅうのポチ袋"
+    },
+    {
      "id": "m8RejTAOqKSMODkHRDbT",
      "title": "手縫いで作ろう 応援のお守り"
     }
@@ -2816,6 +2820,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/57967_01.jpg",
    "recipes": [
     {
+     "id": "EhTu9iKw5Dx0yk8ynlAE",
+     "title": "オーバルニットルームでつくるクリスマスボール"
+    },
+    {
      "id": "X9bpptuwV2Fhz4HbcDzD",
      "title": "オーバルニットルームで作る ニワトリとヒヨコのあみぐるみ"
     },
@@ -3145,6 +3153,10 @@
     {
      "id": "AHWTOdQeUWEz5MyqysN3",
      "title": "初心者さんおすすめ！ ねこ耳ニット帽<大人サイズ>・<キッズサイズ>"
+    },
+    {
+     "id": "k73ZvUBCd4rZchJoPdd9",
+     "title": "竹編み針「匠」で編む フード付きネックウォーマー"
     }
    ]
   },
@@ -3191,12 +3203,20 @@
    "image": "https://clover.co.jp/wp-content/uploads/2020/09/54213_01nn.jpg",
    "recipes": [
     {
+     "id": "jMdXr6623UC4nPcI6k2T",
+     "title": "マフラー"
+    },
+    {
      "id": "PBGs4gAAjdoJ3hqtd7CD",
      "title": "マフラー"
     },
     {
      "id": "SuP4LEAEKJ8gedXYbj7E",
      "title": "セーター＆帽子A"
+    },
+    {
+     "id": "Wtkjh5qcNXq4wj8SVkoA",
+     "title": "スヌード"
     }
    ]
   },
@@ -3251,6 +3271,55 @@
   "22-132": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/03/22132_02.jpg",
    "recipes": []
+  },
+  "54-215": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54215_01nn.jpg",
+   "recipes": [
+    {
+     "id": "6iCn9I3ES88KPOOqA2oG",
+     "title": "棒針「匠」２本針で編む レディース ベスト"
+    }
+   ]
+  },
+  "57-461": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/06/57461.jpg",
+   "recipes": [
+    {
+     "id": "mS5tk73dfijBkY6Jx3P3",
+     "title": "つまみ細工プレートで作るお正月のしめ飾り"
+    }
+   ]
+  },
+  "42-605": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/03/42605_02_29ca.jpg",
+   "recipes": [
+    {
+     "id": "Uer9A4aj3MZwNywjXb6f",
+     "title": "かぎ針「ペン-E」で編む かぎ針編みの 三角ショール"
+    }
+   ]
+  },
+  "45-715": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45715_01.jpg",
+   "recipes": []
+  },
+  "45-727": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45727_01.jpg",
+   "recipes": [
+    {
+     "id": "ZNrA9TSiwIcwXOhnv1I8",
+     "title": "ボッブル編みのふんわり袖セーター"
+    }
+   ]
+  },
+  "42-606": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/03/42606_02_2026.jpg",
+   "recipes": [
+    {
+     "id": "SzB8rsjikbS0eBvvy1td",
+     "title": "かぎ針引き上げ模様のくつ下"
+    }
+   ]
   }
  }
 }
