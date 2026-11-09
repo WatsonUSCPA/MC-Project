@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-08T17:02:19.478Z",
+ "generatedAt": "2026-11-09T17:18:49.825Z",
  "source": "local",
- "recipeCount": 524,
+ "recipeCount": 534,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -698,6 +698,10 @@
      "title": "季節の刺し子ふきん たけのこ・ちょうちょ"
     },
     {
+     "id": "zFSvzloQ5pia6jhLrwm2",
+     "title": "柄布を使って作る刺し子 一目刺し「六文銭」「柿の花」"
+    },
+    {
      "id": "zOsldE13FhRxHuzZFkNO",
      "title": "手縫いでちくちく 刺し子ふきん"
     }
@@ -1018,6 +1022,10 @@
     {
      "id": "41qA90j2akumspzifJUz",
      "title": "紙刺しゅうで作る リボン結びの箸袋・ポチ袋"
+    },
+    {
+     "id": "ntzNbOz5QeZnGNc90wU3",
+     "title": "クリスマスの刺しゅう図案"
     }
    ]
   },
@@ -1306,6 +1314,10 @@
   "57-036": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57036_01.jpg",
    "recipes": [
+    {
+     "id": "CHuxVPdtx76fLcPo5lCK",
+     "title": "刺し子のくるみボタン"
+    },
     {
      "id": "ggoyNM9GjHjfW0lbG9kO",
      "title": "ソーイングで作る 猫のけりぐるみ(さかな・ねずみ・キウイ)"
@@ -2400,7 +2412,12 @@
   },
   "57-003": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57003_01.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "nLbJ57EvVCIZ7NHlery3",
+     "title": "手ぬいのポシェット"
+    }
+   ]
   },
   "57-007": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57007_01.jpg",
@@ -2568,6 +2585,10 @@
   "57-567": {
    "image": "https://clover.co.jp/wp-content/uploads/2026/06/57567_01_2026.jpg",
    "recipes": [
+    {
+     "id": "WlnfilxEa4MieAHIbRRI",
+     "title": "リュネビル刺しゅうのオーナメント＜スター＞"
+    },
     {
      "id": "zRABepyj4IWMP366MbZo",
      "title": "リュネビル刺しゅうのアクセサリー（ピアス・ブローチ）"
@@ -2820,6 +2841,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/57967_01.jpg",
    "recipes": [
     {
+     "id": "CDn2LyI2bDxbnNhRKuws",
+     "title": "オーバルニットルームで作る 富士山のガーランド"
+    },
+    {
      "id": "EhTu9iKw5Dx0yk8ynlAE",
      "title": "オーバルニットルームでつくるクリスマスボール"
     },
@@ -2972,6 +2997,10 @@
     {
      "id": "dfPq2smyoxn9bfG4FuoU",
      "title": "ちくちくヨーヨープレートでデコするバッグ"
+    },
+    {
+     "id": "ZtJ33NfoZOPJZDrsZbCX",
+     "title": "ちくちくヨーヨープレート＜S＞で作る クリスマスカラーのツリー"
     }
    ]
   },
@@ -3164,6 +3193,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2020/09/54255_01nn.jpg",
    "recipes": [
     {
+     "id": "EhkymVrdEb0QrJPOa4U0",
+     "title": "クリスマステディベア"
+    },
+    {
      "id": "USCcF3v3APZ1flRtj11F",
      "title": "「匠」棒針で編むあみぐるみ おすわりねこ"
     }
@@ -3318,6 +3351,28 @@
     {
      "id": "SzB8rsjikbS0eBvvy1td",
      "title": "かぎ針引き上げ模様のくつ下"
+    }
+   ]
+  },
+  "58-775": {
+   "image": "https://clover.co.jp/wp-content/uploads/2023/03/58775_01.jpg",
+   "recipes": [
+    {
+     "id": "1WttxuE1KKC8qv3Lw4Py",
+     "title": "スーパーポンポンメーカーでつくるクリスマスマスコット"
+    }
+   ]
+  },
+  "57-505": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/57505_01.jpg",
+   "recipes": [
+    {
+     "id": "if632qXjXnct3cKsvTCj",
+     "title": "スラッシュキルトのファブリックパネル"
+    },
+    {
+     "id": "yfl69LCAQJ7bVBvnJXTV",
+     "title": "クロバースラッシュカッターでつくる スラッシュキルトのペタンコバッグ"
     }
    ]
   }

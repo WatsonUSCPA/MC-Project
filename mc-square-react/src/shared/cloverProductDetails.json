@@ -6387,6 +6387,49 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "57-505": {
+  "productNumber": "57-505",
+  "sourceUrl": "https://clover.co.jp/products/57505",
+  "title": "クロバースラッシュカッター",
+  "category": [
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/03/57505_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57505_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/10/su02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57505_06.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57505_07.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57505_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57505_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/s57505.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/06/57505_01_2026.jpg"
+  ],
+  "catchCopy": "スラッシュキルトがきれいにスピーディに仕上がります。",
+  "description": "□ストレート用・カーブ用の両ガイドをセット。ストレート用、カーブ用のガイド両方をセットしました。ガイドを交換してどちらのスラッシュキルトにも対応できます。(縫い目の間隔はそれぞれ6mm以上用)\n□刃を確実に固定するラチェット機構。押すときには刃が回転しないラチェット機構。刃が回転しないので布がガイドと刃の間にくいこまずに重ねた布がきれいに切れます。\n□切れ味を保つ16分割のピッチ送り。刃が切れにくくなったらカチッと1ピッチ回転し切れ味を保ちます。刃の交換時期がわかりやすい設計です。",
+  "notes": [
+   "※クロバースラッシュカッターの替刃は｢クロバーロータリーカッター替刃28mm（57504）｣をお使いください。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "10×23×2.9㎝"
+   },
+   {
+    "label": "材質",
+    "value": "ハンドル／ABS樹脂、すべり止め／エラストマー、ガイド、ワッシャー、ストッパー／ポリアセタール"
+   },
+   {
+    "label": "原産国",
+    "value": "日本 刃:ベトナム"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "100×230×29mm"
+   }
+  ],
+  "fetchedAt": "2026-11-09"
+ },
  "57-520": {
   "productNumber": "57-520",
   "sourceUrl": "https://clover.co.jp/products/57520",
@@ -8864,6 +8907,41 @@
    }
   ],
   "fetchedAt": "2026-11-04"
+ },
+ "58-775": {
+  "productNumber": "58-775",
+  "sourceUrl": "https://clover.co.jp/products/58775",
+  "title": "スーパーポンポンメーカー〈4個セット〉",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2023/03/58775_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/58775_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/58773_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/58775_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/58775_06.jpg"
+  ],
+  "catchCopy": "ポンポンが簡単きれいに作れます。",
+  "description": "直径約35mm・45mm・65mm・85mmのポンポンが作れます。色分けに便利な目盛付き。カラフルなポンポンや動物のマスコットもかんたんに作れます。内側に▼の凹凸が付いているので、糸を巻く時アームがずれにくいです。本体がカラーなので、アームに糸を巻いても一目でサイズが分かります。",
+  "notes": [
+   "スーパーポンポンメーカー 1組4個セット 35mm・45mm・65mm・85mm"
+  ],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "アーム:ABS樹脂 ボディ:ポリプロピレン ピン:ステンレス鋼"
+   },
+   {
+    "label": "原産国",
+    "value": "ベトナム"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "130×210×37mm"
+   }
+  ],
+  "fetchedAt": "2026-11-09"
  },
  "58-781": {
   "productNumber": "58-781",
