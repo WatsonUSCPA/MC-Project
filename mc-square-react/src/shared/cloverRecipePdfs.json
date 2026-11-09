@@ -65,6 +65,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2021/02/luneville_accessory.pdf"
   }
  ],
+ "889": [
+  {
+   "label": "オーナメント＜スター＞（1.82MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/02/luneville_ornament.pdf"
+  }
+ ],
  "2000": [
   {
    "label": "フェルトのおひなさま作り方（208KB）",
@@ -1724,6 +1730,20 @@
    "url": "https://clover.co.jp/wp-content/uploads/2024/01/recipe_hinafes_card.pdf"
   }
  ],
+ "hitomezashi_6_kaki": [
+  {
+   "label": "一目刺しのコースター（柿の花）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/hitomezashi_kakinohana.pdf"
+  },
+  {
+   "label": "一目刺しのコースター（六文銭）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/hitomezashi_rokumonnsenn.pdf"
+  },
+  {
+   "label": "一目刺しのミニ巾着",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/hitomezashi_kintyaku.pdf"
+  }
+ ],
  "hitomezashi_asanoha": [
   {
    "label": "一目刺しのコースター（麻の葉）",
@@ -2117,6 +2137,12 @@
   {
    "label": "付け襟テンプレートで作るモノトーンの丸襟",
    "url": "https://clover.co.jp/wp-content/uploads/2022/09/mono_marueri.pdf"
+  }
+ ],
+ "mtfuji": [
+  {
+   "label": "富士山のガーランド（2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/2021newyear_mtfuji.pdf"
   }
  ],
  "needlematflower": [
@@ -2515,10 +2541,22 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2014natuyasumi_7_petbottlecase.pdf"
   }
  ],
+ "post_346": [
+  {
+   "label": "刺し子のくるみボタン（300KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_sasiko_bottun.pdf"
+  }
+ ],
  "post_355": [
   {
    "label": "ポンポンスティック&にゃんこスティック（479KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_halloweenstick.pdf"
+  }
+ ],
+ "post_381": [
+  {
+   "label": "クリスマスの刺しゅう図案（589KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_emb_xmas_design.pdf"
   }
  ],
  "post_394": [
@@ -2549,6 +2587,12 @@
   {
    "label": "ちくちくヨーヨープレートでデコするバッグ（2.2MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2015mamayoyodekoecobag.pdf"
+  }
+ ],
+ "post_450": [
+  {
+   "label": "手ぬいのポシェット（1.2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_tenuipochette.pdf"
   }
  ],
  "post_471": [
@@ -2609,6 +2653,16 @@
   {
    "label": "かぎ針編みのキャップ（105KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_05_761442_kagicap_2016_lu.pdf"
+  }
+ ],
+ "post_644": [
+  {
+   "label": "マスコット（1）～トナカイ・サンタクロース・スノーマン～（1.3MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2016xmasponpon.pdf"
+  },
+  {
+   "label": "マスコット（2）～カップケーキ・ひつじ・クリスマスツリー・ちびサンタ～（2.4MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2016xmasponpon02.pdf"
   }
  ],
  "post_645": [
@@ -2685,6 +2739,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_slash_q_bag.pdf"
   }
  ],
+ "post_749": [
+  {
+   "label": "スラッシュキルトのファブリックパネル（2.3MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2018_slash_nunopane.pdf"
+  }
+ ],
  "post_750": [
   {
    "label": "サマーカラーの刺しゅうフレーム（2MB）",
@@ -2713,6 +2773,12 @@
   {
    "label": "おすわりねこ（1.94MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2018kaigai_knit_cat.pdf"
+  }
+ ],
+ "post_801": [
+  {
+   "label": "クリスマステディベア（1.59MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2018christmas_teddy.pdf"
   }
  ],
  "punchneedle_animals_keyring": [
@@ -3512,6 +3578,12 @@
   {
    "label": "ちくちくヨーヨープレート＜L＞で作る ヨーヨーキルトの小さめマット",
    "url": "https://clover.co.jp/wp-content/uploads/2022/10/yoyo_small_mat.pdf"
+  }
+ ],
+ "yoyotree": [
+  {
+   "label": "クリスマスカラーのツリー（1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/2020xmastree_yoyo.pdf"
   }
  ]
 }
