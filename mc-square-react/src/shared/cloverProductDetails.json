@@ -4141,6 +4141,32 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "54-363": {
+  "productNumber": "54-363",
+  "sourceUrl": "https://clover.co.jp/products/54363",
+  "title": "「匠」5本針20cm ＜3号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54363_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "優れた加工技術が生みだす「匠」の高品質。クロバー独自の理想的な針先形状。編みやすく、糸割れしません。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "5本1組\n針軸の太さ(直径)：3.0mm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×252×4mm"
+   }
+  ],
+  "fetchedAt": "2026-11-10"
+ },
  "54-370": {
   "productNumber": "54-370",
   "sourceUrl": "https://clover.co.jp/products/54370",

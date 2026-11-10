@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-09T17:18:49.825Z",
+ "generatedAt": "2026-11-10T16:56:48.109Z",
  "source": "local",
- "recipeCount": 534,
+ "recipeCount": 544,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -933,6 +933,10 @@
      "title": "フェルトパンチャーで作る 羊毛刺しゅうのお花ブローチ"
     },
     {
+     "id": "KXbXPmJPE1PZNlIqeCnL",
+     "title": "フェルトパンチャー＆パフウールで作る 物語の絵①"
+    },
+    {
      "id": "Pwn6HLEfdZZmmLRAVQIz",
      "title": "フェルトパンチャーで作る 手毬風ひな飾り"
     },
@@ -1372,6 +1376,10 @@
      "title": "「匠」2本針で編む ポケット付きケープ"
     },
     {
+     "id": "ovda4v1EGMcQcliCxssr",
+     "title": "アラン模様のスヌード"
+    },
+    {
      "id": "WMkAIF55kOq7UYuAEx9K",
      "title": "透かし模様のストール"
     }
@@ -1695,12 +1703,20 @@
     {
      "id": "MxM7Ua2iFW8wKjT2PGbG",
      "title": "簡単なのに凝った模様に見える！ 減らし目のないニットキャップ"
+    },
+    {
+     "id": "wUumLbELdB392v0DAL3u",
+     "title": "シンプルネックウォーマー"
     }
    ]
   },
   "54-278": {
    "image": "https://clover.co.jp/wp-content/uploads/2020/09/54278_01nn.jpg",
    "recipes": [
+    {
+     "id": "0RMBkK9ehVCPqE2NjfoY",
+     "title": "イギリスゴム編みのマフラー"
+    },
     {
      "id": "ch5BXuTdDPdcXxsyPMGW",
      "title": "「匠」ミニ棒針で編む ボーダー模様のネックウォーマー"
@@ -1857,6 +1873,10 @@
     {
      "id": "AKPBpejO8fExr83VzsMa",
      "title": "【ハンドメイドのリボン】レイヤードリボン"
+    },
+    {
+     "id": "bfTLFJlGeZBNa943e50k",
+     "title": "ぬい針「絆（きずな）」で作る 手縫いの三角鍋つかみ"
     },
     {
      "id": "kRnijs4hBrVnEMEqpZen",
@@ -2334,6 +2354,10 @@
     {
      "id": "aBJqyOIlHSTEuUsZwunh",
      "title": "透かし模様の直角つなぎストール"
+    },
+    {
+     "id": "TjPkyWDzORTIbsseEUek",
+     "title": "ななめ編みの3色スヌード"
     }
    ]
   },
@@ -3040,6 +3064,10 @@
     {
      "id": "x9gtzARZraBLDGWpie4j",
      "title": "ダーニングマッシュルームを使って作るブローチ／ヘアゴム"
+    },
+    {
+     "id": "YBnjW8wIUF7ArNRjeeOB",
+     "title": "ダーニングマッシュルームを使って作るクリスマスのブローチ／ヘアゴム"
     }
    ]
   },
@@ -3180,6 +3208,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45628_01.jpg",
    "recipes": [
     {
+     "id": "4o4vbbR7EGLPJBJUkW1O",
+     "title": "玉編みのネックウォーマー"
+    },
+    {
      "id": "AHWTOdQeUWEz5MyqysN3",
      "title": "初心者さんおすすめ！ ねこ耳ニット帽<大人サイズ>・<キッズサイズ>"
     },
@@ -3311,6 +3343,10 @@
     {
      "id": "6iCn9I3ES88KPOOqA2oG",
      "title": "棒針「匠」２本針で編む レディース ベスト"
+    },
+    {
+     "id": "TdrR5CCNffDKrRZy1gdP",
+     "title": "ななめ編みのマフラー"
     }
    ]
   },
@@ -3373,6 +3409,15 @@
     {
      "id": "yfl69LCAQJ7bVBvnJXTV",
      "title": "クロバースラッシュカッターでつくる スラッシュキルトのペタンコバッグ"
+    }
+   ]
+  },
+  "54-363": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54363_01nn.jpg",
+   "recipes": [
+    {
+     "id": "iVM1FVYukQbRhR2mvhYX",
+     "title": "あみぐるみ サンタさんとトナカイ"
     }
    ]
   }
