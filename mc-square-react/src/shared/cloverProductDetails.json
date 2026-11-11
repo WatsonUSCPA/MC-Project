@@ -4201,6 +4201,32 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "54-403": {
+  "productNumber": "54-403",
+  "sourceUrl": "https://clover.co.jp/products/54403",
+  "title": "「匠」4本針30㎝ ＜3号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54403_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "クロバー独自の理想的な針先形状。編みやすく、糸割れしません。抜群の耐久性。厳選された原竹の質のいい部分だけを素材として使用しています。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "4本1組\n針軸の太さ(直径)：3.0mm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×352×4mm"
+   }
+  ],
+  "fetchedAt": "2026-11-11"
+ },
  "54-918": {
   "productNumber": "54-918",
   "sourceUrl": "https://clover.co.jp/products/54918",
@@ -9383,6 +9409,49 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "71-126": {
+  "productNumber": "71-126",
+  "sourceUrl": "https://clover.co.jp/products/71126",
+  "title": "ストリングボード フリーデザイン",
+  "category": [
+   "手芸",
+   "刺しゅう"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2023/03/71126_2023.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71126_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71126_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71126_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71122_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71126_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71126_06.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71122_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71122_08.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/71122_07.jpg"
+  ],
+  "catchCopy": "インテリアDIYデコが手軽に楽しめます。",
+  "description": "ストリングボードはソフトなベースに釘を刺して色糸を張るだけの簡単テクニックで、おしゃれなストリングアートが楽しめるオールインワンキット。海外で人気です。\nソフトなフォームベースだから、指で押すだけで釘が刺せ、カナヅチは不要です。\nお好きなデザインが作れる実物大の方眼デザイン用紙付き。（説明書兼用）\nデザインをトレースして「しるし」に釘を刺し、色糸を張るとオンリーワンのストリングボードが完成します。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ベース1枚 色糸(赤/黄/緑/オレンジ/紫/水色)6色 釘（真鍮）約80本 トレース用紙1枚 方眼デザイン用紙（説明書兼用）1枚 クリアケース1個 作品サイズ 20×30cm（タテヨコどちらもOK）"
+   },
+   {
+    "label": "材質",
+    "value": "ベース：ポリエチレン／糸 (＃20）：ポリエステル100%／釘(丸頭#17×19mm）：真ちゅう／トレース用紙:紙／クリアケース：PP"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "202×325×27mm"
+   }
+  ],
+  "fetchedAt": "2026-11-11"
  },
  "77-951": {
   "productNumber": "77-951",

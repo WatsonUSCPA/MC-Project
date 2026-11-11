@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-10T16:56:48.109Z",
+ "generatedAt": "2026-11-11T16:58:42.471Z",
  "source": "local",
- "recipeCount": 544,
+ "recipeCount": 554,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -986,6 +986,10 @@
     {
      "id": "dEVW5TeWIYzZulutLmZn",
      "title": "クロバー「匠」輪針-Sで編むくま耳帽(キッズサイズ)"
+    },
+    {
+     "id": "Mr9ZHlHRvERuebeyh92Q",
+     "title": "ゴージャスなストール"
     }
    ]
   },
@@ -1402,6 +1406,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/42422.jpg",
    "recipes": [
     {
+     "id": "AfADlzulHPQJ9rbXU6OI",
+     "title": "ドーナツブローチ"
+    },
+    {
      "id": "i50vcdRLbSI2olSvYBqu",
      "title": "かぎ針編みのキャップ"
     }
@@ -1700,6 +1708,10 @@
   "45-612": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45612_01.jpg",
    "recipes": [
+    {
+     "id": "guYsadOgs3QmgmzgNIZh",
+     "title": "ドッグウェア（ボーダー）Sサイズ・Mサイズ"
+    },
     {
      "id": "MxM7Ua2iFW8wKjT2PGbG",
      "title": "簡単なのに凝った模様に見える！ 減らし目のないニットキャップ"
@@ -3077,6 +3089,10 @@
     {
      "id": "CtNm3hrc8GtA4BZhUYbE",
      "title": "ヘアピンレースのブレスレット"
+    },
+    {
+     "id": "dhTCguRfVm8n0Pi1Ln5n",
+     "title": "ヘアピンレースのふわふわマフラー"
     }
    ]
   },
@@ -3158,6 +3174,10 @@
   "45-610": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45610_01.jpg",
    "recipes": [
+    {
+     "id": "Ar75eCNuH6I4bkvC2rGh",
+     "title": "ドッグウェア(編み込み) Sサイズ・Mサイズ"
+    },
     {
      "id": "c8h7TwNUFJ3SFYROQdRe",
      "title": "「匠」輪針-Sで編む アラン帽子"
@@ -3309,7 +3329,12 @@
   },
   "56-958": {
    "image": "https://clover.co.jp/wp-content/uploads/2020/08/56958_01.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "NLAR68pO23u5W4NH8nFG",
+     "title": "かわいいミトン"
+    }
+   ]
   },
   "45-815": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45815_01.jpg",
@@ -3376,6 +3401,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45727_01.jpg",
    "recipes": [
     {
+     "id": "14QaZdAU2fZ7S18t6EvS",
+     "title": "白いセーター"
+    },
+    {
      "id": "ZNrA9TSiwIcwXOhnv1I8",
      "title": "ボッブル編みのふんわり袖セーター"
     }
@@ -3418,6 +3447,24 @@
     {
      "id": "iVM1FVYukQbRhR2mvhYX",
      "title": "あみぐるみ サンタさんとトナカイ"
+    }
+   ]
+  },
+  "71-126": {
+   "image": "https://clover.co.jp/wp-content/uploads/2023/03/71126_2023.jpg",
+   "recipes": [
+    {
+     "id": "GbGdPQrV8sAoDN6YHMUF",
+     "title": "クリスマスツリー＆リース のストリングボード"
+    }
+   ]
+  },
+  "54-403": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54403_01nn.jpg",
+   "recipes": [
+    {
+     "id": "kzGLzMNwbgGCF0uREaQ8",
+     "title": "あみぐるみ 靴下に入った子犬"
     }
    ]
   }

@@ -1,4 +1,10 @@
 {
+ "804": [
+  {
+   "label": "靴下に入った子犬",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/2018dog_in_a_stocking.pdf"
+  }
+ ],
  "806": [
   {
    "label": "ヨーヨーキルト（1.1 MB ）",
@@ -1971,6 +1977,16 @@
    "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscape3_bagcharm.pdf"
   }
  ],
+ "landscapedogwear": [
+  {
+   "label": "ドッグウェア-ボーダー-1枚目（1.2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscapedogwear_border2020_1.pdf"
+  },
+  {
+   "label": "ドッグウェア-ボーダー-2枚目（1.2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscapedogwear_border2020_2.pdf"
+  }
+ ],
  "lesson_bracelet_a": [
   {
    "label": "ねじり結びのブレスレット（822KB）",
@@ -2119,6 +2135,12 @@
   {
    "label": "イギリスゴム編みの帽子（1MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2020/11/2020_mo_01_engcap.pdf"
+  }
+ ],
+ "mo_mittens": [
+  {
+   "label": "かわいいミトン（213KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/2020_mo_03_mittens.pdf"
   }
  ],
  "mob_3snood": [
@@ -2370,6 +2392,26 @@
   {
    "label": "スーパーポンポンメーカーで作る ペンギンの赤ちゃん",
    "url": "https://clover.co.jp/wp-content/uploads/2023/06/PENGUIN_ponpon.pdf"
+  }
+ ],
+ "perfavore2scarf_2020": [
+  {
+   "label": "ゴージャスなストール(185KB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/perfavore2scarf_long2020.pdf"
+  },
+  {
+   "label": "ゴージャスなストール～ショート～(143KB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/perfavore2scarf_short2020.pdf"
+  }
+ ],
+ "perfavoredogwear": [
+  {
+   "label": "ドッグウェア-編み込み-1（1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/perfavoredogwear_amikomi2020_1.pdf"
+  },
+  {
+   "label": "ドッグウェア-編み込み-2（174KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/perfavoredogwear_amikomi2020_2.pdf"
   }
  ],
  "picotcomb_3motifs": [
@@ -2625,6 +2667,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_kogin.pdf"
   }
  ],
+ "post_411": [
+  {
+   "label": "ヘアピンレースのふわふわマフラー（208KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/s_hairpin2020.pdf"
+  }
+ ],
  "post_418": [
   {
    "label": "クロバー ビーズ織り機で作る エレガントアクセサリー（239MB）",
@@ -2703,6 +2751,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_05_761442_kagicap_2016_lu.pdf"
   }
  ],
+ "post_627": [
+  {
+   "label": "ドーナツブローチ（191KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/10/13_donut_brooch_2016_l.pdf"
+  }
+ ],
  "post_644": [
   {
    "label": "マスコット（1）～トナカイ・サンタクロース・スノーマン～（1.3MB）",
@@ -2761,6 +2815,12 @@
   {
    "label": "ヨーヨーのハンドル付きポーチ（284KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/test_recipe_no_59b.pdf"
+  }
+ ],
+ "post_700": [
+  {
+   "label": "1目ゴム編みのキャップ",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2017knit_lu_031gomu.pdf"
   }
  ],
  "post_740": [
@@ -2827,6 +2887,12 @@
   {
    "label": "おすわりねこ（1.94MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2018kaigai_knit_cat.pdf"
+  }
+ ],
+ "post_798": [
+  {
+   "label": "「クリスマスツリー＆リース」のストリングボード（472KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2018xmas_stringboard_h.pdf"
   }
  ],
  "post_799": [
@@ -3620,6 +3686,12 @@
   {
    "label": "スヌード作り方",
    "url": "https://clover.co.jp/wp-content/uploads/2023/09/wh_snood.pdf"
+  }
+ ],
+ "whitesweater": [
+  {
+   "label": "白いセーター（1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/landscape_whitesweater2020.pdf"
   }
  ],
  "yoyo_bustier": [
