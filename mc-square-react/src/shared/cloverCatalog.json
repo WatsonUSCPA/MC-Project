@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-11T16:58:42.471Z",
+ "generatedAt": "2026-11-12T16:56:58.612Z",
  "source": "local",
- "recipeCount": 554,
+ "recipeCount": 564,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -57,6 +57,10 @@
     {
      "id": "SUilqjutd410kjnRLGLG",
      "title": "型紙なしで作れる！切替えワンピース（大人）"
+    },
+    {
+     "id": "uF60nUjTzjqA50IecyCR",
+     "title": "お出かけが楽しいワンちゃん服 フリースの服・デニムの服"
     },
     {
      "id": "vOQ6mXEIvkIuN6yBqmYH",
@@ -857,6 +861,10 @@
      "title": "フリーステッチングでつくるイースターの刺しゅうフレーム"
     },
     {
+     "id": "uV8Ul0Jy0NB8eCPNe2sC",
+     "title": "フリーステッチングニードルで作る クリスマスのミニタペストリー"
+    },
+    {
      "id": "vROulIqYv0J3ZNrkmb3E",
      "title": "フリーステッチングニードルで作る 刺しゅうフレームの壁飾り＜フラワー＞"
     },
@@ -925,8 +933,20 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/58601.jpg",
    "recipes": [
     {
+     "id": "3aXBOO5jRq95h4b3yvGV",
+     "title": "フェルトパンチャーでつくる羊毛刺しゅうのブローチ～クリスマス～"
+    },
+    {
+     "id": "Dp3Gl9zHMmXN3hqeia09",
+     "title": "羊毛刺しゅうブローチのついた ハロウィンファブリックパネル"
+    },
+    {
      "id": "eCrR9NmZWppS9xpPcIpZ",
      "title": "フェルトパンチャーで作る アリスの指人形"
+    },
+    {
+     "id": "H6KQk7boHjxlU4YK1lSo",
+     "title": "羊毛刺しゅうでつくる ツリーと小鳥のオーナメント"
     },
     {
      "id": "Kk5GQCZZ5tbr9FbVxTrQ",
@@ -1558,6 +1578,10 @@
      "title": "スーパーポンポンメーカーとちくちくヨーヨープレートで作る ヨーヨー飾りのリース・L"
     },
     {
+     "id": "tFlG1qbUeZLvCXvsX1qk",
+     "title": "スーパーポンポンメーカーで作る クリスマスカラーのツリー"
+    },
+    {
      "id": "unGXiNlmI3VtGUhQU81S",
      "title": "スーパーポンポンメーカーで作る ペンギンの赤ちゃん"
     },
@@ -1642,6 +1666,10 @@
     {
      "id": "rPEAb6zvQerl87e2y4Vg",
      "title": "ひな祭りの手作り ちいさな、ちいさな、ひな人形"
+    },
+    {
+     "id": "vft0czkvGaPpA0wNYkBu",
+     "title": "花あみルーム＜ミニ＞で作る ホワイトとゴールドのツリー"
     },
     {
      "id": "wSNXWuYLzZG7zDfiQQSc",
@@ -2977,7 +3005,12 @@
   },
   "58-653": {
    "image": "https://clover.co.jp/wp-content/uploads/2018/11/58653.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "y4noIxKpnJMPadC8hF25",
+     "title": "クリスマスの刺しゅうブローチ・３"
+    }
+   ]
   },
   "58-659": {
    "image": "https://clover.co.jp/wp-content/uploads/2018/11/58659.jpg",
@@ -3467,6 +3500,39 @@
      "title": "あみぐるみ 靴下に入った子犬"
     }
    ]
+  },
+  "36-667": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/36-667_P.jpg",
+   "recipes": []
+  },
+  "45-811": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45811_01.jpg",
+   "recipes": []
+  },
+  "45-813": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45813_01.jpg",
+   "recipes": [
+    {
+     "id": "hODYOr7xYNFopO9GRinp",
+     "title": "ドミノスヌード"
+    },
+    {
+     "id": "Qk2YZw528bnzmAYUqfu4",
+     "title": "フリンジが付いたポンチョ"
+    }
+   ]
+  },
+  "57-896": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/57896_01.jpg",
+   "recipes": []
+  },
+  "58-605": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/06/58605.jpg",
+   "recipes": []
+  },
+  "58-652": {
+   "image": "https://clover.co.jp/wp-content/uploads/2018/11/58652.jpg",
+   "recipes": []
   }
  }
 }
