@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-12T16:56:58.612Z",
+ "generatedAt": "2026-11-13T17:02:40.330Z",
  "source": "local",
- "recipeCount": 564,
+ "recipeCount": 574,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -41,6 +41,10 @@
     {
      "id": "FlIhK4YrExAn4UpSvYNv",
      "title": "型紙なしで作れる！キャミワンピ（子ども）"
+    },
+    {
+     "id": "gChiBNUegjRmRfBV86Rw",
+     "title": "手作りワンちゃん服 簡単リバーシブルカバーコート"
     },
     {
      "id": "IltABLAb3p06XlNsp1KP",
@@ -408,6 +412,10 @@
      "title": "カード型ビーズ織り機で楽しむ推し活 タグ型キーホルダー"
     },
     {
+     "id": "RFsHpXHo2mWkJ1JObVmZ",
+     "title": "カード型ビーズ織り機で作る ハロウィンモチーフ"
+    },
+    {
      "id": "s6CEmzLmXy6Nmp0ULWc1",
      "title": "カード型ビーズ織り機で作る レトロかわいい「チャックル」"
     },
@@ -746,6 +754,10 @@
     {
      "id": "v9BAIUWGXpFCPK947WGt",
      "title": "タッセルメーカーで作るデコかご いろんなブルーのタッセルバッグ"
+    },
+    {
+     "id": "WeUe2vhfmmzt3g9P2laR",
+     "title": "タッセルメーカーとハンディヤーンツイスターで作るハロウィンのタッセル飾り"
     }
    ]
   },
@@ -759,6 +771,10 @@
     {
      "id": "DwHpj2gryRSEj6PR9Mxo",
      "title": "アフガン編みの小さなチェック柄のコースター"
+    },
+    {
+     "id": "pXESYZ8QCpgOOjgDf70p",
+     "title": "クロバー「匠」ダブルフックアフガン針で編む輪編みのリストバンド"
     }
    ]
   },
@@ -2027,6 +2043,10 @@
      "title": "猫の首飾り セーラーカラー"
     },
     {
+     "id": "RV4uDAY8Hap04sFyR3bx",
+     "title": "手作りワンチャン服 デニムのベスト"
+    },
+    {
      "id": "RyXzgvuy2uzDGElu3ETQ",
      "title": "猫用ベスト チョッキタイプ・チュチュタイプ"
     }
@@ -2287,6 +2307,10 @@
   "42-410": {
    "image": "https://clover.co.jp/wp-content/uploads/2026/03/42410_01_2026.jpg",
    "recipes": [
+    {
+     "id": "6SMffMgC7rSfLPLeUxTf",
+     "title": "かぎ針編みのスヌード"
+    },
     {
      "id": "DlbAvLu5hNfvdcMjhzbj",
      "title": "花モチーフのキャミソール"
@@ -2781,6 +2805,10 @@
     {
      "id": "w4476DNwd1yWKkMQI203",
      "title": "パンチニードルで作る 幾何学模様のマット"
+    },
+    {
+     "id": "wOH5IsmhgM5aC352VB6Z",
+     "title": "パンチニードルで作る スクエア柄のマット"
     }
    ]
   },
@@ -2905,12 +2933,20 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/57967_01.jpg",
    "recipes": [
     {
+     "id": "2ePJ7zctjLeQkeTvDLcV",
+     "title": "オーバルニットルームで作る オバケのモビール"
+    },
+    {
      "id": "CDn2LyI2bDxbnNhRKuws",
      "title": "オーバルニットルームで作る 富士山のガーランド"
     },
     {
      "id": "EhTu9iKw5Dx0yk8ynlAE",
      "title": "オーバルニットルームでつくるクリスマスボール"
+    },
+    {
+     "id": "PnlsFhu45a4PgU06KWGo",
+     "title": "オーバルニットルームで編む もこもこリストウォーマー"
     },
     {
      "id": "X9bpptuwV2Fhz4HbcDzD",
@@ -3428,7 +3464,12 @@
   },
   "45-715": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45715_01.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "yZ727GOOVaV1Rswmhkwr",
+     "title": "トップダウンで編むカーディガン＆帽子"
+    }
+   ]
   },
   "45-727": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45727_01.jpg",
