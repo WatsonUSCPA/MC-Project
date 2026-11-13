@@ -41,6 +41,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2019/10/2019_ls_10_mimicaparmwarmer.pdf"
   }
  ],
+ "842": [
+  {
+   "label": "もこもこリストウォーマー（488KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/10/ovalknit_warmer-2019.pdf"
+  }
+ ],
  "847": [
   {
    "label": "透かし編みの三角ショール（156KB）",
@@ -63,6 +69,12 @@
   {
    "label": "なわあみベレー帽＆マフラー（1.3MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2019/10/2019_ls_05_nawacapmafu.pdf"
+  }
+ ],
+ "857": [
+  {
+   "label": "トップダウンで編むカーディガン＆帽子（2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/10/2019_ls_03_cardiganbousi.pdf"
   }
  ],
  "863": [
@@ -1718,6 +1730,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2022/12/hakoseko_fu.pdf"
   }
  ],
+ "halloween_mobile": [
+  {
+   "label": "オバケのモビール（1.9MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/09/2020halloween_mobile.pdf"
+  }
+ ],
  "hanaami_oshikatsu_rosette": [
   {
    "label": "ロゼットメーカーと花あみルームで作る 花リボンのロゼット",
@@ -2005,6 +2023,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscapedogwear_border2020_2.pdf"
   }
  ],
+ "landscapesnood": [
+  {
+   "label": "スヌード（219KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/landscape_snood2020.pdf"
+  }
+ ],
  "lesson_bracelet_a": [
   {
    "label": "ねじり結びのブレスレット（822KB）",
@@ -2237,6 +2261,12 @@
   {
    "label": "ネコのマット(２MB)",
    "url": "https://clover.co.jp/wp-content/uploads/2020/11/punchneedle_cat.pdf"
+  }
+ ],
+ "needlematsquare": [
+  {
+   "label": "スクエア柄のマット（591KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/11/punchneedle_square.pdf"
   }
  ],
  "neko_sisyu": [
@@ -2585,6 +2615,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2021/01/knit2012_681463.pdf"
   }
  ],
+ "post_157": [
+  {
+   "label": "リストバンド（12.9MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_knit2011b_w_1920wabar.pdf"
+  }
+ ],
  "post_188": [
   {
    "label": "かぎ針引き上げ模様のくつ下",
@@ -2739,10 +2775,22 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_x_maskurumita.pdf"
   }
  ],
+ "post_499": [
+  {
+   "label": "カード型ビーズ織り機でつくる ハロウィンモチーフ（226KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2021/09/hallow_beads_zuan.pdf"
+  }
+ ],
  "post_50": [
   {
    "label": "パールボタンのつけ襟（258KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/test_recipe_159.pdf"
+  }
+ ],
+ "post_505": [
+  {
+   "label": "ハロウィンのタッセル飾り（586KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_halloweentassel.pdf"
   }
  ],
  "post_573": [
@@ -2761,6 +2809,24 @@
   {
    "label": "手作りワンちゃん服づくりに必要な用具（205KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2020/12/foodbest_tool_2020.pdf"
+  }
+ ],
+ "post_574": [
+  {
+   "label": "お洋服を作る前にお読みください",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/reversiblecovercoat_hajimeni_2020.pdf"
+  },
+  {
+   "label": "簡単リバーシブルカバーコート作り方（109KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/reversiblecovercoat_tukurikata_2020.pdf"
+  },
+  {
+   "label": "簡単リバーシブルカバーコート型紙（102 KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/reversiblecovercoat_kata_2020.pdf"
+  },
+  {
+   "label": "手作りワンちゃん服づくりに必要な用具（205KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/reversiblecovercoat_tool_2020.pdf"
   }
  ],
  "post_584": [
@@ -2863,6 +2929,24 @@
   {
    "label": "ヨーヨーのハンドル付きポーチ（284KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/test_recipe_no_59b.pdf"
+  }
+ ],
+ "post_70": [
+  {
+   "label": "お洋服を作る前にお読みください。",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/wandenim_tukurumae.pdf"
+  },
+  {
+   "label": "型紙（74KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/10/wandenim_katagami.pdf"
+  },
+  {
+   "label": "作り方解説（170KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/wandenim_recipe.pdf"
+  },
+  {
+   "label": "必要な用具（207 KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/12/wandenim_tool.pdf"
   }
  ],
  "post_700": [
