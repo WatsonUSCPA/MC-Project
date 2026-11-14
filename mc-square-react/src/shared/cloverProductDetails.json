@@ -3374,6 +3374,43 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "45-805": {
+  "productNumber": "45-805",
+  "sourceUrl": "https://clover.co.jp/products/45805",
+  "title": "「匠」輪針-S 80cm 5号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45805_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/socks_red.jpg",
+   "https://clover.co.jp/wp-content/uploads/2024/09/45600_04.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "輪針\n針軸の太さ(直径)：3.6mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス鋼 チップ:ナイロン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×218×6mm"
+   }
+  ],
+  "fetchedAt": "2026-11-14"
+ },
  "45-810": {
   "productNumber": "45-810",
   "sourceUrl": "https://clover.co.jp/products/45810",
@@ -4114,6 +4151,40 @@
    }
   ],
   "fetchedAt": "2026-11-06"
+ },
+ "54-245": {
+  "productNumber": "54-245",
+  "sourceUrl": "https://clover.co.jp/products/54245",
+  "title": "「匠」2本針ジャンボ ＜15mm＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/01/54245_11.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54245.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。天然素材の持ち味を生かし、1本1本ていねいに仕上げた高品質の竹編み針です。超極太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組"
+   },
+   {
+    "label": "材質",
+    "value": "針：竹／頭：天然木"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "65×455×23mm"
+   }
+  ],
+  "fetchedAt": "2026-11-14"
  },
  "54-253": {
   "productNumber": "54-253",
@@ -5746,6 +5817,41 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-358": {
+  "productNumber": "57-358",
+  "sourceUrl": "https://clover.co.jp/products/57358",
+  "title": "バッグ・帽子用ポリ芯＜1.5mm白＞",
+  "category": [
+   "ソーイング"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/07/57-3584_P.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/s57358.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/07/57-3584_P2.jpg"
+  ],
+  "catchCopy": "しっかり保形、補強したい時に。",
+  "description": "クラフト用ハサミでカットして、ミシンで縫える芯材です。硬くしっかりとしたバッグの底や、キャップタイプの帽子のブリム(つば)の保形に。\nアパレルでバッグや帽子を製作している方々が選んだ、厚さ0.5mmと1.5mmの2タイプです。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "本体:25cm×50cm"
+   },
+   {
+    "label": "材質",
+    "value": "発泡ポリエチレン100％"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "260×545×3mm"
+   }
+  ],
+  "fetchedAt": "2026-11-14"
  },
  "57-385": {
   "productNumber": "57-385",
