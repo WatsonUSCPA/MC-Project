@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-13T17:02:40.330Z",
+ "generatedAt": "2026-11-14T17:01:46.872Z",
  "source": "local",
- "recipeCount": 574,
+ "recipeCount": 584,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -1007,6 +1007,10 @@
      "title": "六角形に編む ネット模様のショート丈プルオーバー"
     },
     {
+     "id": "rhresSQ55Dq45xl93me4",
+     "title": "リバーシブルリブ模様ネックウォーマー"
+    },
+    {
      "id": "VJiAQC5RCRz2dYKkfczX",
      "title": "六角形に編む グラニー模様のVネックプルオーバー"
     }
@@ -1182,6 +1186,10 @@
     {
      "id": "eHpYvwlCrIPWQLFvYbN5",
      "title": "ハンドメイドでSDGs／余り糸で編むクロッシェハット"
+    },
+    {
+     "id": "F7OOcMH3HM8batEUFdHS",
+     "title": "模様編みのプラントカバー・S"
     },
     {
      "id": "IPF7fosD7PBVMSMFWufH",
@@ -1446,8 +1454,16 @@
      "title": "ドーナツブローチ"
     },
     {
+     "id": "HAySuWTuynXjyIXI0foU",
+     "title": "モコモコリストウォーマー"
+    },
+    {
      "id": "i50vcdRLbSI2olSvYBqu",
      "title": "かぎ針編みのキャップ"
+    },
+    {
+     "id": "K4fg7ST7uhr225J5L7J3",
+     "title": "ジャンボ編み 2色のシュシュ"
     }
    ]
   },
@@ -3069,6 +3085,10 @@
      "title": "ワンダーリリアンで作る ペンギンのあみぐるみ"
     },
     {
+     "id": "pCaEbFgMyxkAnsx2pOSO",
+     "title": "ワンダーリリアンでつくるフォトプロップス＜WOW！・王冠・コウモリ＞"
+    },
+    {
      "id": "V7HufVQcBP4kQ5Ill4oS",
      "title": "ワンダーリリアンで作る あみぐるみやぎさん"
     },
@@ -3215,6 +3235,10 @@
     {
      "id": "me7aIH0iG5mPWO5TeOa2",
      "title": "ロゼットメーカーでつくる ひな祭りロゼット"
+    },
+    {
+     "id": "qPkzaU0Y6K3t8ltZzSLN",
+     "title": "ハロウィンロゼット"
     }
    ]
   },
@@ -3263,6 +3287,10 @@
     {
      "id": "EE2PIRMDBPRNtM1lCrOW",
      "title": "耳あてキャップ＆アームウォーマー"
+    },
+    {
+     "id": "GwGlvb3p34ueZDSZdJPl",
+     "title": "アランのネックウォーマー"
     }
    ]
   },
@@ -3574,6 +3602,33 @@
   "58-652": {
    "image": "https://clover.co.jp/wp-content/uploads/2018/11/58652.jpg",
    "recipes": []
+  },
+  "54-245": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/01/54245_11.jpg",
+   "recipes": [
+    {
+     "id": "uLShqaFjK9SsXtXzrb52",
+     "title": "交差模様のトートバッグ"
+    }
+   ]
+  },
+  "57-358": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/07/57-3584_P.jpg",
+   "recipes": [
+    {
+     "id": "FZGIVkAVVAf66okve04s",
+     "title": "バッグ・帽子用ポリ芯を使った お弁当が安定するエコバッグ"
+    }
+   ]
+  },
+  "45-805": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/08/45805_01.jpg",
+   "recipes": [
+    {
+     "id": "9igd8w4vZ3A5MAqsHJN8",
+     "title": "初心者さんにもおすすめ 幾何学模様のハンドウォーマー"
+    }
+   ]
   }
  }
 }
