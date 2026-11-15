@@ -2444,6 +2444,28 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "41-412": {
+  "productNumber": "41-412",
+  "sourceUrl": "https://clover.co.jp/products/41412",
+  "title": "レース針「アミュレ」＜No.12＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2023/03/41412_01_2023.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/03/41412_02_2026.jpg"
+  ],
+  "catchCopy": "きれいに編める針先です。",
+  "description": "初心者にも編みやすい針先。ソフトタッチのグリップは、可愛いシャーベットカラーです。\n編みやすい針先\n針先から糸が外れにくく、目を拾ったり糸を引き抜きやすい針先形状になっています。\nきれいに編める針軸\n針の規格サイズ部分が長いので、編み目 の大きさが揃いやすく、きれいに編むことができます。\n手にやさしい持ちやすいグリップ\n立体的なカーブで作られたグリップは、自然と指先にフィットします。しっかり握れるので余分な力をかけずに編むことができ、手が疲れにくい設計です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "パッケージサイズ",
+    "value": "31×190×12mm"
+   }
+  ],
+  "fetchedAt": "2026-11-15"
+ },
  "41-606": {
   "productNumber": "41-606",
   "sourceUrl": "https://clover.co.jp/products/41606",
@@ -8920,6 +8942,46 @@
    }
   ],
   "fetchedAt": "2026-11-12"
+ },
+ "58-612": {
+  "productNumber": "58-612",
+  "sourceUrl": "https://clover.co.jp/products/58612",
+  "title": "ラグメーカー",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/06/58612.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58612_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58612_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58612_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58612_04.jpg"
+  ],
+  "catchCopy": "かわいいマットやタペストリーを楽しく手作り。",
+  "description": "毛糸や好きな糸をカットして、専用フックでメッシュに結びつけていくだけで自分だけのオリジナルラグが作れます。\n毛糸を均等な長さにカットできるヤーンゲージ付き。約6cm・8cm・10cmにカットできます。ヤーンゲージを使い分けて毛糸の長さを変えるだけで、同じ面積を埋めても印象が変わります。4つの作品（コースター、クッションカバー、ラグ、タペストリー）の説明書付きなので、初めての人でも作品作りが楽しめます。",
+  "notes": [
+   "※ラグの制作には別売の58-613「ラグ用メッシュ」が必要です。",
+   "※ラッチフック針の針先は尖っていますので、取り扱いにご注意ください。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ラッチフック針 1本、ヤーンゲージ 2枚、説明書 1枚"
+   },
+   {
+    "label": "材質",
+    "value": "ラッチフック針:鋼（ニッケルメッキ)、ABS樹脂 ヤーンゲージ:ポリプロピレン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "165×210×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-15"
  },
  "58-621": {
   "productNumber": "58-621",
