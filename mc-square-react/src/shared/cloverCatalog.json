@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-15T16:56:15.102Z",
+ "generatedAt": "2026-11-16T16:57:14.847Z",
  "source": "local",
- "recipeCount": 594,
+ "recipeCount": 604,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -458,6 +458,10 @@
      "title": "花あみルームで作るデコかご ラフィアの花モチーフバッグ・丸"
     },
     {
+     "id": "f2dnhGSQo9lKXeNtuDwK",
+     "title": "花あみルームで作る パジャキ風シャンデリア"
+    },
+    {
      "id": "KX754D9ZreVitLWbxpOY",
      "title": "つまみ細工プレートと花あみルームで作る ヘアアクセサリー"
     },
@@ -494,6 +498,10 @@
     {
      "id": "CLPPi7lzYQo9klvHYHrY",
      "title": "ちくちくヨーヨープレートで作る ポップなブローチ"
+    },
+    {
+     "id": "t6zatpP46UsbFaHKDhH8",
+     "title": "ちくちくヨーヨープレートで作る パジャキ風シャンデリア"
     },
     {
      "id": "wNOcE2O3A7UmBAqoSqWV",
@@ -536,6 +544,10 @@
     {
      "id": "HphDQcYBl8KT7xCPRAsa",
      "title": "スーパーポンポンメーカーで作る 優しいシロクマ"
+    },
+    {
+     "id": "xvaGsB3to0H5G20g8Crz",
+     "title": "スーパーポンポンメーカーで作る パジャキ風シャンデリア（チュールのポンポンver.）"
     }
    ]
   },
@@ -989,6 +1001,10 @@
   "25-051": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/25051_01.jpg",
    "recipes": [
+    {
+     "id": "Hk9FlTmNYr2FPoplqiaS",
+     "title": "真夏の女の子服 プリーツスカートのワンピース"
+    },
     {
      "id": "R07z0vjDexS9deUtZdFB",
      "title": "涼しくてかわいい！夏の子ども甚平（じんべい）90cm・100cm・110cm・120cmサイズ"
@@ -2130,8 +2146,20 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/25059_01.jpg",
    "recipes": [
     {
+     "id": "CgvNNG8wRdTJSzIFBwtD",
+     "title": "ミシンで作る シンプルエプロン (子ども用)"
+    },
+    {
+     "id": "eEVDiZ38MlqRGmUU0WqB",
+     "title": "ミシンで作る バッククロスエプロン (子ども用)"
+    },
+    {
      "id": "fi5yv8JY9Q5IzgDz2c3e",
      "title": "“直線縫いで作れる素敵なスカート” コードギャザースカート"
+    },
+    {
+     "id": "FyHNS2kpmwLZ3KXKRveB",
+     "title": "ミシンで作る シンプルエプロン (大人用)"
     },
     {
      "id": "YTk3Bd53XyWnHkDNvXuJ",
@@ -2170,6 +2198,10 @@
     {
      "id": "bUltEWI24QuspHqEhoaV",
      "title": "通園・通学に使いやすい！持ち手付きナップサック"
+    },
+    {
+     "id": "wOk0r4zdVvqDIJegP9gN",
+     "title": "端切れで作るベビーシュシュ"
     }
    ]
   },
@@ -3141,6 +3173,10 @@
      "title": "ちくちくヨーヨープレートでデコするバッグ"
     },
     {
+     "id": "tIXIKKzHrujAle7xAdTH",
+     "title": "ちくちくヨーヨープレートでつくる ヨーヨーのコースター"
+    },
+    {
      "id": "ZtJ33NfoZOPJZDrsZbCX",
      "title": "ちくちくヨーヨープレート＜S＞で作る クリスマスカラーのツリー"
     }
@@ -3678,6 +3714,15 @@
     {
      "id": "Kalsw45oU7BVs5UqNNbU",
      "title": "ラグメーカーで作る ねこマット＜三毛猫＞"
+    }
+   ]
+  },
+  "41-406": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/02/41406_01_2026-1.jpg",
+   "recipes": [
+    {
+     "id": "dNEbDlLOke0aUTAHhhu2",
+     "title": "レース針「アミュレ」で編む お花のミニドイリー"
     }
    ]
   }
