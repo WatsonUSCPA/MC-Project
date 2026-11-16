@@ -195,6 +195,16 @@
    "url": "https://clover.co.jp/wp-content/uploads/2019/01/2018_fs_ad_zuann.pdf"
   }
  ],
+ "20190802": [
+  {
+   "label": "お花のミニドイリー①",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/08/hana_no_doilly_1_link.pdf"
+  },
+  {
+   "label": "お花のドイリー②",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/08/hana_no_doilly_2_link.pdf"
+  }
+ ],
  "1-tama_baraclava": [
   {
    "label": "「匠」輪針-S100cmで編む 1玉でできるバラクラバ",
@@ -1025,12 +1035,31 @@
    "url": "https://clover.co.jp/wp-content/uploads/2020/07/2020apron_cross_a.pdf"
   }
  ],
+ "apron_cross_c": [
+  {
+   "label": "バッククロスエプロン-子ども用- (2MB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/07/2020apron_cross_c.pdf"
+  }
+ ],
+ "apron_simple_a": [
+  {
+   "label": "シンプルエプロン-大人用- (1MB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/07/2020apron_simple_a.pdf"
+  }
+ ],
+ "apron_simple_c": [
+  {
+   "label": "シンプルエプロン-子ども用- (1.6MB)",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/07/2020apron_simple_c.pdf"
+  }
+ ],
  "b_kakueri": [
   {
    "label": "付け襟テンプレートで作る ベルベットの角襟",
    "url": "https://clover.co.jp/wp-content/uploads/2022/09/B_kakueri.pdf"
   }
  ],
+ "babyscrunchie": [],
  "beads_c_earrings01": [
   {
    "label": "春のレースアクセサリー ビーズクロッシェのピアス①",
@@ -1711,6 +1740,7 @@
    "url": "https://clover.co.jp/wp-content/uploads/2022/07/funwari_ribbon.pdf"
   }
  ],
+ "girlonepiece": [],
  "girlsetup": [],
  "goard_skirt": [
   {
@@ -2463,10 +2493,40 @@
    "url": "https://clover.co.jp/wp-content/uploads/2024/01/recipe_p_embroidery_ribbon.pdf"
   }
  ],
+ "pajaki_c_pompom": [
+  {
+   "label": "パジャキ風シャンデリア（860KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_c_pompom.pdf"
+  },
+  {
+   "label": "パジャキ風シャンデリア ～土台の作り方～（1.4MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_base.pdf"
+  }
+ ],
+ "pajaki_hanaami": [
+  {
+   "label": "パジャキ風シャンデリア（1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_hanaami.pdf"
+  },
+  {
+   "label": "パジャキ風シャンデリア ～土台の作り方～（1.4MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_base.pdf"
+  }
+ ],
  "pajaki_pompom": [
   {
    "label": "パジャキ風シャンデリア（1.3MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_pompom.pdf"
+  },
+  {
+   "label": "パジャキ風シャンデリア ～土台の作り方～（1.4MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_base.pdf"
+  }
+ ],
+ "pajaki_yoyo": [
+  {
+   "label": "パジャキ風シャンデリア（1.2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_yoyo.pdf"
   },
   {
    "label": "パジャキ風シャンデリア ～土台の作り方～（1.4MB）",
@@ -3075,6 +3135,12 @@
   {
    "label": "羊毛刺しゅうでつくる ツリーと小鳥のオーナメント（517 KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2017christmas_woolst01.pdf"
+  }
+ ],
+ "post_730": [
+  {
+   "label": "ヨーヨーのコースター（1.3MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_yoyo_coaster.pdf"
   }
  ],
  "post_740": [
