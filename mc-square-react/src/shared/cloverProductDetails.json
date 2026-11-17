@@ -5808,6 +5808,79 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "57-252": {
+  "productNumber": "57-252",
+  "sourceUrl": "https://clover.co.jp/products/57252",
+  "title": "ラウンドペンチ＜ストッパー付＞",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/03/57-252_P.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57-252.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57-252_P2.jpg",
+   "https://clover.co.jp/wp-content/uploads/2022/06/57252_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2022/06/57252_02.jpg"
+  ],
+  "catchCopy": "ピンやワイヤーを丸めるときに便利な丸形のペンチです。",
+  "description": "ビーズアクセサリーを楽しむ方のために。開き具合をストッパーで設定すると、繊細な作業がらくにできます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ステンレス製 長さ135mm"
+   },
+   {
+    "label": "材質",
+    "value": "金属部:ステンレス鋼 樹脂部:エラストマー"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "85×210×15mm"
+   }
+  ],
+  "fetchedAt": "2026-11-17"
+ },
+ "57-253": {
+  "productNumber": "57-253",
+  "sourceUrl": "https://clover.co.jp/products/57253",
+  "title": "フラットペンチ＜ストッパー付＞",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/03/57-253_P.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57-253.jpg",
+   "https://clover.co.jp/wp-content/uploads/2022/06/57253_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2022/06/57253_02.jpg"
+  ],
+  "catchCopy": "つぶし玉や丸カンの開閉に便利な平型のペンチです。",
+  "description": "ビーズアクセサリーを楽しむ方のために。開き具合をストッパーで設定すると、繊細な作業がらくにできます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ステンレス製 長さ135mm"
+   },
+   {
+    "label": "材質",
+    "value": "金属部:ステンレス鋼 樹脂部:エラストマー"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "85×210×15mm"
+   }
+  ],
+  "fetchedAt": "2026-11-17"
+ },
  "57-254": {
   "productNumber": "57-254",
   "sourceUrl": "https://clover.co.jp/products/57254",
@@ -6257,6 +6330,70 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-451": {
+  "productNumber": "57-451",
+  "sourceUrl": "https://clover.co.jp/products/57451",
+  "title": "つまみ細工プレート 丸つまみS",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/06/57451.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57451_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57451_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57451_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57451_00.jpg"
+  ],
+  "catchCopy": "プレートの順番どおりに縫うだけ!",
+  "description": "できあがりサイズ〈S〉(直径)約5ｃｍ\n6作品のレシピブック付！\n「つまみ細工プレート」は、順番どおりに縫って糸を引きしめるだけで、かんたんにつまみ細工風の花びらが作れるプレートです。大きめサイズなので作りやすく、短時間で華やかなモチーフが完成します。花びらを1枚ずつ作るので、枚数や色を変えて楽しめます！\nつまみ細工とは？\n日本の伝統工芸のひとつで、かんざしなどに使われています。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "ポリプロピレン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "105×210×5mm"
+   }
+  ],
+  "fetchedAt": "2026-11-17"
+ },
+ "57-452": {
+  "productNumber": "57-452",
+  "sourceUrl": "https://clover.co.jp/products/57452",
+  "title": "つまみ細工プレート 丸つまみL",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/06/57452.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57452_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/57451_00.jpg"
+  ],
+  "catchCopy": "プレートの順番どおりに縫うだけ!",
+  "description": "できあがりサイズ〈L〉(直径)約7.5ｃｍ\n6作品のレシピブック付！\n「つまみ細工プレート」は、順番どおりに縫って糸を引きしめるだけで、かんたんにつまみ細工風の花びらが作れるプレートです。大きめサイズなので作りやすく、短時間で華やかなモチーフが完成します。花びらを1枚ずつ作るので、枚数や色を変えて楽しめます！\nつまみ細工とは？\n日本の伝統工芸のひとつで、かんざしなどに使われています。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "ポリプロピレン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "115×210×5mm"
+   }
+  ],
+  "fetchedAt": "2026-11-17"
  },
  "57-453": {
   "productNumber": "57-453",

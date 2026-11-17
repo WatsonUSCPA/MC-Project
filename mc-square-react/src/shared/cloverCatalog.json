@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-16T16:57:14.847Z",
+ "generatedAt": "2026-11-17T16:57:19.689Z",
  "source": "local",
- "recipeCount": 604,
+ "recipeCount": 614,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -404,8 +404,16 @@
      "title": "カード型ビーズ織り機で作る スクエアブローチ"
     },
     {
+     "id": "ekPs81LWwTYMML9L9A7f",
+     "title": "カード型ビーズ織り機で作る 三角形とダイヤ型のピアス・イヤリング"
+    },
+    {
      "id": "feUdKmh1cfVdoOdKkEfg",
      "title": "カード型ビーズ織り機で楽しむ推し活 缶バッジチャーム"
+    },
+    {
+     "id": "iKuMZIN4FsAGuVMjSVEw",
+     "title": "カード型ビーズ織り機で作る ジュエリーブローチ"
     },
     {
      "id": "iRPFlHzzq4xvffUnYP47",
@@ -1564,6 +1572,10 @@
      "title": "ブレスレットメーカーで作る ミモザのブレスレット"
     },
     {
+     "id": "Q8sjn8paJ1m7MgpQE8d2",
+     "title": "ブレスレットメーカーで作る おしゃれブレス4種（床置きのもの）"
+    },
+    {
      "id": "SVzVhDO74KDXQJXJ9e2O",
      "title": "ブレスレットメーカーで作る 早春カラーのブレスレット3種"
     },
@@ -1712,8 +1724,20 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/05/57966.jpg",
    "recipes": [
     {
+     "id": "6CFPFLonHKtwLMNs76YI",
+     "title": "花あみルームで作る メタリックヤーンコサージュ"
+    },
+    {
+     "id": "7Wkuu5ODRJbXHFH3WCKa",
+     "title": "花あみルーム＜ミニ＞で作る フラワーピアス・イヤリング"
+    },
+    {
      "id": "GbqoECfdLla0Ca4Dj6Lz",
      "title": "花あみルーム<ミニ>とタッセルメーカー<スモール>で作る 華やかイヤリング"
+    },
+    {
+     "id": "gL9k7bdcE4rlJdINn75c",
+     "title": "花あみルームで作る リボンのコサージュ"
     },
     {
      "id": "rPEAb6zvQerl87e2y4Vg",
@@ -2079,6 +2103,10 @@
      "title": "猫の首飾り セーラーカラー"
     },
     {
+     "id": "PvysXOrEhGI7WpuGmais",
+     "title": "はじめてのミシン 便利な巾着袋"
+    },
+    {
      "id": "RV4uDAY8Hap04sFyR3bx",
      "title": "手作りワンチャン服 デニムのベスト"
     },
@@ -2135,6 +2163,10 @@
     {
      "id": "mU2ivWwBiIHg7Heet0g2",
      "title": "ミシンで作る シンプルマチつきマスクカバー"
+    },
+    {
+     "id": "QnN4tvdvcNokI9cpvRWG",
+     "title": "はじめてのミシン 額縁仕立てのランチョンマット"
     },
     {
      "id": "ttwxrYF56cthLHyyx5Lf",
@@ -3169,6 +3201,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/58797.jpg",
    "recipes": [
     {
+     "id": "bRabohwWe2ccgS55DmKK",
+     "title": "ちくちくヨーヨープレートで作る チュールヨーヨーのピアス・イヤリング"
+    },
+    {
      "id": "dfPq2smyoxn9bfG4FuoU",
      "title": "ちくちくヨーヨープレートでデコするバッグ"
     },
@@ -3723,6 +3759,27 @@
     {
      "id": "dNEbDlLOke0aUTAHhhu2",
      "title": "レース針「アミュレ」で編む お花のミニドイリー"
+    }
+   ]
+  },
+  "57-252": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/57-252_P.jpg",
+   "recipes": []
+  },
+  "57-253": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/03/57-253_P.jpg",
+   "recipes": []
+  },
+  "57-451": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/06/57451.jpg",
+   "recipes": []
+  },
+  "57-452": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/06/57452.jpg",
+   "recipes": [
+    {
+     "id": "O2fHE1fTJ0KNjsRBDn3e",
+     "title": "つまみ細工プレートで作る パジャキ風シャンデリア"
     }
    ]
   }

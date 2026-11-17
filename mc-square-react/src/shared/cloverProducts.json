@@ -1979,5 +1979,33 @@
   "name": "レース針「アミュレ」＜No.6＞",
   "price": 858,
   "productUrl": "https://clover.co.jp/products/41406"
+ },
+ {
+  "id": "clover-57-252",
+  "productNumber": "57-252",
+  "name": "ラウンドペンチ＜ストッパー付＞",
+  "price": 3850,
+  "productUrl": "https://clover.co.jp/products/57252"
+ },
+ {
+  "id": "clover-57-253",
+  "productNumber": "57-253",
+  "name": "フラットペンチ＜ストッパー付＞",
+  "price": 3850,
+  "productUrl": "https://clover.co.jp/products/57253"
+ },
+ {
+  "id": "clover-57-451",
+  "productNumber": "57-451",
+  "name": "つまみ細工プレート 丸つまみS",
+  "price": 605,
+  "productUrl": "https://clover.co.jp/products/57451"
+ },
+ {
+  "id": "clover-57-452",
+  "productNumber": "57-452",
+  "name": "つまみ細工プレート 丸つまみL",
+  "price": 605,
+  "productUrl": "https://clover.co.jp/products/57452"
  }
 ]
