@@ -939,10 +939,34 @@
    "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce01_bracelet_6type.pdf"
   }
  ],
+ "acce_recipe_12": [
+  {
+   "label": "メタリックヤーンコサージュ（547MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce12_hanaami_metallic.pdf"
+  }
+ ],
+ "acce_recipe_13": [
+  {
+   "label": "リボンのコサージュ（1.4MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce13_hanaami_ribbon.pdf"
+  }
+ ],
+ "acce_recipe_14": [
+  {
+   "label": "ジュエリーブローチ（603KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce14_beads_jewel.pdf"
+  }
+ ],
  "acce_recipe_15": [
   {
    "label": "スクエアブローチ（476KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce15_beads_square.pdf"
+  }
+ ],
+ "acce_recipe_2": [
+  {
+   "label": "チュールヨーヨーのピアス・イヤリング（1.5MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce02_yoyo.pdf"
   }
  ],
  "acce_recipe_3": [
@@ -961,6 +985,24 @@
   {
    "label": "チュールポンポンのピアス・イヤリング（1.2MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce05_pompom_a.pdf"
+  }
+ ],
+ "acce_recipe_6": [
+  {
+   "label": "フラワーピアス・イヤリング（1.2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce06_hanaami_mini.pdf"
+  }
+ ],
+ "acce_recipe_7": [
+  {
+   "label": "三角形とダイヤ型のピアス・イヤリング（745KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce07_beads_triangle.pdf"
+  }
+ ],
+ "acce_recipe_8": [
+  {
+   "label": "おしゃれブレス4種（4MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/2020acce08_bracelet_4type.pdf"
   }
  ],
  "adventcalendar": [
@@ -2171,6 +2213,20 @@
    "url": "https://clover.co.jp/wp-content/uploads/2020/06/m_cover4p.pdf"
   }
  ],
+ "m_kintyaku": [
+  {
+   "label": "はじめてのミシン 便利な巾着袋",
+   "url": "https://clover.co.jp/wp-content/uploads/2022/08/m_kintyaku.pdf"
+  },
+  {
+   "label": "布小物をつくるためのソーイング道具",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/beginner_tools.pdf"
+  },
+  {
+   "label": "ソーイングをはじめる前に〜布の準備〜",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/beginner_nuno.pdf"
+  }
+ ],
  "m_lunchbox_ecobag": [
   {
    "label": "ミシンで縫うコンビニ弁当用エコバッグ",
@@ -2179,6 +2235,20 @@
   {
    "label": "ひも用プラナスかんを使ったエコバッグの折りたたみアイデア",
    "url": "https://clover.co.jp/wp-content/uploads/2021/04/ecobag_idea.pdf"
+  }
+ ],
+ "m_lunchmat": [
+  {
+   "label": "はじめてのミシン 額縁仕立てのランチョンマット",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/m_lunchmat-1.pdf"
+  },
+  {
+   "label": "ソーイングをはじめる前に〜布の準備〜",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/beginner_nuno.pdf"
+  },
+  {
+   "label": "布小物を作るためのソーイング道具",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/05/beginner_tools.pdf"
   }
  ],
  "m_openwork_snood": [
@@ -2517,6 +2587,16 @@
   {
    "label": "パジャキ風シャンデリア（1.3MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_pompom.pdf"
+  },
+  {
+   "label": "パジャキ風シャンデリア ～土台の作り方～（1.4MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_base.pdf"
+  }
+ ],
+ "pajaki_tsumami": [
+  {
+   "label": "パジャキ風シャンデリア（1.2MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2020/06/pajaki_tsumami.pdf"
   },
   {
    "label": "パジャキ風シャンデリア ～土台の作り方～（1.4MB）",
