@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-17T16:57:19.689Z",
+ "generatedAt": "2026-11-18T17:07:40.218Z",
  "source": "local",
- "recipeCount": 614,
+ "recipeCount": 624,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -424,6 +424,10 @@
      "title": "カード型ビーズ織り機で楽しむ推し活 タグ型キーホルダー"
     },
     {
+     "id": "NDonWEDpqkuFEnvGaHo9",
+     "title": "カード型ビーズ織り機で作る 勲章風ブローチ"
+    },
+    {
      "id": "RFsHpXHo2mWkJ1JObVmZ",
      "title": "カード型ビーズ織り機で作る ハロウィンモチーフ"
     },
@@ -518,6 +522,10 @@
     {
      "id": "x4gKbgGThl7lk4fdxwpi",
      "title": "ちくちくヨーヨープレートで作る ヨーヨーキルトのビスチェ"
+    },
+    {
+     "id": "ytof1yYyBEqd9Y6SYnpX",
+     "title": "ちくちくヨーヨープレートで作るチュールヨーヨーのヘアゴム"
     }
    ]
   },
@@ -552,6 +560,10 @@
     {
      "id": "HphDQcYBl8KT7xCPRAsa",
      "title": "スーパーポンポンメーカーで作る 優しいシロクマ"
+    },
+    {
+     "id": "r5K78GB9Qxm7jcfUNV6T",
+     "title": "スーパーポンポンメーカーで作るカーネーション"
     },
     {
      "id": "xvaGsB3to0H5G20g8Crz",
@@ -757,6 +769,10 @@
     {
      "id": "D9Lt2KGOX5yUPkebrx0J",
      "title": "つまみ細工プレートで作る お花のシュシュ"
+    },
+    {
+     "id": "dA1oAATDz7PblYQimecE",
+     "title": "つまみ細工プレートで作る サテンとチュールのブローチ・ピアス"
     },
     {
      "id": "DutJhMk2iQ9Fxd1L7z16",
@@ -1618,6 +1634,10 @@
      "title": "スーパーポンポンメーカーとつまみ細工プレートで作る 花飾りのリース・S"
     },
     {
+     "id": "ezr1UL363BGnMqgx4WW5",
+     "title": "スーパーポンポンメーカーと花あみルーム＜ミニ＞で作るシロツメクサのかんむり"
+    },
+    {
      "id": "faJMafnYyZBzDsyFsDXU",
      "title": "かぼちゃのバッグ【ハロウィン】"
     },
@@ -1738,6 +1758,10 @@
     {
      "id": "gL9k7bdcE4rlJdINn75c",
      "title": "花あみルームで作る リボンのコサージュ"
+    },
+    {
+     "id": "l93P7vsGerzLbyrv2Pvh",
+     "title": "花あみルームで作る サマーブーケコサージュ"
     },
     {
      "id": "rPEAb6zvQerl87e2y4Vg",
@@ -2727,6 +2751,10 @@
     {
      "id": "A5VZQdVRI1DHHaEGMQ7C",
      "title": "つまみ細工プレートとちくちくヨーヨープレートで作る ポインセチアのリース"
+    },
+    {
+     "id": "ayixKS5RD9sQkgKFJRge",
+     "title": "つまみ細工プレートで作る ピンクのコサージュ"
     }
    ]
   },
@@ -3702,7 +3730,12 @@
   },
   "58-652": {
    "image": "https://clover.co.jp/wp-content/uploads/2018/11/58652.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "7yhgXRaqv5zp1HLISx7w",
+     "title": "くるみボタンでつくる 刺しゅうのブローチと帯留"
+    }
+   ]
   },
   "54-245": {
    "image": "https://clover.co.jp/wp-content/uploads/2026/01/54245_11.jpg",
@@ -3780,6 +3813,24 @@
     {
      "id": "O2fHE1fTJ0KNjsRBDn3e",
      "title": "つまみ細工プレートで作る パジャキ風シャンデリア"
+    }
+   ]
+  },
+  "46-008": {
+   "image": "https://clover.co.jp/wp-content/uploads/2022/08/46008.jpg",
+   "recipes": [
+    {
+     "id": "5qtA3ykXqNVh3gK2phHT",
+     "title": "輪針「匠」120cm マジックループで編む リストウォーマー"
+    }
+   ]
+  },
+  "42-608": {
+   "image": "https://clover.co.jp/wp-content/uploads/2026/06/42608_02_2026.jpg",
+   "recipes": [
+    {
+     "id": "RwyCqi35CBUPZfuYj5O4",
+     "title": "かぎ針「ペン-E」で編む スクエアお買物バッグ"
     }
    ]
   }
