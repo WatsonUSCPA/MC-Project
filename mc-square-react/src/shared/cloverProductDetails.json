@@ -3083,6 +3083,33 @@
   ],
   "fetchedAt": "2026-11-08"
  },
+ "42-608": {
+  "productNumber": "42-608",
+  "sourceUrl": "https://clover.co.jp/products/42608",
+  "title": "かぎ針「ペン-E」8/0号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/06/42608_02_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/06/42608_01_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u42606.jpg"
+  ],
+  "catchCopy": "編みやすく指にやさしいかぎ針。",
+  "description": "軽く持ちやすい柄が、指にやさしい「ペン-E」シリーズ。編みやすさを追求し、洗練されたデザインです。持ちやすく手にやさしいデザインの柄で、長く編んでも疲れません。極太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ13.5cm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "25×185×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-18"
+ },
  "45-608": {
   "productNumber": "45-608",
   "sourceUrl": "https://clover.co.jp/products/45608",
@@ -3866,6 +3893,42 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "46-008": {
+  "productNumber": "46-008",
+  "sourceUrl": "https://clover.co.jp/products/46008",
+  "title": "「匠」輪針-S 120cm 8号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2022/08/46008.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/socks_red.jpg",
+   "https://clover.co.jp/wp-content/uploads/2024/09/45600_04.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。\n長い輪針を使った技法、不思議で楽しい「メビウス編み」も楽しめます。\nちょっとユニークな作り目をしたら、普通の輪編みと同じようにくるくる同じ方向に編んでいくだけ。\nいつのまにか“メビウスの輪”のように、表が裏に、裏が表になり、ねじれた編み地のできあがり。\n身に着けるとボリュームと動きがあり、おしゃれな雰囲気のネックウォーマー、スヌード、ショールになります。\n「メビウス編み 作り目の方法」のムービー(https://clover.co.jp/movie/mobius_tsukurime)をご覧ください。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "輪針\n針軸の太さ(直径)：4.5mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス鋼 チップ:ナイロン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×218×7mm"
+   }
+  ],
+  "fetchedAt": "2026-11-18"
  },
  "46-015": {
   "productNumber": "46-015",
