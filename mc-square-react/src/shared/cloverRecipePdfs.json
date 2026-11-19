@@ -41,6 +41,12 @@
    "url": "https://clover.co.jp/wp-content/uploads/2019/05/sakiorimoimoistall_2019.pdf"
   }
  ],
+ "817": [
+  {
+   "label": "キラキラ夜空のタペストリー（2.3 MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/05/2019miniori_kids.pdf"
+  }
+ ],
  "820": [
   {
    "label": "ラフィアの花モチーフバッグ・四角（185KB）",
@@ -111,6 +117,12 @@
   {
    "label": "トップダウンで編むカーディガン＆帽子（2MB）",
    "url": "https://clover.co.jp/wp-content/uploads/2019/10/2019_ls_03_cardiganbousi.pdf"
+  }
+ ],
+ "859": [
+  {
+   "label": "アランニットのケープ（364KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2019/10/2019_ls_11_alancape.pdf"
   }
  ],
  "860": [
@@ -911,6 +923,12 @@
   {
    "label": "部分実物大型紙",
    "url": "https://clover.co.jp/wp-content/uploads/2023/08/7butake_pants_jitubutudai.pdf"
+  }
+ ],
+ "_3": [
+  {
+   "label": "3種類の大きさの巾着（197KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2015mama3kintyaku.pdf"
   }
  ],
  "__e_4": [
@@ -1952,6 +1970,20 @@
    "url": "https://clover.co.jp/wp-content/uploads/2020/10/2020xmastree_hana_b.pdf"
   }
  ],
+ "hello": [
+  {
+   "label": "ウールレター ～hello・星～（1.1MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_walldeco_letter02.pdf"
+  },
+  {
+   "label": "～hello～ 実物大型紙（244KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_walldeco_hello.pdf"
+  },
+  {
+   "label": "～星（大・小）～ 実物大型紙（260KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_walldeco_star.pdf"
+  }
+ ],
  "hexagon_glannypul": [
   {
    "label": "六角形に編む グラニー模様のVネックプルオーバー",
@@ -2851,6 +2883,16 @@
    "url": "https://clover.co.jp/wp-content/uploads/2023/01/ponpon_shimaenaga_kantan.pdf"
   }
  ],
+ "post_10": [
+  {
+   "label": "透かし編みのくつ下（44KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/test_recipe_no_121a.pdf"
+  },
+  {
+   "label": "透かし編みのシュシュ（44KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/test_recipe_no_121b.pdf"
+  }
+ ],
  "post_103": [
   {
    "label": "こいのぼりストラップ（296KB）",
@@ -2951,10 +2993,28 @@
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_neck_cooler_2.pdf"
   }
  ],
+ "post_328": [
+  {
+   "label": "ポンポン宇宙人（569MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2014natuyasumi_03_ponponuchujin.pdf"
+  }
+ ],
+ "post_329": [
+  {
+   "label": "くさり編みで作ろう！毛糸のミニチュアグッズ（409KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_kusariami_de_tsukuro.pdf"
+  }
+ ],
  "post_333": [
   {
    "label": "手縫いでつくれるペットボトルケース",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2014natuyasumi_7_petbottlecase.pdf"
+  }
+ ],
+ "post_334": [
+  {
+   "label": "手縫いでつくれるリボンシュシュ（582KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2014natuyasumi_8_syusyu.pdf"
   }
  ],
  "post_346": [
@@ -2967,6 +3027,12 @@
   {
    "label": "ポンポンスティック&にゃんこスティック（479KB）",
    "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_halloweenstick.pdf"
+  }
+ ],
+ "post_371": [
+  {
+   "label": "男の子と女の子のブローチ（496KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_2014_boysandgirlsbrooch.pdf"
   }
  ],
  "post_380": [
@@ -4135,6 +4201,20 @@
   {
    "label": "組織図 (215KB)",
    "url": "https://clover.co.jp/wp-content/uploads/2022/07/chart_weave_kitchenmat.pdf"
+  }
+ ],
+ "welcome": [
+  {
+   "label": "ウールレター～Welcome・ふきだし～（1.3MB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_walldeco_letter01.pdf"
+  },
+  {
+   "label": "～Welcome～ 実物大型紙（688KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_walldeco_welcome.pdf"
+  },
+  {
+   "label": "～ふきだし～ 実物大型紙（144KB）",
+   "url": "https://clover.co.jp/wp-content/uploads/2018/12/recipe_walldeco_fukidashi.pdf"
   }
  ],
  "well_pico_square": [

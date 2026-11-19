@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-18T17:07:40.218Z",
+ "generatedAt": "2026-11-19T16:59:06.288Z",
  "source": "local",
- "recipeCount": 624,
+ "recipeCount": 634,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -965,6 +965,10 @@
     {
      "id": "W4ynZhkoHO2bvnP0Qiu0",
      "title": "クロバーミニ織りで作る ショルダーバッグ"
+    },
+    {
+     "id": "yL9PPezd9HxeQFLP9za6",
+     "title": "クロバーミニ織りで織る キラキラ夜空のタペストリー"
     }
    ]
   },
@@ -1312,6 +1316,10 @@
     {
      "id": "9Gl9trClX7x5I2pvOAb7",
      "title": "ヨーヨーキルトの小さめマット作り方［レッスン動画あり］"
+    },
+    {
+     "id": "bIqy6OHJd4yBTNxZi0UM",
+     "title": "ちくちくヨーヨープレートでデコする 3種類の大きさの巾着"
     },
     {
      "id": "JBPf2Y2ON3rf2DuEgt57",
@@ -2412,6 +2420,10 @@
      "title": "ハンドメイドでSDGs／古着リメイクの小物入れ"
     },
     {
+     "id": "e0DbhMGzkMM2DpIFgqYw",
+     "title": "くさり編みで作ろう！毛糸のミニチュアグッズ"
+    },
+    {
      "id": "RjdPotzNZpAqubushEmU",
      "title": "かぎ針「アミュレ」で編む ネット編みのエコバッグ"
     }
@@ -3168,6 +3180,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2018/11/58653.jpg",
    "recipes": [
     {
+     "id": "mvvjSYBTSoQOupJqbnqv",
+     "title": "くるみボタンとフェルトパンチャーでつくる 男の子と女の子のブローチ"
+    },
+    {
      "id": "y4noIxKpnJMPadC8hF25",
      "title": "クリスマスの刺しゅうブローチ・３"
     }
@@ -3186,6 +3202,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2023/03/58789_01.jpg",
    "recipes": [
     {
+     "id": "4Wg7GZTt6g9RquSQbgho",
+     "title": "ワンダーリリアンでつくるウールレター～Welcome・ふきだし～"
+    },
+    {
      "id": "aA4HTT3vLRDIzza5T7LV",
      "title": "ワンダーリリアンで作る サボテンの寄せ植え"
     },
@@ -3196,6 +3216,10 @@
     {
      "id": "pCaEbFgMyxkAnsx2pOSO",
      "title": "ワンダーリリアンでつくるフォトプロップス＜WOW！・王冠・コウモリ＞"
+    },
+    {
+     "id": "UX7bUbgkoGUAvEEjkCOx",
+     "title": "ワンダーリリアンでつくるウールレター～hello・星～"
     },
     {
      "id": "V7HufVQcBP4kQ5Ill4oS",
@@ -3362,6 +3386,10 @@
   "58-774": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/58774_01.jpg",
    "recipes": [
+    {
+     "id": "aYwJTnvriQufXxTRRQzh",
+     "title": "スーパーポンポンメーカーでつくるポンポン宇宙人"
+    },
     {
      "id": "UUnM6tlhFFibanziE50H",
      "title": "スーパーポンポンメーカーでつくるポンポンスティック&にゃんこスティック"
@@ -3557,6 +3585,10 @@
   "45-815": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45815_01.jpg",
    "recipes": [
+    {
+     "id": "kwF8V0i2nSf2IOMMT9Qm",
+     "title": "アランニットのケープ"
+    },
     {
      "id": "xpAlSERLld6Arr9OIGoj",
      "title": "透かし編みの三角ショール"
@@ -3831,6 +3863,15 @@
     {
      "id": "RwyCqi35CBUPZfuYj5O4",
      "title": "かぎ針「ペン-E」で編む スクエアお買物バッグ"
+    }
+   ]
+  },
+  "51-504": {
+   "image": "https://clover.co.jp/wp-content/uploads/2018/11/51504.jpg",
+   "recipes": [
+    {
+     "id": "cg3oALBwS5jW1pDL1nQC",
+     "title": "斜め透かし模様のくつ下・シュシュ"
     }
    ]
   }
