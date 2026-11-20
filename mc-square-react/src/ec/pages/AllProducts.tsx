@@ -23,6 +23,14 @@ const AllProducts: React.FC = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false); // 利用規約・返品条件への同意
   const [filterName, setFilterName] = useState('');
   const [visibleCount, setVisibleCount] = useState(6);
+  const [zoomImage, setZoomImage] = useState<{ src: string; alt: string } | null>(null); // 生地画像の拡大表示
+
+  useEffect(() => {
+    if (!zoomImage) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setZoomImage(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [zoomImage]);
   
   // グローバルカートコンテキストを使用
   const { cart, addToCart, removeFromCart, updateQuantity, updateKitPrice, canProceedToCheckout } = useCart();
@@ -326,7 +334,13 @@ const AllProducts: React.FC = () => {
           }
           return (
             <div key={product.managementNumber} className="inventory-card" style={{ background: '#fff', borderRadius: 20, boxShadow: '0 4px 16px rgba(255, 159, 124, 0.10)', border: '1px solid #FFD4C4', width: 320, padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <img src={getImageSrc(product.imageUrl)} alt={product.managementNumber} style={{ width: 160, height: 160, objectFit: 'cover', borderRadius: 16, border: '1px solid #FFD4C4', marginBottom: '1rem', background: '#f8f8f8' }} />
+              <img
+                src={getImageSrc(product.imageUrl)}
+                alt={product.managementNumber}
+                title="クリックで拡大"
+                onClick={() => setZoomImage({ src: getImageSrc(product.imageUrl), alt: product.name || product.managementNumber })}
+                style={{ width: 160, height: 160, objectFit: 'cover', borderRadius: 16, border: '1px solid #FFD4C4', marginBottom: '1rem', background: '#f8f8f8', cursor: 'zoom-in' }}
+              />
               <div className="product-name" style={{ fontWeight: 700, fontSize: '1.1em', marginBottom: '0.3em' }}>{product.name}</div>
               <div className="managementNumber" style={{ color: '#636E72', fontSize: '0.95em', marginBottom: '0.5em' }}>管理番号: {product.managementNumber}</div>
               {product.description && (
@@ -346,6 +360,19 @@ const AllProducts: React.FC = () => {
             onClick={() => setVisibleCount(c => c + 6)}
             style={{ padding: '0.9em 2.5em', borderRadius: 12, background: 'var(--color-primary)', color: '#fff', border: 'none', fontWeight: 700, fontSize: '1.08em', cursor: 'pointer', boxShadow: '0 2px 8px rgba(255, 159, 124, 0.10)' }}
           >もっと見る</button>
+        </div>
+      )}
+      {zoomImage && (
+        <div
+          onClick={() => setZoomImage(null)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', cursor: 'zoom-out' }}
+        >
+          <img src={zoomImage.src} alt={zoomImage.alt} style={{ maxWidth: '95vw', maxHeight: '90vh', objectFit: 'contain', borderRadius: 8, background: '#fff' }} />
+          <button
+            onClick={() => setZoomImage(null)}
+            aria-label="閉じる"
+            style={{ position: 'fixed', top: 16, right: 16, width: 44, height: 44, borderRadius: '50%', border: 'none', background: '#fff', color: '#333', fontSize: '1.5em', fontWeight: 700, cursor: 'pointer' }}
+          >×</button>
         </div>
       )}
       <RecipeStrip
