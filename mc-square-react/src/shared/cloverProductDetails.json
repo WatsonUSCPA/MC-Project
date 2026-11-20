@@ -774,6 +774,43 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "24-067": {
+  "productNumber": "24-067",
+  "sourceUrl": "https://clover.co.jp/products/24067",
+  "title": "熱転写ペンシル 青",
+  "category": [
+   "ソーイング",
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/06/24067_01a.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/24067_002.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/24067_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/04/24066_003.jpg"
+  ],
+  "catchCopy": "トレースした図案をアイロンで布や紙、木などに転写できます。",
+  "description": "2～3回繰り返し使えます。アイロンで簡単転写。アップリケやぬいぐるみの図案写しに。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ16cm"
+   },
+   {
+    "label": "材質",
+    "value": "芯／粘土・ワックス・顔料、柄／天然木、キャップ／ポリスチレン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "50×240×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-20"
+ },
  "24-085": {
   "productNumber": "24-085",
   "sourceUrl": "https://clover.co.jp/products/24085",
@@ -9244,6 +9281,44 @@
    }
   ],
   "fetchedAt": "2026-11-15"
+ },
+ "58-613": {
+  "productNumber": "58-613",
+  "sourceUrl": "https://clover.co.jp/products/58613",
+  "title": "ラグ用メッシュ",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/06/58613.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58612_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58612_04.jpg"
+  ],
+  "catchCopy": "しなやかで毛糸が結びやすい、ラグ制作専用のメッシュです。",
+  "description": "メッシュのマス目の大きさは約5×7mmです。毛糸をカットして、専用フックでメッシュに結びつけていくだけで自分だけのオリジナルラグがつくれます。",
+  "notes": [
+   "※ラグの制作には別売の58-612「ラグメーカー」が必要です。",
+   "※メッシュ(材質：ポリエステル)にアイロンをご使用になる場合、必ずメッシュの端でお試しの上、あて布をして低温(120℃まで)でご使用ください。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "約50×50cm"
+   },
+   {
+    "label": "材質",
+    "value": "ポリエステル100％"
+   },
+   {
+    "label": "原産国",
+    "value": "中国"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "153×210×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-20"
  },
  "58-621": {
   "productNumber": "58-621",
