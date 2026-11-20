@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-19T16:59:06.288Z",
+ "generatedAt": "2026-11-20T16:58:18.822Z",
  "source": "local",
- "recipeCount": 634,
+ "recipeCount": 644,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -788,6 +788,10 @@
      "title": "タッセルメーカーで作る 刺しゅう糸のタッセルチャーム"
     },
     {
+     "id": "CQbG6gpulHexjMwTjpoK",
+     "title": "つまみ細工プレートとタッセルメーカーで作る ひなまつりの髪飾り"
+    },
+    {
      "id": "scVdkzwXcSb5VXXVe3Ud",
      "title": "タッセルメーカー＜スモール＞で作る サマーカラーのタッセルピアス・イヤリング"
     },
@@ -1021,8 +1025,16 @@
      "title": "フェルトパンチャーで作る 手毬風ひな飾り"
     },
     {
+     "id": "RW2JDViK73wUwzkC0uk9",
+     "title": "羊毛刺しゅうでつくるハートのスワッグ"
+    },
+    {
      "id": "vQASxj7wNVpaCJDXKgKx",
      "title": "フェルトパンチャーで作る ふんわり三毛猫ブローチ"
+    },
+    {
+     "id": "ZkGXARDxjNpUl53CaJj9",
+     "title": "フェルトパンチャーでつくる 羊毛刺しゅうのマーク図案"
     }
    ]
   },
@@ -1340,6 +1352,10 @@
     {
      "id": "W00gcec8o9Bbzor4hHqi",
      "title": "ちくちくヨーヨープレート＜L＞で作るヨーヨーキルト"
+    },
+    {
+     "id": "yniTSyKc9HuZy7gaf0Ng",
+     "title": "ちくちくヨーヨープレートで作る まんまる巾着"
     }
    ]
   },
@@ -1435,6 +1451,10 @@
   "45-712": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45712_01.jpg",
    "recipes": [
+    {
+     "id": "5HEiBE1l1lisIEejDiGX",
+     "title": "イギリスゴム編みの2配色ベスト"
+    },
     {
      "id": "UDGs3CJTkQgXDFQMeVtj",
      "title": "「匠」輪針-Sで編む ピンタックスヌード"
@@ -2464,6 +2484,10 @@
     {
      "id": "b5Tg1ozFvJntXTGlLROt",
      "title": "リバーシブルケーブル模様のマフラー"
+    },
+    {
+     "id": "R5T756uouf4b8Qce35BJ",
+     "title": "丸ヨークのカーディガン"
     }
    ]
   },
@@ -3226,6 +3250,10 @@
      "title": "ワンダーリリアンで作る あみぐるみやぎさん"
     },
     {
+     "id": "wwVoESJC1ECvCP1HBlRr",
+     "title": "ワンダーリリアンで作る ウールレター【hello】とハートのステッキ"
+    },
+    {
      "id": "yKO0Pk8vSY4pIMO2wDPy",
      "title": "ワンダーリリアンで作る テディベア風マスコット"
     }
@@ -3739,6 +3767,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45813_01.jpg",
    "recipes": [
     {
+     "id": "cjqQ1prevOE6WWQrYvIV",
+     "title": "「匠」輪針で編む ストライプ模様の三角ショール"
+    },
+    {
      "id": "gpdSnI3TnzOyZBZZkgG3",
      "title": "編み込みプルオーバー"
     },
@@ -3813,6 +3845,14 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/58612.jpg",
    "recipes": [
     {
+     "id": "18KgA6CAADmkexvrAL71",
+     "title": "ラグメーカーで作る ねこマット＜ハチワレ＞"
+    },
+    {
+     "id": "iQxeWohAcJt0M3R2CfIP",
+     "title": "ラグメーカーで作る ねこマット"
+    },
+    {
      "id": "Kalsw45oU7BVs5UqNNbU",
      "title": "ラグメーカーで作る ねこマット＜三毛猫＞"
     }
@@ -3874,6 +3914,14 @@
      "title": "斜め透かし模様のくつ下・シュシュ"
     }
    ]
+  },
+  "58-613": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/06/58613.jpg",
+   "recipes": []
+  },
+  "24-067": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/06/24067_01a.jpg",
+   "recipes": []
   }
  }
 }
