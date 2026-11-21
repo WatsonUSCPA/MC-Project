@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-20T16:58:18.822Z",
+ "generatedAt": "2026-11-21T17:01:34.467Z",
  "source": "local",
- "recipeCount": 644,
+ "recipeCount": 654,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -406,6 +406,10 @@
     {
      "id": "ekPs81LWwTYMML9L9A7f",
      "title": "カード型ビーズ織り機で作る 三角形とダイヤ型のピアス・イヤリング"
+    },
+    {
+     "id": "f2CyusIe87f0VJc8DGyX",
+     "title": "カード型ビーズ織り機で作る ラッキーモチーフ"
     },
     {
      "id": "feUdKmh1cfVdoOdKkEfg",
@@ -1354,6 +1358,10 @@
      "title": "ちくちくヨーヨープレート＜L＞で作るヨーヨーキルト"
     },
     {
+     "id": "XPwUIe0a16zsHZT94aEE",
+     "title": "ペットボトルキャップのピンクッション"
+    },
+    {
      "id": "yniTSyKc9HuZy7gaf0Ng",
      "title": "ちくちくヨーヨープレートで作る まんまる巾着"
     }
@@ -1536,6 +1544,10 @@
     {
      "id": "K4fg7ST7uhr225J5L7J3",
      "title": "ジャンボ編み 2色のシュシュ"
+    },
+    {
+     "id": "ZNKPwkDB5mYQv4qgpA82",
+     "title": "ジャンボ編み ボッブル編みのネックウォーマー"
     }
    ]
   },
@@ -1572,6 +1584,10 @@
     {
      "id": "mF2dAjziRsoGgockmLG4",
      "title": "はじめてのニット＜棒針編み＞ 「匠」ミニ棒針で編む リボンポシェット"
+    },
+    {
+     "id": "TEI0ZaNy8n2ILD0jLn51",
+     "title": "ブロック模様のマフラー"
     }
    ]
   },
@@ -1826,6 +1842,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2023/03/54920_1_2023.jpg",
    "recipes": [
     {
+     "id": "3bYgNu5U63BvbgfKwKiV",
+     "title": "ダブルフックアフガン針で編む すっぽりかぶれる帽子"
+    },
+    {
      "id": "xfQwuPkI53KjxovijVI9",
      "title": "アフガン編みのチェック柄ワンハンドルバッグ"
     }
@@ -1966,6 +1986,10 @@
   "54-927": {
    "image": "https://clover.co.jp/wp-content/uploads/2023/03/54927_1_2023-1.jpg",
    "recipes": [
+    {
+     "id": "fTBy4cB15rNPWD5yVDGA",
+     "title": "ダブルフックアフガン帽子"
+    },
     {
      "id": "sqNQIOZKGpLLuSD4z0eG",
      "title": "「匠」ダブルフックアフガン針で編む リバーシブルアフガン編みのワンショルダーバッグ"
@@ -3415,6 +3439,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/58774_01.jpg",
    "recipes": [
     {
+     "id": "4khXcW7YInjbU3kAzKCq",
+     "title": "スーパーポンポンメーカーでつくる ポンポンのひな人形"
+    },
+    {
      "id": "aYwJTnvriQufXxTRRQzh",
      "title": "スーパーポンポンメーカーでつくるポンポン宇宙人"
     },
@@ -3877,7 +3905,12 @@
   },
   "57-451": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/57451.jpg",
-   "recipes": []
+   "recipes": [
+    {
+     "id": "bDqkTii4OhRnfFWzWXEi",
+     "title": "つまみ細工プレートで作る 花のひな人形"
+    }
+   ]
   },
   "57-452": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/57452.jpg",
@@ -3922,6 +3955,24 @@
   "24-067": {
    "image": "https://clover.co.jp/wp-content/uploads/2020/06/24067_01a.jpg",
    "recipes": []
+  },
+  "51-508": {
+   "image": "https://clover.co.jp/wp-content/uploads/2018/11/51508.jpg",
+   "recipes": [
+    {
+     "id": "uvgMXmHfvstifc3peOCd",
+     "title": "ミニ輪針で編む基本のくつ下"
+    }
+   ]
+  },
+  "46-369": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/10/46369_01.jpg",
+   "recipes": [
+    {
+     "id": "S5Xa3IXY8wgvcIwoJ51a",
+     "title": "1 玉アナアキマフラー"
+    }
+   ]
   }
  }
 }

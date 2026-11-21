@@ -2042,5 +2042,19 @@
   "name": "熱転写ペンシル 青",
   "price": 440,
   "productUrl": "https://clover.co.jp/products/24067"
+ },
+ {
+  "id": "clover-51-508",
+  "productNumber": "51-508",
+  "name": "ミニ輪針 23cm ＜8号＞",
+  "price": 1078,
+  "productUrl": "https://clover.co.jp/products/51508"
+ },
+ {
+  "id": "clover-46-369",
+  "productNumber": "46-369",
+  "name": "2本針 ジャンボ  ＜25 mm＞",
+  "price": 1430,
+  "productUrl": "https://clover.co.jp/products/46369"
  }
 ]
