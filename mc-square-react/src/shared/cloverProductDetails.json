@@ -4071,6 +4071,28 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "46-369": {
+  "productNumber": "46-369",
+  "sourceUrl": "https://clover.co.jp/products/46369",
+  "title": "2本針 ジャンボ ＜25 mm＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/10/46369_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u46369.jpg"
+  ],
+  "catchCopy": "ザクザク編んでスピーディに作品が仕上がります。",
+  "description": "はじめてさんでもザクザク編めちゃう超極太サイズの25ｍｍの編み針です。ベスト、スヌード、帽子など、ジャンボ編みが楽しめます。軽くて滑りの良い樹脂製です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "パッケージサイズ",
+    "value": "95×460×30mm"
+   }
+  ],
+  "fetchedAt": "2026-11-21"
+ },
  "51-504": {
   "productNumber": "51-504",
   "sourceUrl": "https://clover.co.jp/products/51504",
@@ -4116,6 +4138,29 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "51-508": {
+  "productNumber": "51-508",
+  "sourceUrl": "https://clover.co.jp/products/51508",
+  "title": "ミニ輪針 23cm ＜8号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2018/11/51508.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/s51508.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u51508.jpg"
+  ],
+  "catchCopy": "小さな輪編みが簡単・キレイに仕上がります！",
+  "description": "小さな輪編みのための、小さな輪針が新登場！\n23ｃｍの小さな輪針は、くつ下などの小物を編むのに最適です。\n小さくても編みやすい秘密は、編みやすさにこだわった角度と、針とコードの接合が滑らかに仕上がっている点です。\n針の持ち替えが無いので、“編み込み”や“透かし編み”などの模様編みも間違えにくく、キレイに仕上がります。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "パッケージサイズ",
+    "value": "70×175×5mm"
+   }
+  ],
+  "fetchedAt": "2026-11-21"
  },
  "53-205": {
   "productNumber": "53-205",
