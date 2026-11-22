@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-21T17:01:34.467Z",
+ "generatedAt": "2026-11-22T17:19:42.833Z",
  "source": "local",
- "recipeCount": 654,
+ "recipeCount": 664,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -253,6 +253,14 @@
     {
      "id": "Ehs0bBRpHgivZJ8hXgbk",
      "title": "はじめてのかぎ針編み グラニースクエアコースター"
+    },
+    {
+     "id": "FRZSqrqtxZHkr85o9wOW",
+     "title": "2020年干支 福耳ねずみのよろい編みミニマフラー"
+    },
+    {
+     "id": "g45qwofZRZjU6nO1JEJm",
+     "title": "2020年干支 福耳ねずみの編みぐるみ"
     },
     {
      "id": "H3Kp5jYdiLii5YjwLO7k",
@@ -781,6 +789,10 @@
     {
      "id": "DutJhMk2iQ9Fxd1L7z16",
      "title": "つまみ細工プレートで作る ハレの日のボールブーケ＜ラージ＞"
+    },
+    {
+     "id": "RMq6u0U3AsLbvanX22l2",
+     "title": "手縫いで作る 花飾り付きお手玉"
     }
    ]
   },
@@ -872,6 +884,10 @@
      "title": "かぎ針編みのフラワー＜ブルースター＞"
     },
     {
+     "id": "PLyBKOdMwS4gy52aPY4u",
+     "title": "2020年干支 福耳ねずみの編みぐるみ レース糸Ver."
+    },
+    {
      "id": "zVEBOdw78i6T2074L2Hk",
      "title": "かぎ針「アミュレ」で編む クロッシェ刺しゅう「ちょうちょ」"
     }
@@ -887,6 +903,10 @@
     {
      "id": "ai4PjT0twKQtoxDSjmOj",
      "title": "フリーステッチングニードルで作る シマエナガのブローチ"
+    },
+    {
+     "id": "bxbSccReJjCXPqWs99G9",
+     "title": "フリーステッチングニードルで刺す ウール刺しゅう"
     },
     {
      "id": "ESUAtLhNqERcj9LJLdwi",
@@ -957,6 +977,10 @@
     {
      "id": "3mAI429zPMTMBLvQbmWB",
      "title": "クロバーミニ織りで作る ミニキーホルダー"
+    },
+    {
+     "id": "AiTtYIFEeCKEwhy8RlCs",
+     "title": "クロバーミニ織りで作る キリム風ミニマット"
     },
     {
      "id": "KIhpuQdA2C3vdqUmZ4Hj",
@@ -1264,6 +1288,10 @@
      "title": "三角ストール"
     },
     {
+     "id": "JtE6lI35bKRD3TbejbYs",
+     "title": "タッセル付きクッションカバー"
+    },
+    {
      "id": "ntOXjwAoRRDBixOKC6Lz",
      "title": "ハンドメイドでSDGs／余り糸で編むベレー帽"
     },
@@ -1529,6 +1557,10 @@
   "42-422": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/04/42422.jpg",
    "recipes": [
+    {
+     "id": "5EymQc4XE6qka6wNYqwM",
+     "title": "とんがり帽"
+    },
     {
      "id": "AfADlzulHPQJ9rbXU6OI",
      "title": "ドーナツブローチ"
@@ -3486,6 +3518,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45615_01.jpg",
    "recipes": [
     {
+     "id": "4vRuWYMkS49WIk5IKUNT",
+     "title": "２wayマフラー"
+    },
+    {
      "id": "AD9KXIR8Mn1xI3eoXKMV",
      "title": "なわあみベレー帽＆マフラー"
     },
@@ -3771,6 +3807,10 @@
     {
      "id": "GbGdPQrV8sAoDN6YHMUF",
      "title": "クリスマスツリー＆リース のストリングボード"
+    },
+    {
+     "id": "GZFXhvtqyZxI7l0J6RJH",
+     "title": "ストリングボード フリーデザインで作る 富士山のストリングボード"
     }
    ]
   },
