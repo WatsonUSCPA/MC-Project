@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-22T17:19:42.833Z",
+ "generatedAt": "2026-11-23T17:03:11.033Z",
  "source": "local",
- "recipeCount": 664,
+ "recipeCount": 674,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -273,6 +273,10 @@
     {
      "id": "kdPFMU14iF0rmCKcLkC7",
      "title": "かぎ針「アミュレ」で編む 猫のけりぐるみ(ワニ)"
+    },
+    {
+     "id": "m3of3wVjv7cNm4vBxBQj",
+     "title": "2020年干支 福耳ねずみのよろい編みミニマフラー(キッズサイズ)"
     },
     {
      "id": "vMM4r8d84A1Lphz96d7p",
@@ -1614,6 +1618,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2020/09/54265_01nn.jpg",
    "recipes": [
     {
+     "id": "2va6b8g0Unan8zvP5ncm",
+     "title": "リブ編みのマフラー"
+    },
+    {
      "id": "mF2dAjziRsoGgockmLG4",
      "title": "はじめてのニット＜棒針編み＞ 「匠」ミニ棒針で編む リボンポシェット"
     },
@@ -1697,6 +1705,10 @@
   "58-773": {
    "image": "https://clover.co.jp/wp-content/uploads/2023/03/58773_04.jpg",
    "recipes": [
+    {
+     "id": "0Wtf4xoNLWHaXStKUiWM",
+     "title": "スーパーポンポンメーカーで作る 少し大きめのクリスマスツリー"
+    },
     {
      "id": "778E5jw5tsvOa88ejPal",
      "title": "スーパーポンポンメーカーとつまみ細工プレートで作る 花飾りのリース・L"
@@ -1916,6 +1928,10 @@
   "45-612": {
    "image": "https://clover.co.jp/wp-content/uploads/2019/08/45612_01.jpg",
    "recipes": [
+    {
+     "id": "aBht9CpzgHX7HXcgMY1j",
+     "title": "シンプルキャップ"
+    },
     {
      "id": "guYsadOgs3QmgmzgNIZh",
      "title": "ドッグウェア（ボーダー）Sサイズ・Mサイズ"
@@ -3146,6 +3162,10 @@
    "image": "https://clover.co.jp/wp-content/uploads/2019/06/57967_01.jpg",
    "recipes": [
     {
+     "id": "1sFYb4GMqx8aCktnkcSx",
+     "title": "オーバルニットルームで編む 編み込み模様のくつ下"
+    },
+    {
      "id": "2ePJ7zctjLeQkeTvDLcV",
      "title": "オーバルニットルームで作る オバケのモビール"
     },
@@ -3662,6 +3682,10 @@
     {
      "id": "NeEpCvufiJEniC6jzbPj",
      "title": "ふんわりあたたかい イギリスゴム編みの帽子"
+    },
+    {
+     "id": "z0ANAZow3deFpfP2U9km",
+     "title": "トップしぼりのベレー（キッズサイズ）"
     }
    ]
   },
@@ -3817,6 +3841,10 @@
   "54-403": {
    "image": "https://clover.co.jp/wp-content/uploads/2020/09/54403_01nn.jpg",
    "recipes": [
+    {
+     "id": "AIldp9JKaMS6r5b2vEVp",
+     "title": "靴下に入ったうさぎさん"
+    },
     {
      "id": "kzGLzMNwbgGCF0uREaQ8",
      "title": "あみぐるみ 靴下に入った子犬"
@@ -4011,6 +4039,23 @@
     {
      "id": "S5Xa3IXY8wgvcIwoJ51a",
      "title": "1 玉アナアキマフラー"
+    }
+   ]
+  },
+  "42-418": {
+   "image": "https://clover.co.jp/wp-content/uploads/2019/04/42418.jpg",
+   "recipes": [
+    {
+     "id": "aI4rm0BCkQzQ87dGIWCo",
+     "title": "ネット編みのタッセル付きヘアバンド"
+    },
+    {
+     "id": "u1EpYtn4HIrEbnf7o8Lg",
+     "title": "長編みと細編みのタッセル付きヘアバンド"
+    },
+    {
+     "id": "ZE27Rbp8IVrg4aFU4WiU",
+     "title": "キッズベレー"
     }
    ]
   }
