@@ -3750,6 +3750,37 @@
   ],
   "fetchedAt": "2026-11-07"
  },
+ "45-827": {
+  "productNumber": "45-827",
+  "sourceUrl": "https://clover.co.jp/products/45827",
+  "title": "「匠」輪針-S 80cmジャンボ 7mm",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45827_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス鋼 チップ:ナイロン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×218×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-24"
+ },
  "45-828": {
   "productNumber": "45-828",
   "sourceUrl": "https://clover.co.jp/products/45828",
@@ -5277,6 +5308,35 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "55-757": {
+  "productNumber": "55-757",
+  "sourceUrl": "https://clover.co.jp/products/55757",
+  "title": "ステッチマーカー＜L＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/02/55757.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/55757_s01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/55755_s02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/55755_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/55575_06.jpg"
+  ],
+  "catchCopy": "使いやすいモコモコ形状のマーカーです。",
+  "description": "カウチンやファンシーヤーンでも埋もれない大きめサイズ。段数のカウントや編み方が変わるポイントなど、目印を付けたい編み目にかけて使います。\n適応号数の目安は極太～超極太、棒針:13号～ジャンボ、かぎ針:8/0号～ジャンボです。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "（各色6コ）12コ入"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "70×120×12mm"
+   }
+  ],
+  "fetchedAt": "2026-11-24"
  },
  "56-958": {
   "productNumber": "56-958",
