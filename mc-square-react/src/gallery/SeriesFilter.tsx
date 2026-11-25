@@ -10,6 +10,14 @@ export interface SeriesDef { id: string; name: string; description: string; }
 export const SERIES: SeriesDef[] = [
   { id: 'usanko-club', name: 'うさんこクラブ', description: 'うさんこクラブの布を使った作品' },
   { id: 'hagire', name: 'はぎれ活用', description: 'はぎれ・余り布を活用した作品' },
+  { id: 'pouch', name: 'ポーチ', description: 'いろいろな形・サイズのポーチ作品' },
+  { id: 'bag', name: 'バッグ', description: 'トート・ポシェット・ショルダーなどのバッグ作品' },
+  { id: 'liberty', name: 'リバティ', description: 'リバティ（タナローン）を使った作品' },
+  { id: 'under-30', name: '30分以内で作れる', description: '30分以内を目安に作れる時短作品' },
+  { id: 'school', name: '入園入学', description: 'レッスンバッグや上履き入れなどの通園・通学グッズ' },
+  { id: 'hand-sew', name: '手縫いOK', description: 'ミシンなし・手縫いだけで作れる作品' },
+  { id: 'christmas', name: 'クリスマス', description: 'クリスマスに飾れる・贈れる作品' },
+  { id: 'beginner', name: '初心者向け', description: '初めての方でも挑戦しやすい作品' },
 ];
 
 export const findSeries = (id?: string | null) => SERIES.find((s) => s.id === id);
