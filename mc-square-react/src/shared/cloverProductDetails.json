@@ -106,6 +106,39 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "18-025": {
+  "productNumber": "18-025",
+  "sourceUrl": "https://clover.co.jp/products/18025",
+  "title": "ぬい針「絆（きずな）」やや薄地用 普通針5",
+  "category": [
+   "ソーイング"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/10/18025.jpg"
+  ],
+  "catchCopy": "用途・布地に応じて選べる高品質縫い針。薄手の木綿やウール地などに。",
+  "description": "ニッケルメッキ後、クロバー独自の先付研磨(先直し)で、針先から0.5mmくらいの所を円すい状に研削し、尖った針先を強化。鋭く、強く、布通りのよい針先にしています。\nクロバーの縫い針は、鋭く強い針先のための先付研磨、布通りのよい表面の仕上げ、糸通しや布抜けがスムーズな針先の工夫など、縫いやすさを追求したクロバーのこだわりが随所に込められています。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "1包12本入 太さ0.64mm 長さ45.5mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:鋼(ニッケルメッキ、金メッキ)"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "31×75×3mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "18-038": {
   "productNumber": "18-038",
   "sourceUrl": "https://clover.co.jp/products/18038",
@@ -415,6 +448,43 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "22-102": {
+  "productNumber": "22-102",
+  "sourceUrl": "https://clover.co.jp/products/22102",
+  "title": "テープメーカー 18mm幅",
+  "category": [
+   "ソーイング",
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2023/02/22102_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2023/02/22102_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22102_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22100_03.jpg"
+  ],
+  "catchCopy": "好みの柄のバイアステープが簡単につくれます。",
+  "description": "袖ぐり・衿ぐりのパイピング始末やベルト通しなど、共布で素早く同じ幅のテープ作りができます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "18mm幅"
+   },
+   {
+    "label": "材質",
+    "value": "本体:鉄・ポリメチルペンテン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "65×145×24mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "22-103": {
   "productNumber": "22-103",
   "sourceUrl": "https://clover.co.jp/products/22103",
@@ -453,6 +523,84 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "22-111": {
+  "productNumber": "22-111",
+  "sourceUrl": "https://clover.co.jp/products/22111",
+  "title": "テープメーカーW 6mm幅",
+  "category": [
+   "ソーイング",
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/03/221119_o.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22111_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/221119_u.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22111_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22111_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22111_06.jpg"
+  ],
+  "catchCopy": "好きな布で熱接着バイアステープが簡単につくれます。",
+  "description": "線模様のアップリケや、仮接着できるパイピングテープ作りなど作品のイメージが広がります。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "6mm幅"
+   },
+   {
+    "label": "材質",
+    "value": "本体/鉄・ポリメチルペンテン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "70×160×23mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "22-113": {
+  "productNumber": "22-113",
+  "sourceUrl": "https://clover.co.jp/products/22113",
+  "title": "テープメーカーW 12mm幅",
+  "category": [
+   "ソーイング",
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/03/221133_o.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22113_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/221133_u.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22111_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22111_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/22111_06.jpg"
+  ],
+  "catchCopy": "好きな布で熱接着バイアステープが簡単につくれます。",
+  "description": "線模様のアップリケや、仮接着できるパイピングテープ作りなど作品のイメージが広がります。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "12mm幅"
+   },
+   {
+    "label": "材質",
+    "value": "本体/鉄・ポリメチルペンテン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "70×160×34mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "22-114": {
   "productNumber": "22-114",
@@ -1600,6 +1748,44 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "26-415": {
+  "productNumber": "26-415",
+  "sourceUrl": "https://clover.co.jp/products/26415",
+  "title": "バッグの内巻きテープ〈黒〉",
+  "category": [
+   "ソーイング",
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/26415_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2020/09/26415_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2020/09/26415_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2020/09/26415_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2021/03/26413_05.jpg"
+  ],
+  "catchCopy": "バッグの内側の縁始末に。",
+  "description": "ぬいしろをテープではさみ、ミシンでかんたん縁始末。\nバッグやリュック、ポーチなどの袋物の内側のぬいしろの縁始末が簡単にできる、薄手のグログランテープです。縁取りテープとしても使用できます。\n使用方法\n・使用するテープの長さは、縁始末するぬいしろ部分の長さに6cm余分に足した長さでカットします。\n・テープを2つ折り(1/2幅)にしてアイロン(低温/あて布使用)で軽く折り目をつけておきます。\n・縁始末する部分の両端3cmずつ余分をつけてテープではさんで包み、クリップで仮止めします。\n・テープのサイドから2mm前後内側をミシンで縫います。\n・ミシンをかけるときに上になる側より、下側になる側の幅を大きめにしてテープを2つ折りにするとミシンの針目がはずれにくくなります。\n旅行やビジネス、デイリーで使うバッグをハンドメイドしませんか？そんな時重要なのがパーツ類。機能的なカジュアルバッグのソーイングにお使いください。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "20mm幅×約2.5m"
+   },
+   {
+    "label": "材質",
+    "value": "ポリエステル100％"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "50×180×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "26-416": {
   "productNumber": "26-416",
   "sourceUrl": "https://clover.co.jp/products/26416",
@@ -2403,6 +2589,45 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "41-400": {
+  "productNumber": "41-400",
+  "sourceUrl": "https://clover.co.jp/products/41400",
+  "title": "レース針「アミュレ」＜No.0＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/02/41401_01_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/02/41400_02_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/02/41400_05_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/02/41400_06_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/02/41400_008_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/02/41400_07_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/02/41400_09_2026.jpg"
+  ],
+  "catchCopy": "編む時間が、好きになる。ずっと編みたくなるレース針です。",
+  "description": "初心者にも編みやすい針先。編み目が揃いやすく、初心者の方もしっかりサポートします。\nソフトタッチのグリップは、可愛いシャーベットカラーです。\n◇編みやすい針先\n針先から糸が外れにくく、目を拾ったり糸を引き抜きやすい針先形状になっています。\n◇きれいに編める針軸\n針の規格を決める針の太さ＝d寸法の部分を従来より長くしました。このd寸法の部分を長くすることによって、編み目 の大きさが揃いやすく、きれいに編むことができます。\n◇手にやさしい持ちやすいグリップ\n立体的なカーブで作られたグリップは、自然と指先にフィットします。しっかり握れるので余分な力をかけずに編むことができ、手が疲れにくい設計です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "レース針"
+   },
+   {
+    "label": "材質",
+    "value": "針:鋼（ニッケルメッキ） グリップ:エラストマー"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "31×190×12mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "41-402": {
   "productNumber": "41-402",
   "sourceUrl": "https://clover.co.jp/products/41402",
@@ -2520,6 +2745,40 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "41-410": {
+  "productNumber": "41-410",
+  "sourceUrl": "https://clover.co.jp/products/41410",
+  "title": "レース針「アミュレ」＜No.10＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/03/41410_01_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/03/41410_02n_2026.jpg"
+  ],
+  "catchCopy": "編む時間が、好きになる。ずっと編みたくなるレース針です。",
+  "description": "初心者にも編みやすい針先。編み目が揃いやすく、初心者の方もしっかりサポートします。\nソフトタッチのグリップは、可愛いシャーベットカラーです。\n◇編みやすい針先\n針先から糸が外れにくく、目を拾ったり糸を引き抜きやすい針先形状になっています。\n◇きれいに編める針軸\n針の規格を決める針の太さ＝d寸法の部分を従来より長くしました。このd寸法の部分を長くすることによって、編み目 の大きさが揃いやすく、きれいに編むことができます。\n◇手にやさしい持ちやすいグリップ\n立体的なカーブで作られたグリップは、自然と指先にフィットします。しっかり握れるので余分な力をかけずに編むことができ、手が疲れにくい設計です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "レース針"
+   },
+   {
+    "label": "材質",
+    "value": "針:鋼（ニッケルメッキ） グリップ:エラストマー"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "31×190×12mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "41-412": {
   "productNumber": "41-412",
   "sourceUrl": "https://clover.co.jp/products/41412",
@@ -2541,6 +2800,40 @@
    }
   ],
   "fetchedAt": "2026-11-15"
+ },
+ "41-602": {
+  "productNumber": "41-602",
+  "sourceUrl": "https://clover.co.jp/products/41602",
+  "title": "レース針「ペン-E」No.2",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/06/41602_02_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/06/41602_01_2026.jpg"
+  ],
+  "catchCopy": "編みやすく指にやさしいレース針。",
+  "description": "編みやすい理想的な針先形状。指に優しいソフトな感触。大きく選びやすい号数表示。軽く、持ちやすい安定感のある形状の柄。シックでおしゃれなべっ甲調のデザイン。10から20番のレース糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ12.8cm"
+   },
+   {
+    "label": "材質",
+    "value": "針:鋼（ニッケルメッキ）／柄:ABS樹脂／指当て:スチレン系エラストマー／キャップ:真鍮（ニッケルメッキ"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "25×185×8mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "41-606": {
   "productNumber": "41-606",
@@ -3149,6 +3442,33 @@
   ],
   "fetchedAt": "2026-11-08"
  },
+ "42-607": {
+  "productNumber": "42-607",
+  "sourceUrl": "https://clover.co.jp/products/42607",
+  "title": "かぎ針「ペン-E」7/0号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/06/42607_02_2026.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/03/42607_01_29ca.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u42606.jpg"
+  ],
+  "catchCopy": "編みやすく指にやさしいかぎ針。",
+  "description": "軽く持ちやすい柄が、指にやさしい「ペン-E」シリーズ。編みやすさを追求し、洗練されたデザインです。持ちやすく手にやさしいデザインの柄で、長く編んでも疲れません。極太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "長さ13.2cm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "25×185×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "42-608": {
   "productNumber": "42-608",
   "sourceUrl": "https://clover.co.jp/products/42608",
@@ -3175,6 +3495,78 @@
    }
   ],
   "fetchedAt": "2026-11-18"
+ },
+ "45-606": {
+  "productNumber": "45-606",
+  "sourceUrl": "https://clover.co.jp/products/45606",
+  "title": "「匠」輪針-S 40cm 6号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45606_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2024/09/45600_04.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "輪針\n針軸の太さ(直径)：3.9mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス チップ:ABS樹脂"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×185×6mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "45-607": {
+  "productNumber": "45-607",
+  "sourceUrl": "https://clover.co.jp/products/45607",
+  "title": "「匠」輪針-S 40cm 7号",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/08/45607_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/08/45600_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2024/09/45600_04.jpg"
+  ],
+  "catchCopy": "編みやすさにこだわった輪針です。",
+  "description": "「編みやすい針先」 、「滑りの良い表面」、「段差がないスムーズな接合部」、「輪針の長さが一目でわかるカラーチップ」、「コードがねじれず快適な回転するコード」、「ソフトなコード」、編みやすさにこだわり、全てがアップグレードしました。\n国内の寒冷地で育つ良質な竹を厳選し、クロバーの長年培った技術をもって自社の工場で一本一本、品質にこだわり作っています。\n針先まで丹念に仕上げられた編み針は、編み心地が良く、編むほどに手になじみ、長く愛用していただける逸品です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "輪針\n針軸の太さ(直径)：4.2mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹 コード:ナイロン 接合部:ステンレス チップ:ABS樹脂"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×185×7mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "45-608": {
   "productNumber": "45-608",
@@ -4284,6 +4676,78 @@
   ],
   "fetchedAt": "2026-11-06"
  },
+ "54-207": {
+  "productNumber": "54-207",
+  "sourceUrl": "https://clover.co.jp/products/54207",
+  "title": "「匠」2本針 ＜7号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54207_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54201.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。天然素材の持ち味を生かし、1本1本ていねいに仕上げた高品質の竹編み針です。並太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組\n針軸の太さ(直径)：4.2mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹／頭:天然木"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×382×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "54-208": {
+  "productNumber": "54-208",
+  "sourceUrl": "https://clover.co.jp/products/54208",
+  "title": "「匠」2本針 ＜8号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2023/03/54208_01_2023kokuin.jpg",
+   "https://clover.co.jp/wp-content/uploads/2023/03/54208_02_2023.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/s54208.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54201.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。天然素材の持ち味を生かし、1本1本ていねいに仕上げた高品質の竹編み針です。並太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組\n針軸の太さ(直径)：4.5mm"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹／頭:天然木"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×382×12mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "54-213": {
   "productNumber": "54-213",
   "sourceUrl": "https://clover.co.jp/products/54213",
@@ -4584,6 +5048,32 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "54-277": {
+  "productNumber": "54-277",
+  "sourceUrl": "https://clover.co.jp/products/54277",
+  "title": "「匠」ミニ棒針 ジャンボ ＜7mm＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54277_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/u54277.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "厳選素材とクロバーの高い加工技術が生んだこだわりの逸品。マフラー・帽子・バッグなどの小物作りに使いやすいサイズです。超極太毛糸に。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "2本1組"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "50×280×14mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "54-278": {
   "productNumber": "54-278",
   "sourceUrl": "https://clover.co.jp/products/54278",
@@ -4695,6 +5185,127 @@
    }
   ],
   "fetchedAt": "2026-11-11"
+ },
+ "54-406": {
+  "productNumber": "54-406",
+  "sourceUrl": "https://clover.co.jp/products/54406",
+  "title": "「匠」4本針30㎝ ＜6号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54406_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/04/54200_mm.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "クロバー独自の理想的な針先形状。編みやすく、糸割れしません。抜群の耐久性。厳選された原竹の質のいい部分だけを素材として使用しています。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "4本1組\n針軸の太さ(直径)：3.9mm"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×352×6mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "54-437": {
+  "productNumber": "54-437",
+  "sourceUrl": "https://clover.co.jp/products/54437",
+  "title": "「匠」4本針ジャンボ 35㎝＜7mm＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54437_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2023/03/54437_01_2023.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "クロバー独自の理想的な針先形状。編みやすく、糸割れしません。抜群の耐久性。厳選された原竹の質のいい部分だけを素材として使用しています。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "4本1組"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×400×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "54-908": {
+  "productNumber": "54-908",
+  "sourceUrl": "https://clover.co.jp/products/54908",
+  "title": "「匠」アフガン針 ＜8号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2020/09/54908_01nn.jpg",
+   "https://clover.co.jp/wp-content/uploads/2023/03/54908_01_2023.jpg"
+  ],
+  "catchCopy": "しっくりと手になじみ、長時間編み続けていても疲れません。",
+  "description": "天然素材の持ち味を生かし、1本1本ていねいに仕上げた高品質の竹編み針です。プチキャップ付き。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "1本入 プチキャップ1個付"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹／キャップ:エラストマー"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "38×382×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "54-916": {
+  "productNumber": "54-916",
+  "sourceUrl": "https://clover.co.jp/products/54916",
+  "title": "「匠」ダブルフックアフガン針 ＜6号＞",
+  "category": [
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2022/11/54916_01.jpg"
+  ],
+  "catchCopy": "2本の糸でかんたん輪編みができます！",
+  "description": "ダブルフックアフガン針は、両端に同サイズのかぎがついた針です。2本の糸で織物のような編み地が楽しめます。\n「匠」ならではの滑らかなすべりと、素晴らしい竹の質感を味わいながらダブルフックアフガン編みを満喫できます。\n2つのかぎを使い、2本の糸を交互に編んでいくだけで、帽子やアームウォーマーなどの輪編み、ストールなどの平編み作品が楽しめます。\nしっかりした厚みがあるので、ネックウォーマーなどの防寒にも役立ちます。織物のような編み地はバッグなどに仕立てるのもオススメです。\n商品に、輪編みの詳しい説明書が入っています。\n2色の糸の組み合わせもダブルフックアフガン編みの楽しいところ。同系色や反対色の組み合わせで、思いがけない編み地が編みあがるかもしれません。いろいろな組み合わせをお試しください。\nダブルフックアフガン針は、ぐるぐる輪に編む輪編みだけでなく、平編みも楽しめます。手作りレシピ「ダブルフックアフガン針で編む 平編みのミニマット」では、ジグザグ、ストライプ、透かし編み、玉編み、メリヤス編み目の5種類。平編みの模様編みを紹介しています。",
+  "notes": [
+   "※天然竹材の性質上、表面に黒い点や線などが見える場合がありますが、使用上は問題ありません。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ダブルフックアフガン針 1本、説明書"
+   },
+   {
+    "label": "材質",
+    "value": "針:竹"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "60×190×9mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "54-918": {
   "productNumber": "54-918",
@@ -5029,6 +5640,86 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "55-178": {
+  "productNumber": "55-178",
+  "sourceUrl": "https://clover.co.jp/products/55178",
+  "title": "ダブルフックアフガン針〈8号〉",
+  "category": [
+   "新商品",
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/09/55178_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/09/55178_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/08/55176_03m.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/08/55176_04m.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/08/55176_05.jpg"
+  ],
+  "catchCopy": "2本の糸でかんたん輪編みができます！",
+  "description": "金属製のダブルフックアフガン針です。\nダブルフックアフガン針は、両端に同サイズのかぎがついた針です。\n両端のかぎを使い、2本の糸をそれぞれ交互に編んでいくだけで、帽子やアームウォーマーなどの輪編み、ストールなどの平編み作品が楽しめます。\nしっかりした厚みがあるのでネックウォーマーなどの防寒に役立ち、織物のような編み地はバッグなどの小物に仕立てるのもオススメです。\n商品に、輪編みの詳しい説明書が入っています。",
+  "notes": [
+   "※製造工程上、針の表面加工に色がつかない部分が数箇所ございますが、使用上は問題ありません。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ダブルフックアフガン針 1本、説明書"
+   },
+   {
+    "label": "材質",
+    "value": "針:アルミニウム合金"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "60×190×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "55-180": {
+  "productNumber": "55-180",
+  "sourceUrl": "https://clover.co.jp/products/55180",
+  "title": "ダブルフックアフガン針〈10号〉",
+  "category": [
+   "新商品",
+   "あみもの"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2026/09/55180_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/09/55180_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/08/55176_03m.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/08/55176_04m.jpg",
+   "https://clover.co.jp/wp-content/uploads/2026/08/55176_05.jpg"
+  ],
+  "catchCopy": "2本の糸でかんたん輪編みができます！",
+  "description": "金属製のダブルフックアフガン針です。\nダブルフックアフガン針は、両端に同サイズのかぎがついた針です。\n両端のかぎを使い、2本の糸をそれぞれ交互に編んでいくだけで、帽子やアームウォーマーなどの輪編み、ストールなどの平編み作品が楽しめます。\nしっかりした厚みがあるのでネックウォーマーなどの防寒に役立ち、織物のような編み地はバッグなどの小物に仕立てるのもオススメです。\n商品に、輪編みの詳しい説明書が入っています。",
+  "notes": [
+   "※製造工程上、針の表面加工に色がつかない部分が数箇所ございますが、使用上は問題ありません。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ダブルフックアフガン針 1本、説明書"
+   },
+   {
+    "label": "材質",
+    "value": "針:アルミニウム合金"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "60×190×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "55-182": {
   "productNumber": "55-182",
@@ -5924,6 +6615,40 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "57-229": {
+  "productNumber": "57-229",
+  "sourceUrl": "https://clover.co.jp/products/57229",
+  "title": "ビーズ刺しゅう針 太取合せ",
+  "category": [
+   "刺しゅう"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57229_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2018/11/s57229.jpg"
+  ],
+  "catchCopy": "ビーズ刺しゅう専用の針です。",
+  "description": "丸小ビーズが通るので、繊細なビーズ刺しゅうが楽しめます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "ノーマルポイント 各8本入"
+   },
+   {
+    "label": "材質",
+    "value": "鋼"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "48×126×2.5mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "57-232": {
   "productNumber": "57-232",
   "sourceUrl": "https://clover.co.jp/products/57232",
@@ -6208,6 +6933,78 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-259": {
+  "productNumber": "57-259",
+  "sourceUrl": "https://clover.co.jp/products/57259",
+  "title": "カラフル刺しゅう枠10cm",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57259_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57258_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57258_04.jpg"
+  ],
+  "catchCopy": "使いやすくてカラフルな刺しゅう枠ができました♪",
+  "description": "やさしいパステルカラーです。\nネジ先カバー付きで糸が引っかかりにくく、大きめのネジで回しやすい、使いやすい刺しゅう枠です。\n作品やインテリアに合わせてサイズは3種類、カラーは9色から選べます。できあがった作品やお気に入りの生地をはさんで飾っても！",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "直径：約10cm(ネジ部分除く）厚さ：約1cm"
+   },
+   {
+    "label": "材質",
+    "value": "本体：ABS樹脂ネジ：ASA樹脂、鋼ナット：鋼"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "130×120×11mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "57-352": {
+  "productNumber": "57-352",
+  "sourceUrl": "https://clover.co.jp/products/57352",
+  "title": "バッグテンプレート スクエア",
+  "category": [
+   "ソーイング"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57352_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57352_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57352_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57352_06.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57352_04.jpg"
+  ],
+  "catchCopy": "人気のバッグがかんたんキレイに!",
+  "description": "8種類のベーシックなバッグが作れるテンプレート!\n特に人気の高いバッグソーイングの基本デザインを1枚のテンプレートに集約しました。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "テンプレート 1枚"
+   },
+   {
+    "label": "材質",
+    "value": "ポリプロピレン"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "215×335×5mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "57-358": {
   "productNumber": "57-358",
@@ -7510,6 +8307,41 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "57-687": {
+  "productNumber": "57-687",
+  "sourceUrl": "https://clover.co.jp/products/57687",
+  "title": "シームオープナー",
+  "category": [
+   "ソーイング",
+   "パッチワーク"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/03/576870_P.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57687_001.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57687_06.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57687_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57687_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/57687_05.jpg"
+  ],
+  "catchCopy": "正確にきれいなラインが描けるしるし付け用品。",
+  "description": "ピースのぬいしろを開いたり、倒したり、折り目をつけるのに最適。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "ユリア樹脂"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "50×165×10mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "57-708": {
   "productNumber": "57-708",
   "sourceUrl": "https://clover.co.jp/products/57708",
@@ -7675,6 +8507,44 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-737": {
+  "productNumber": "57-737",
+  "sourceUrl": "https://clover.co.jp/products/57737",
+  "title": "タティングシャトル・ボビン〈ホワイト〉",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57737.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57-737_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57737_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57-737_03.jpg"
+  ],
+  "catchCopy": "糸を引っ張って繰り出せるボビンタイプのシャトルです。",
+  "description": "糸を引っ張るとボビン部分が回転するので、シャトルを回す必要が無く、糸の繰り出しや繰り戻しがスムーズです。\nボビンが取り外せるので、糸の交換やボビンへの糸巻きが簡単。ミシンでの糸巻きも可能です。\nタティングレースは、基本の編み目の繰り返しで、美しい曲線を編み出していく、レース編み技法の一種です。シャトルとレース糸だけで手軽に楽しめ、繊細さが魅力のレースです。\nタティングレースのムービー「タティングレース基本の編み方」では、写真でわかりにくいシャトルの動きを動画で説明しています。初心者さんもタティングシャトルで、タティングレースに挑戦しませんか。小さなモチーフでもアクセサリー金具を付ければ、ピアスやペンダントなど繊細なアクセサリーが完成します。ビーズを編み込むビーズタティングも人気ですよ。小さなモチーフや縁飾りなどの小物から、テーブルクロスのような大きな作品まで多彩な手作りを楽しめます。\nボビンの色展開も豊富で、使い分けに便利。ボビンに糸を巻いたり、ボビンの糸を休めておくのに便利なストッパーが付いています。",
+  "notes": [
+   "※このボビンは、従来のタティングシャトルやタティングシャトルLにはとりつけできません。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "シャトル1個、ボビン2個、ストッパー 1個、ワッシャー2個"
+   },
+   {
+    "label": "材質",
+    "value": "シャトル：ABS樹脂 ボビン・ストッパー：ポリプロピレン ワッシャー：ポリカーボネート"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "95×150×16 mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "57-767": {
   "productNumber": "57-767",
@@ -8192,6 +9062,41 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "57-860": {
+  "productNumber": "57-860",
+  "sourceUrl": "https://clover.co.jp/products/57860",
+  "title": "ピコットゲージ",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57860.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57860_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57860_02.jpg"
+  ],
+  "catchCopy": "均一なサイズのピコットが作れます。",
+  "description": "1・2・3・5・7・10・13mm用の7種類のセット。複数のピコットを続けて作ることができ便利です。糸が触れる部分に角（かど）がないので、ピコットが綺麗に仕上がります。\nタティングレース作品の完成度をさらに上げることができます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "7個入"
+   },
+   {
+    "label": "材質",
+    "value": "樹脂部：ABS樹脂 金属部：ステンレス"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "100×152×8mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "57-895": {
   "productNumber": "57-895",
   "sourceUrl": "https://clover.co.jp/products/57895",
@@ -8535,6 +9440,142 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "57-931": {
+  "productNumber": "57-931",
+  "sourceUrl": "https://clover.co.jp/products/57931",
+  "title": "アジアン結美 A菊結び",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57931.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57931_01.jpg"
+  ],
+  "catchCopy": "延命長寿を願うおめでたい菊結び。",
+  "description": "中国伝統の飾り結びが簡単にできる立体プレート。番号や矢印通りにヒモをかけていくだけ。アクセサリーやボタン作りに。\n7枚の花びらが華やかな印象を与えます。パズルのようなゲーム感覚で飾り結びが楽しめます。おためしコード1メートルと説明書付。\n結び1個分に必要な長さは約65㎝です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "お試しヒモ1m付"
+   },
+   {
+    "label": "材質",
+    "value": "本体:EVA樹脂 ヒモ:レーヨン100％"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "95×145×15mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "57-932": {
+  "productNumber": "57-932",
+  "sourceUrl": "https://clover.co.jp/products/57932",
+  "title": "アジアン結美 Bみょうが結び",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57932.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57932_01.jpg"
+  ],
+  "catchCopy": "結びが簡単に作れるカードです。野菜の「みょうが」に似た独特の形。",
+  "description": "中国伝統の飾り結びが簡単にできる立体プレート。番号や矢印通りにヒモをかけていくだけ。アクセサリーやボタン作りに。\nアクセサリーやチャイナボタンなどによく使われます。パズルのようなゲーム感覚で飾り結びが楽しめます。おためしコード1メートルと説明書付。\n結び1個分に必要な長さは約40㎝です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "お試しヒモ1m付"
+   },
+   {
+    "label": "材質",
+    "value": "本体:EVA樹脂 ヒモ:レーヨン100％"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "80×145×13mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "57-933": {
+  "productNumber": "57-933",
+  "sourceUrl": "https://clover.co.jp/products/57933",
+  "title": "アジアン結美 Cボタン結び",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57933.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57933_01.jpg"
+  ],
+  "catchCopy": "結びが簡単に作れるカードです。飾り結びと、止めボタンと2通りの形が楽しめます。",
+  "description": "中国伝統の飾り結びが簡単にできる立体プレート。番号や矢印通りにヒモをかけていくだけ。アクセサリーやボタン作りに。\n平たく結ぶと飾り結びに、丸く結んで止めボタンにと、2通りの形が楽しめます。チャイナ服の飾りボタンによく使われます。パズルのようなゲーム感覚で飾り結びが楽しめます。おためしコード1メートルと説明書付。\n結び1個分に必要な長さは約50㎝です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "お試しヒモ1m付"
+   },
+   {
+    "label": "材質",
+    "value": "本体:EVA樹脂 ヒモ:レーヨン100％"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "80×145×13mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
+ "57-934": {
+  "productNumber": "57-934",
+  "sourceUrl": "https://clover.co.jp/products/57934",
+  "title": "アジアン結美 Dあわじ玉",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/57934.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/57934_01.jpg"
+  ],
+  "catchCopy": "結びが簡単に作れるカードです。淡路結びを丸く玉に整えたものです。",
+  "description": "中国伝統の飾り結びが簡単にできる立体プレート。番号や矢印通りにヒモをかけていくだけ。アクセサリーやボタン作りに。\n引き締め加減でそのままリングに、ビーズのようにヒモに通したりと色々楽しめます。パズルのようなゲーム感覚で飾り結びが楽しめます。おためしコード1メートルと説明書付。\n結び1個分に必要な長さは約80㎝です。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "お試しヒモ1m付"
+   },
+   {
+    "label": "材質",
+    "value": "本体:EVA樹脂 ヒモ:レーヨン100％"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "80×145×13mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "57-950": {
   "productNumber": "57-950",
   "sourceUrl": "https://clover.co.jp/products/57950",
@@ -8569,6 +9610,41 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "57-952": {
+  "productNumber": "57-952",
+  "sourceUrl": "https://clover.co.jp/products/57952",
+  "title": "手織り機「咲きおり」60cm＜40羽セット＞",
+  "category": [
+   "手織り"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2024/09/57952_202409.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/sakiori_IMG-tablemat.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/03/sakiori_sakuhin40-pa.jpg"
+  ],
+  "catchCopy": "手織りを「かんたん・たのしい」に変えたクロバーの「咲きおり」。",
+  "description": "クロバー「咲きおり」で織ることによって着古したワイシャツや古いキモノ地が新たな布へと再生します。\n古布などお好きな布地を細長く裂いてたて糸に織り込み、自分好みの風合いの布地を楽しむ手織りのひとつとして注目を集めている裂き織り。この裂き織りで、花が咲いたように素敵な作品づくりを楽しんでいただきたい、との願いを込めて、クロバーは新しい手織り機に「咲きおり」と名付けました。毛糸等を使った手織りでも使用できます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "本体565×732×85mm 最大織り幅60cm たて糸の長さ約4.9mまで可能 標準セット40羽ソウコウ〈60cm〉1本、シャトル〈大〉〈特大〉各1本、ホルダー6個、ホルダー〈短〉2個、ワープスティック〈長〉12本、テンションバー3本、バックバー1本、クリップ1個、面ファスナー2本、専用レンチ1個、使用説明書・取扱説明DVD付"
+   },
+   {
+    "label": "材質",
+    "value": "本体：木部／天然木、樹脂部／ＡＢＳ樹脂、ポリアセタール、ゴム脚／合成ゴム、ソウコウ：樹脂部／ＡＢＳ樹脂、金属部／鉄、付属品：ワープスティック、シャトル／天然木、ホルダー／ポリアセタール、クリップ／ＡＢＳ樹脂、面ファスナー／ナイロン、バックバー／ステンレス鋼、テンションバー／鉄、レンチ／鋼"
+   },
+   {
+    "label": "原産国",
+    "value": "日本（専用レンチ:中国）"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "630×780×120mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "57-953": {
   "productNumber": "57-953",
@@ -9314,6 +10390,42 @@
   ],
   "fetchedAt": "2026-10-31"
  },
+ "58-603": {
+  "productNumber": "58-603",
+  "sourceUrl": "https://clover.co.jp/products/58603",
+  "title": "フェルトパンチャー＜5本針＞",
+  "category": [
+   "手芸",
+   "刺しゅう"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/05/58603.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/58603_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/05/58603_02.jpg"
+  ],
+  "catchCopy": "生地へのアップリケなど平面の作業に。",
+  "description": "フェルトパンチャーは使いやすさや安全性にこだわった、羊毛フェルト手芸の専用ツールです。一度に広い範囲をフェルト化できる5本針タイプ。針先がロックできる安全カバー付で安心です。針の本数調整や交換が簡単にできます。\n羊毛刺しゅうは、羊毛を生地に刺し、繊細な刺しゅうの図案を表現する技法です。普通の刺しゅうよりも手軽に、また立体的に図案を表現できるのが魅力。 下絵をなぞって刺していくので、 ビギナーでも塗り絵感覚で手軽に楽しめます。\n立体羊毛フェルトは、羊毛のみを刺して立体の造形を楽しむ技法です。動物のマスコットや、スイーツなどが人気。見本通りに作るにはちょっとコツがいるけれど、作り手それぞれの味がでるのもいいところ。\n針には防錆油が付いています。そのままご使用になると、作品が汚れることがありますので、あらかじめ不用な柔らかい布地に数回パンチングして、防錆油を取り除いてください。",
+  "notes": [
+   "※針の交換方法についてはこちらの動画をご覧ください。（https://clover.co.jp/movie/felt_5）",
+   "※針は必ずフェルトパンチャー専用針をお使いください。故障等の原因になることがあります。",
+   "※針が抜けにくい等、お気づきの点がございましたら弊社お客様係までお問い合わせください。 https://clover.co.jp/contact/"
+  ],
+  "specs": [
+   {
+    "label": "材質",
+    "value": "ボディ:ABS樹脂 安全カバー:ポリカーボネート 金属板:ステンレス 針:鋼"
+   },
+   {
+    "label": "原産国",
+    "value": "日本（針:中国）"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "90×185×29mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
+ },
  "58-604": {
   "productNumber": "58-604",
   "sourceUrl": "https://clover.co.jp/products/58604",
@@ -9729,6 +10841,36 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "58-771": {
+  "productNumber": "58-771",
+  "sourceUrl": "https://clover.co.jp/products/58771",
+  "title": "プラントハンガーゲージ",
+  "category": [
+   "手芸"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/06/58771_01.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58771_02.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58771_03.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58771_04.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58771_05.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/06/58771_06.jpg"
+  ],
+  "catchCopy": "2～21cmまで1cm単位で使えるゲージです。",
+  "description": "プラントハンガーは、“マクラメ”の技法を用いてつくるインテリアグッズです。\nマクラメの結び目を自由に組み合わせることで、様々なデザインの作品がつくれます。プラントハンガーづくりには、“結び目の間隔を均等にあける”という作業が必要です。その作業でプラントハンガーゲージ を使うと、間隔がきれいに揃った作品が仕上がります。\n「基本の使い方」と「プラントハンガー３種のつくり方」説明書付きなので、初めての人でも安心。コツを掴めば、基本のマクラメの結び目を組み合わせて自由に作品づくりが楽しめます。\nプラントハンガー作りに、机上くけ台(31101)があると便利です。机や棚などお好みの場所で好きな体勢で作品づくりに取り掛かることができます。机や棚など35mmの厚みまでであれば、取り付けられます。",
+  "notes": [],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "プラントハンガーゲージ ４枚、クリップ １個、説明書 1枚"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "165×250×18mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "58-773": {
   "productNumber": "58-773",
@@ -10183,6 +11325,42 @@
    }
   ],
   "fetchedAt": "2026-10-31"
+ },
+ "68-036": {
+  "productNumber": "68-036",
+  "sourceUrl": "https://clover.co.jp/products/68036",
+  "title": "布補修ボンド",
+  "category": [
+   "補修用品"
+  ],
+  "images": [
+   "https://clover.co.jp/wp-content/uploads/2019/02/68-036_P.jpg",
+   "https://clover.co.jp/wp-content/uploads/2019/02/68-036.jpg"
+  ],
+  "catchCopy": "目立たず、ほとんど変色しません。",
+  "description": "気になる刺激臭がしません。急ぐ時にはアイロンでも接着できます。\n服や布地の補修やズボン・スカート・カーテンなどの寸法直しが、塗って貼るだけで簡単にできる布用接着材です。洗濯ができます。",
+  "notes": [
+   "※接着するときは、必ず同じ素材か目立たない部分で試し、好ましくない場合は使用しないで下さい。"
+  ],
+  "specs": [
+   {
+    "label": "内容物",
+    "value": "40g入 ヘラ付"
+   },
+   {
+    "label": "材質",
+    "value": "成分:ウレタン樹脂（45％）水（55％）"
+   },
+   {
+    "label": "原産国",
+    "value": "日本"
+   },
+   {
+    "label": "パッケージサイズ",
+    "value": "50×170×30mm"
+   }
+  ],
+  "fetchedAt": "2026-11-25"
  },
  "68-039": {
   "productNumber": "68-039",
