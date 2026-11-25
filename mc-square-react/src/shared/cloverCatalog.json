@@ -1,7 +1,7 @@
 {
- "generatedAt": "2026-11-25T02:18:39.973Z",
+ "generatedAt": "2026-11-25T16:54:38.672Z",
  "source": "local",
- "recipeCount": 1200,
+ "recipeCount": 1202,
  "products": {
   "36-191": {
    "image": "https://clover.co.jp/wp-content/uploads/2024/02/36191_01_2023.jpg",
@@ -4298,6 +4298,10 @@
      "title": "耐熱性アップリケマットで作る リーフのバッグ"
     },
     {
+     "id": "rLUcI7zBFV1haKFxOMSK",
+     "title": "耐熱性アップリケマットで作る ポインセチアとヒイラギのリース・図案"
+    },
+    {
      "id": "tn62n0cMxGGSETSWdER1",
      "title": "「耐熱性アップリケマット」と「熱接着両面シート」で作る スイカとライムのアップリケ"
     }
@@ -6273,6 +6277,15 @@
     {
      "id": "tnN6q4RychjfqsDomqLf",
      "title": "布補修ボンドとくるみボタンで作るめじるしボタン"
+    }
+   ]
+  },
+  "54-257": {
+   "image": "https://clover.co.jp/wp-content/uploads/2020/09/54257_01nn.jpg",
+   "recipes": [
+    {
+     "id": "S2d391I09ZrQLbUW1ZNS",
+     "title": "「匠」ミニ棒針で編む リボン巾着"
     }
    ]
   }
