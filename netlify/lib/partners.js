@@ -1,12 +1,12 @@
 // mc-square-react/src/gallery/partners.ts と同じ定義（サーバー側用）
 // allowInstructions：作り方（説明文・手順）を載せてよいか。false は「材料＋動画＋サムネ＋リンク」だけ
 const PARTNERS = [
-  { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch', allowInstructions: false },
-  { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/', allowInstructions: true },
+  { id: 'usanko', name: 'うさんこチャンネル', authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'], website: 'https://www.youtube.com/@usanko_ch', icon: '/gallery/partners/usanko.webp', sns: { instagram: 'https://www.instagram.com/usanko_ch/', twitter: 'https://x.com/RURUN_tantan', website: 'https://www.youtube.com/@usanko_ch' }, allowInstructions: false },
+  { id: 'clover', name: 'クロバー株式会社', authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'], website: 'https://clover.co.jp/', icon: '/gallery/partners/clover.webp', sns: { instagram: 'https://www.instagram.com/info_clover/', twitter: 'https://x.com/info_clover', website: 'https://clover.co.jp/' }, allowInstructions: true },
   // Firebase アカウントを持たないパートナー。authorId には固定の識別子を入れ、判定は source.partner を優先する
-  { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon', allowInstructions: false },
-  { id: 'yasumin', name: 'Handmade creator（yasumin）', authorIds: ['partner-yasumin'], website: 'https://www.youtube.com/@yasumin', allowInstructions: false },
-  { id: 'mocopanel', name: 'もこぱねるSTORE', authorIds: ['partner-mocopanel'], website: 'https://www.youtube.com/@moco_panel', allowInstructions: false },
+  { id: 'quiltkon', name: 'Kon｜ミシンキルト', authorIds: ['partner-quiltkon'], website: 'https://www.youtube.com/@p_quiltkon', icon: '/gallery/partners/quiltkon.webp', sns: { instagram: 'https://www.instagram.com/p_quiltkon/', website: 'https://www.youtube.com/@p_quiltKon' }, allowInstructions: false },
+  { id: 'yasumin', name: 'Handmade creator（yasumin）', authorIds: ['partner-yasumin'], website: 'https://www.youtube.com/@yasumin', icon: '/gallery/partners/yasumin.webp', sns: { instagram: 'https://www.instagram.com/yasuminsmini/', website: 'https://yasumin.stores.jp/' }, allowInstructions: false },
+  { id: 'mocopanel', name: 'もこぱねるSTORE', authorIds: ['partner-mocopanel'], website: 'https://www.youtube.com/@moco_panel', icon: '/gallery/partners/mocopanel.webp', sns: { instagram: 'https://www.instagram.com/moco_panel/', website: 'https://lit.link/mocopanel' }, allowInstructions: false },
 ];
 
 const isHttpsUrl = (u) => {

@@ -272,6 +272,14 @@
   color: white;
 }
 
+img.author-avatar {
+  object-fit: cover;
+  background: #fff;
+  color: transparent;
+  padding: 0;
+  display: block;
+}
+
 .author-name {
   font-size: 14px;
   color: var(--color-text-light);
@@ -288,6 +296,9 @@
   font-size: 12px;
   opacity: 0.7;
   transition: opacity 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  line-height: 1;
 }
 
 .sns-icon:hover {
