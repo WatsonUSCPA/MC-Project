@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import './GalleryHome.css';
 import { findPartner } from './partners';
+import { PartnerAvatar, PartnerSnsIcons } from './PartnerAvatar';
 import CreatorFilter from './CreatorFilter';
 import SeriesFilter from './SeriesFilter';
 import { fetchRecipeIndex, sortNew, sortPopular } from '../shared/recipesApi';
@@ -143,18 +144,6 @@ const GalleryHome: React.FC = () => {
     load();
     return () => { alive = false; };
   }, []);
-
-  // URLが有効かどうかをチェックする関数
-  const isValidUrl = (url: string): boolean => {
-    if (!url || !url.trim()) return false;
-    
-    try {
-      const urlObj = new URL(url);
-      return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
-    } catch {
-      return false;
-    }
-  };
 
   const handleAuthorClick = (partnerId?: string) => {
     // パートナーのレシピ一覧（検索ページ）に遷移
@@ -408,17 +397,9 @@ const GalleryHome: React.FC = () => {
                       e.stopPropagation();
                       handleAuthorClick(recipe.partnerId);
                     }}>
-                      <span className="author-avatar">👤</span>
+                      <PartnerAvatar partnerId={recipe.partnerId} name={recipe.author} />
                       <span className="author-name">{recipe.author}</span>
-                      {recipe.authorSNS && (
-                        <span className="sns-icons">
-                          {recipe.authorSNS.twitter && isValidUrl(recipe.authorSNS.twitter) && <span className="sns-icon twitter">🐦</span>}
-                          {recipe.authorSNS.instagram && isValidUrl(recipe.authorSNS.instagram) && <span className="sns-icon instagram">📸</span>}
-                          {recipe.authorSNS.facebook && isValidUrl(recipe.authorSNS.facebook) && <span className="sns-icon facebook">📘</span>}
-                          {recipe.authorSNS.line && isValidUrl(recipe.authorSNS.line) && <span className="sns-icon line">💬</span>}
-                          {recipe.authorSNS.website && isValidUrl(recipe.authorSNS.website) && <span className="sns-icon website">🔗</span>}
-                        </span>
-                      )}
+                      <PartnerSnsIcons partnerId={recipe.partnerId} authorSNS={recipe.authorSNS} />
                     </div>
                   </div>
                 </div>
@@ -471,17 +452,9 @@ const GalleryHome: React.FC = () => {
                       e.stopPropagation();
                       handleAuthorClick(recipe.partnerId);
                     }}>
-                      <span className="author-avatar">👤</span>
+                      <PartnerAvatar partnerId={recipe.partnerId} name={recipe.author} />
                       <span className="author-name">{recipe.author}</span>
-                      {recipe.authorSNS && (
-                        <span className="sns-icons">
-                          {recipe.authorSNS.twitter && isValidUrl(recipe.authorSNS.twitter) && <span className="sns-icon twitter">🐦</span>}
-                          {recipe.authorSNS.instagram && isValidUrl(recipe.authorSNS.instagram) && <span className="sns-icon instagram">📸</span>}
-                          {recipe.authorSNS.facebook && isValidUrl(recipe.authorSNS.facebook) && <span className="sns-icon facebook">📘</span>}
-                          {recipe.authorSNS.line && isValidUrl(recipe.authorSNS.line) && <span className="sns-icon line">💬</span>}
-                          {recipe.authorSNS.website && isValidUrl(recipe.authorSNS.website) && <span className="sns-icon website">🔗</span>}
-                        </span>
-                      )}
+                      <PartnerSnsIcons partnerId={recipe.partnerId} authorSNS={recipe.authorSNS} />
                     </div>
                   </div>
                 </div>

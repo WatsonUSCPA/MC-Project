@@ -108,6 +108,16 @@
   font-size: 1.5rem;
 }
 
+img.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #fff;
+  display: block;
+}
+
 .author-name {
   font-weight: 600;
   font-size: 1.2rem;
@@ -125,6 +135,9 @@
   padding: 4px;
   border-radius: 50%;
   transition: transform 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  line-height: 1;
 }
 
 .sns-icon:hover {

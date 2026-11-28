@@ -11,6 +11,14 @@
 // `source` がまだ無い既存レシピは、投稿アカウント（authorId）からパートナーを判定し、
 // 元URLは youtubeUrl → pdfUrl → authorSNS.website の順で補います。
 
+export interface PartnerSns {
+  twitter?: string;
+  instagram?: string;
+  facebook?: string;
+  line?: string;
+  website?: string;
+}
+
 export interface Partner {
   id: string;
   name: string;
@@ -20,6 +28,13 @@ export interface Partner {
   authorIds: string[];
   /** パートナーの公式ページ（出典リンクが無い場合の予備） */
   website?: string;
+  /** 公開フォルダのアイコン（例: /gallery/partners/clover.webp） */
+  icon?: string;
+  /**
+   * 作り手行に出す公式リンク。パートナーレシピでは Firestore の authorSNS よりこちらを使う。
+   * 確認できた公式URLだけを入れる。
+   */
+  sns?: PartnerSns;
   /**
    * 作り方（説明文・手順）を載せてよいか。false のパートナーは「材料（サイズ付き）＋動画＋サムネ＋リンク」だけ。
    * 今は SEO 用の HTML（netlify/edge-lib/recipe-seo.js）だけがこの値を見る。
@@ -36,6 +51,12 @@ export const PARTNERS: Partner[] = [
     shortName: 'うさんこチャンネル',
     authorIds: ['lovFHr9YdbWWcBel0JWBu9kAcU52'],
     website: 'https://www.youtube.com/@usanko_ch',
+    icon: '/gallery/partners/usanko.webp',
+    sns: {
+      instagram: 'https://www.instagram.com/usanko_ch/',
+      twitter: 'https://x.com/RURUN_tantan',
+      website: 'https://www.youtube.com/@usanko_ch',
+    },
     allowInstructions: false,
   },
   {
@@ -44,6 +65,12 @@ export const PARTNERS: Partner[] = [
     shortName: 'クロバー',
     authorIds: ['3hVe8DKmhGQnxWE7DmAOREuHgJH3'],
     website: 'https://clover.co.jp/',
+    icon: '/gallery/partners/clover.webp',
+    sns: {
+      instagram: 'https://www.instagram.com/info_clover/',
+      twitter: 'https://x.com/info_clover',
+      website: 'https://clover.co.jp/',
+    },
     allowInstructions: true,
   },
   {
@@ -52,6 +79,11 @@ export const PARTNERS: Partner[] = [
     shortName: 'Kon｜ミシンキルト',
     authorIds: ['partner-quiltkon'],
     website: 'https://www.youtube.com/@p_quiltkon',
+    icon: '/gallery/partners/quiltkon.webp',
+    sns: {
+      instagram: 'https://www.instagram.com/p_quiltkon/',
+      website: 'https://www.youtube.com/@p_quiltKon',
+    },
     allowInstructions: false,
   },
   {
@@ -60,6 +92,11 @@ export const PARTNERS: Partner[] = [
     shortName: 'yasumin',
     authorIds: ['partner-yasumin'],
     website: 'https://www.youtube.com/@yasumin',
+    icon: '/gallery/partners/yasumin.webp',
+    sns: {
+      instagram: 'https://www.instagram.com/yasuminsmini/',
+      website: 'https://yasumin.stores.jp/',
+    },
     allowInstructions: false,
   },
   {
@@ -70,6 +107,11 @@ export const PARTNERS: Partner[] = [
     shortName: 'もこぱねる',
     authorIds: ['partner-mocopanel'],
     website: 'https://www.youtube.com/@moco_panel',
+    icon: '/gallery/partners/mocopanel.webp',
+    sns: {
+      instagram: 'https://www.instagram.com/moco_panel/',
+      website: 'https://lit.link/mocopanel',
+    },
     allowInstructions: false,
   },
 ];
@@ -85,7 +127,7 @@ export interface RecipeSource {
   linkLabel: string;
 }
 
-const isHttpsUrl = (url: unknown): url is string => {
+export const isHttpsUrl = (url: unknown): url is string => {
   if (typeof url !== 'string' || !url.trim()) return false;
   try {
     return new URL(url).protocol === 'https:';
@@ -115,3 +157,18 @@ export const getRecipeSource = (data: any): RecipeSource | null => {
 };
 
 export const isPartnerRecipe = (data: any): boolean => getRecipeSource(data) !== null;
+
+/** パートナーは確認済みの公式リンクを使い、それ以外はレシピの authorSNS をそのまま使う */
+export const partnerSns = (
+  partner?: Partner | null,
+  authorSNS?: PartnerSns | Record<string, string> | null,
+): PartnerSns => {
+  if (partner?.sns) return partner.sns;
+  if (!authorSNS) return {};
+  const out: PartnerSns = {};
+  (['twitter', 'instagram', 'facebook', 'line', 'website'] as const).forEach((key) => {
+    const v = authorSNS[key];
+    if (isHttpsUrl(v)) out[key] = v;
+  });
+  return out;
+};

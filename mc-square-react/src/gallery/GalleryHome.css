@@ -1023,6 +1023,16 @@ section {
   font-size: 1.2rem;
 }
 
+img.author-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #fff;
+  display: block;
+}
+
 .author-name {
   font-weight: 600;
   margin-right: 4px;
@@ -1042,6 +1052,9 @@ section {
 .sns-icon {
   font-size: 1.1rem;
   opacity: 0.7;
+  text-decoration: none;
+  color: inherit;
+  line-height: 1;
 }
 .sns-icon.twitter { color: #1DA1F2; }
 .sns-icon.instagram { color: #E1306C; }
